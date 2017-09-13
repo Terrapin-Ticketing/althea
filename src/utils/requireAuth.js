@@ -3,31 +3,11 @@
 //
 // export default function(ComposedComponent) {
 //   class Authenticate extends React.Component {
-//     componentWillMount() {
-//       if (!this.props.isAuthenticated) {
-//         this.context.router.push('/login');
-//       }
-//     }
-//
-//     componentWillUpdate(nextProps) {
-//       if (!nextProps.isAuthenticated) {
-//         this.context.router.push('/');
-//       }
+//     componentDidMount() {
 //     }
 //
 //     render() {
-//       const { isAuthenticated } = this.props;
-//
-//       let render;
-//       if (isAuthenticated) {
-//         render = (
-//             <ComposedComponent {...this.props} />
-//         );
-//       } else {
-//         render = (
-//           <div className=""></div>
-//         );
-//       }
+//       // <ComposedComponent {...this.props} />
 //
 //       return (render);
 //     }
@@ -37,14 +17,9 @@
 //     isAuthenticated: React.PropTypes.bool.isRequired
 //   };
 //
-//   Authenticate.contextTypes = {
-//     router: React.PropTypes.object.isRequired
-//   };
-//
 //   function mapStateToProps(state) {
 //     return {
-//       isAuthenticated: state.auth.isAuthenticated,
-//       user: state.auth.user
+//
 //     };
 //   }
 //

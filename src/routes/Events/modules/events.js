@@ -101,14 +101,20 @@ export const clickBuyTicket = () => {
 
 export const buyTicket = (event) => {
   return (dispatch, getState) => {
-    const privateKey = getState().login.privateKey || Buffer.from('f84ba7dbc834f31c5b120870c353aaa6de7b79fbf5d58619b02d1a846d0f5eab', 'hex');
+    const privateKey = getState().login.privateKey || Buffer.from('0c431ec27c9755e19abfc557f9698c1119ffcd61751a73b2e2adfc8302414cdc', 'hex');
+    const walletAddress = '0xad77ace9da2427848c74f1dd397c5f10d2b761c5';
+
     const { abis, terrapinAddr } = getState().events;
     const owner = event.owner;
 
     const eventInstance = getContractInstance(abis.event.abi, event.id);
 
     let eventOwner;
-    return eventInstance.methods.owner().call()
+    return web3.eth.getBalance(walletAddress)
+      .then((balance) => {
+        console.log('Balance BEFORE buy: ', balance);
+      })
+      .then(() => eventInstance.methods.owner().call())
       .then((owner) => {
         console.log('eventOwner', owner);
         eventOwner = owner;
@@ -124,6 +130,9 @@ export const buyTicket = (event) => {
           let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddr);
           return ticketInstance.methods.owner().call()
             .then((owner) => {
+
+              console.log('herereer');
+
               if (owner === eventOwner && !hasBought) {
                 hasBought = true;
 
@@ -138,44 +147,55 @@ export const buyTicket = (event) => {
                       .then((price) => {
                         let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
 
-                        // hexString = yourNumber.toString(16);
-                        // yourNumber = parseInt(hexString, 16);
-
                         let txParams = {
+                          nonce: null,
+                          chainId: null,
                           to: ticketInstance.options.address,
-                          value: (price + 100000000).toString(16),
+                          value: (price).toString(16),
                           gas: 4700000,
+                          // gasPrice: null,
                           data: encodedAbi
                         }
 
-                        console.log('something');
+                        console.log(ticketInstance.options.address,);
 
-                        const tx = new EthereumTx(txParams);
-                        console.log('here');
-                        tx.sign(new Buffer(privateKey));
-                        const serializedTx = tx.serialize();
+                        return web3.eth.getTransactionCount(walletAddress)
+                          .then((count) => txParams.nonce = count)
+                          .then(() => web3.eth.net.getId())
+                          .then((id) => txParams.chainId = id)
+                          // .then(() => web3.eth.gasPrice())
+                          // .then((price) => txParams.gasPrice = price)
+                          .then(() => {
+                            console.log('something');
 
-                        console.log('serializedTx: ', serializedTx);
+                            const tx = new EthereumTx(txParams);
+                            console.log('here');
+                            tx.sign(new Buffer(privateKey));
+                            const serializedTx = tx.serialize();
 
-                        // console.log(web3.eth.net.getId());
+                            console.log('serializedTx: ', serializedTx);
 
-                        // return web3.eth.accounts.signTransaction({
-                        // }, '0x4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318')
-                        //   .then((x) => {
-                        //     console.log('signed!!', x);
-                        //     // broadcast transaction
-                        //   })
-                        //   .catch((er) => {
-                        //     console.log('thing:', er);
-                        //   });
-                        return web3.eth.sendSignedTransaction(serializedTx.toString('hex'))
-                          .then((data) => {
-                            console.log('data: ', data);
-                          });
+                            // console.log(web3.eth.net.getId());
+
+                            // return web3.eth.accounts.signTransaction({
+                            // }, '0x4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318')
+                            //   .then((x) => {
+                            //     console.log('signed!!', x);
+                            //     // broadcast transaction
+                            //   })
+                            //   .catch((er) => {
+                            //     console.log('thing:', er);
+                            //   });
+                            return web3.eth.sendSignedTransaction(serializedTx.toString('hex'))
+                              .then((data) => {
+                                console.log('data: ', data);
+                              });
+                          })
+
                       })
-                      .then(() => {
-                        console.log('after buy');
-                        console.log('bal:', web3.eth.getBalance(accounts[0]));
+                      .then(() => web3.eth.getBalance(walletAddress))
+                      .then((balance) => {
+                        console.log('Balance AFTER buy: ', balance);
                       })
                       .catch((err) => {
                         console.log('err:', err);
