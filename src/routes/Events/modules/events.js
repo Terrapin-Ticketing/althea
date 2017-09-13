@@ -1,6 +1,7 @@
 import axios from 'axios';
 import pasync from 'pasync';
 import web3 from '../../../components/Web3.js';
+import EthereumTx from 'ethereumjs-tx';
 
 let getContractInstance = (abi, address) => {
   const instance = new web3.eth.Contract(abi, address);
@@ -100,7 +101,7 @@ export const clickBuyTicket = () => {
 
 export const buyTicket = (event) => {
   return (dispatch, getState) => {
-    const { privateKey } = getState().login;
+    const privateKey = getState().login.privateKey || Buffer.from('f84ba7dbc834f31c5b120870c353aaa6de7b79fbf5d58619b02d1a846d0f5eab', 'hex');
     const { abis, terrapinAddr } = getState().events;
     const owner = event.owner;
 
@@ -118,7 +119,8 @@ export const buyTicket = (event) => {
         let isAvailable = false;
         // grab first available
         let hasBought = false;
-        return pasync.eachSeries(ticketAddrs, (ticketAddr) => {
+        console.log('ticketAddrs', ticketAddrs);
+        return pasync.eachSeries([ticketAddrs[0]], (ticketAddr) => {
           let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddr);
           return ticketInstance.methods.owner().call()
             .then((owner) => {
@@ -128,32 +130,55 @@ export const buyTicket = (event) => {
                 // web3.eth.accounts.privateKeyToAccount(privateKey);
                 return web3.eth.getAccounts()
                   .then((accounts) => {
+
+                    console.log('Accounts: ', accounts);
+
+
                     return ticketInstance.methods.price().call()
                       .then((price) => {
-                        console.log('instance:', ticketInstance);
+                        let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
 
-                        return ticketInstance.methods.buyTicket().encodeABI()
-                          .then((abi) => {
-                            console.log('abi:', abi);
-                            console.log(ticketInstance.address);
+                        // hexString = yourNumber.toString(16);
+                        // yourNumber = parseInt(hexString, 16);
 
-                            let tx = {
-                              to: ticketInstance.address,
-                              value: price,
-                              gas: 4700000,
-                              data: abi
-                            }
+                        let txParams = {
+                          to: ticketInstance.options.address,
+                          value: (price + 100000000).toString(16),
+                          gas: 4700000,
+                          data: encodedAbi
+                        }
 
-                            return web3.eth.accounts.signTransaction(tx, privateKey)
-                              .then((x) => {
-                                // broadcast transaction
-                                console.log('signed!!', x);
-                              });
-                          })
+                        console.log('something');
+
+                        const tx = new EthereumTx(txParams);
+                        console.log('here');
+                        tx.sign(new Buffer(privateKey));
+                        const serializedTx = tx.serialize();
+
+                        console.log('serializedTx: ', serializedTx);
+
+                        // console.log(web3.eth.net.getId());
+
+                        // return web3.eth.accounts.signTransaction({
+                        // }, '0x4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318')
+                        //   .then((x) => {
+                        //     console.log('signed!!', x);
+                        //     // broadcast transaction
+                        //   })
+                        //   .catch((er) => {
+                        //     console.log('thing:', er);
+                        //   });
+                        return web3.eth.sendSignedTransaction(serializedTx.toString('hex'))
+                          .then((data) => {
+                            console.log('data: ', data);
+                          });
                       })
                       .then(() => {
                         console.log('after buy');
                         console.log('bal:', web3.eth.getBalance(accounts[0]));
+                      })
+                      .catch((err) => {
+                        console.log('err:', err);
                       })
                   })
               }
