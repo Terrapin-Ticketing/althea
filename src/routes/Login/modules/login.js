@@ -11,14 +11,24 @@ export const LOGIN_ERROR = 'LOGIN_ERROR'
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
 
-export const login = (username, password) => {
+export const login = (email, password) => {
   return (dispatch, getState) => {
-    return axios.post(`${API_URL}/login`, {username, password})
+    console.log('adsf', email, password);
+    return axios({
+      url: `${API_URL}/login`,
+      method: 'post',
+      data: {email, password},
+      withCredentials: true
+    })
       .then((res) => {
-        let data = res.data[0];
-        let ethAccount = web3.eth.accounts.privateKeyToAccount(data.privateKey);
-        let address = ethAccount.address;
-        data.address = address
+        console.log('res: ', res, email, password);
+        let token = jwt.decode(res);
+
+        // let data = res.data[0];
+        // console.log
+        // let ethAccount = web3.eth.accounts.privateKeyToAccount(data.privateKey);
+        // let address = ethAccount.address;
+        // data.address = address
         dispatch({
           type    : LOGIN_SUCCESS,
           payload : data
