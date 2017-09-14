@@ -22,7 +22,7 @@ const mapStateToProps = (state) => {
   // const { user } = state.login;
 
   return {
-    user: state.login.user,
+    user: state.auth.user,
     events: state.events.events,
     terrapinAddress: state.events.terrapinAddress,
     abis: state.events.abis

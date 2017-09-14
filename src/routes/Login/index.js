@@ -13,7 +13,7 @@ export default (store) => ({
       const reducer = require('./modules/login').default
 
       /*  Add the reducer to the store on key 'login'  */
-      injectReducer(store, { key: 'login', reducer })
+      injectReducer(store, { key: 'auth', reducer })
 
       /*  Return getComponent   */
       cb(null, Login)

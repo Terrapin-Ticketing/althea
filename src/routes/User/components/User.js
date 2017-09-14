@@ -43,14 +43,14 @@ class User extends Component {
   }
 
   render() {
-    const { username, walletAddress, privateKey } = this.props.user;
+    const { email, walletAddress, privateKey } = this.props.user;
     const { balance } = this.props;
     console.log('User.js this.props: ', this.props);
     return (
       <div className='container' >
         <h1>User</h1>
         <div className="profile-info">
-          <span className='profile-item'>Name: {username}</span>
+          <span className='profile-item'>Name: {email}</span>
           <span className='profile-item'>Wallet Address: {walletAddress}</span>
           <span className='profile-item'>Private Key: {privateKey}</span>
           <span className='profile-item'>Balance: {balance}</span>
