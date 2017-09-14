@@ -1,5 +1,7 @@
 import axios from 'axios'
 import web3 from '../../../components/Web3.js'
+import jwt from 'jsonwebtoken';
+import setAuthorizationToken from '../../../utils/setAuthorizationToken';
 
 // ------------------------------------
 // Constants
@@ -7,21 +9,36 @@ import web3 from '../../../components/Web3.js'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_ERROR = 'LOGIN_ERROR'
 
+function decryptPrivateKey() {
+  // * SYM DECRYPT *
+  //
+  // var decipher = crypto.createDecipher(algorithm, key);
+  // var deciphered = decipher.update(ciphered, outputEncoding, inputEncoding);
+  // deciphered += decipher.final(inputEncoding);
+  //
+  // console.log(deciphered);
+  // assert.equal(deciphered, text, 'Deciphered text does not match!');
+}
+
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
 
-export const login = (username, password) => {
+export const login = (email, password) => {
   return (dispatch, getState) => {
-    return axios.post(`${API_URL}/login`, {username, password})
+    console.log('adsf', email, password);
+    return axios({
+      url: `${API_URL}/login`,
+      method: 'post',
+      data: {email, password}
+    })
       .then((res) => {
-        let data = res.data[0];
-        let ethAccount = web3.eth.accounts.privateKeyToAccount(data.privateKey);
-        let address = ethAccount.address;
-        data.address = address
+        let { token } = res.data;
+        setAuthorizationToken(token);
+
         dispatch({
           type    : LOGIN_SUCCESS,
-          payload : data
+          payload : jwt.decode(token)
         })
       })
   }

@@ -7,14 +7,14 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      email: '',
       password: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit() {
-    this.props.login(this.state.username, this.state.password)
+      this.props.login(this.state.email, this.state.password)
       .then(() => {
         browserHistory.push('/events');
       });
@@ -25,9 +25,9 @@ class Login extends Component {
     return (
       <div className='login-container' >
           <label className='label'>
-            <span>Username:</span>
-            <input type="text" value={this.state.username} onChange={(e) => {
-              this.setState({username: e.target.value});
+            <span>Email:</span>
+            <input type="text" value={this.state.email} onChange={(e) => {
+              this.setState({email: e.target.value});
             }} />
           </label>
           <label className='label'>
