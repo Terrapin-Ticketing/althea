@@ -146,7 +146,6 @@ export const buyTicket = (event) => {
 
                     console.log('Accounts: ', accounts);
 
-
                     return ticketInstance.methods.price().call()
                       .then((price) => {
                         let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
@@ -157,7 +156,6 @@ export const buyTicket = (event) => {
                           to: ticketInstance.options.address,
                           value: (price).toString(16),
                           gas: 4700000,
-                          // gasPrice: null,
                           data: encodedAbi
                         };
 

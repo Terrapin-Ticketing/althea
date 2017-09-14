@@ -1,4 +1,5 @@
 import { injectReducer } from '../../store/reducers'
+import requireAuth from '../../utils/requireAuth'
 
 export default (store) => ({
   path : 'events',
@@ -16,7 +17,7 @@ export default (store) => ({
       injectReducer(store, { key: 'events', reducer })
 
       /*  Return getComponent   */
-      cb(null, Events)
+      cb(null, requireAuth(Events))
 
     /* Webpack named bundle   */
   }, 'events')

@@ -1,27 +1,23 @@
-// import React from 'react';
-// import { connect } from 'react-redux';
-//
-// export default function(ComposedComponent) {
-//   class Authenticate extends React.Component {
-//     componentDidMount() {
-//     }
-//
-//     render() {
-//       // <ComposedComponent {...this.props} />
-//
-//       return (render);
-//     }
-//   }
-//
-//   Authenticate.propTypes = {
-//     isAuthenticated: React.PropTypes.bool.isRequired
-//   };
-//
-//   function mapStateToProps(state) {
-//     return {
-//
-//     };
-//   }
-//
-//   return connect(mapStateToProps, {})(Authenticate);
-// }
+import React from 'react';
+import { connect } from 'react-redux';
+
+export default function(ComposedComponent) {
+  class Authenticate extends React.Component {
+    componentDidMount() {
+      console.log('did mount: ', this.props.user);
+    }
+
+    render() {
+      return <ComposedComponent {...this.props} />;
+    }
+  }
+
+  function mapStateToProps(state) {
+    console.log('user: ', state);
+    return {
+      // user: state.login.user
+    };
+  }
+
+  return connect(mapStateToProps, {})(Authenticate);
+}
