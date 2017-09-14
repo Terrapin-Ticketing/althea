@@ -8,16 +8,21 @@ class Login extends Component {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      loginError: null
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit() {
-      this.props.login(this.state.email, this.state.password)
-      .then(() => {
-        browserHistory.push('/events');
-      });
+    this.props.login(this.state.email, this.state.password)
+    .then(() => {
+      console.log('no err');
+      browserHistory.push('/events');
+    })
+    .catch((err) => { // email already taken
+      this.setState({loginError: 'You entered the wrong login information. Please try again.'})
+    });
   }
 
 
@@ -36,7 +41,7 @@ class Login extends Component {
               this.setState({password: e.target.value})
             }} />
           </label>
-          <span className='error'>{(this.props.loginError) ? this.props.loginError : null}</span>
+          <span className='error'>{(this.state.loginError) ? this.state.loginError : null}</span>
           <span className='user'>{(this.props.user) ? this.props.user : null}</span>
           <button onClick={this.handleSubmit}>Login</button>
       </div>

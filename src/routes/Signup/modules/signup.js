@@ -28,7 +28,7 @@ export const signup = (email, password) => {
         dispatch({
           type: SIGNUP_ERROR,
           payload: err
-        })
+        });
         throw err;
       });
   }

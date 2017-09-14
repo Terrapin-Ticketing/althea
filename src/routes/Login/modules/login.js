@@ -35,11 +35,17 @@ export const login = (email, password) => {
       .then((res) => {
         let { token } = res.data;
         setAuthorizationToken(token);
-
         dispatch({
           type: LOGIN_SUCCESS,
           payload: jwt.decode(token)
         });
+      })
+      .catch((err) => {
+        dispatch({
+          type: LOGIN_ERROR,
+          payload: err
+        });
+        throw err;
       });
   };
 };
