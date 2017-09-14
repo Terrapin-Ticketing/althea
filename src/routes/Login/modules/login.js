@@ -1,11 +1,24 @@
 import axios from 'axios'
 import web3 from '../../../components/Web3.js'
+import jwt from 'jsonwebtoken';
+import setAuthorizationToken from '../../../utils/setAuthorizationToken';
 
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_ERROR = 'LOGIN_ERROR'
+
+function decryptPrivateKey() {
+  // * SYM DECRYPT *
+  //
+  // var decipher = crypto.createDecipher(algorithm, key);
+  // var deciphered = decipher.update(ciphered, outputEncoding, inputEncoding);
+  // deciphered += decipher.final(inputEncoding);
+  //
+  // console.log(deciphered);
+  // assert.equal(deciphered, text, 'Deciphered text does not match!');
+}
 
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for
@@ -17,21 +30,15 @@ export const login = (email, password) => {
     return axios({
       url: `${API_URL}/login`,
       method: 'post',
-      data: {email, password},
-      withCredentials: true
+      data: {email, password}
     })
       .then((res) => {
-        console.log('res: ', res, email, password);
-        let token = jwt.decode(res);
+        let { token } = res.data;
+        setAuthorizationToken(token);
 
-        // let data = res.data[0];
-        // console.log
-        // let ethAccount = web3.eth.accounts.privateKeyToAccount(data.privateKey);
-        // let address = ethAccount.address;
-        // data.address = address
         dispatch({
           type    : LOGIN_SUCCESS,
-          payload : data
+          payload : jwt.decode(token)
         })
       })
   }

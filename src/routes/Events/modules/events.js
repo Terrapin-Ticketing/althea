@@ -73,8 +73,10 @@ export const getEvents = () => {
 
 export const getContractInfo = () => {
   return (dispatch, getState) => {
-    return axios.get(`${API_URL}/contract-info`)
+    return axios.get(`${TERRAPIN_URL}/terrapin-station`)
       .then((res) => {
+        console.log('res: ', res);
+
         dispatch({
           type: SET_CONTRACT_INFO,
           payload: res.data
