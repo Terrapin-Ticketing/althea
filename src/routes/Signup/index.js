@@ -13,7 +13,7 @@ export default (store) => ({
       const reducer = require('./modules/signup').default
 
       /*  Add the reducer to the store on key 'signup'  */
-      injectReducer(store, { key: 'signup', reducer })
+      injectReducer(store, { key: 'auth', reducer })
 
       /*  Return getComponent   */
       cb(null, Login)

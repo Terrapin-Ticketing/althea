@@ -11,7 +11,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.login.user,
+    user: state.auth.user,
     balance: state.user.balance
   }
 }

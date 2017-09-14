@@ -1,5 +1,6 @@
 import axios from 'axios'
-import web3 from '../../../components/Web3.js'
+import jwt from 'jsonwebtoken';
+import setAuthorizationToken from '../../../utils/setAuthorizationToken';
 
 // ------------------------------------
 // Constants
@@ -15,18 +16,12 @@ export const signup = (email, password) => {
   return (dispatch, getState) => {
     return axios.post(`${API_URL}/signup`, {email, password})
       .then((res) => {
-        console.log('res: ', res);
-        let token = jwt.decode(res);
-
-        // let data = res.data[0];
-        // console.log
-        // let ethAccount = web3.eth.accounts.privateKeyToAccount(data.privateKey);
-        // let address = ethAccount.address;
-        // data.address = address
+        let { token } = res.data;
+        setAuthorizationToken(token);
         dispatch({
           type: SIGNUP_SUCCESS,
-          payload: res.data
-        })
+          payload: jwt.decode(token)
+        });
       })
       .catch((err) => {
         console.log('err')
