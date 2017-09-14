@@ -32,8 +32,6 @@ export const getEvents = () => {
       .then((eventAddrs) => {
         let eventInstances = [];
 
-        console.log('about to loop');
-
         return pasync.eachSeries(eventAddrs, (eventAddr) => {
           let eventInstance = getContractInstance(abis.event.abi, eventAddr);
           // tickets, name
