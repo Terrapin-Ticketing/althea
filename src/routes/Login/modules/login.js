@@ -26,45 +26,45 @@ function decryptPrivateKey() {
 
 export const login = (email, password) => {
   return (dispatch, getState) => {
-    console.log('adsf', email, password);
     return axios({
       url: `${API_URL}/login`,
       method: 'post',
-      data: {email, password}
+      data: {email, password},
+      withCredentials: true
     })
       .then((res) => {
         let { token } = res.data;
         setAuthorizationToken(token);
 
         dispatch({
-          type    : LOGIN_SUCCESS,
-          payload : jwt.decode(token)
-        })
-      })
-  }
-}
+          type: LOGIN_SUCCESS,
+          payload: jwt.decode(token)
+        });
+      });
+  };
+};
 
 export const actions = {
   login
-}
+};
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [LOGIN_SUCCESS]  : (state, action) => {
+  [LOGIN_SUCCESS]: (state, action) => {
     return {
       ...state,
       user: action.payload
     }
   },
-  [LOGIN_ERROR]  : (state, action) => {
+  [LOGIN_ERROR]: (state, action) => {
     return {
       ...state,
       loginError: action.payload
-    }
+    };
   }
-}
+};
 
 // ------------------------------------
 // Reducer

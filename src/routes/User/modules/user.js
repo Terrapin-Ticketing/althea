@@ -17,18 +17,35 @@ export const getUserInfo = () => {
   //   });
   //
   // }
-}
+};
+
+// function deleteCookie(name) {
+//   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+//   // document.cookie = name + '=; expires=' + new Date();
+// }
+
+// export function logout() {
+//   return dispatch => {
+//     const parsedCookie = cookie.parse(document.cookie);
+//     if (parsedCookie.cookieToken) {
+//       deleteCookie('cookieToken');
+//       setAuthorizationToken();
+//     }
+//     dispatch(resetRedux());
+//   };
+// }
+
 
 export const getUserTickets = () => {
   return (dispatch, getState) => {
-    web3.eth
-
-    .then((tickets) => {
-      dispatch({
-        type: GET_USER_TICKETS,
-        payload: tickets
-      })
-    });
+    // web3.eth
+    //
+    // .then((tickets) => {
+    //   dispatch({
+    //     type: GET_USER_TICKETS,
+    //     payload: tickets
+    //   })
+    // });
 
   }
 }
@@ -36,10 +53,8 @@ export const getUserTickets = () => {
 export const getUserEvents = () => {
   return (dispatch, getState) => {
     console.log('getState(): ', getState())
-    const { abis, terrapinAddress
- } = getState().events;
-    let terrapin = new web3.eth.Contract(abis.terrapin.abi, terrapinAddress
-);
+    const { abis, terrapinAddress } = getState().events;
+    let terrapin = new web3.eth.Contract(abis.terrapin.abi, terrapinAddress);
     console.log('getUserEventsContract: ', terrapin);
     let userEvents = [];
     return terrapin.methods.getEvents().call().then((eventContractAddrs) => {
@@ -76,7 +91,7 @@ export const getUserBalance = (privateKey) => {
 
 export const actions = {
   getUserInfo,
-  getUserTickets,
+  // getUserTickets,
   getUserEvents,
   getUserBalance
 }
