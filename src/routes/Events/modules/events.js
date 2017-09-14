@@ -6,16 +6,16 @@ import EthereumTx from 'ethereumjs-tx';
 let getContractInstance = (abi, address) => {
   const instance = new web3.eth.Contract(abi, address);
   return instance;
-}
+};
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const GET_EVENTS = 'GET_EVENTS'
-export const CLICK_BUY_TICKET = 'CLICK_BUY_TICKET'
-export const BUY_TICKET = 'BUY_TICKET'
-export const SET_CONTRACT_INFO = 'SET_CONTRACT_INFO'
-export const SET_EVENTS = 'SET_EVENTS'
+export const GET_EVENTS = 'GET_EVENTS';
+export const CLICK_BUY_TICKET = 'CLICK_BUY_TICKET';
+export const BUY_TICKET = 'BUY_TICKET';
+export const SET_CONTRACT_INFO = 'SET_CONTRACT_INFO';
+export const SET_EVENTS = 'SET_EVENTS';
 
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for
@@ -25,11 +25,16 @@ export const getEvents = () => {
   return (dispatch, getState) => {
     // TODO: Update this
     const { abis, terrapinAddr } = getState().events;
+    console.log('one');
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddr);
+    console.log('two');
+    console.log(terrapinInstance);
     return Promise.resolve()
       .then(() => terrapinInstance.methods.getEvents().call())
       .then((eventAddrs) => {
         let eventInstances = [];
+
+        console.log('about to loop');
 
         return pasync.eachSeries(eventAddrs, (eventAddr) => {
           let eventInstance = getContractInstance(abis.event.abi, eventAddr);
@@ -57,19 +62,19 @@ export const getEvents = () => {
                   .then(() => tickets.push(ticketObj));
               })
               // set this events tickets
-              .then(() => eventObj.tickets = tickets)
+              .then(() => eventObj.tickets = tickets);
             })
-            .then(() => eventInstances.push(eventObj))
+            .then(() => eventInstances.push(eventObj));
         })
         .then(() => {
           dispatch({
             type: SET_EVENTS,
             payload: eventInstances
-          })
+          });
         });
-      })
-  }
-}
+      });
+  };
+};
 
 export const getContractInfo = () => {
   return (dispatch, getState) => {
@@ -80,10 +85,10 @@ export const getContractInfo = () => {
         dispatch({
           type: SET_CONTRACT_INFO,
           payload: res.data
-        })
+        });
       });
-  }
-}
+  };
+};
 
 export const clickBuyTicket = () => {
   return (dispatch, getState) => {
@@ -91,15 +96,15 @@ export const clickBuyTicket = () => {
     web3.getsomething
       .then((res) => {
         dispatch({
-          type    : CLICK_BUY_TICKET,
-          payload : res.user
-        })
+          type: CLICK_BUY_TICKET,
+          payload: res.user
+        });
       })
       .catch((err) => {
 
       });
-  }
-}
+  };
+};
 
 export const buyTicket = (event) => {
   return (dispatch, getState) => {
@@ -159,7 +164,7 @@ export const buyTicket = (event) => {
                           data: encodedAbi
                         }
 
-                        console.log(ticketInstance.options.address,);
+                        console.log(ticketInstance.options.address);
 
                         return web3.eth.getTransactionCount(walletAddress)
                           .then((count) => txParams.nonce = count)

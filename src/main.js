@@ -36,10 +36,10 @@ if (__DEV__) {
       try {
         renderApp()
       } catch (e) {
-        console.error(e)
-        renderError(e)
+        console.error(e);
+        renderError(e);
       }
-    }
+    };
 
     // Setup hot module replacement
     module.hot.accept([
