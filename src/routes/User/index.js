@@ -1,6 +1,6 @@
 import { injectReducer } from '../../store/reducers';
 
-export default (store) => ({
+export default (store, wrappers = []) => ({
   path: 'user',
   /*  Async getComponent is only invoked when route matches   */
   getComponent(nextState, cb) {
@@ -15,8 +15,12 @@ export default (store) => ({
       /*  Add the reducer to the store on key 'login'  */
       injectReducer(store, { key: 'user', reducer });
 
+      /*  Return getComponent */
+      // wrap component in any higher order components pass to it
+      let wrapped = Events;
+      wrappers.forEach((wrapper) => wrapped = wrapper(wrapped));
       /*  Return getComponent   */
-      cb(null, Events);
+      cb(null, wrapped);
 
     /* Webpack named bundle   */
     }, 'user');

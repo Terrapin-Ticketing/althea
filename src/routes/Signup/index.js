@@ -1,24 +1,27 @@
-import { injectReducer } from '../../store/reducers'
+import { injectReducer } from '../../store/reducers';
 
-export default (store) => ({
-  path : 'signup',
+export default (store, wrappers = []) => ({
+  path: 'signup',
   /*  Async getComponent is only invoked when route matches   */
-  getComponent (nextState, cb) {
+  getComponent(nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
         and embed an async module loader (jsonp) when bundling   */
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const Login = require('./containers/SignupContainer').default
-      const reducer = require('./modules/signup').default
+      const Login = require('./containers/SignupContainer').default;
+      const reducer = require('./modules/signup').default;
 
       /*  Add the reducer to the store on key 'signup'  */
-      injectReducer(store, { key: 'auth', reducer })
+      injectReducer(store, { key: 'auth', reducer });
 
+      // wrap component in any higher order components pass to it
+      let wrapped = Login;
+      wrappers.forEach((wrapper) => wrapped = wrapper(wrapped));
       /*  Return getComponent   */
-      cb(null, Login)
+      cb(null, wrapped);
 
     /* Webpack named bundle   */
-  }, 'signup')
+    }, 'signup');
   }
-})
+});
