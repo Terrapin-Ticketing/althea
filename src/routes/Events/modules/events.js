@@ -57,8 +57,10 @@ export const getEvents = () => {
                   .then((owner) => ticketObj.owner = owner)
                   .then(() => tickets.push(ticketObj));
               })
-              // set this events tickets
-              .then(() => eventObj.tickets = tickets);
+                // set this events tickets
+                .then(() => {
+                  eventObj.tickets = tickets;
+                });
             })
             .then(() => eventInstances.push(eventObj));
         })
@@ -67,6 +69,9 @@ export const getEvents = () => {
             type: SET_EVENTS,
             payload: eventInstances
           });
+        })
+        .then(() => {
+          console.log('complete');
         });
       });
   };
@@ -76,9 +81,6 @@ export const getContractInfo = () => {
   return (dispatch, getState) => {
     return axios.get(`${TERRAPIN_URL}/terrapin-station`)
       .then((res) => {
-
-        console.log('res: ', res);
-
         dispatch({
           type: SET_CONTRACT_INFO,
           payload: res.data
@@ -129,7 +131,6 @@ export const buyTicket = (event) => {
         let isAvailable = false;
         // grab first available
         let hasBought = false;
-        console.log('ticketAddrs', ticketAddrs);
         return pasync.eachSeries([ticketAddrs[0]], (ticketAddr) => {
           let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddr);
           return ticketInstance.methods.owner().call()

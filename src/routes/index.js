@@ -14,7 +14,7 @@ import requireAuth from '../utils/requireAuth';
 
 export const createRoutes = (store) => ({
   path: '/',
-  component: CoreLayout,
+  component: CoreLayout(store),
   indexRoute: Home,
   childRoutes: [
     LoginRoute(store),
