@@ -24,11 +24,9 @@ export const SET_EVENTS = 'SET_EVENTS';
 export const getEvents = () => {
   return (dispatch, getState) => {
     // TODO: Update this
-    const { abis, terrapinAddr } = getState().events;
-    console.log('one');
-    let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddr);
-    console.log('two');
-    console.log(terrapinInstance);
+    const { abis, terrapinAddress } = getState().events;
+    let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
+
     return Promise.resolve()
       .then(() => terrapinInstance.methods.getEvents().call())
       .then((eventAddrs) => {
@@ -80,6 +78,7 @@ export const getContractInfo = () => {
   return (dispatch, getState) => {
     return axios.get(`${TERRAPIN_URL}/terrapin-station`)
       .then((res) => {
+
         console.log('res: ', res);
 
         dispatch({
@@ -111,7 +110,7 @@ export const buyTicket = (event) => {
     const privateKey = getState().login.privateKey || Buffer.from('0c431ec27c9755e19abfc557f9698c1119ffcd61751a73b2e2adfc8302414cdc', 'hex');
     const walletAddress = '0xad77ace9da2427848c74f1dd397c5f10d2b761c5';
 
-    const { abis, terrapinAddr } = getState().events;
+    const { abis, terrapinAddress } = getState().events;
     const owner = event.owner;
 
     const eventInstance = getContractInstance(abis.event.abi, event.id);
@@ -162,7 +161,7 @@ export const buyTicket = (event) => {
                           gas: 4700000,
                           // gasPrice: null,
                           data: encodedAbi
-                        }
+                        };
 
                         console.log(ticketInstance.options.address);
 
@@ -197,7 +196,7 @@ export const buyTicket = (event) => {
                               .then((data) => {
                                 console.log('data: ', data);
                               });
-                          })
+                          });
 
                       })
                       .then(() => web3.eth.getBalance(walletAddress))
@@ -206,8 +205,8 @@ export const buyTicket = (event) => {
                       })
                       .catch((err) => {
                         console.log('err:', err);
-                      })
-                  })
+                      });
+                  });
               }
             });
         })
@@ -215,60 +214,61 @@ export const buyTicket = (event) => {
           console.log('buyableTicketAddr', buyableTicketInstance);
         });
       });
-  }
-}
+  };
+};
 
 export const actions = {
   getEvents,
   clickBuyTicket,
   buyTicket,
   getContractInfo
-}
+};
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [GET_EVENTS]  : (state, action) => {
+  [GET_EVENTS]: (state, action) => {
     return {
       ...state,
       events: action.payload
-    }
+    };
   },
-  [SET_CONTRACT_INFO]  : (state, action) => {
+  [SET_CONTRACT_INFO]: (state, action) => {
     return {
       ...state,
       abis: JSON.parse(action.payload.abis),
-      terrapinAddr: action.payload.terrapinAddr
-    }
+      terrapinAddress: action.payload.terrapinAddress
+    };
   },
   [SET_EVENTS]: (state, action) => {
     let events = action.payload.map((event) =>{
-      let qty = event.tickets.reduce((sum, ticket) => { return (ticket.owner == event.owner) ? sum + 1 : 0 }, 0);
+      let qty = event.tickets.reduce((sum, ticket) => { return (ticket.owner === event.owner) ? sum + 1 : 0 }, 0);
       return {
         id: event.address,
         name: event.name,
         qty: qty,
         price: event.tickets[0].price
-      }
+      };
     });
     return {
       ...state,
       events: events
-    }
+    };
   }
-}
+};
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
-    events: [],
-    abis: null,
-    terrapinAddr: null
-}
-export default function loginReducer (state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
+  events: [],
+  abis: null,
+  terrapinAddress: null
+};
 
-  return handler ? handler(state, action) : state
+export default function loginReducer (state = initialState, action) {
+  const handler = ACTION_HANDLERS[action.type];
+
+  return handler ? handler(state, action) : state;
 }

@@ -36,8 +36,10 @@ export const getUserTickets = () => {
 export const getUserEvents = () => {
   return (dispatch, getState) => {
     console.log('getState(): ', getState())
-    const { abis, terrapinAddr } = getState().events;
-    let terrapin = new web3.eth.Contract(abis.terrapin.abi, terrapinAddr);
+    const { abis, terrapinAddress
+ } = getState().events;
+    let terrapin = new web3.eth.Contract(abis.terrapin.abi, terrapinAddress
+);
     console.log('getUserEventsContract: ', terrapin);
     let userEvents = [];
     return terrapin.methods.getEvents().call().then((eventContractAddrs) => {
