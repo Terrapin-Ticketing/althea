@@ -3,6 +3,7 @@ import CoreLayout from '../layouts/PageLayout/PageLayout'
 import Home from './Home'
 import CounterRoute from './Counter'
 import LoginRoute from './Login'
+import SignupRoute from './Signup'
 import EventsRoute from './Events'
 import CreateEventRoute from './CreateEvent'
 import UserRoute from './User'
@@ -17,6 +18,7 @@ export const createRoutes = (store) => ({
   childRoutes : [
     CounterRoute(store),
     LoginRoute(store),
+    SignupRoute(store),
     EventsRoute(store),
     CreateEventRoute(store),
     UserRoute(store),
