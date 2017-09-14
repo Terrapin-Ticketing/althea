@@ -19,8 +19,6 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => {
-  // const { user } = state.login;
-
   return {
     user: state.auth.user,
     events: state.events.events,

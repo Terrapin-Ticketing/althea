@@ -20,7 +20,6 @@ const { cookieToken } = cookie.parse(document.cookie);
 
 if (cookieToken) {
   setAuthorizationToken(cookieToken);
-  console.log('hererherh');
   store.dispatch({
     type: 'LOGIN_SUCCESS',
     payload: jwt.decode(cookieToken)
