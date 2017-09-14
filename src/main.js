@@ -6,6 +6,8 @@ import jwt from 'jsonwebtoken';
 import setAuthorizationToken from './utils/setAuthorizationToken';
 import createStore from './store/createStore';
 import { injectReducer } from './store/reducers'
+// import { browserHistory } from 'react-router';
+
 import './styles/main.scss';
 
 
@@ -26,7 +28,7 @@ if (cookieToken) {
 }
 
 // add a reducer to handle initial initiation of web3 and metamask
-injectReducer(store, { key: 'login', reducer: (state = {}, action) => {
+injectReducer(store, { key: 'auth', reducer: (state = {}, action) => {
   switch (action.type) {
     case 'LOGIN_SUCCESS':
       return {

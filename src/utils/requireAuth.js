@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 export default function(ComposedComponent) {
   class Authenticate extends React.Component {
     componentDidMount() {
-      console.log('did mount: ', this.props.user);
+      if (!this.props.user) {
+
+      }
     }
 
     render() {
@@ -13,9 +15,8 @@ export default function(ComposedComponent) {
   }
 
   function mapStateToProps(state) {
-    console.log('user: ', state);
     return {
-      // user: state.login.user
+      user: state.login.user
     };
   }
 
