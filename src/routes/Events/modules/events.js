@@ -170,26 +170,12 @@ export const buyTicket = (event) => {
                           // .then(() => web3.eth.gasPrice())
                           // .then((price) => txParams.gasPrice = price)
                           .then(() => {
-                            console.log('something');
-
                             const tx = new EthereumTx(txParams);
-                            console.log('here');
                             tx.sign(new Buffer(privateKey));
                             const serializedTx = tx.serialize();
 
                             console.log('serializedTx: ', serializedTx);
 
-                            // console.log(web3.eth.net.getId());
-
-                            // return web3.eth.accounts.signTransaction({
-                            // }, '0x4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318')
-                            //   .then((x) => {
-                            //     console.log('signed!!', x);
-                            //     // broadcast transaction
-                            //   })
-                            //   .catch((er) => {
-                            //     console.log('thing:', er);
-                            //   });
                             return web3.eth.sendSignedTransaction(serializedTx.toString('hex'))
                               .then((data) => {
                                 console.log('data: ', data);
@@ -209,7 +195,7 @@ export const buyTicket = (event) => {
             });
         })
         .then(() => {
-          console.log('buyableTicketAddr', buyableTicketInstance);
+          // console.log('buyableTicketAddr', buyableTicketInstance);
         });
       });
   };
@@ -241,7 +227,7 @@ const ACTION_HANDLERS = {
   },
   [SET_EVENTS]: (state, action) => {
     let events = action.payload.map((event) =>{
-      let qty = event.tickets.reduce((sum, ticket) => { return (ticket.owner === event.owner) ? sum + 1 : 0 }, 0);
+      let qty = event.tickets.reduce((sum, ticket) => { return (ticket.owner === event.owner) ? sum + 1 : 0; }, 0);
       return {
         id: event.address,
         name: event.name,
@@ -265,7 +251,7 @@ const initialState = {
   terrapinAddress: null
 };
 
-export default function loginReducer (state = initialState, action) {
+export default function loginReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;
