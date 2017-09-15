@@ -35,15 +35,12 @@ export const getUserTickets = () => {
 
 export const getUserEvents = () => {
   return (dispatch, getState) => {
-    console.log('getState(): ', getState())
     const { abis, terrapinAddress } = getState().events;
     let terrapin = new web3.eth.Contract(abis.terrapin.abi, terrapinAddress);
-    console.log('getUserEventsContract: ', terrapin);
     let userEvents = [];
     return terrapin.methods.getEvents().call().then((eventContractAddrs) => {
       let populatedEvents = eventContractAddrs.map((eventAddr, index) => {
         let eventContract = new web3.eth.Contract(abis.event.abi, eventAddr)
-        console.log('eventContract: ', eventContract);
       });
     });
 
@@ -58,12 +55,9 @@ export const getUserEvents = () => {
 }
 
 export const getUserBalance = (privateKey) => {
-  console.log('getbalance');
   return (dispatch, getState) => {
-    console.log('getState()', getState());
     web3.eth.getBalance(getState().auth.user.walletAddress)
       .then((balance) => {
-        console.log('balance: ', balance);
         dispatch({
           type: GET_USER_BALANCE,
           payload: balance

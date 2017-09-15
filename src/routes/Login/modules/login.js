@@ -1,13 +1,10 @@
 import axios from 'axios'
-import web3 from '../../../components/Web3.js'
 import jwt from 'jsonwebtoken';
 import setAuthorizationToken from '../../../utils/setAuthorizationToken';
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_ERROR = 'LOGIN_ERROR'
 
 function decryptPrivateKey() {
   // * SYM DECRYPT *
@@ -35,17 +32,12 @@ export const login = (email, password) => {
       .then((res) => {
         let { token } = res.data;
         setAuthorizationToken(token);
-        console.log('token: ', jwt.decode(token));
         dispatch({
-          type: LOGIN_SUCCESS,
+          type: 'LOGIN',
           payload: jwt.decode(token)
         });
       })
       .catch((err) => {
-        dispatch({
-          type: LOGIN_ERROR,
-          payload: err
-        });
         throw err;
       });
   };
@@ -59,27 +51,12 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [LOGIN_SUCCESS]: (state, action) => {
-    return {
-      ...state,
-      user: action.payload
-    }
-  },
-  [LOGIN_ERROR]: (state, action) => {
-    return {
-      ...state,
-      loginError: action.payload
-    };
-  }
 };
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-    user: null,
-    loginError: null
-}
+const initialState = { }
 export default function loginReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

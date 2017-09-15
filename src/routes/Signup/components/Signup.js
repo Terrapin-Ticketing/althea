@@ -54,7 +54,6 @@ class Signup extends Component {
             (this.state.signupError) ? this.state.signupError :
             (this.props.signupError) ? this.props.signupError : null}
           </span>
-          <span className='user'>{(this.props.user) ? this.props.user : null}</span>
           <button onClick={this.handleSubmit}>Signup</button>
       </div>
     )

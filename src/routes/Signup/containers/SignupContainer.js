@@ -18,8 +18,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
-    signupError: state.signupError
+    user: state.user
   };
 }
 

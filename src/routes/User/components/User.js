@@ -21,7 +21,6 @@ class User extends Component {
     this.props.getUserEvents();
     // this.props.getTickets();
     this.props.getUserBalance();
-    console.log('prerps: ', this.props);
   }
 
   renderTickets() {
@@ -45,7 +44,6 @@ class User extends Component {
   render() {
     const { email, walletAddress, privateKey } = this.props.user;
     const { balance } = this.props;
-    console.log('User.js this.props: ', this.props);
     return (
       <div className='container' >
         <h1>User</h1>

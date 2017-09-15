@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 
 import setAuthorizationToken from './utils/setAuthorizationToken';
 import createStore from './store/createStore';
-import { injectReducer } from './store/reducers';
 
 import './styles/main.scss';
 
@@ -13,46 +12,19 @@ import './styles/main.scss';
 // ------------------------------------
 const store = createStore(window.__INITIAL_STATE__);
 
+
 // decrypt jwt if cookie is set
 const { cookieToken } = cookie.parse(document.cookie);
 
 if (cookieToken) {
   setAuthorizationToken(cookieToken);
   store.dispatch({
-    type: 'LOGIN_SUCCESS',
+    type: 'LOGIN',
     payload: jwt.decode(cookieToken)
   });
 }
 
-// initialize user with cookie data or empty object
-injectReducer(store, { key: 'auth', reducer: (state = {}, action) => {
-  switch (action.type) {
-    case 'LOGIN_SUCCESS':
-      return {
-        ...state,
-        user: action.payload
-      };
-    case 'LOGOUT': {
-      console.log('hits');
-      const parsedCookie = cookie.parse(document.cookie);
-      if (parsedCookie.cookieToken) {
-        deleteCookie('cookieToken');
-        setAuthorizationToken();
-      }
-      return {
-        ...state,
-        user: null
-      }
-    }
-    default:
-      return state;
-  }
-} });
 
-function deleteCookie(name) {
-  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-  // document.cookie = name + '=; expires=' + new Date();
-}
 
 // Render Setup
 // ------------------------------------

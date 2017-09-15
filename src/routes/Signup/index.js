@@ -13,7 +13,7 @@ export default (store, wrappers = []) => ({
       const reducer = require('./modules/signup').default;
 
       /*  Add the reducer to the store on key 'signup'  */
-      injectReducer(store, { key: 'auth', reducer });
+      injectReducer(store, { key: 'signup', reducer });
 
       // wrap component in any higher order components pass to it
       let wrapped = Signup;
