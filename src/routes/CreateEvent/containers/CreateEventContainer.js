@@ -8,7 +8,8 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);

@@ -28,12 +28,12 @@ export const signup = (email, password) => {
       .catch((err) => {
         throw err;
       });
-  }
-}
+  };
+};
 
 export const actions = {
   signup
-}
+};
 
 // ------------------------------------
 // Action Handlers

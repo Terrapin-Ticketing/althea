@@ -1,10 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import ReactModal from 'react-modal';
 
-import TxComponent from '../../../components/shared/TxComponent';
-
-import './Events.scss'
+import './Events.scss';
 
 class Events extends Component {
   constructor(props) {
