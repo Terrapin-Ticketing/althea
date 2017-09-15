@@ -19,12 +19,11 @@ export const signup = (email, password) => {
         let { token } = res.data;
         setAuthorizationToken(token);
         dispatch({
-          type: SIGNUP_SUCCESS,
+          type: 'LOGIN_SUCCESS', // don't know why SIGNUP_SUCCESS doesnt work
           payload: jwt.decode(token)
         });
       })
       .catch((err) => {
-        console.log('err')
         dispatch({
           type: SIGNUP_ERROR,
           payload: err
@@ -42,17 +41,18 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SIGNUP_SUCCESS]  : (state, action) => {
+  [SIGNUP_SUCCESS]: (state, action) => {
+    console.log('SIGNUP_SUCCESS: ', action);
     return {
       ...state,
       user: action.payload
-    }
+    };
   },
-  [SIGNUP_ERROR]  : (state, action) => {
+  [SIGNUP_ERROR]: (state, action) => {
     return {
       ...state,
       signupError: action.payload
-    }
+    };
   }
 }
 

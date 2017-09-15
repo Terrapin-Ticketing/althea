@@ -35,6 +35,7 @@ export const login = (email, password) => {
       .then((res) => {
         let { token } = res.data;
         setAuthorizationToken(token);
+        console.log('token: ', jwt.decode(token));
         dispatch({
           type: LOGIN_SUCCESS,
           payload: jwt.decode(token)

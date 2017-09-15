@@ -33,6 +33,7 @@ injectReducer(store, { key: 'auth', reducer: (state = {}, action) => {
         user: action.payload
       };
     case 'LOGOUT': {
+      console.log('hits');
       const parsedCookie = cookie.parse(document.cookie);
       if (parsedCookie.cookieToken) {
         deleteCookie('cookieToken');
