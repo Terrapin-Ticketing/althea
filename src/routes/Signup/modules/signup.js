@@ -14,7 +14,12 @@ export const SIGNUP_ERROR = 'SIGNUP_ERROR'
 
 export const signup = (email, password) => {
   return (dispatch, getState) => {
-    return axios.post(`${API_URL}/signup`, {email, password})
+    return axios({
+      url: `${API_URL}/signup`,
+      method: 'post',
+      data: {email, password},
+      withCredentials: true
+    })
       .then((res) => {
         let { token } = res.data;
         setAuthorizationToken(token);
@@ -30,41 +35,41 @@ export const signup = (email, password) => {
         });
         throw err;
       });
-  }
-}
+  };
+};
 
 export const actions = {
   signup
-}
+};
 
-// ------------------------------------
-// Action Handlers
-// ------------------------------------
-const ACTION_HANDLERS = {
-  [SIGNUP_SUCCESS]: (state, action) => {
-    console.log('SIGNUP_SUCCESS: ', action);
-    return {
-      ...state,
-      user: action.payload
-    };
-  },
-  [SIGNUP_ERROR]: (state, action) => {
-    return {
-      ...state,
-      signupError: action.payload
-    };
-  }
-}
-
-// ------------------------------------
-// Reducer
-// ------------------------------------
-const initialState = {
-    user: null,
-    signupError: null
-}
-export default function signupReducer (state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+// // ------------------------------------
+// // Action Handlers
+// // ------------------------------------
+// const ACTION_HANDLERS = {
+//   [SIGNUP_SUCCESS]: (state, action) => {
+//     console.log('SIGNUP_SUCCESS: ', action);
+//     return {
+//       ...state,
+//       user: action.payload
+//     };
+//   },
+//   [SIGNUP_ERROR]: (state, action) => {
+//     return {
+//       ...state,
+//       signupError: action.payload
+//     };
+//   }
+// }
+//
+// // ------------------------------------
+// // Reducer
+// // ------------------------------------
+// const initialState = {
+//     user: null,
+//     signupError: null
+// }
+// export default function signupReducer (state = initialState, action) {
+//   const handler = ACTION_HANDLERS[action.type]
+//
+//   return handler ? handler(state, action) : state
+// }
