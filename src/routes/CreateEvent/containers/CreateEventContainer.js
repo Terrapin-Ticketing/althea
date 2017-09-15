@@ -1,14 +1,14 @@
-import { connect } from 'react-redux'
-import { createEvent } from '../modules/createEvent'
+import { connect } from 'react-redux';
+import { createEvent } from '../modules/createEvent';
 
-import CreateEvent from '../components/CreateEvent'
+import CreateEvent from '../components/CreateEvent';
 
 const mapDispatchToProps = {
   createEvent
-}
+};
 
 const mapStateToProps = (state) => {
-  return {}
-}
+  return {};
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);

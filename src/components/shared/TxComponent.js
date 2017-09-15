@@ -51,7 +51,7 @@ class TxComponent extends React.Component {
     return (
       <div className="">
         <span>{user.walletAddress}</span>
-        <input>Password</input>
+        <input type="password">Password</input>
         <button onClick={() => {
           let abi = instanceFunc().encodeAbi();
           //

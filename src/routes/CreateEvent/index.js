@@ -1,5 +1,7 @@
 import { injectReducer } from '../../store/reducers';
 
+import requireAuth from '../../utils/requireAuth';
+
 export default (store, wrappers = []) => ({
   path: 'createEvent',
   /*  Async getComponent is only invoked when route matches   */

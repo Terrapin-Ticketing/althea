@@ -20,7 +20,7 @@ export const createRoutes = (store) => ({
     LoginRoute(store),
     SignupRoute(store),
     EventsRoute(store),
-    CreateEventRoute(store),
+    CreateEventRoute(store, [ requireAuth ]),
     UserRoute(store)
   ]
 });
