@@ -107,8 +107,8 @@ export const clickBuyTicket = () => {
 
 export const buyTicket = (event) => {
   return (dispatch, getState) => {
-    const privateKey = getState().login.privateKey || Buffer.from('0c431ec27c9755e19abfc557f9698c1119ffcd61751a73b2e2adfc8302414cdc', 'hex');
-    const walletAddress = '0xad77ace9da2427848c74f1dd397c5f10d2b761c5';
+    const privateKey = Buffer.from('970290fbe9530608192bc726a4cf8cacd151ce0150acf0d916319eac47fc7ff3', 'hex');
+    const walletAddress = '0xb00bbcff5ccf72ead0f140dfafc64cf683364e26';
 
     const { abis, terrapinAddress } = getState().events;
     const owner = event.owner;
@@ -131,31 +131,32 @@ export const buyTicket = (event) => {
         let isAvailable = false;
         // grab first available
         let hasBought = false;
-        return pasync.eachSeries([ticketAddrs[0]], (ticketAddr) => {
+        return pasync.eachSeries([ticketAddrs[1]], (ticketAddr) => {
+          // console.log('ticketAddr', ticketAddr);
           let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddr);
           return ticketInstance.methods.owner().call()
             .then((owner) => {
 
-              console.log('herereer');
 
               if (owner === eventOwner && !hasBought) {
                 hasBought = true;
 
                 // web3.eth.accounts.privateKeyToAccount(privateKey);
                 return web3.eth.getAccounts()
-                  .then((accounts) => {
-
-                    console.log('Accounts: ', accounts);
+                  .then(() => {
 
                     return ticketInstance.methods.price().call()
                       .then((price) => {
+                        console.log('price: ', price);
                         let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
 
                         let txParams = {
                           nonce: null,
                           chainId: null,
                           to: ticketInstance.options.address,
+                          // to: '0x2ce57eccf1dcb1f68862f9e1e50f6c1f57b945ab',
                           value: (price).toString(16),
+                          // value: 10000,
                           gas: 4700000,
                           data: encodedAbi
                         };
@@ -231,7 +232,7 @@ const ACTION_HANDLERS = {
         id: event.address,
         name: event.name,
         qty: qty,
-        price: event.tickets[0].price
+        price: event.tickets[0] && event.tickets[0].price
       };
     });
     return {

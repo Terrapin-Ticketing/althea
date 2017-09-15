@@ -41,7 +41,7 @@ injectReducer(store, { key: 'auth', reducer: (state = {}, action) => {
       return {
         ...state,
         user: null
-      }
+      };
     }
     default:
       return state;

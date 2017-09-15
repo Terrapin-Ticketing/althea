@@ -1,5 +1,6 @@
 import React from 'react';
 import EthereumTx from 'ethereumjs-tx';
+import web3 from '../../../components/Web3.js';
 
 // let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
 //
@@ -45,17 +46,50 @@ class TxComponent extends React.Component {
     };
   }
 
+  executeTx() {
+    let { user, txInfo } = this.props;
+    let { instance, method, args, price } = txInfo;
+
+    let encodedAbi = instance.methods[method](...args).encodeABI();
+
+    let txParams = {
+      nonce: null,
+      chainId: null,
+      to: instance.options.address,
+      value: (price).toString(16),
+      gas: 4700000,
+      data: encodedAbi
+    };
+
+    return web3.eth.getTransactionCount(user.walletAddress)
+      .then((count) => txParams.nonce = count)
+      .then(() => web3.eth.net.getId())
+      .then((id) => txParams.chainId = id)
+      // .then(() => web3.eth.gasPrice())
+      // .then((price) => txParams.gasPrice = price)
+      .then(() => {
+        // decode private key
+        // const tx = new EthereumTx(txParams);
+        // tx.sign(new Buffer(privateKey));
+        // const serializedTx = tx.serialize();
+        //
+        // console.log('serializedTx: ', serializedTx);
+        //
+        // return web3.eth.sendSignedTransaction(serializedTx.toString('hex'))
+        //   .then((data) => {
+        //     console.log('data: ', data);
+        //   });
+      });
+  }
+
   renderModal() {
-    let { instanceFunc, user } = this.props;
+    let { user } = this.props;
 
     return (
       <div className="">
         <span>{user.walletAddress}</span>
         <input type="password">Password</input>
-        <button onClick={() => {
-          let abi = instanceFunc().encodeAbi();
-          //
-        }}>Confirm</button>
+        <button onClick={this.executeTx}>Confirm</button>
       </div>
     );
   }
@@ -64,9 +98,7 @@ class TxComponent extends React.Component {
     let { text } = this.props;
 
     return (
-      <button onClick={() => {
-        this.setState({ showConfirmModal: true });
-      }}>
+      <button onClick={() => { this.setState({ showConfirmModal: true }); }}>
         {text}
       </button>
     );

@@ -7,12 +7,14 @@ class CreateEvent extends Component {
     this.state = {
       name: '',
       qty: '', // TODO: Force to int
-      price: '' // TODO: Force to int
+      price: '', // TODO: Force to int,
+      password: null
     };
   }
 
   onSubmit() {
-    this.props.createEvent(this.state.name, this.state.qty, this.state.price)
+    let { name, qty, price, password } = this.state;
+    this.props.createEvent(name, qty, price, password)
       .then(() => {
 
       })
@@ -43,9 +45,16 @@ class CreateEvent extends Component {
             this.setState({price: e.target.value});
           }} />
         </label>
+        <label className='label'>
+          <span>Password:</span>
+          <input type="text" value={this.state.password || ''} onChange={(e) => {
+            this.setState({password: e.target.value});
+          }} />
+        </label>
         <span className='error'>{(this.props.loginError) ? this.props.loginError : null}</span>
         <span className='user'>{(this.props.user) ? this.props.user.email : null}</span>
-        <button onClick={this.handleSubmit}>Create Event</button>
+
+        <button onClick={() => this.onSubmit()}>Create Event</button>
       </div>
     );
   }
