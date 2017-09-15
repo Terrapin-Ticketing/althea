@@ -232,7 +232,7 @@ const ACTION_HANDLERS = {
         id: event.address,
         name: event.name,
         qty: qty,
-        price: event.tickets[0] ? event.tickets[0].price : 'ticket price not set'
+        price: event.tickets[0] ? event.tickets[0].price : 'N/A'
       };
     });
     return {
