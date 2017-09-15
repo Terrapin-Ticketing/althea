@@ -32,11 +32,26 @@ injectReducer(store, { key: 'auth', reducer: (state = {}, action) => {
         ...state,
         user: action.payload
       };
+    case 'LOGOUT': {
+      const parsedCookie = cookie.parse(document.cookie);
+      if (parsedCookie.cookieToken) {
+        deleteCookie('cookieToken');
+        setAuthorizationToken();
+      }
+      return {
+        ...state,
+        user: null
+      }
+    }
     default:
       return state;
   }
 } });
 
+function deleteCookie(name) {
+  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  // document.cookie = name + '=; expires=' + new Date();
+}
 
 // Render Setup
 // ------------------------------------

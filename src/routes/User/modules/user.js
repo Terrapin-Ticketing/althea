@@ -19,23 +19,6 @@ export const getUserInfo = () => {
   // }
 };
 
-// function deleteCookie(name) {
-//   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-//   // document.cookie = name + '=; expires=' + new Date();
-// }
-
-// export function logout() {
-//   return dispatch => {
-//     const parsedCookie = cookie.parse(document.cookie);
-//     if (parsedCookie.cookieToken) {
-//       deleteCookie('cookieToken');
-//       setAuthorizationToken();
-//     }
-//     dispatch(resetRedux());
-//   };
-// }
-
-
 export const getUserTickets = () => {
   return (dispatch, getState) => {
     // web3.eth
