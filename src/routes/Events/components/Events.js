@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import classNames from 'classnames';
 import ReactModal from 'react-modal';
 
+import TxComponent from '../../../components/shared/TxComponent';
+
 import './Events.scss'
 
 class Events extends Component {
@@ -63,8 +65,8 @@ class Events extends Component {
           isOpen={this.state.buyModalOpen}
           contentLabel="Payment Modal"
           onRequestClose={() => {
-            if(!this.state.isLoading) {
-              this.setState({buyModalOpen: false})
+            if (!this.state.isLoading) {
+              this.setState({buyModalOpen: false});
             }
           }}
           style={require('./modal-styles.js').default}
@@ -74,6 +76,7 @@ class Events extends Component {
             <span className="event-header">Event Details</span>
             <span className='event-name'><b>Name:</b> {this.state.selectedEvent && this.state.selectedEvent.name}</span>
             <span className='event-price'><b>Price:</b> {this.state.selectedEvent && this.state.selectedEvent.price} ETH</span>
+
             <button
               className={classNames('purchase-ticket', {isLoading: this.state.isLoading, notLoading: !this.state.isLoading })}
               onClick={() => this.buyTicket(this.state.selectedEvent)}>{(this.state.isLoading) ? <img src={require('../../../layouts/assets/img/spinner.svg')} />
@@ -81,8 +84,8 @@ class Events extends Component {
           </div>
         </ReactModal>
       </div>
-    )
+    );
   }
 }
 
-export default Events
+export default Events;
