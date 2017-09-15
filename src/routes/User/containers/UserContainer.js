@@ -12,7 +12,7 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
-    balance: state.user.balance
+    balance: state.auth.balance
   }
 }
 

@@ -61,7 +61,7 @@ export const getUserBalance = (privateKey) => {
   console.log('getbalance');
   return (dispatch, getState) => {
     console.log('getState()', getState());
-    web3.eth.getBalance(getState().login.user.address)
+    web3.eth.getBalance(getState().auth.user.walletAddress)
       .then((balance) => {
         console.log('balance: ', balance);
         dispatch({
