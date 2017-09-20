@@ -58,6 +58,7 @@ config.module.rules.push({
       cacheDirectory: true,
       plugins: [
         'babel-plugin-transform-class-properties',
+        'babel-plugin-transform-async-to-generator',
         'babel-plugin-syntax-dynamic-import',
         [
           'babel-plugin-transform-runtime',

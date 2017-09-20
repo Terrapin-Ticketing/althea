@@ -9,12 +9,12 @@ import setAuthorizationToken from '../../../utils/setAuthorizationToken';
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
 
-export const signup = (email, password) => {
+export const signup = (email, password, privateKey) => {
   return (dispatch, getState) => {
     return axios({
       url: `${API_URL}/signup`,
       method: 'post',
-      data: {email, password},
+      data: {email, password, privateKey},
       withCredentials: true
     })
       .then((res) => {

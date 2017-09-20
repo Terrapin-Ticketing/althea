@@ -9,22 +9,24 @@ class Signup extends Component {
       email: '',
       password: '',
       confirmPassword: '',
+      privateKey: '',
       signupError: null
-    }
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit() {
-    if (this.state.password === this.state.confirmPassword) {
-      this.props.signup(this.state.email, this.state.password)
+    let { password, confirmPassword, email, privateKey } = this.state;
+    if (password === confirmPassword) {
+      this.props.signup(email, password, privateKey)
       .then(() => {
         browserHistory.push('/events');
       })
       .catch((err) => { // email already taken
-        this.setState({signupError: 'That email is already in use. Please try again.'})
+        this.setState({signupError: 'That email is already in use. Please try again.'});
       });
     } else {
-      this.setState({signupError: 'Your passwords don\'t match! Please try again.'})
+      this.setState({signupError: 'Your passwords don\'t match! Please try again.'});
     }
   }
 
@@ -41,13 +43,19 @@ class Signup extends Component {
           <label className='label'>
             <span>Password:</span>
             <input type="text" value={this.state.password} onChange={(e) => {
-              this.setState({password: e.target.value})
+              this.setState({password: e.target.value});
             }} />
           </label>
           <label className='label'>
             <span>Confirm Password:</span>
             <input type="text" value={this.state.confirmPassword} onChange={(e) => {
-              this.setState({confirmPassword: e.target.value})
+              this.setState({confirmPassword: e.target.value});
+            }} />
+          </label>
+          <label className='label'>
+            <span>Private Key (optional):</span>
+            <input type="text" value={this.state.privateKey} onChange={(e) => {
+              this.setState({privateKey: e.target.value});
             }} />
           </label>
           <span className='error'>{
@@ -56,8 +64,8 @@ class Signup extends Component {
           </span>
           <button onClick={this.handleSubmit}>Signup</button>
       </div>
-    )
+    );
   }
 }
 
-export default Signup
+export default Signup;
