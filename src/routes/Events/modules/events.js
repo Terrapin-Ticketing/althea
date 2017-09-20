@@ -14,7 +14,6 @@ let getContractInstance = (abi, address) => {
 export const GET_EVENTS = 'GET_EVENTS';
 export const CLICK_BUY_TICKET = 'CLICK_BUY_TICKET';
 export const BUY_TICKET = 'BUY_TICKET';
-export const SET_CONTRACT_INFO = 'SET_CONTRACT_INFO';
 export const SET_EVENTS = 'SET_EVENTS';
 
 /*  This is a thunk, meaning it is a function that immediately
@@ -24,7 +23,8 @@ export const SET_EVENTS = 'SET_EVENTS';
 export const getEvents = () => {
   return (dispatch, getState) => {
     // TODO: Update this
-    const { abis, terrapinAddress } = getState().events;
+    const { abis, terrapinAddress } = getState().terrapin.terrapin;
+    console.log('abis: ', abis);
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
 
     return Promise.resolve()
@@ -65,6 +65,7 @@ export const getEvents = () => {
             .then(() => eventInstances.push(eventObj));
         })
         .then(() => {
+          console.log('setEvents');
           dispatch({
             type: SET_EVENTS,
             payload: eventInstances
@@ -72,18 +73,6 @@ export const getEvents = () => {
         })
         .then(() => {
           console.log('complete');
-        });
-      });
-  };
-};
-
-export const getContractInfo = () => {
-  return (dispatch, getState) => {
-    return axios.get(`${TERRAPIN_URL}/terrapin-station`)
-      .then((res) => {
-        dispatch({
-          type: SET_CONTRACT_INFO,
-          payload: res.data
         });
       });
   };
@@ -204,8 +193,7 @@ export const buyTicket = (event) => {
 export const actions = {
   getEvents,
   clickBuyTicket,
-  buyTicket,
-  getContractInfo
+  buyTicket
 };
 
 // ------------------------------------
@@ -216,13 +204,6 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       events: action.payload
-    };
-  },
-  [SET_CONTRACT_INFO]: (state, action) => {
-    return {
-      ...state,
-      abis: JSON.parse(action.payload.abis),
-      terrapinAddress: action.payload.terrapinAddress
     };
   },
   [SET_EVENTS]: (state, action) => {
@@ -246,9 +227,7 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  events: [],
-  abis: null,
-  terrapinAddress: null
+  events: []
 };
 
 export default function loginReducer(state = initialState, action) {

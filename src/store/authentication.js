@@ -6,6 +6,7 @@ import setAuthorizationToken from '../utils/setAuthorizationToken';
 // ------------------------------------
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const SET_USER_BALANCE = 'SET_USER_BALANCE'
 
 // ------------------------------------
 // Actions
@@ -35,7 +36,13 @@ const ACTION_HANDLERS = {
       ...state,
       user: action.payload
     };
-  }
+  },
+  [SET_USER_BALANCE]: (state, action) => {
+    return {
+      ...state,
+      balance: action.payload
+    };
+  },
 };
 
 // ------------------------------------

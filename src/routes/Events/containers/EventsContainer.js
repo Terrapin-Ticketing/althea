@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getEvents, getContractInfo, buyTicket } from '../modules/events';
+import { getEvents, buyTicket } from '../modules/events';
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -14,16 +14,12 @@ import Events from '../components/Events';
 
 const mapDispatchToProps = {
   getEvents,
-  getContractInfo,
   buyTicket
 };
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.user,
     events: state.events.events,
-    terrapinAddress: state.events.terrapinAddress,
-    abis: state.events.abis
   };
 };
 

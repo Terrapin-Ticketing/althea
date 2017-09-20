@@ -24,8 +24,6 @@ if (cookieToken) {
   });
 }
 
-
-
 // Render Setup
 // ------------------------------------
 const MOUNT_NODE = document.getElementById('root');

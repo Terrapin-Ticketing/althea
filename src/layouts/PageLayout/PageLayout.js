@@ -9,7 +9,6 @@ function logout(store) {
     type: 'LOGOUT',
     payload: null
   });
-
 }
 
 export default (store) => {
