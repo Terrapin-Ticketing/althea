@@ -26,14 +26,12 @@ class App extends React.Component {
   }
 }
 
-const SET_CONTRACT_INFO = 'SET_CONTRACT_INFO';
-
 const getContractInfo = () => {
   return (dispatch, getState) => {
     return axios.get(`${TERRAPIN_URL}/terrapin-station`)
     .then((res) => {
       dispatch({
-        type: SET_CONTRACT_INFO,
+        type: 'SET_CONTRACT_INFO',
         payload: res.data
       });
     });

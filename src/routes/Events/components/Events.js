@@ -10,7 +10,8 @@ class Events extends Component {
     this.state = {
       isLoading: false,
       selectedEvent: null,
-      events: []
+      events: [],
+      confirmPassword: null
     };
     this.renderListItem = this.renderListItem.bind(this);
     this.buyTicket = this.buyTicket.bind(this);
@@ -21,15 +22,15 @@ class Events extends Component {
     //   .then((data) => {
     //     this.props.getEvents();
     //   });
-    console.log('this.props', this.props);
     this.props.getEvents();
   }
 
-  buyTicket(event) {
+  buyTicket(event, password) {
     this.setState({isLoading: true});
-    this.props.buyTicket(event);
-    // TODO: Some stuff
-    //.then(() => this.setState({ isLoading: false }))
+    this.props.buyTicket(event, password)
+      .then(() => {
+        this.setState({ isLoading: false })
+      });
   }
 
   renderListItem(item, index) {
@@ -76,10 +77,19 @@ class Events extends Component {
             <span className="event-header">Event Details</span>
             <span className='event-name'><b>Name:</b> {this.state.selectedEvent && this.state.selectedEvent.name}</span>
             <span className='event-price'><b>Price:</b> {this.state.selectedEvent && this.state.selectedEvent.price} ETH</span>
-
+            <input
+              style={{textAlign: 'center', }}
+              value={this.state.confirmPassword}
+              placeholder="enter password to confirm purchase"
+              onChange={(e) => {
+                console.log('this.state.confirmPassword: ', this.state.confirmPassword);
+                this.setState({confirmPassword: e.target.value });
+              }}/>
             <button
               className={classNames('purchase-ticket', {isLoading: this.state.isLoading, notLoading: !this.state.isLoading })}
-              onClick={() => this.buyTicket(this.state.selectedEvent)}>{(this.state.isLoading) ? <img src={require('../../../layouts/assets/img/spinner.svg')} />
+              onClick={() => {
+                console.log('this.state.confirmPassword: ', this.state.confirmPassword);
+                this.buyTicket(this.state.selectedEvent, this.state.confirmPassword)}}>{(this.state.isLoading) ? <img src={require('../../../layouts/assets/img/spinner.svg')} />
               : 'Confirm Purchase'}</button>
           </div>
         </ReactModal>

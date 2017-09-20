@@ -10,7 +10,7 @@ let getContractInstance = (abi, address) => {
   return instance;
 };
 
-let dcryptPrivateKey = (key, ciphered) => {
+let decryptPrivateKey = (key, ciphered) => {
   let algorithm = 'aes256';
   let inputEncoding = 'utf8';
   let outputEncoding = 'hex';
@@ -25,7 +25,7 @@ export const createEvent = (name, qty, price, password) => {
   return (dispatch, getState) => {
     // TODO: Update this
     let { user } = getState().auth;
-    let { abis, terrapinAddress } = getState().events;
+    let { abis, terrapinAddress } = getState().terrapin;
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
     console.log('instance Addr:', terrapinInstance.options.address);
 
@@ -64,7 +64,7 @@ export const createEvent = (name, qty, price, password) => {
       .then(() => {
         console.log(txParams);
 
-        let privateKey = dcryptPrivateKey(password, user.encryptedPrivateKey).substring(2);
+        let privateKey = decryptPrivateKey(password, user.encryptedPrivateKey).substring(2);
 
         privateKey = Buffer.from(privateKey, 'hex');
 

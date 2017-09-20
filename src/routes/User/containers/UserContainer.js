@@ -12,7 +12,9 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
-    events: state.user.events
+    balance: state.auth.balance,
+    events: state.user.events,
+    tickets: state.user.tickets
   }
 }
 

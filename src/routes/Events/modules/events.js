@@ -1,11 +1,23 @@
 import axios from 'axios';
 import pasync from 'pasync';
-import web3 from '../../../components/Web3.js';
 import EthereumTx from 'ethereumjs-tx';
+import crypto from 'crypto';
+import web3 from '../../../components/Web3.js';
 
 let getContractInstance = (abi, address) => {
   const instance = new web3.eth.Contract(abi, address);
   return instance;
+};
+
+let decryptPrivateKey = (key, ciphered) => {
+  let algorithm = 'aes256';
+  let inputEncoding = 'utf8';
+  let outputEncoding = 'hex';
+
+  let decipher = crypto.createDecipher(algorithm, key);
+  let deciphered = decipher.update(ciphered, outputEncoding, inputEncoding);
+  deciphered += decipher.final(inputEncoding);
+  return deciphered;
 };
 
 // ------------------------------------
@@ -19,20 +31,17 @@ export const SET_EVENTS = 'SET_EVENTS';
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
-export async function getEvents() {
-  return async (dispatch, getState) => {
+export function getEvents() {
+  return (dispatch, getState) => {
     // TODO: Update this
     const { abis, terrapinAddress } = getState().terrapin;
     console.log('abis: ', abis);
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
 
-    let x = await web3.eth.getBalance('0xb00bbcff5ccf72ead0f140dfafc64cf683364e26');
-
-    console.log('x: ', x);
-
     return Promise.resolve()
       .then(() => terrapinInstance.methods.getEvents().call())
       .then((eventAddrs) => {
+        console.log('eventAddrs: ', eventAddrs);
         let eventInstances = [];
 
         return pasync.eachSeries(eventAddrs, (eventAddr) => {
@@ -97,12 +106,16 @@ export const clickBuyTicket = () => {
   };
 };
 
-export const buyTicket = (event) => {
+export const buyTicket = (event, password) => {
   return (dispatch, getState) => {
-    const privateKey = Buffer.from('970290fbe9530608192bc726a4cf8cacd151ce0150acf0d916319eac47fc7ff3', 'hex');
-    const walletAddress = '0xb00bbcff5ccf72ead0f140dfafc64cf683364e26';
+    console.log('event: ', event);
+    console.log('password: ', password);
+    console.log('getState().auth.user.encryptedPrivateKey: ', getState().auth.user.encryptedPrivateKey);
+    let privateKey = decryptPrivateKey(password, getState().auth.user.encryptedPrivateKey).substring(2);
+    privateKey = Buffer.from(privateKey, 'hex');
+    const walletAddress = getState().auth.user.walletAddress;
 
-    const { abis, terrapinAddress } = getState().events;
+    const { abis, terrapinAddress } = getState().terrapin;
     const owner = event.owner;
 
     const eventInstance = getContractInstance(abis.event.abi, event.id);
@@ -119,24 +132,22 @@ export const buyTicket = (event) => {
       })
       .then(() => eventInstance.methods.getTickets().call())
       .then((ticketAddrs) => {
+        console.log('ticketAddrs: ', ticketAddrs);
         let i;
         let isAvailable = false;
         // grab first available
         let hasBought = false;
         return pasync.eachSeries([ticketAddrs[1]], (ticketAddr) => {
-          // console.log('ticketAddr', ticketAddr);
+          console.log('ticketAddr', ticketAddr);
           let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddr);
           return ticketInstance.methods.owner().call()
             .then((owner) => {
-
-
               if (owner === eventOwner && !hasBought) {
                 hasBought = true;
-
                 // web3.eth.accounts.privateKeyToAccount(privateKey);
-                return web3.eth.getAccounts()
+                return Promise.resolve()
                   .then(() => {
-
+                    console.log('gets after promise');
                     return ticketInstance.methods.price().call()
                       .then((price) => {
                         console.log('price: ', price);
@@ -147,30 +158,36 @@ export const buyTicket = (event) => {
                           chainId: null,
                           to: ticketInstance.options.address,
                           // to: '0x2ce57eccf1dcb1f68862f9e1e50f6c1f57b945ab',
-                          value: (price).toString(16),
+                          value: 0,
+                          // value: (price).toString(16),
                           // value: 10000,
-                          gas: 4700000,
+                          gas: `0x${(4700000).toString(16)}`,
+                          gasPrice: `0x${(4000000000).toString(16)}`,
                           data: encodedAbi
                         };
 
-                        console.log(ticketInstance.options.address);
+                        console.log('ticketInstance.options.address: ', ticketInstance.options.address);
 
                         return web3.eth.getTransactionCount(walletAddress)
-                          .then((count) => txParams.nonce = count)
+                          .then((count) => txParams.nonce = `0x${count.toString(16)}`)
                           .then(() => web3.eth.net.getId())
                           .then((id) => txParams.chainId = id)
                           // .then(() => web3.eth.gasPrice())
                           // .then((price) => txParams.gasPrice = price)
                           .then(() => {
+                            console.log('txParams: ', txParams);
                             const tx = new EthereumTx(txParams);
                             tx.sign(new Buffer(privateKey));
                             const serializedTx = tx.serialize();
 
                             console.log('serializedTx: ', serializedTx);
 
-                            return web3.eth.sendSignedTransaction(serializedTx.toString('hex'))
+                            return web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`)
                               .then((data) => {
                                 console.log('data: ', data);
+                              })
+                              .catch((err) => {
+                                console.log('oh shit', err);
                               });
                           });
 
