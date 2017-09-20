@@ -22,7 +22,7 @@ export const SET_EVENTS = 'SET_EVENTS';
 export async function getEvents() {
   return async (dispatch, getState) => {
     // TODO: Update this
-    const { abis, terrapinAddress } = getState().terrapin.terrapin;
+    const { abis, terrapinAddress } = getState().terrapin;
     console.log('abis: ', abis);
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
 

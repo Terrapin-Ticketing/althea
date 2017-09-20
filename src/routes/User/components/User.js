@@ -21,7 +21,7 @@ class User extends Component {
 
   componentDidMount() {
     this.props.getUserEvents();
-    // this.props.getTickets();
+    this.props.getTickets();
     this.props.getUserBalance();
   }
 

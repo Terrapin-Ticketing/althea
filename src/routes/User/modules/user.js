@@ -2,6 +2,7 @@ import web3 from '../../../components/Web3.js'
 
 export const GET_USER_INFO = 'GET_USER_INFO'
 export const SET_USER_EVENTS = 'SET_USER_EVENTS'
+export const SET_USER_TICKETS = 'SET_USER_TICKETS'
 export const GET_USER_TICKETS = 'GET_USER_TICKETS'
 export const GET_USER_EVENTS = 'GET_USER_EVENTS'
 
@@ -20,21 +21,20 @@ export const getUserInfo = () => {
 };
 
 export const getUserTickets = () => {
+  const tickets = [{ id: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", name: "The String Cheese Incident", qty: 1, price: "100" },
+  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A91", name: "Phish", qty: 1, price: "100" },
+  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A92", name: "Widespread Panic", qty: 1, price: "100" },
+  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A93", name: "Greensky Bluegrass", qty: 1, price: "100" }];
   return (dispatch, getState) => {
-    // web3.eth
-    //
-    // .then((tickets) => {
-    //   dispatch({
-    //     type: GET_USER_TICKETS,
-    //     payload: tickets
-    //   })
-    // });
-
-  }
-}
+    console.log('tickets: ', tickets);
+    dispatch({
+      type: SET_USER_TICKETS,
+      payload: tickets
+    });
+  };
+};
 
 export const getUserEvents = () => {
-  console.log('hits getUserEvents');
   const events = [{ id: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", name: "The String Cheese Incident", qty: 7, price: "100" },
   { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A91", name: "Phish", qty: 7, price: "100" },
   { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A92", name: "Widespread Panic", qty: 7, price: "100" },
@@ -74,6 +74,12 @@ const ACTION_HANDLERS = {
   [GET_USER_INFO]  : (state, action) => {
     return {
       ...state
+    }
+  },
+  [SET_USER_TICKETS]: (state, action) => {
+    return {
+      ...state,
+      tickets: action.payload
     }
   },
   [SET_USER_EVENTS]  : (state, action) => {
