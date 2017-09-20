@@ -1,4 +1,4 @@
-const NODE_ENV = process.env.NODE_ENV || 'development'
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 module.exports = {
   /** The environment to use when building the project */
@@ -23,7 +23,10 @@ module.exports = {
     // WEB3_ADDRESS: JSON.stringify('http://192.168.12.226:8545')
     API_URL: JSON.stringify('http://localhost:8080'),
     TERRAPIN_URL: JSON.stringify('http://localhost:8000'),
-    WEB3_ADDRESS: JSON.stringify('http://localhost:8545')
+    // WEB3_ADDRESS: JSON.stringify('http://localhost:8545')
+    // WEB3_ADDRESS: JSON.stringify('ws://localhost:8546')
+    // WEB3_ADDRESS: JSON.stringify('ws://ropsten.infura.io/ErkMqD1W4xWqfkfqNBnt')
+    WEB3_ADDRESS: JSON.stringify('https://ropsten.infura.io/ErkMqD1W4xWqfkfqNBnt')
   },
   /** Whether to enable verbose logging */
   verbose: false,
@@ -34,6 +37,6 @@ module.exports = {
     'redux',
     'react-redux',
     'redux-thunk',
-    'react-router',
-  ],
-}
+    'react-router'
+  ]
+};
