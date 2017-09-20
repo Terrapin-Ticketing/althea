@@ -1,15 +1,15 @@
-const path = require('path')
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const project = require('../project.config')
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const project = require('../project.config');
 
-const inProject = path.resolve.bind(path, project.basePath)
-const inProjectSrc = (file) => inProject(project.srcDir, file)
+const inProject = path.resolve.bind(path, project.basePath);
+const inProjectSrc = (file) => inProject(project.srcDir, file);
 
-const __DEV__ = project.env === 'development'
-const __TEST__ = project.env === 'test'
-const __PROD__ = project.env === 'production'
+const __DEV__ = project.env === 'development';
+const __TEST__ = project.env === 'test';
+const __PROD__ = project.env === 'production';
 
 const config = {
   entry: {
@@ -87,7 +87,7 @@ config.module.rules.push({
       ]
     },
   }],
-})
+});
 
 // Styles
 // ------------------------------------
@@ -95,7 +95,7 @@ const extractStyles = new ExtractTextPlugin({
   filename: 'styles/[name].[contenthash].css',
   allChunks: true,
   disable: __DEV__,
-})
+});
 
 config.module.rules.push({
   test: /\.(sass|scss)$/,

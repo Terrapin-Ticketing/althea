@@ -1,7 +1,9 @@
 import React from 'react'
 import { browserHistory, Router } from 'react-router'
 import { Provider } from 'react-redux'
+import axios from 'axios'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux';
 
 class App extends React.Component {
   static propTypes = {
@@ -9,8 +11,9 @@ class App extends React.Component {
     routes: PropTypes.object.isRequired,
   }
 
-  shouldComponentUpdate () {
-    return false
+  componentWillMount() {
+    console.log('props: ', this.props);
+    this.props.getContractInfo();
   }
 
   render () {
@@ -24,4 +27,29 @@ class App extends React.Component {
   }
 }
 
-export default App
+const SET_CONTRACT_INFO = 'SET_CONTRACT_INFO';
+
+const getContractInfo = () => {
+  return (dispatch, getState) => {
+    return axios.get(`${TERRAPIN_URL}/terrapin-station`)
+    .then((res) => {
+      console.log('res: ', JSON.parse(res.data.abis))
+      dispatch({
+        type: SET_CONTRACT_INFO,
+        payload: res.data
+      });
+    });
+  }
+};
+
+const mapDispatchToProps = {
+  getContractInfo
+}
+
+const mapStateToProps = (state) => {
+  return {
+    test: {}
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

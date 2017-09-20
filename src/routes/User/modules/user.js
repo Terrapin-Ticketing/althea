@@ -1,7 +1,7 @@
 import web3 from '../../../components/Web3.js'
 
 export const GET_USER_INFO = 'GET_USER_INFO'
-export const GET_USER_BALANCE = 'GET_USER_BALANCE'
+export const SET_USER_EVENTS = 'SET_USER_EVENTS'
 export const GET_USER_TICKETS = 'GET_USER_TICKETS'
 export const GET_USER_EVENTS = 'GET_USER_EVENTS'
 
@@ -34,32 +34,26 @@ export const getUserTickets = () => {
 }
 
 export const getUserEvents = () => {
+  console.log('hits getUserEvents');
+  const events = [{ id: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", name: "The String Cheese Incident", qty: 7, price: "100" },
+  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A91", name: "Phish", qty: 7, price: "100" },
+  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A92", name: "Widespread Panic", qty: 7, price: "100" },
+  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A93", name: "Greensky Bluegrass", qty: 7, price: "100" }];
   return (dispatch, getState) => {
-    const { abis, terrapinAddress } = getState().events;
-    let terrapin = new web3.eth.Contract(abis.terrapin.abi, terrapinAddress);
-    let userEvents = [];
-    return terrapin.methods.getEvents().call().then((eventContractAddrs) => {
-      let populatedEvents = eventContractAddrs.map((eventAddr, index) => {
-        let eventContract = new web3.eth.Contract(abis.event.abi, eventAddr)
-      });
+    console.log('events: ', events);
+    dispatch({
+      type: SET_USER_EVENTS,
+      payload: events
     });
-
-    // .then((tickets) => {
-    //   dispatch({
-    //     type: GET_USER_EVENTS,
-    //     payload: tickets
-    //   })
-    // });
-  }
-
-}
+  };
+};
 
 export const getUserBalance = (privateKey) => {
   return (dispatch, getState) => {
     web3.eth.getBalance(getState().auth.user.walletAddress)
       .then((balance) => {
         dispatch({
-          type: GET_USER_BALANCE,
+          type: 'SET_USER_BALANCE',
           payload: balance
         });
       });
@@ -82,10 +76,11 @@ const ACTION_HANDLERS = {
       ...state
     }
   },
-  [GET_USER_BALANCE]  : (state, action) => {
+  [SET_USER_EVENTS]  : (state, action) => {
+    console.log('hits SET_USER_EVENTS: ', action.payload);
     return {
       ...state,
-      balance: action.payload
+      events: action.payload
     }
   }
 }

@@ -17,10 +17,12 @@ class Events extends Component {
   }
 
   componentDidMount() {
-    this.props.getContractInfo()
-      .then((data) => {
-        this.props.getEvents();
-      });
+    // this.props.getContractInfo()
+    //   .then((data) => {
+    //     this.props.getEvents();
+    //   });
+    console.log('this.props', this.props);
+    this.props.getEvents();
   }
 
   buyTicket(event) {
@@ -67,7 +69,7 @@ class Events extends Component {
               this.setState({buyModalOpen: false});
             }
           }}
-          style={require('./modal-styles.js').default}
+          style={require('./../../../layouts/modal-styles').default}
         >
           <h2 className="checkout-header">Buy a Ticket</h2>
           <div className="event-details">

@@ -5,7 +5,6 @@
     "brace-style": [ 2, "1tbs", {
         "allowSingleLine": true
     }],
-    "comma-dangle": [ 2, "never" ],
     "comma-spacing": [ 2 ],
     "curly": [ 2, "multi-line" ],
     "eqeqeq": [ 2 ],

@@ -10,10 +10,6 @@ let getContractInstance = (abi, address) => {
   return instance;
 };
 
-async function functionName() {
-  return 10;
-}
-
 let dcryptPrivateKey = (key, ciphered) => {
   let algorithm = 'aes256';
   let inputEncoding = 'utf8';
@@ -31,7 +27,7 @@ export const createEvent = (name, qty, price, password) => {
     let { user } = getState().auth;
 
     let { abis, terrapinAddress } = getState().events;
-    console.log('terrapinAddress:', terrapinAddress);
+
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
     console.log('instance Addr:', terrapinInstance.options.address);
 
@@ -118,9 +114,9 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-}
-export default function createEventReducer (state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
+};
+export default function createEventReducer(state = initialState, action) {
+  const handler = ACTION_HANDLERS[action.type];
 
-  return handler ? handler(state, action) : state
+  return handler ? handler(state, action) : state;
 }
