@@ -20,13 +20,15 @@ export const SET_EVENTS = 'SET_EVENTS';
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
 export async function getEvents() {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     // TODO: Update this
     const { abis, terrapinAddress } = getState().terrapin.terrapin;
     console.log('abis: ', abis);
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
 
-    // let x = await 
+    let x = await web3.eth.getBalance('0xb00bbcff5ccf72ead0f140dfafc64cf683364e26');
+
+    console.log('x: ', x);
 
     return Promise.resolve()
       .then(() => terrapinInstance.methods.getEvents().call())
