@@ -25,7 +25,7 @@ export const createEvent = (name, qty, price, password) => {
     // TODO: Update this
     let { user } = getState().auth;
 
-    let { abis, terrapinAddress } = getState().terrapin.terrapin;
+    let { abis, terrapinAddress } = getState().terrapin;
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
 
 

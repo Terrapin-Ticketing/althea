@@ -16,10 +16,8 @@ const ACTION_HANDLERS = {
     console.log('action: ', action)
     return {
       ...state,
-      terrapin: {
-        terrapinAddress: action.payload.terrapinAddress,
-        abis: JSON.parse(action.payload.abis)
-      }
+      terrapinAddress: action.payload.terrapinAddress,
+      abis: JSON.parse(action.payload.abis)
     };
   }
 };
@@ -28,7 +26,8 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  terrapin: null
+  terrapinAddress: null,
+  abis: null
 };
 
 export default function terrapinReducer(state = initialState, action) {

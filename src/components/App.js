@@ -12,7 +12,6 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    console.log('props: ', this.props);
     this.props.getContractInfo();
   }
 
@@ -33,7 +32,6 @@ const getContractInfo = () => {
   return (dispatch, getState) => {
     return axios.get(`${TERRAPIN_URL}/terrapin-station`)
     .then((res) => {
-      console.log('res: ', JSON.parse(res.data.abis))
       dispatch({
         type: SET_CONTRACT_INFO,
         payload: res.data
