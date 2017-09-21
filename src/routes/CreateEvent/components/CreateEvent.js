@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import web3 from 'web3';
 import './CreateEvent.scss';
 
 class CreateEvent extends Component {
@@ -14,7 +15,7 @@ class CreateEvent extends Component {
 
   onSubmit() {
     let { name, qty, price, password } = this.state;
-    this.props.createEvent(name, parseInt(qty), price, password)
+    this.props.createEvent(name, parseInt(qty), web3.utils.toWei(price, 'ether'), password)
       .then(() => {
 
       })
