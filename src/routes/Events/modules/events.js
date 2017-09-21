@@ -132,12 +132,11 @@ export const buyTicket = (event, password) => {
       })
       .then(() => eventInstance.methods.getTickets().call())
       .then((ticketAddrs) => {
-        console.log('ticketAddrs: ', ticketAddrs);
         let i;
         let isAvailable = false;
         // grab first available
         let hasBought = false;
-        return pasync.eachSeries([ticketAddrs[1]], (ticketAddr) => {
+        return pasync.eachSeries(ticketAddrs, (ticketAddr) => {
           console.log('ticketAddr', ticketAddr);
           let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddr);
           return ticketInstance.methods.owner().call()
@@ -147,26 +146,20 @@ export const buyTicket = (event, password) => {
                 // web3.eth.accounts.privateKeyToAccount(privateKey);
                 return Promise.resolve()
                   .then(() => {
-                    console.log('gets after promise');
                     return ticketInstance.methods.price().call()
                       .then((price) => {
-                        console.log('price: ', price);
+                        console.log('price: ', typeof price);
+                        console.log('static: ', typeof 1000000000000000000);
                         let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
-
                         let txParams = {
                           nonce: null,
                           chainId: null,
                           to: ticketInstance.options.address,
-                          // to: '0x2ce57eccf1dcb1f68862f9e1e50f6c1f57b945ab',
-                          value: 0,
-                          // value: (price).toString(16),
-                          // value: 10000,
+                          value: parseInt(price),
                           gas: `0x${(4700000).toString(16)}`,
                           gasPrice: `0x${(4000000000).toString(16)}`,
                           data: encodedAbi
                         };
-
-                        console.log('ticketInstance.options.address: ', ticketInstance.options.address);
 
                         return web3.eth.getTransactionCount(walletAddress)
                           .then((count) => txParams.nonce = `0x${count.toString(16)}`)
@@ -175,7 +168,6 @@ export const buyTicket = (event, password) => {
                           // .then(() => web3.eth.gasPrice())
                           // .then((price) => txParams.gasPrice = price)
                           .then(() => {
-                            console.log('txParams: ', txParams);
                             const tx = new EthereumTx(txParams);
                             tx.sign(new Buffer(privateKey));
                             const serializedTx = tx.serialize();
