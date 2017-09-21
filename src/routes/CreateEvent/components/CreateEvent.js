@@ -25,8 +25,9 @@ class CreateEvent extends Component {
 
   render() {
     return (
-      <div className='container' >
+      <div className='createEvent-container' >
         <h1>Create Event</h1>
+        <span className='user'>Signed in as {(this.props.user) ? this.props.user.email : null}</span>
         <label className='label'>
           <span>Event Name:</span>
           <input type="text" value={this.state.name} onChange={(e) => {
@@ -46,13 +47,12 @@ class CreateEvent extends Component {
           }} />
         </label>
         <label className='label'>
-          <span>Password:</span>
+          <span>Confirm Password:</span>
           <input type="text" value={this.state.password || ''} onChange={(e) => {
             this.setState({password: e.target.value});
           }} />
         </label>
-        <span className='error'>{(this.props.loginError) ? this.props.loginError : null}</span>
-        <span className='user'>{(this.props.user) ? this.props.user.email : null}</span>
+        <span className='error'>{(this.props.createEventError) ? this.props.createEventError : null}</span>
 
         <button onClick={() => this.onSubmit()}>Create Event</button>
       </div>

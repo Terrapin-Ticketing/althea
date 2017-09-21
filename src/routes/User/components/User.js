@@ -89,7 +89,7 @@ class User extends Component {
           <div className="profile-left">
             <span className='profile-item'>Name: {email}</span>
             <span className='profile-item'>Private Key: {`${encryptedPrivateKey.slice(0, 10)}...`}</span>
-            <span className='profile-item'>Balance: {(balance) ? web3.utils.fromWei(balance, 'ether') : null}</span>
+            <span className='profile-item'>Balance: {(balance) ? `${web3.utils.fromWei(balance, 'ether')} ETH` : null}</span>
           </div>
           <div className="profile-right">
             <button onClick={() => { this.setState({'depositModalOpen': true }); }}>Deposit Ether</button>

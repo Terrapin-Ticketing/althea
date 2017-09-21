@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import ReactModal from 'react-modal';
+import web3 from 'web3';
 
 import './Events.scss';
 
@@ -37,7 +38,7 @@ class Events extends Component {
     return (
       <tr key={item.id} className={classNames('eventRow', {'odd': (index%2 == 0)})}>
         <td style={{flex: 2}}>{item.name}</td>
-        <td>{item.price} ETH</td>
+        <td>{web3.utils.fromWei(item.price, 'ether')} ETH</td>
         <td>{item.qty} Left</td>
         <td><button onClick={() => {
           this.setState({'buyModalOpen': true, selectedEvent: item })
@@ -76,7 +77,7 @@ class Events extends Component {
           <div className="event-details">
             <span className="event-header">Event Details</span>
             <span className='event-name'><b>Name:</b> {this.state.selectedEvent && this.state.selectedEvent.name}</span>
-            <span className='event-price'><b>Price:</b> {this.state.selectedEvent && this.state.selectedEvent.price} ETH</span>
+            <span className='event-price'><b>Price:</b> {this.state.selectedEvent && web3.utils.fromWei(this.state.selectedEvent.price, 'ether')} ETH</span>
             <input
               style={{textAlign: 'center', }}
               value={this.state.confirmPassword}

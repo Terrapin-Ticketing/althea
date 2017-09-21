@@ -1,6 +1,20 @@
-.createEvents-container {
+.createEvent-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 25px;
+
+  .label {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    span {
+      flex: 1;
+    }
+    input {
+      flex: 1;
+    }
+  }
 }
