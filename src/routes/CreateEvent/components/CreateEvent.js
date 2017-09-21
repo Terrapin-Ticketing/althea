@@ -16,7 +16,7 @@ class CreateEvent extends Component {
     let { name, qty, price, password } = this.state;
     this.props.createEvent(name, parseInt(qty), price, password)
       .then(() => {
-
+        this.props.router.push('/events');
       })
       .catch((err) => {
         console.log(err);
