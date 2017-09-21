@@ -1,10 +1,16 @@
 import web3 from '../../../components/Web3.js'
+import pasync from 'pasync';
 
 export const GET_USER_INFO = 'GET_USER_INFO'
 export const SET_USER_EVENTS = 'SET_USER_EVENTS'
 export const SET_USER_TICKETS = 'SET_USER_TICKETS'
 export const GET_USER_TICKETS = 'GET_USER_TICKETS'
 export const GET_USER_EVENTS = 'GET_USER_EVENTS'
+
+let getContractInstance = (abi, address) => {
+  const instance = new web3.eth.Contract(abi, address);
+  return instance;
+};
 
 export const getUserInfo = () => {
   // return (dispatch, getState) => {
@@ -21,29 +27,76 @@ export const getUserInfo = () => {
 };
 
 export const getUserTickets = () => {
-  const tickets = [{ id: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", eventId: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", name: "The String Cheese Incident", price: "100" },
-  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A91", eventId: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", name: "Phish", price: "100" },
-  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A92", eventId: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", name: "Widespread Panic", price: "100" },
-  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A93", eventId: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", name: "Greensky Bluegrass", price: "100" }];
-  return (dispatch, getState) => {
-    dispatch({
-      type: SET_USER_TICKETS,
-      payload: tickets
+  return async (dispatch, getState) => {
+    let { user } = getState().auth;
+
+    let { abis, terrapinAddress } = getState().terrapin;
+    let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
+
+    let eventAddresses = await terrapinInstance.methods.getEvents().call();
+
+    let tickets = [];
+
+    return pasync.eachSeries(eventAddresses, async (eventAddress) => {
+      let eventInstance = getContractInstance(abis.event.abi, eventAddress);
+      let ticketAddreses = await eventInstance.methods.getTickets().call();
+
+      return pasync.eachSeries(ticketAddreses, async (ticketAddress) => {
+        let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
+        let owner = await ticketInstance.methods.owner().call();
+        if (owner === user.walletAddress) {
+          tickets.push({
+            id: ticketInstance.options.address,
+            eventId: eventInstance.options.address,
+            name: web3.utils.toAscii(await eventInstance.methods.name().call()),
+            price: await ticketInstance.methods.price().call()
+          });
+        }
+      });
+    })
+    .then(() => {
+      dispatch({
+        type: SET_USER_TICKETS,
+        payload: tickets
+      });
     });
   };
 };
 
 export const getUserEvents = () => {
-  const events = [{ id: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", name: "The String Cheese Incident", qty: 7, price: "100" },
-  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A91", name: "Phish", qty: 7, price: "100" },
-  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A92", name: "Widespread Panic", qty: 7, price: "100" },
-  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A93", name: "Greensky Bluegrass", qty: 7, price: "100" }];
-  return (dispatch, getState) => {
-    console.log('events: ', events);
-    dispatch({
-      type: SET_USER_EVENTS,
-      payload: events
+  return async (dispatch, getState) => {
+    let { user } = getState().auth;
+
+    let { abis, terrapinAddress } = getState().terrapin;
+    let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
+
+    let eventAddresses = await terrapinInstance.methods.getEvents().call();
+
+    let events = [];
+
+    return pasync.eachSeries(eventAddresses, async (eventAddress) => {
+      let eventInstance = getContractInstance(abis.event.abi, eventAddress);
+      let owner = await eventInstance.methods.owner().call();
+      if (owner === user.walletAddress) {
+        let ticketAddreses = await eventInstance.methods.getTickets().call();
+
+        let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddreses[0]);
+
+        events.push({
+          id: eventInstance.options.address,
+          name: web3.utils.toAscii(await eventInstance.methods.name().call()),
+          qty: ticketAddreses.length,
+          price: await (ticketInstance.methods.price().call())
+        });
+      }
+    })
+    .then(() => {
+      dispatch({
+        type: SET_USER_EVENTS,
+        payload: events
+      });
     });
+
   };
 };
 
