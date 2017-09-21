@@ -36,7 +36,7 @@ export const createEvent = (name, qty, price, password) => {
 
     let gasPrice = `0x${(gwei * 2000).toString(16)}`;
     // let gasPrice = gwei * 30;
-    let gas = `0x${(470000).toString(16)}`;
+    let gas = `0x${(4700000).toString(16)}`;
 
     console.log('Total Gas Cost:', web3.utils.fromWei(gasPrice * gas, 'ether'));
 
