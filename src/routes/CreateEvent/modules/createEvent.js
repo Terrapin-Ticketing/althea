@@ -33,16 +33,17 @@ export const createEvent = (name, qty, price, password) => {
 
     let chainId = await web3.eth.net.getId();
     let nonce = await web3.eth.getTransactionCount(user.walletAddress);
-    let nonceBase10 = parseInt(nonce, 16);
 
-    // let gasPrice = `0x${(gwei * 70000).toString(16)}`;
-    let gasPrice = gwei * 30;
-    let gas = `0x${(47000).toString(16)}`;
+    let gasPrice = `0x${(gwei * 2000).toString(16)}`;
+    // let gasPrice = gwei * 30;
+    let gas = `0x${(470000).toString(16)}`;
+
+    console.log('Total Gas Cost:', web3.utils.fromWei(gasPrice * gas, 'ether'));
 
     let encodedAbi = terrapinInstance.methods.createEvent(web3.utils.fromAscii(name)).encodeABI();
 
     let txParams = {
-      nonce: `0x${nonceBase10.toString(16)}`,
+      nonce: nonce++,
       chainId,
       to: terrapinInstance.options.address,
       value: 0,
@@ -51,74 +52,131 @@ export const createEvent = (name, qty, price, password) => {
       data: encodedAbi
     };
 
-    nonceBase10++;
+    // nonce++;
 
-    return Promise.resolve()
-      .then(() => {
-        console.log(txParams);
+    let privateKey = decryptPrivateKey(password, user.encryptedPrivateKey).substring(2);
 
-        let privateKey = decryptPrivateKey(password, user.encryptedPrivateKey).substring(2);
+    privateKey = Buffer.from(privateKey, 'hex');
 
-        privateKey = Buffer.from(privateKey, 'hex');
+    const tx = new EthereumTx(txParams);
+    tx.sign(new Buffer(privateKey));
 
-        const tx = new EthereumTx(txParams);
-        tx.sign(new Buffer(privateKey));
+    const serializedTx = tx.serialize();
 
-        const serializedTx = tx.serialize();
+    // terrapinInstance.events.EventCreated({}, function(err, data) {
+    //   if (err) return console.log('EventCreated ERROR:', err);
+    //   console.log('event recieved');
+    //   let eventAddress = data.returnValues[0];
+    //   let eventInstance = getContractInstance(abis.event.abi, eventAddress);
+    //
+    //   // make transactions
+    //
+    //   let privateKey = decryptPrivateKey(password, user.encryptedPrivateKey).substring(2);
+    //   privateKey = Buffer.from(privateKey, 'hex');
+    //
+    //   console.log('sending ticket creation tx:');
+    //
+    //   // let batch = new web3.BatchRequest();
+    //   console.log(Array(qty).fill(1), qty);
+    //   pasync.eachSeries(Array(qty).fill(1), () => {
+    //     let txParams = {
+    //       nonce: `0x${nonceBase10.toString(16)}`,
+    //       chainId,
+    //       to: eventInstance.options.address,
+    //       value: 0,
+    //       gas,
+    //       gasPrice,
+    //       data: eventInstance.methods.printTicket(price).encodeABI()
+    //     };
+    //
+    //     console.log('TX: ', txParams);
+    //
+    //     nonceBase10++;
+    //
+    //     const tx = new EthereumTx(txParams);
+    //     tx.sign(new Buffer(privateKey));
+    //
+    //     const serializedTx = tx.serialize();
+    //
+    //     return web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`)
+    //       .then((data) => {
+    //         console.log('returned ticket', data);
+    //       });
+    //   });
+    //
+    // });
 
-        console.log('CREATING EVent!!!');
+    let data = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
 
-        terrapinInstance.events.EventCreated({}, function(err, data) {
-          if (err) return console.log('EventCreated ERROR:', err);
-          console.log('event recieved');
-          let eventAddress = data.returnValues[0];
-          let eventInstance = getContractInstance(abis.event.abi, eventAddress);
+    console.log('Event Created');
 
-          // make transactions
+    // get event address
+    let eventAddresses = await terrapinInstance.methods.getEvents().call();
 
-          let privateKey = decryptPrivateKey(password, user.encryptedPrivateKey).substring(2);
-          privateKey = Buffer.from(privateKey, 'hex');
+    console.log('eventAddresses', eventAddresses);
 
-          console.log('sending ticket creation tx:');
+    let mostRecent;
+    return pasync.eachSeries(eventAddresses, async (eventAddress) => {
+      console.log('in here');
+      let eventInstance = getContractInstance(abis.event.abi, eventAddress);
+      let owner = await eventInstance.methods.owner().call();
+      if (owner === user.walletAddress) {
+        mostRecent = eventInstance;
+      }
+    })
+    .then(async () => {
+      if (mostRecent) {
+        let N = qty;
+        let nonceInterval = Array.apply(null, {length: N}).map(Number.call, Number);
 
-          // let batch = new web3.BatchRequest();
-          console.log(Array(qty).fill(1), qty);
-          pasync.eachSeries(Array(qty).fill(1), () => {
-            let txParams = {
-              nonce: `0x${nonceBase10.toString(16)}`,
-              chainId,
-              to: eventInstance.options.address,
-              value: 0,
-              gas,
-              gasPrice,
-              data: eventInstance.methods.printTicket(price).encodeABI()
-            };
+        return pasync.each(nonceInterval, async (i) => {
+          let encodedAbi = mostRecent.methods.printTicket(parseInt(price)).encodeABI();
 
-            console.log('TX: ', txParams);
+          let txParams = {
+            nonce: nonce + i,
+            chainId,
+            to: mostRecent.options.address,
+            value: 0,
+            gas,
+            gasPrice,
+            data: encodedAbi
+          };
 
-            nonceBase10++;
+          const tx = new EthereumTx(txParams);
+          tx.sign(new Buffer(privateKey));
 
-            const tx = new EthereumTx(txParams);
-            tx.sign(new Buffer(privateKey));
+          const serializedTx = tx.serialize();
 
-            const serializedTx = tx.serialize();
-
-            return web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`)
-              .then((data) => {
-                console.log('returned ticket', data);
-              });
-          });
-
+          let x = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+          console.log('made ticket', x);
         });
+      }
+    });
 
-        return web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`)
-          .then((data) => {
-            // event listen
-            console.log('EVENT CREATED');
 
-          });
-      });
+    // console.log('data', data);
 
+    // eth.getTransaction("0xfcbf47472733c0922552aa617fc7cb1226c346edc022fbe09ea521dfb75f7699")
+
+    // console.log('CREATING EVent!!!');
+    // return new Promise((resolve, reject) => {
+    //   web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`)
+    //     .on('transactionHash', async function(hash) {
+    //       console.log('transactionHash', hash);
+    //       let x = await web3.eth.getTransaction(hash);
+    //       console.log('transaction:', x);
+    //     })
+    //     .on('receipt', function(receipt) {
+    //       console.log('receipt', receipt);
+    //     })
+    //     .on('confirmation', function(confirmationNumber, receipt) {
+    //       console.log('confirmation', confirmationNumber, receipt);
+    //     })
+    //     .on('error', (err) => {
+    //       console.log('ERROR: ', err);
+    //       reject(err);
+    //     }); // If a out of gas error, the second parameter is the receipt.;
+    // });
   };
 };
 
