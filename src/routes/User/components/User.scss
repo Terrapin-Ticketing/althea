@@ -30,6 +30,23 @@
   }
 }
 
+.ticket-action-modal {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+  .ticket-address {
+      margin: 10px 0;
+  }
+
+  input {
+    flex: 1;
+    background: #ececec;
+    margin: 10px 0;
+    text-align: center;
+  }
+}
+
 .ReactModalPortal > * {
     // When the modal is closed, overlay div has no css class
     // This selector should be overridden by the `&--after-open` class below
@@ -74,6 +91,7 @@
 
   th {
     display: flex;
+    padding: 0 15px;
     td {
       flex: 1;
     }
@@ -83,9 +101,46 @@
     display: flex;
     flex: 1;
     flex-direction: row;
-    padding: 15px;
+    padding: 15px 0;
     td {
       flex: 1;
+    }
+  }
+
+  .odd {
+    background: #ececec;
+  }
+}
+
+.tickets-table {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  th {
+    display: flex;
+    padding: 0 15px;
+    td {
+      flex: 1;
+    }
+  }
+
+  .ticket-row {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    padding: 15px 0;
+    td {
+      display: flex;
+      flex: 2;
+      justify-content: center;
+      >.qty {
+        flex: 1;
+      }
+      button {
+        margin: 0 10px;
+        width: 100px;
+      }
     }
   }
 

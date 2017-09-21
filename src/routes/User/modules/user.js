@@ -21,12 +21,11 @@ export const getUserInfo = () => {
 };
 
 export const getUserTickets = () => {
-  const tickets = [{ id: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", name: "The String Cheese Incident", qty: 1, price: "100" },
-  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A91", name: "Phish", qty: 1, price: "100" },
-  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A92", name: "Widespread Panic", qty: 1, price: "100" },
-  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A93", name: "Greensky Bluegrass", qty: 1, price: "100" }];
+  const tickets = [{ id: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", eventId: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", name: "The String Cheese Incident", price: "100" },
+  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A91", eventId: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", name: "Phish", price: "100" },
+  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A92", eventId: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", name: "Widespread Panic", price: "100" },
+  { id: "0x712982674F171933e0bcad11D6eEc6f3eE782A93", eventId: "0x712982674F171933e0bcad11D6eEc6f3eE782A90", name: "Greensky Bluegrass", price: "100" }];
   return (dispatch, getState) => {
-    console.log('tickets: ', tickets);
     dispatch({
       type: SET_USER_TICKETS,
       payload: tickets
@@ -83,7 +82,6 @@ const ACTION_HANDLERS = {
     }
   },
   [SET_USER_EVENTS]  : (state, action) => {
-    console.log('hits SET_USER_EVENTS: ', action.payload);
     return {
       ...state,
       events: action.payload
