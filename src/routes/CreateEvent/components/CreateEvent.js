@@ -14,7 +14,7 @@ class CreateEvent extends Component {
 
   onSubmit() {
     let { name, qty, price, password } = this.state;
-    this.props.createEvent(name, qty, price, password)
+    this.props.createEvent(name, parseInt(qty), price, password)
       .then(() => {
 
       })

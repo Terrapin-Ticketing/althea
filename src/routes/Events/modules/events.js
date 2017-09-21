@@ -88,7 +88,7 @@ export function getEvents() {
         });
       });
   };
-};
+}
 
 export const clickBuyTicket = () => {
   return (dispatch, getState) => {
