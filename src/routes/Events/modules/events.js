@@ -19,16 +19,16 @@ export const SET_EVENTS = 'SET_EVENTS';
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
-export async function getEvents() {
-  return async (dispatch, getState) => {
+export function getEvents() {
+  return (dispatch, getState) => {
     // TODO: Update this
     const { abis, terrapinAddress } = getState().terrapin;
     console.log('abis: ', abis);
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
 
-    let x = await web3.eth.getBalance('0xb00bbcff5ccf72ead0f140dfafc64cf683364e26');
-
-    console.log('x: ', x);
+    // let x = await web3.eth.getBalance('0xb00bbcff5ccf72ead0f140dfafc64cf683364e26');
+    //
+    // console.log('async balance: ', x);
 
     return Promise.resolve()
       .then(() => terrapinInstance.methods.getEvents().call())
@@ -79,7 +79,7 @@ export async function getEvents() {
         });
       });
   };
-};
+}
 
 export const clickBuyTicket = () => {
   return (dispatch, getState) => {
