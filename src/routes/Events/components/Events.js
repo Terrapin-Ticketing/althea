@@ -30,7 +30,7 @@ class Events extends Component {
     this.setState({isLoading: true});
     this.props.buyTicket(event, password)
       .then(() => {
-        this.setState({ isLoading: false })
+        this.setState({ isLoading: false, buyModalOpen: false });
       });
   }
 

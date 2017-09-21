@@ -17,7 +17,7 @@ class CreateEvent extends Component {
     let { name, qty, price, password } = this.state;
     this.props.createEvent(name, parseInt(qty), web3.utils.toWei(price, 'ether'), password)
       .then(() => {
-
+        this.props.router.push('/events');
       })
       .catch((err) => {
         console.log(err);
