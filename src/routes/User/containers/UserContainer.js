@@ -1,14 +1,8 @@
 import { connect } from 'react-redux'
-import { getUserTickets, getUserEvents, getUserBalance, transferTicket } from '../modules/user'
 
-import User from '../components/User'
+import User from '../components/User';
 
-const mapDispatchToProps = {
-  getUserTickets,
-  getUserEvents,
-  getUserBalance,
-  transferTicket
-}
+const mapDispatchToProps = require('../modules/user');
 
 const mapStateToProps = (state) => {
   return {
@@ -16,7 +10,7 @@ const mapStateToProps = (state) => {
     balance: state.auth.balance,
     events: state.user.events,
     tickets: state.user.tickets
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(User)
+export default connect(mapStateToProps, mapDispatchToProps)(User);

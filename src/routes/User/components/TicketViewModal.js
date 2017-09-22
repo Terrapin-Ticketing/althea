@@ -1,9 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import ReactModal from 'react-modal';
-import web3 from '../../../components/Web3.js'
-import './User.scss'
-import modalStyles from '../../../layouts/modal-styles'
-
+import './User.scss';
+import modalStyles from '../../../layouts/modal-styles';
 
 class ViewTicketModal extends Component {
   constructor(props) {
@@ -13,10 +11,9 @@ class ViewTicketModal extends Component {
     };
   }
 
-  // renderQR() {
-  //   let { password } = this.state;
-  //   this.props.signMessage(`${ticketAddress}${eventAddress}`, password);
-  // }
+  createQrCode(eventAddress, ticketAddress, password) {
+    this.props.createQrCode(eventAddress, ticketAddress, password);
+  }
 
   render() {
     const { ticket, isOpen, closeModal, qrCode } = this.props;
@@ -36,9 +33,12 @@ class ViewTicketModal extends Component {
               <div className="ticket-action-modal">
                 <h2>View Ticket:</h2>
                 <span className="ticket-address">{(ticket) ? ticket.id : null}</span>
-                <input type="text" placeholder="password" onClick={(e) => {
+                <input type="text" placeholder="password" onChange={(e) => {
                   this.setState({ password: e.target.value });
                 }}/>
+                <button onClick={() => {
+                  this.createQrCode(ticket.eventId, ticket.id, this.state.password);
+                }}>View Ticket</button>
               </div>
             )
           }

@@ -53,11 +53,11 @@ class User extends Component {
                   <button onClick={() => this.openTicketTransferModal(ticket)}>Transfer</button>
                 </td>
               </tr>
-          )
+          );
         })
-      )
+      );
     } else {
-      null
+      null;
     }
   }
 
@@ -71,11 +71,11 @@ class User extends Component {
                 <td className="qty">{event.price}</td>
                 <td>{event.qty}</td>
               </tr>
-          )
+          );
         })
-      )
+      );
     } else {
-      null
+      return null;
     }
   }
 
@@ -135,6 +135,7 @@ class User extends Component {
           ticket={this.state.selectedTicket}
           closeModal={() => this.setState({viewTicketModalOpen: false, selectedTicket: null })}
           isOpen={this.state.viewTicketModalOpen}
+          createQrCode={this.props.createQrCode}
           />
 
         <TicketTransferModal
