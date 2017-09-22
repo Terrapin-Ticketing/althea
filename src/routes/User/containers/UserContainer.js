@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { getUserTickets, getUserEvents, getUserBalance } from '../modules/user'
+import { getUserTickets, getUserEvents, getUserBalance, transferTicket } from '../modules/user'
 
 import User from '../components/User'
 
@@ -7,6 +7,7 @@ const mapDispatchToProps = {
   getUserTickets,
   getUserEvents,
   getUserBalance,
+  transferTicket
 }
 
 const mapStateToProps = (state) => {

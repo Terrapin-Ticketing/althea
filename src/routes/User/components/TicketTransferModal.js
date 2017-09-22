@@ -11,10 +11,24 @@ class TicketTransferModal extends Component {
     this.state = {
 
     };
+    this.transferTicket = this.transferTicket.bind(this);
+  }
+
+  transferTicket(ticketAddress, recipientAddress, password) {
+    console.log(ticketAddress, recipientAddress, password);
+    this.props.transferTicket(ticketAddress, recipientAddress, password)
+      .then((data) => {
+        console.log('ticket transfered: ', data);
+      })
+      .catch((err) => {
+        console.log('error transfering ticket: ', err);
+      })
+
   }
 
   render() {
     const { ticket, isOpen, closeModal } = this.props;
+    console.log('this.props: ', this.props);
     return (
       <ReactModal
         isOpen={isOpen}
@@ -25,9 +39,9 @@ class TicketTransferModal extends Component {
           <div className="ticket-action-modal">
             <h3>Transfer Ticket:</h3>
             <span className="ticket-address">{(ticket) ? ticket.id : null}</span>
-
-            <input type="text" placeholder="paste ticket recipient address here" />
-            <button>Transfer Ticket</button>
+            <input type="text" onChange={(e) => this.setState({recipient: e.target.value})} placeholder="paste ticket recipient address here" />
+            <input type="text" onChange={(e) => this.setState({password: e.target.value})} placeholder="confirm your password here" />
+            <button onClick={() => this.transferTicket(ticket.address, this.state.recipient, this.state.password )}>Transfer Ticket</button>
           </div>
         </ReactModal>
     )

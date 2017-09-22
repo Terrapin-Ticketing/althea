@@ -90,26 +90,8 @@ export function getEvents() {
   };
 }
 
-export const clickBuyTicket = () => {
-  return (dispatch, getState) => {
-    // TODO: Update this
-    web3.getsomething
-      .then((res) => {
-        dispatch({
-          type: CLICK_BUY_TICKET,
-          payload: res.user
-        });
-      })
-      .catch((err) => {
-
-      });
-  };
-};
-
 export const buyTicket = (event, password) => {
   return (dispatch, getState) => {
-    console.log('event: ', event);
-    console.log('password: ', password);
     console.log('getState().auth.user.encryptedPrivateKey: ', getState().auth.user.encryptedPrivateKey);
     let privateKey = decryptPrivateKey(password, getState().auth.user.encryptedPrivateKey).substring(2);
     privateKey = Buffer.from(privateKey, 'hex');
@@ -148,8 +130,6 @@ export const buyTicket = (event, password) => {
                   .then(() => {
                     return ticketInstance.methods.price().call()
                       .then((price) => {
-                        console.log('price: ', typeof price);
-                        console.log('static: ', typeof 1000000000000000000);
                         let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
                         let txParams = {
                           nonce: null,
@@ -204,7 +184,6 @@ export const buyTicket = (event, password) => {
 
 export const actions = {
   getEvents,
-  clickBuyTicket,
   buyTicket
 };
 

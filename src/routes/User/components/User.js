@@ -134,12 +134,14 @@ class User extends Component {
         <TicketViewModal
           ticket={this.state.selectedTicket}
           closeModal={() => this.setState({viewTicketModalOpen: false, selectedTicket: null })}
-          isOpen={this.state.viewTicketModalOpen} />
+          isOpen={this.state.viewTicketModalOpen}
+          />
 
         <TicketTransferModal
           ticket={this.state.selectedTicket}
           closeModal={() => this.setState({transferTicketModalOpen: false, selectedTicket: null })}
-          isOpen={this.state.transferTicketModalOpen} />
+          isOpen={this.state.transferTicketModalOpen}
+          transferTicket={this.props.transferTicket} />
 
         <ReactModal
           isOpen={this.state.depositModalOpen}
