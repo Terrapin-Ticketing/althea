@@ -107,11 +107,11 @@ export const transferTicket = (ticketAddress, recipientAddress, password) => {
     let chainId = await web3.eth.net.getId();
     let nonce = await web3.eth.getTransactionCount(getState().auth.user.walletAddress);
 
-    let encodedAbi = ticketInstance.methods.transferTicket(`0x${recipientAddress}`).encodedAbi();
+    let encodedAbi = ticketInstance.methods.transferTicket(recipientAddress).encodeABI();
     let txParams = {
       nonce: nonce,
       chainId: chainId,
-      to: `0x${recipientAddress}`,
+      to: ticketAddress, // with 0x
       gas: `0x${(4700000).toString(16)}`,
       gasPrice: `0x${(4000000000).toString(16)}`,
       data: encodedAbi
@@ -121,7 +121,7 @@ export const transferTicket = (ticketAddress, recipientAddress, password) => {
     tx.sign(new Buffer(privateKey));
     const serializedTx = tx.serialize();
     let transaction = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
-    console.log('transfered: ', transaction);
+    console.log('transfered ticket: ', transaction);
   };
 }
 
