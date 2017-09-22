@@ -51,13 +51,12 @@ export const getUserTickets = () => {
             name: web3.utils.toAscii(await eventInstance.methods.name().call()),
             price: await ticketInstance.methods.price().call()
           });
+
+          dispatch({
+            type: SET_USER_TICKETS,
+            payload: tickets
+          });
         }
-      });
-    })
-    .then(() => {
-      dispatch({
-        type: SET_USER_TICKETS,
-        payload: tickets
       });
     });
   };
@@ -88,15 +87,13 @@ export const getUserEvents = () => {
           qty: ticketAddreses.length,
           price: await (ticketInstance.methods.price().call())
         });
-      }
-    })
-    .then(() => {
-      dispatch({
-        type: SET_USER_EVENTS,
-        payload: events
-      });
-    });
 
+        dispatch({
+          type: SET_USER_EVENTS,
+          payload: events
+        });
+      }
+    });
   };
 };
 

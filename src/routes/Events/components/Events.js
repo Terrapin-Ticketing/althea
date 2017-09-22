@@ -19,35 +19,32 @@ class Events extends Component {
   }
 
   componentDidMount() {
-    // this.props.getContractInfo()
-    //   .then((data) => {
-    //     this.props.getEvents();
-    //   });
     this.props.getEvents();
   }
 
-  buyTicket(event, password) {
+  async buyTicket(event, password) {
     this.setState({isLoading: true});
-    this.props.buyTicket(event, password)
-      .then(() => {
-        this.setState({ isLoading: false, buyModalOpen: false });
-      });
+    await this.props.buyTicket(event, password);
+    await this.props.getEvents();
+    this.setState({ isLoading: false, buyModalOpen: false });
   }
 
   renderListItem(item, index) {
     return (
-      <tr key={item.id} className={classNames('eventRow', {'odd': (index%2 == 0)})}>
+      <tr key={item.id} className={classNames('eventRow', {'odd': (index % 2 === 0)})}>
         <td style={{flex: 2}}>{item.name}</td>
         <td>{web3.utils.fromWei(item.price, 'ether')} ETH</td>
         <td>{item.qty} Left</td>
         <td><button onClick={() => {
-          this.setState({'buyModalOpen': true, selectedEvent: item })
+          this.setState({'buyModalOpen': true, selectedEvent: item });
         }}>Buy Ticket</button></td>
       </tr>
-    )
+    );
   }
 
   render() {
+    let { selectedEvent, confirmPassword, isLoading } = this.state;
+
     return (
       <div className='events-container' >
         <table>
@@ -76,22 +73,24 @@ class Events extends Component {
           <h2 className="checkout-header">Buy a Ticket</h2>
           <div className="event-details">
             <span className="event-header">Event Details</span>
-            <span className='event-name'><b>Name:</b> {this.state.selectedEvent && this.state.selectedEvent.name}</span>
-            <span className='event-price'><b>Price:</b> {this.state.selectedEvent && web3.utils.fromWei(this.state.selectedEvent.price, 'ether')} ETH</span>
+            <span className='event-name'><b>Name:</b> {selectedEvent && selectedEvent.name}</span>
+            <span className='event-price'><b>Price:</b> {selectedEvent && web3.utils.fromWei(selectedEvent.price, 'ether')} ETH</span>
             <input
               style={{textAlign: 'center', }}
-              value={this.state.confirmPassword}
+              value={confirmPassword}
               placeholder="enter password to confirm purchase"
               onChange={(e) => {
-                console.log('this.state.confirmPassword: ', this.state.confirmPassword);
+                console.log('confirmPassword: ', confirmPassword);
                 this.setState({confirmPassword: e.target.value });
               }}/>
             <button
-              className={classNames('purchase-ticket', {isLoading: this.state.isLoading, notLoading: !this.state.isLoading })}
+              className={classNames('purchase-ticket', {isLoading: isLoading, notLoading: !isLoading })}
               onClick={() => {
-                console.log('this.state.confirmPassword: ', this.state.confirmPassword);
-                this.buyTicket(this.state.selectedEvent, this.state.confirmPassword)}}>{(this.state.isLoading) ? <img src={require('../../../layouts/assets/img/spinner.svg')} />
-              : 'Confirm Purchase'}</button>
+                console.log('this.state.confirmPassword: ', confirmPassword);
+                this.buyTicket(selectedEvent, confirmPassword);
+              }}>
+              { (isLoading) ? <img src={require('../../../layouts/assets/img/spinner.svg')} /> : 'Confirm Purchase'}
+            </button>
           </div>
         </ReactModal>
       </div>

@@ -4,6 +4,8 @@ import EthereumTx from 'ethereumjs-tx';
 import crypto from 'crypto';
 import web3 from '../../../components/Web3.js';
 
+const gwei = 1000000000;
+
 let getContractInstance = (abi, address) => {
   const instance = new web3.eth.Contract(abi, address);
   return instance;
@@ -32,179 +34,101 @@ export const SET_EVENTS = 'SET_EVENTS';
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
 export function getEvents() {
-  return (dispatch, getState) => {
-    // TODO: Update this
+  return async (dispatch, getState) => {
     const { abis, terrapinAddress } = getState().terrapin;
-    console.log('abis: ', abis);
+
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
 
-    return Promise.resolve()
-      .then(() => terrapinInstance.methods.getEvents().call())
-      .then((eventAddrs) => {
-        console.log('eventAddrs: ', eventAddrs);
-        let eventInstances = [];
+    let eventAddresses = await terrapinInstance.methods.getEvents().call();
+    let events = [];
+    await pasync.eachSeries(eventAddresses, async (eventAddress) => {
+      let eventInstance = getContractInstance(abis.event.abi, eventAddress);
+      let eventOwner = await eventInstance.methods.owner().call();
 
-        return pasync.eachSeries(eventAddrs, (eventAddr) => {
-          let eventInstance = getContractInstance(abis.event.abi, eventAddr);
-          // tickets, name
-          let eventObj = { address: eventAddr };
-          return Promise.resolve()
-            .then(() => eventInstance.methods.owner().call())
-            .then((owner) => {
-              eventObj.owner = owner;
-            })
-            .then(() => eventInstance.methods.name().call())
-            .then((name) => {
-              eventObj.name = web3.utils.toAscii(name);
-            })
-            .then(() => eventInstance.methods.getTickets().call())
-            .then((ticketAddrs) => {
-              let tickets = [];
-              return pasync.eachSeries(ticketAddrs, (ticketAddr) => {
-                let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddr);
-                let ticketObj = {};
-                return ticketInstance.methods.price().call()
-                  .then((price) => ticketObj.price = price)
-                  .then(() => ticketInstance.methods.owner().call())
-                  .then((owner) => ticketObj.owner = owner)
-                  .then(() => tickets.push(ticketObj));
-              })
-                // set this events tickets
-                .then(() => {
-                  eventObj.tickets = tickets;
-                });
-            })
-            .then(() => eventInstances.push(eventObj));
-        })
-        .then(() => {
-          console.log('setEvents');
-          dispatch({
-            type: SET_EVENTS,
-            payload: eventInstances
-          });
-        })
-        .then(() => {
-          console.log('complete');
-        });
+      // this take FOREVERRR to return. THIS is where our caching service will make a big difference
+      let ticketAddresses = await eventInstance.methods.getTickets().call();
+
+      let remaining = 0;
+      await pasync.each(ticketAddresses, async (ticketAddress) => {
+        let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
+        let ticketOwner = await ticketInstance.methods.owner().call();
+        if (eventOwner === ticketOwner) {
+          remaining++;
+        }
       });
+
+      events.push({
+        id: eventInstance.options.address,
+        name: web3.utils.toAscii(await eventInstance.methods.name().call()),
+        qty: remaining,
+        price: await (getContractInstance(abis.ticket.abi, ticketAddresses[0]).methods.price().call())
+      });
+
+      dispatch({
+        type: SET_EVENTS,
+        payload: events
+      });
+    });
   };
 }
 
-export const clickBuyTicket = () => {
-  return (dispatch, getState) => {
-    // TODO: Update this
-    web3.getsomething
-      .then((res) => {
-        dispatch({
-          type: CLICK_BUY_TICKET,
-          payload: res.user
-        });
-      })
-      .catch((err) => {
-
-      });
-  };
-};
-
 export const buyTicket = (event, password) => {
-  return (dispatch, getState) => {
-    console.log('event: ', event);
-    console.log('password: ', password);
-    console.log('getState().auth.user.encryptedPrivateKey: ', getState().auth.user.encryptedPrivateKey);
-    let privateKey = decryptPrivateKey(password, getState().auth.user.encryptedPrivateKey).substring(2);
+  return async (dispatch, getState) => {
+    let { walletAddress, encryptedPrivateKey } = getState().auth.user;
+    let privateKey = decryptPrivateKey(password, encryptedPrivateKey).substring(2);
     privateKey = Buffer.from(privateKey, 'hex');
-    const walletAddress = getState().auth.user.walletAddress;
 
-    const { abis, terrapinAddress } = getState().terrapin;
-    const owner = event.owner;
+    let { abis } = getState().terrapin;
 
-    const eventInstance = getContractInstance(abis.event.abi, event.id);
+    let eventInstance = getContractInstance(abis.event.abi, event.id);
+    let eventOwner = await eventInstance.methods.owner().call();
 
-    let eventOwner;
-    return web3.eth.getBalance(walletAddress)
-      .then((balance) => {
-        console.log('Balance BEFORE buy: ', balance);
-      })
-      .then(() => eventInstance.methods.owner().call())
-      .then((owner) => {
-        console.log('eventOwner', owner);
-        eventOwner = owner;
-      })
-      .then(() => eventInstance.methods.getTickets().call())
-      .then((ticketAddrs) => {
-        let i;
-        let isAvailable = false;
-        // grab first available
-        let hasBought = false;
-        return pasync.eachSeries(ticketAddrs, (ticketAddr) => {
-          console.log('ticketAddr', ticketAddr);
-          let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddr);
-          return ticketInstance.methods.owner().call()
-            .then((owner) => {
-              if (owner === eventOwner && !hasBought) {
-                hasBought = true;
-                // web3.eth.accounts.privateKeyToAccount(privateKey);
-                return Promise.resolve()
-                  .then(() => {
-                    return ticketInstance.methods.price().call()
-                      .then((price) => {
-                        console.log('price: ', typeof price);
-                        console.log('static: ', typeof 1000000000000000000);
-                        let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
-                        let txParams = {
-                          nonce: null,
-                          chainId: null,
-                          to: ticketInstance.options.address,
-                          value: parseInt(price),
-                          gas: `0x${(4700000).toString(16)}`,
-                          gasPrice: `0x${(4000000000).toString(16)}`,
-                          data: encodedAbi
-                        };
+    let ticketAddresses = await eventInstance.methods.getTickets().call();
+    let nonce = await web3.eth.getTransactionCount(walletAddress);
+    let chainId = await web3.eth.net.getId();
+    let gas = `0x${(4700000).toString(16)}`;
+    let gasPrice = `0x${(gwei * 20).toString(16)}`;
 
-                        return web3.eth.getTransactionCount(walletAddress)
-                          .then((count) => txParams.nonce = `0x${count.toString(16)}`)
-                          .then(() => web3.eth.net.getId())
-                          .then((id) => txParams.chainId = id)
-                          // .then(() => web3.eth.gasPrice())
-                          // .then((price) => txParams.gasPrice = price)
-                          .then(() => {
-                            const tx = new EthereumTx(txParams);
-                            tx.sign(new Buffer(privateKey));
-                            const serializedTx = tx.serialize();
+    let isBreak = false;
+    await pasync.eachSeries(ticketAddresses, async (ticketAddress) => {
+      if (isBreak) return;
+      let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
+      let ticketOwner = await ticketInstance.methods.owner().call();
 
-                            console.log('serializedTx: ', serializedTx);
+      if (ticketOwner === eventOwner) {
+        console.log('ticketOwner: ', ticketOwner);
+        let ticketPrice = parseInt(await ticketInstance.methods.price().call());
 
-                            return web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`)
-                              .then((data) => {
-                                console.log('data: ', data);
-                              })
-                              .catch((err) => {
-                                console.log('oh shit', err);
-                              });
-                          });
+        let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
+        let txParams = {
+          nonce,
+          chainId,
+          to: ticketInstance.options.address,
+          value: ticketPrice,
+          gas,
+          gasPrice,
+          data: encodedAbi
+        };
 
-                      })
-                      .then(() => web3.eth.getBalance(walletAddress))
-                      .then((balance) => {
-                        console.log('Balance AFTER buy: ', balance);
-                      })
-                      .catch((err) => {
-                        console.log('err:', err);
-                      });
-                  });
-              }
-            });
-        })
-        .then(() => {
-          // console.log('buyableTicketAddr', buyableTicketInstance);
-        });
-      });
+        console.log('txParams', txParams);
+
+        let tx = new EthereumTx(txParams);
+        tx.sign(new Buffer(privateKey));
+        let serializedTx = tx.serialize();
+
+        await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+
+        let newOwner = await ticketInstance.methods.owner().call();
+        console.log('newOwner: ', newOwner);
+
+        isBreak = true;
+      }
+    });
   };
 };
 
 export const actions = {
   getEvents,
-  clickBuyTicket,
   buyTicket
 };
 
@@ -219,18 +143,9 @@ const ACTION_HANDLERS = {
     };
   },
   [SET_EVENTS]: (state, action) => {
-    let events = action.payload.map((event) =>{
-      let qty = event.tickets.reduce((sum, ticket) => { return (ticket.owner === event.owner) ? sum + 1 : 0; }, 0);
-      return {
-        id: event.address,
-        name: event.name,
-        qty: qty,
-        price: event.tickets[0] ? event.tickets[0].price : 'N/A'
-      };
-    });
     return {
       ...state,
-      events: events
+      events: action.payload
     };
   }
 };
