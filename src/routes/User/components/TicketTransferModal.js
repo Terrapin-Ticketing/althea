@@ -15,7 +15,6 @@ class TicketTransferModal extends Component {
   }
 
   transferTicket(ticketAddress, recipientAddress, password) {
-    console.log(ticketAddress, recipientAddress, password);
     this.props.transferTicket(ticketAddress, recipientAddress, password)
       .then((data) => {
         console.log('ticket transfered: ', data);
@@ -28,7 +27,6 @@ class TicketTransferModal extends Component {
 
   render() {
     const { ticket, isOpen, closeModal } = this.props;
-    console.log('transfer this.props: ', this.props);
     return (
       <ReactModal
         isOpen={isOpen}

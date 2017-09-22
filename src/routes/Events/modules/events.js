@@ -96,7 +96,6 @@ export const buyTicket = (event, password) => {
       let ticketOwner = await ticketInstance.methods.owner().call();
 
       if (ticketOwner === eventOwner) {
-        console.log('ticketOwner: ', ticketOwner);
         let ticketPrice = parseInt(await ticketInstance.methods.price().call());
 
         let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
@@ -110,8 +109,6 @@ export const buyTicket = (event, password) => {
           data: encodedAbi
         };
 
-        console.log('txParams', txParams);
-
         let tx = new EthereumTx(txParams);
         tx.sign(new Buffer(privateKey));
         let serializedTx = tx.serialize();
@@ -119,8 +116,6 @@ export const buyTicket = (event, password) => {
         await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
 
         let newOwner = await ticketInstance.methods.owner().call();
-        console.log('newOwner: ', newOwner);
-
         isBreak = true;
       }
     });
