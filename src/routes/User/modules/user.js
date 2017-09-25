@@ -136,6 +136,45 @@ export const getUserBalance = () => {
   };
 };
 
+export const redeemTicket = (ticketAddress, password) => {
+  console.log('ticketAddress: ', ticketAddress);
+  console.log('password: ', password);
+  return async (dispatch, getState) => {
+    let privateKey = decryptPrivateKey(password, getState().auth.user.encryptedPrivateKey).substring(2);
+    privateKey = Buffer.from(privateKey, 'hex');
+
+    const { abis } = getState().terrapin;
+    const ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
+
+    let chainId = await web3.eth.net.getId();
+    let nonce = await web3.eth.getTransactionCount(getState().auth.user.walletAddress);
+
+    let encodedAbi = ticketInstance.methods.redeemTicket().encodeABI();
+    let txParams = {
+      nonce: nonce,
+      chainId: chainId,
+      to: ticketAddress, // with 0x
+      gas: `0x${(4700000).toString(16)}`,
+      gasPrice: `0x${(4000000000).toString(16)}`,
+      data: encodedAbi
+    };
+
+    const tx = new EthereumTx(txParams);
+    tx.sign(new Buffer(privateKey));
+    const serializedTx = tx.serialize();
+    let transaction = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+    console.log('redeemed ticket: ', transaction);
+    return transaction;
+  };
+
+
+
+
+}
+
+
+
+
 export const createQrCode = (eventAddress, ticketAddress, password) => {
   return (dispatch, getState) => {
     // let { encryptedPrivateKey } = getState().auth.user;

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import ReactModal from 'react-modal';
 import TicketViewModal from './TicketViewModal';
+import TicketRedeemModal from './TicketRedeemModal';
 import TicketTransferModal from './TicketTransferModal';
 import web3 from '../../../components/Web3.js'
 import './User.scss'
@@ -20,7 +21,9 @@ class User extends Component {
       balance: null,
       selectedTicket: null,
       transferTicketModalOpen: false,
-      viewTicketModalOpen: false
+      viewTicketModalOpen: false,
+      redeemTicketModalOpen: false,
+      selectedEvent: null
     };
     this.openTicketViewModal = this.openTicketViewModal.bind(this);
     this.openTicketTransferModal = this.openTicketTransferModal.bind(this);
@@ -38,6 +41,10 @@ class User extends Component {
 
   openTicketTransferModal(ticket) {
     this.setState({transferTicketModalOpen: true, selectedTicket: ticket});
+  }
+
+  openTicketRedeemModal(event) {
+    this.setState({redeemTicketModalOpen: true, selectedEvent: event});
   }
 
   renderTickets() {
@@ -70,6 +77,8 @@ class User extends Component {
                 <td>{event.name}</td>
                 <td className="qty">{event.price}</td>
                 <td>{event.qty}</td>
+                <td className="actions">
+                  <button onClick={() => this.openTicketRedeemModal(event)}>Redeem Tickets</button></td>
               </tr>
           );
         })
@@ -143,6 +152,12 @@ class User extends Component {
           closeModal={() => this.setState({transferTicketModalOpen: false, selectedTicket: null })}
           isOpen={this.state.transferTicketModalOpen}
           transferTicket={this.props.transferTicket} />
+
+        <TicketRedeemModal
+          event={this.state.selectedEvent}
+          closeModal={() => this.setState({redeemTicketModalOpen: false, selectedEvent: null })}
+          isOpen={this.state.redeemTicketModalOpen}
+          redeemTicket={this.props.redeemTicket} />
 
         <ReactModal
           isOpen={this.state.depositModalOpen}
