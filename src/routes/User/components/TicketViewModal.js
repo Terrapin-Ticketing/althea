@@ -5,6 +5,8 @@ import crypto from 'crypto';
 import web3 from '../../../components/Web3.js';
 import QRCode from 'qrcode';
 
+// 2034
+
 import './User.scss';
 import modalStyles from '../../../layouts/modal-styles';
 
@@ -44,7 +46,7 @@ class ViewTicketModal extends Component {
 
     await new Promise((resolve, reject) => {
       let canvCtx = this.qrCanvas;
-      QRCode.toCanvas(canvCtx, qrCodeHex, function(error) {
+      QRCode.toCanvas(canvCtx, qrCodeHex, (error) => {
         if (error) return reject(error);
         resolve();
       });

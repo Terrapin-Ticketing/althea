@@ -169,7 +169,6 @@ export const createQrCode = (eventAddress, ticketAddress, password) => {
     // let walletAddress = ethUtils.publicToAddress(pubkey).toString('hex');
     // console.log('walletAddress: ', walletAddress);
 
-
     // var check1 = pubkey.toString('hex') ==
     //     ethUtils.privateToPublic(privkey).toString('hex');
     // var check2 = ethUtils.publicToAddress(pubkey).toString('hex') ==

@@ -20,7 +20,7 @@ class TicketTransferModal extends Component {
       })
       .catch((err) => {
         console.log('error transfering ticket: ', err);
-      })
+      });
 
   }
 
