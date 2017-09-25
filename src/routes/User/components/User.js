@@ -135,7 +135,7 @@ class User extends Component {
           ticket={this.state.selectedTicket}
           closeModal={() => this.setState({viewTicketModalOpen: false, selectedTicket: null })}
           isOpen={this.state.viewTicketModalOpen}
-          createQrCode={this.props.createQrCode}
+          user={this.props.user}
           />
 
         <TicketTransferModal

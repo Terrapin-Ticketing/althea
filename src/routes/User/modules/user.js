@@ -1,4 +1,5 @@
 import EthereumTx from 'ethereumjs-tx';
+import ethUtils from 'ethereumjs-util';
 import crypto from 'crypto';
 import web3 from '../../../components/Web3.js';
 import pasync from 'pasync';
@@ -137,11 +138,46 @@ export const getUserBalance = () => {
 
 export const createQrCode = (eventAddress, ticketAddress, password) => {
   return (dispatch, getState) => {
-    let { encryptedPrivateKey } = getState().auth.user;
-    let privateKey = decryptPrivateKey(password, encryptedPrivateKey).substring(2);
-    privateKey = Buffer.from(privateKey, 'hex');
+    // let { encryptedPrivateKey } = getState().auth.user;
+    // let privateKey = decryptPrivateKey(password, encryptedPrivateKey).substring(2);
+    // let privateKeyx = Buffer.from(privateKey, 'hex');
+    //
+    // let message = `${eventAddress}${ticketAddress}`; // message to sign
+    //
+    // // ecsign requires a sha3 string
+    // let messageHash = web3.utils.sha3(message);
+    // let messageHashx = Buffer.from(messageHash.substring(2), 'hex');
+    // let signedMessage = ethUtils.ecsign(messageHashx, privateKeyx);
+    // let signedHash = ethUtils.toRpcSig(signedMessage.v, signedMessage.r, signedMessage.s).toString('hex');
+    //
+    // // QR CODE:
+    // // [
+    // //   message, // store raw values
+    // //   messageHashx, // ecrecover
+    // //   signedHash // rpcSig
+    // // ]
+    //
+    // let qrCodeHex = `${message}-0x${messageHashx.toString('hex')}-${signedHash}`;
+    //
+    // console.log('qrCodeHex', qrCodeHex);
+    //
+    // return qrCodeHex;
 
-    console.log(eventAddress, ticketAddress, password);
+    // // recover from ecsign
+    // let sigDecoded = ethUtils.fromRpcSig(signedHash);
+    // let pubkey = ethUtils.ecrecover(messageHashx, sigDecoded.v, sigDecoded.r, sigDecoded.s);
+    // let walletAddress = ethUtils.publicToAddress(pubkey).toString('hex');
+    // console.log('walletAddress: ', walletAddress);
+
+
+    // var check1 = pubkey.toString('hex') ==
+    //     ethUtils.privateToPublic(privkey).toString('hex');
+    // var check2 = ethUtils.publicToAddress(pubkey).toString('hex') ==
+    //     ethUtils.privateToAddress(privkey).toString('hex');
+    //
+    // ethUtils.ecrecover(data, vrs.v, vrs.r, vrs.s);
+    //
+    // console.log(eventAddress, ticketAddress, password);
 
     // `${eventAddress}${ticketAddress}`
     // signed(`${eventAddress}${ticketAddress}`)

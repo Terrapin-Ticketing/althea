@@ -4,7 +4,6 @@ import web3 from '../../../components/Web3.js'
 import './User.scss'
 import modalStyles from '../../../layouts/modal-styles'
 
-
 class TicketTransferModal extends Component {
   constructor(props) {
     super(props);
