@@ -1,15 +1,16 @@
 import React from 'react';
 import { IndexLink, Link } from 'react-router';
-import PropTypes from 'prop-types';
+import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import './Header.scss';
 
-function logout(store) {
-  store.dispatch({
+async function logout(store) {
+  await store.dispatch({
     type: 'LOGOUT',
     payload: null
   });
 
+  browserHistory.push('/signup');
 }
 
 export const Header = (props) => {
@@ -24,7 +25,7 @@ export const Header = (props) => {
         <span className='nav-item'><Link to='/events' className='nav-item' activeClassName='page-layout__nav-item--active'>Events</Link></span>
         <span className='nav-item'><Link to='/createEvent' className='nav-item' activeClassName='page-layout__nav-item--active'>Create Event</Link></span>
         {(user) ? (<span className='nav-item'><Link to='/user' className='nav-item' activeClassName='page-layout__nav-item--active'>My Profile</Link></span>) : null}
-        {(user) ? (<span className='nav-item'><Link onClick={() => logout(store)} className='nav-item' activeClassName='page-layout__nav-item--active'>Logout</Link></span>) : null}
+        {(user) ? (<span className='nav-item'><Link onClick={() => logout(store, props)} className='nav-item' activeClassName='page-layout__nav-item--active'>Logout</Link></span>) : null}
       </div>
     </div>
   );

@@ -4,13 +4,6 @@ import PropTypes from 'prop-types';
 import Header from '../Header';
 import './PageLayout.scss';
 
-function logout(store) {
-  store.dispatch({
-    type: 'LOGOUT',
-    payload: null
-  });
-}
-
 export default (store) => {
   const PageLayout = ({ children }) => (
     <div className='container text-center'>

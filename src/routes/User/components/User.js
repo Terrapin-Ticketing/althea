@@ -89,6 +89,7 @@ class User extends Component {
   }
 
   render() {
+    if (!this.props.user) return null;
     const { email, walletAddress, encryptedPrivateKey } = this.props.user;
     const { balance } = this.props;
     return (

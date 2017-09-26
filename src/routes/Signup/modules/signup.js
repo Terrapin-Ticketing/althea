@@ -39,8 +39,7 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-
-}
+};
 
 // ------------------------------------
 // Reducer
