@@ -55,6 +55,7 @@ class User extends Component {
               <tr className={`ticket-row ${(index%2 === 0) ? 'odd' : null}`} key={ticket.id}>
                 <td>{ticket.name}</td>
                 <td>{ticket.price}</td>
+                <td>{JSON.stringify(ticket.isRedeemed)}</td>
                 <td className="actions">
                   <button onClick={() => this.openTicketViewModal(ticket)}>View</button>
                   <button onClick={() => this.openTicketTransferModal(ticket)}>Transfer</button>
@@ -120,6 +121,7 @@ class User extends Component {
                 <td>Name</td>
                 <td>Price</td>
                 <td>Qty</td>
+                <td>Actions</td>
               </th>
               <tbody>
                 {this.renderEvents()}
@@ -132,6 +134,7 @@ class User extends Component {
               <th>
                 <td>Name</td>
                 <td className="qty">Price</td>
+                <td>isRedeemed</td>
                 <td>Actions</td>
               </th>
               <tbody>

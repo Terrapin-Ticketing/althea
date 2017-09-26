@@ -43,12 +43,14 @@ export const getUserTickets = () => {
       return pasync.eachSeries(ticketAddreses, async (ticketAddress) => {
         let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
         let owner = await ticketInstance.methods.owner().call();
+        let isRedeemed = await ticketInstance.methods.isRedeemed().call();
         if (owner === user.walletAddress) {
           tickets.push({
             id: ticketInstance.options.address,
             eventId: eventInstance.options.address,
             name: web3.utils.toAscii(await eventInstance.methods.name().call()),
             price: await ticketInstance.methods.price().call(),
+            isRedeemed
           });
 
           dispatch({
@@ -136,26 +138,45 @@ export const getUserBalance = () => {
   };
 };
 
-export const redeemTicket = (ticketAddress, password) => {
-  console.log('ticketAddress: ', ticketAddress);
-  console.log('password: ', password);
+export const redeemTicket = (password, data) => {
   return async (dispatch, getState) => {
-    let privateKey = decryptPrivateKey(password, getState().auth.user.encryptedPrivateKey).substring(2);
-    privateKey = Buffer.from(privateKey, 'hex');
+    let { encryptedPrivateKey, walletAddress } = getState().auth.user;
+
+    let sections = data.split('-');
+    let { eventAddress, ticketAddress } = JSON.parse(sections[0]);
+    let messageHash = sections[1];
+    let signedMessage = sections[2];
+
+    // recover from ecsign
+    let sigDecoded = ethUtils.fromRpcSig(signedMessage);
+    let messageHashx = Buffer.from(messageHash.substring(2), 'hex');
+    let pubkey = ethUtils.ecrecover(messageHashx, sigDecoded.v, sigDecoded.r, sigDecoded.s);
+    let recoveredAddress = `0x${ethUtils.publicToAddress(pubkey).toString('hex')}`;
 
     const { abis } = getState().terrapin;
     const ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
 
-    let chainId = await web3.eth.net.getId();
-    let nonce = await web3.eth.getTransactionCount(getState().auth.user.walletAddress);
+    let ticketOwner = await ticketInstance.methods.owner().call();
+    if (ticketOwner.toLowerCase() !== recoveredAddress.toLowerCase()) {
+      throw new Error('This ticket is not owned by signer');
+    }
+
+    let privateKey = decryptPrivateKey(password, encryptedPrivateKey).substring(2);
+    privateKey = Buffer.from(privateKey, 'hex');
+
+    let isRedeemed = await ticketInstance.methods.isRedeemed().call();
+
+    console.log('isRedeemed', isRedeemed);
+    if (isRedeemed) throw new Error('This ticket has already been redeemed');
 
     let encodedAbi = ticketInstance.methods.redeemTicket().encodeABI();
     let txParams = {
-      nonce: nonce,
-      chainId: chainId,
+      nonce: await web3.eth.getTransactionCount(walletAddress),
+      chainId: await web3.eth.net.getId(),
       to: ticketAddress, // with 0x
       gas: `0x${(4700000).toString(16)}`,
       gasPrice: `0x${(4000000000).toString(16)}`,
+      value: 0,
       data: encodedAbi
     };
 
@@ -163,17 +184,9 @@ export const redeemTicket = (ticketAddress, password) => {
     tx.sign(new Buffer(privateKey));
     const serializedTx = tx.serialize();
     let transaction = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
-    console.log('redeemed ticket: ', transaction);
     return transaction;
   };
-
-
-
-
-}
-
-
-
+};
 
 export const createQrCode = (eventAddress, ticketAddress, password) => {
   return (dispatch, getState) => {
