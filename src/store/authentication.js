@@ -7,6 +7,8 @@ import setAuthorizationToken from '../utils/setAuthorizationToken';
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const SET_USER_BALANCE = 'SET_USER_BALANCE';
+export const CACHE_PK = 'CACHE_PK';
+export const UNCACHE_PK = 'UNCACHE_PK';
 
 // ------------------------------------
 // Actions
@@ -26,7 +28,33 @@ const ACTION_HANDLERS = {
       user: action.payload
     };
   },
-  [LOGOUT]: (state, action) => {
+  [CACHE_PK]: (state, action) => {
+    let user = {
+      ...state.user,
+      privateKey: action.payload
+    };
+    return {
+      ...state,
+      user
+    };
+  },
+  [UNCACHE_PK]: (state) => {
+    if (!state.user.privateKey) {
+      return {
+        ...state
+      };
+    }
+
+    let user = {
+      ...state.user,
+      privateKey: null
+    };
+    return {
+      ...state,
+      user
+    };
+  },
+  [LOGOUT]: (state) => {
     const parsedCookie = cookie.parse(document.cookie);
     if (parsedCookie.cookieToken) {
       deleteCookie('cookieToken');

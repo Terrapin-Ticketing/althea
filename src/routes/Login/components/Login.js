@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import './Login.scss'
+import React, { Component } from 'react';
+import './Login.scss';
 import { browserHistory } from 'react-router';
 
 class Login extends Component {
@@ -10,7 +9,7 @@ class Login extends Component {
       email: '',
       password: '',
       loginError: null
-    }
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -21,7 +20,8 @@ class Login extends Component {
       browserHistory.push('/events');
     })
     .catch((err) => { // email already taken
-      this.setState({loginError: 'You entered the wrong login information. Please try again.'})
+      console.log(err);
+      this.setState({loginError: 'You entered the wrong login information. Please try again.'});
     });
   }
 
@@ -38,15 +38,15 @@ class Login extends Component {
           <label className='label'>
             <span>Password:</span>
             <input type="text" value={this.state.password} onChange={(e) => {
-              this.setState({password: e.target.value})
+              this.setState({password: e.target.value});
             }} />
           </label>
           <span className='error'>{(this.state.loginError) ? this.state.loginError : null}</span>
           <span className='user'>{(this.props.user) ? this.props.user : null}</span>
           <button onClick={this.handleSubmit}>Login</button>
       </div>
-    )
+    );
   }
 }
 
-export default Login
+export default Login;
