@@ -95,10 +95,9 @@ class User extends Component {
     const { balance } = this.props;
     return (
       <div className='container' >
-        <h1>User</h1>
+        <h1>{email}</h1>
         <div className="profile-info">
           <div className="profile-left">
-            <span className='profile-item'>Name: {email}</span>
             <span className='profile-item'>Private Key: {`${encryptedPrivateKey.slice(0, 10)}...`}</span>
             <span className='profile-item'>Balance: {(balance) ? `${web3.utils.fromWei(balance, 'ether')} ETH` : null}</span>
           </div>

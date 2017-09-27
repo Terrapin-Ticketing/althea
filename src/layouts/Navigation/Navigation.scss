@@ -1,0 +1,37 @@
+.navigation {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: #ffffff;
+  right: 0;
+  left: 0;
+  font-family: 'Lato', sans-serif;
+  height: 100%;
+  border-right: 1px solid #e8e8e8;
+
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    max-height: 4rem;
+
+    a {
+      color: #474747;
+      text-decoration: none;
+      padding: 25px;
+    }
+  }
+
+  a.page-layout__nav-item--active {
+    background: #219a4b;
+    color: #ffffff;
+  }
+
+  a.nav-item:hover {
+    text-decoration: none;
+    // color: #176665;
+    transition: background-color .2s linear;
+
+  }
+}

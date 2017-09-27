@@ -15,12 +15,13 @@ class Signup extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
     let { password, confirmPassword, email, privateKey } = this.state;
+    e.preventDefault();
     if (password === confirmPassword) {
       this.props.signup(email, password, privateKey)
       .then(() => {
-        browserHistory.push('/events');
+        browserHistory.push('/user');
       })
       .catch((err) => { // email already taken
         this.setState({signupError: 'That email is already in use. Please try again.'});
@@ -33,7 +34,7 @@ class Signup extends Component {
 
   render() {
     return (
-      <div className='login-container' >
+      <form className='login-container' onSubmit={this.handleSubmit}>
           <label className='label'>
             <span>Email:</span>
             <input type="text" value={this.state.email} onChange={(e) => {
@@ -62,8 +63,8 @@ class Signup extends Component {
             (this.state.signupError) ? this.state.signupError :
             (this.props.signupError) ? this.props.signupError : null}
           </span>
-          <button onClick={this.handleSubmit}>Signup</button>
-      </div>
+          <button type="submit">Signup</button>
+      </form>
     );
   }
 }

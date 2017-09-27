@@ -1,8 +1,8 @@
 .events-container {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .ReactModalPortal > * {
@@ -100,29 +100,38 @@
 table {
   width: 100%;
 
+  td {
+    padding: 10px;
+    display: flex;
+  }
+
   th {
     display: flex;
+    text-align: left;
+    background: #c7c7c7;
+    margin-bottom: -2px;
     td {
+      justify-content: flex-start;
       flex: 1;
+    }
+    .actions {
+      text-align: center;
     }
   }
 
   tbody {
-    padding: 15px;
-
     tr {
       display: flex;
       padding: 10px;
+    }
+    tr.odd {
+      background: #ececec;
     }
     td {
       flex: 1;
       justify-content: flex-start;
       align-self: center;
       padding: 10px;
-    }
-
-    tr.odd {
-      background: #ececec;
     }
   }
 }

@@ -13,7 +13,8 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault()
     this.props.login(this.state.email, this.state.password)
     .then(() => {
       console.log('no err');
@@ -29,7 +30,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div className='login-container' >
+      <form className='login-container' onSubmit={this.handleSubmit}>
           <label className='label'>
             <span>Email:</span>
             <input type="text" value={this.state.email} onChange={(e) => {
@@ -44,8 +45,8 @@ class Login extends Component {
           </label>
           <span className='error'>{(this.state.loginError) ? this.state.loginError : null}</span>
           <span className='user'>{(this.props.user) ? this.props.user : null}</span>
-          <button onClick={this.handleSubmit}>Login</button>
-      </div>
+          <button type="submit">Login</button>
+      </form>
     )
   }
 }

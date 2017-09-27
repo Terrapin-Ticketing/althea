@@ -31,7 +31,7 @@ class Events extends Component {
 
   renderListItem(item, index) {
     return (
-      <tr key={item.id} className={classNames('eventRow', {'odd': (index % 2 === 0)})}>
+      <tr key={item.id} className={classNames('eventRow', {'odd': (index % 2 !== 0)})}>
         <td style={{flex: 2}}>{item.name}</td>
         <td>{web3.utils.fromWei(item.price, 'ether')} ETH</td>
         <td>{item.qty} Left</td>
@@ -46,13 +46,14 @@ class Events extends Component {
     let { selectedEvent, confirmPassword, isLoading } = this.state;
 
     return (
-      <div className='events-container' >
+      <div className='events-container'>
+        <h1>Upcoming Events</h1>
         <table>
           <th>
             <td style={{flex: 2}}>Name</td>
             <td>Price</td>
             <td>Qty Remaining</td>
-            <td>Buy</td>
+            <td className="actions">Actions</td>
           </th>
           <tbody>
             {this.props.events.map((event, index) => {
