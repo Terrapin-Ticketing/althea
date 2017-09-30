@@ -12,7 +12,7 @@ import setAuthorizationToken from '../../../utils/setAuthorizationToken';
 export const signup = (email, password, privateKey) => {
   return (dispatch, getState) => {
     return axios({
-      url: `${API_URL}/signup`,
+      url: `${SHAKEDOWN_URL}/signup`,
       method: 'post',
       data: {email, password, privateKey},
       withCredentials: true
