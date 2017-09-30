@@ -80,6 +80,7 @@ export const getUserEvents = () => {
         let ticketAddreses = await eventInstance.methods.getTickets().call();
 
         let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddreses[0]);
+        // let isRedeemed = await ticketInstance.methods.isRedeemed().call();
 
         events.push({
           id: eventInstance.options.address,
