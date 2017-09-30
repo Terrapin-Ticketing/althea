@@ -1,5 +1,29 @@
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
+let arg = process.argv[2];
+let network = (arg && arg.substring(2)) || 'testrpc';
+
+// DEFAULTS
+let WEB3_HOST = JSON.stringify('http://localhost:8545');
+let SHAKEDOWN_URL = JSON.stringify('http://localhost:8080');
+let EOTW_URL = JSON.stringify('http://localhost:8000');
+
+switch (network) {
+  case 'testrpc':
+    WEB3_HOST = JSON.stringify('http://localhost:8545');
+    break;
+  case 'ropsten':
+    WEB3_HOST = JSON.stringify('https://ropsten.infura.io/ErkMqD1W4xWqfkfqNBnt');
+    break;
+  case 'demo': {
+    WEB3_HOST = JSON.stringify('http://104.131.33.58:8545');
+    SHAKEDOWN_URL = JSON.stringify('http://104.131.21.183:8080');
+    EOTW_URL = JSON.stringify('http://104.131.33.58:8000');
+    break;
+  }
+  default:
+}
+
 module.exports = {
   /** The environment to use when building the project */
   env: NODE_ENV,
@@ -19,17 +43,16 @@ module.exports = {
   externals: {},
   /** A hash map of variables and their values to expose globally */
   globals: {
-    // API_URL: JSON.stringify('http://192.168.12.226:8080'),
-    // WEB3_ADDRESS: JSON.stringify('http://192.168.12.226:8545')
-    API_URL: JSON.stringify('http://localhost:8080'),
-    TERRAPIN_URL: JSON.stringify('http://localhost:8000'),
-    WEB3_ADDRESS: JSON.stringify('http://localhost:8545'),
-    // API_URL: JSON.stringify('http://192.168.200.24:8080'),
-    // TERRAPIN_URL: JSON.stringify('http://192.168.200.24:8000'),
-    // WEB3_ADDRESS: JSON.stringify('http://192.168.200.24:8545'),
-    // WEB3_ADDRESS: JSON.stringify('ws://localhost:8546'),
-    // WEB3_ADDRESS: JSON.stringify('ws://ropsten.infura.io/ErkMqD1W4xWqfkfqNBnt')
-    // WEB3_ADDRESS: JSON.stringify('https://ropsten.infura.io/ErkMqD1W4xWqfkfqNBnt')
+    SHAKEDOWN_URL,
+    EOTW_URL,
+    WEB3_HOST,
+    // SHAKEDOWN_URL: JSON.stringify('http://192.168.12.226:8080'),
+    // WEB3_HOST: JSON.stringify('http://192.168.12.226:8545')
+    // SHAKEDOWN_URL: JSON.stringify('http://192.168.200.24:8080'),
+    // EOTW_URL: JSON.stringify('http://192.168.200.24:8000'),
+    // WEB3_HOST: JSON.stringify('http://192.168.200.24:8545'),
+    // WEB3_HOST: JSON.stringify('ws://localhost:8546'),
+    // WEB3_HOST: JSON.stringify('ws://ropsten.infura.io/ErkMqD1W4xWqfkfqNBnt')
   },
   /** Whether to enable verbose logging */
   verbose: false,
