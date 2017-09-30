@@ -24,7 +24,7 @@ function decryptPrivateKey() {
 export const login = (email, password) => {
   return (dispatch, getState) => {
     return axios({
-      url: `${API_URL}/login`,
+      url: `${SHAKEDOWN_URL}/login`,
       method: 'post',
       data: {email, password},
       withCredentials: true

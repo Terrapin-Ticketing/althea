@@ -43,14 +43,16 @@ export const createEvent = (name, qty, price, password) => {
     let encodedAbi = terrapinInstance.methods.createEvent(web3.utils.fromAscii(name)).encodeABI();
 
     let txParams = {
-      nonce: `0x${(nonce++).toString(16)}`,
-      chainId: `0x${(chainId++).toString(16)}`,
+      nonce: nonce++,
+      chainId,
       to: terrapinInstance.options.address,
       value: 0,
       gas,
       gasPrice,
       data: encodedAbi
     };
+
+    // nonce++;
 
     let privateKey = decryptPrivateKey(password, user.encryptedPrivateKey).substring(2);
 
@@ -67,44 +69,41 @@ export const createEvent = (name, qty, price, password) => {
     // get event address
     let eventAddresses = await terrapinInstance.methods.getEvents().call();
     let mostRecent;
-    await pasync.eachSeries(eventAddresses, async (eventAddress) => {
+    return pasync.eachSeries(eventAddresses, async (eventAddress) => {
       let eventInstance = getContractInstance(abis.event.abi, eventAddress);
       let owner = await eventInstance.methods.owner().call();
       if (owner === user.walletAddress) {
         mostRecent = eventInstance;
       }
+    })
+    .then(async () => {
+      if (mostRecent) {
+        let N = qty;
+        let nonceInterval = Array.apply(null, {length: N}).map(Number.call, Number);
+
+        return pasync.each(nonceInterval, async (i) => {
+          let encodedAbi = mostRecent.methods.printTicket(parseInt(price)).encodeABI();
+
+          let txParams = {
+            nonce: nonce + i,
+            chainId,
+            to: mostRecent.options.address,
+            value: 0,
+            gas,
+            gasPrice,
+            data: encodedAbi
+          };
+
+          const tx = new EthereumTx(txParams);
+          tx.sign(new Buffer(privateKey));
+
+          const serializedTx = tx.serialize();
+
+          let x = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+          console.log('made ticket', x);
+        });
+      }
     });
-
-    if (mostRecent) {
-      let N = qty;
-      let nonceInterval = Array.apply(null, {length: N}).map(Number.call, Number);
-
-      console.log('mostRecent', mostRecent.options.address);
-
-      await pasync.each(nonceInterval, async (i) => {
-        let encodedAbi = mostRecent.methods.printTicket(parseInt(price)).encodeABI();
-
-        let txParams = {
-          nonce: nonce + i,
-          chainId,
-          to: mostRecent.options.address,
-          value: 0,
-          gas,
-          gasPrice,
-          data: encodedAbi
-        };
-
-        console.log('txParams', txParams);
-
-        const tx = new EthereumTx(txParams);
-        tx.sign(new Buffer(privateKey));
-
-        const serializedTx = tx.serialize();
-
-        let x = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
-        console.log('made ticket', x);
-      });
-    }
     // console.log('CREATING EVent!!!');
     // return new Promise((resolve, reject) => {
     //   web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`)

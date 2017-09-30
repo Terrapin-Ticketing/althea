@@ -58,7 +58,7 @@ class TicketRedeemModal extends Component {
       onError={this.onError}
       onLoad={() => console.log('camera loaded')}
       onScan={this.onScan}
-    />;
+    />
   }
 
   render() {

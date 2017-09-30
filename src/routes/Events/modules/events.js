@@ -40,7 +40,6 @@ export function getEvents() {
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
 
     let eventAddresses = await terrapinInstance.methods.getEvents().call();
-    console.log('eventAddresses', eventAddresses);
     let events = [];
     await pasync.eachSeries(eventAddresses, async (eventAddress) => {
       let eventInstance = getContractInstance(abis.event.abi, eventAddress);
@@ -62,7 +61,7 @@ export function getEvents() {
         id: eventInstance.options.address,
         name: web3.utils.toAscii(await eventInstance.methods.name().call()),
         qty: remaining,
-        price: ticketAddresses.length && await (getContractInstance(abis.ticket.abi, ticketAddresses[0]).methods.price().call())
+        price: await (getContractInstance(abis.ticket.abi, ticketAddresses[0]).methods.price().call())
       });
 
       dispatch({

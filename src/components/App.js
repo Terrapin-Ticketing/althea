@@ -28,7 +28,7 @@ class App extends React.Component {
 
 const getContractInfo = () => {
   return (dispatch, getState) => {
-    return axios.get(`${TERRAPIN_URL}/terrapin-station`)
+    return axios.get(`${EOTW_URL}/terrapin-station`)
     .then((res) => {
       dispatch({
         type: 'SET_CONTRACT_INFO',
