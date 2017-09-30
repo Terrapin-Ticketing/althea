@@ -10,6 +10,7 @@
     "demo": "npm run clean && cross-env NODE_ENV=demo npm run compile && rm -rf /var/www/html && mv dist html && mv html /var/www/",
 
     "start": "cross-env NODE_ENV=development node build/scripts/start",
+    "dev": "npm start",
 
     "test": "cross-env NODE_ENV=test karma start build/karma.config",
     "test:watch": "npm test -- --watch",

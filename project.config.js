@@ -11,14 +11,12 @@ switch (NODE_ENV) {
     break;
   case 'demo': {
     WEB3_HOST = JSON.stringify('http://104.131.33.58:8545');
-    SHAKEDOWN_URL = JSON.stringify('http://104.131.21.183:8080');
-    EOTW_URL = JSON.stringify('http://104.131.33.58:8080');
+    SHAKEDOWN_URL = JSON.stringify('http://104.131.21.183');
+    EOTW_URL = JSON.stringify('http://104.131.33.58');
     break;
   }
   default:
 }
-
-console.log(EOTW_URL);
 
 module.exports = {
   /** The environment to use when building the project */
@@ -42,13 +40,6 @@ module.exports = {
     SHAKEDOWN_URL,
     EOTW_URL,
     WEB3_HOST,
-    // SHAKEDOWN_URL: JSON.stringify('http://192.168.12.226:8080'),
-    // WEB3_HOST: JSON.stringify('http://192.168.12.226:8545')
-    // SHAKEDOWN_URL: JSON.stringify('http://192.168.200.24:8080'),
-    // EOTW_URL: JSON.stringify('http://192.168.200.24:8000'),
-    // WEB3_HOST: JSON.stringify('http://192.168.200.24:8545'),
-    // WEB3_HOST: JSON.stringify('ws://localhost:8546'),
-    // WEB3_HOST: JSON.stringify('ws://ropsten.infura.io/ErkMqD1W4xWqfkfqNBnt')
   },
   /** Whether to enable verbose logging */
   verbose: false,
