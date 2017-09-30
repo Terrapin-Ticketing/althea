@@ -18,7 +18,7 @@ switch (network) {
   case 'demo': {
     WEB3_HOST = JSON.stringify('http://104.131.33.58:8545');
     SHAKEDOWN_URL = JSON.stringify('http://104.131.21.183:8080');
-    EOTW_URL = JSON.stringify('http://104.131.33.58:8000');
+    EOTW_URL = JSON.stringify('http://104.131.33.58:8080');
     break;
   }
   default:
