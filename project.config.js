@@ -1,19 +1,13 @@
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
-let arg = process.argv[2];
-let network = (arg && arg.substring(2)) || 'testrpc';
-
 // DEFAULTS
 let WEB3_HOST = JSON.stringify('http://localhost:8545');
 let SHAKEDOWN_URL = JSON.stringify('http://localhost:8080');
 let EOTW_URL = JSON.stringify('http://localhost:8000');
 
-switch (network) {
+switch (NODE_ENV) {
   case 'testrpc':
     WEB3_HOST = JSON.stringify('http://localhost:8545');
-    break;
-  case 'ropsten':
-    WEB3_HOST = JSON.stringify('https://ropsten.infura.io/ErkMqD1W4xWqfkfqNBnt');
     break;
   case 'demo': {
     WEB3_HOST = JSON.stringify('http://104.131.33.58:8545');
@@ -23,6 +17,8 @@ switch (network) {
   }
   default:
 }
+
+console.log(EOTW_URL);
 
 module.exports = {
   /** The environment to use when building the project */
