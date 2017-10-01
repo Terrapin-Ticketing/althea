@@ -97,10 +97,9 @@ export const getUserEvents = () => {
   };
 };
 
-export const transferTicket = (ticketAddress, recipientAddress, password) => {
+export const transferTicket = (ticketAddress, recipientAddress) => {
   return async (dispatch, getState) => {
-    let privateKey = decryptPrivateKey(password, getState().auth.user.encryptedPrivateKey).substring(2);
-    privateKey = Buffer.from(privateKey, 'hex');
+    let privateKey = getState().auth.user;
 
     const { abis } = getState().terrapin;
     const ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
@@ -140,7 +139,7 @@ export const getUserBalance = () => {
 
 export const redeemTicket = (password, data) => {
   return async (dispatch, getState) => {
-    let { encryptedPrivateKey, walletAddress } = getState().auth.user;
+    let { walletAddress, privateKey } = getState().auth.user;
 
     let sections = data.split('-');
     let { eventAddress, ticketAddress } = JSON.parse(sections[0]);
@@ -160,9 +159,6 @@ export const redeemTicket = (password, data) => {
     if (ticketOwner.toLowerCase() !== recoveredAddress.toLowerCase()) {
       throw new Error('This ticket is not owned by signer');
     }
-
-    let privateKey = decryptPrivateKey(password, encryptedPrivateKey).substring(2);
-    privateKey = Buffer.from(privateKey, 'hex');
 
     let isRedeemed = await ticketInstance.methods.isRedeemed().call();
 

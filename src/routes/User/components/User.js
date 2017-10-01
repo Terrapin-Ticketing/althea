@@ -29,10 +29,18 @@ class User extends Component {
     this.openTicketTransferModal = this.openTicketTransferModal.bind(this);
   }
 
-  componentDidMount() {
+  loadData() {
+    this.setState({ dataLoaded: true });
+    console.log('user did mount');
     this.props.getUserEvents();
     this.props.getUserTickets();
     this.props.getUserBalance();
+  }
+
+  componentWillReceiveProps() {
+    if (!this.state.dataLoaded && this.props.user) {
+      this.loadData();
+    }
   }
 
   openTicketViewModal(ticket) {
@@ -115,6 +123,7 @@ class User extends Component {
 
           <TabPanel>
             <h2>Events</h2>
+            <button>Create New Event</button>
             <table className="events-table">
               <th>
                 <td>Name</td>

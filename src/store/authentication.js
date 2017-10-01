@@ -1,5 +1,6 @@
 import cookie from 'cookie';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
+import crypto from 'crypto';
 
 // ------------------------------------
 // Constants
@@ -7,27 +8,50 @@ import setAuthorizationToken from '../utils/setAuthorizationToken';
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const SET_USER_BALANCE = 'SET_USER_BALANCE';
-export const CACHE_PK = 'CACHE_PK';
-export const UNCACHE_PK = 'UNCACHE_PK';
+export const UNLOCK_PK = 'UNLOCK_PK';
+export const CLEAR_PK = 'CLEAR_PK';
 
-// ------------------------------------
-// Actions
-// ------------------------------------
+let decryptPrivateKey = (key, ciphered) => {
+  let algorithm = 'aes256';
+  let inputEncoding = 'utf8';
+  let outputEncoding = 'hex';
+
+  let decipher = crypto.createDecipher(algorithm, key);
+  let deciphered = decipher.update(ciphered, outputEncoding, inputEncoding);
+  deciphered += decipher.final(inputEncoding);
+  return deciphered;
+};
+
 function deleteCookie(name) {
   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   // document.cookie = name + '=; expires=' + new Date();
 }
 
-function clearPK() {
+// ------------------------------------
+// Actions
+// ------------------------------------
+export function clearPK() {
   return (dispatch) => {
     dispatch({
-      type: UNCACHE_PK
+      type: CLEAR_PK
+    });
+  };
+}
+
+export function unlockPK(password) {
+  return (dispatch, getState) => {
+    let { user } = getState().auth;
+    let privateKey = decryptPrivateKey(password, user.encryptedPrivateKey).substring(2);
+    privateKey = Buffer.from(privateKey, 'hex');
+    dispatch({
+      type: UNLOCK_PK,
+      payload: privateKey
     });
   };
 }
 
 export const actions = {
-  clearPK
+  clearPK, unlockPK
 };
 
 // ------------------------------------
@@ -40,7 +64,7 @@ const ACTION_HANDLERS = {
       user: action.payload
     };
   },
-  [CACHE_PK]: (state, action) => {
+  [UNLOCK_PK]: (state, action) => {
     let user = {
       ...state.user,
       privateKey: action.payload
@@ -50,7 +74,7 @@ const ACTION_HANDLERS = {
       user
     };
   },
-  [UNCACHE_PK]: (state) => {
+  [CLEAR_PK]: (state) => {
     let user = {
       ...state.user,
       privateKey: null

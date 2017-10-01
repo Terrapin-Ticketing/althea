@@ -19,7 +19,7 @@ class Events extends Component {
   }
 
   componentDidMount() {
-    // this.props.getEvents();
+    this.props.getEvents();
   }
 
   async buyTicket(event, password) {

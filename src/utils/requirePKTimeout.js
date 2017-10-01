@@ -11,7 +11,7 @@ function startInterval(props) {
     console.log('timeout: ', idleTime);
     if (idleTime > 10) { // 20 minute timeout
       await props.clearPK();
-      props.router.push('/login');
+      props.router.push('/unlock-account');
       idleTime = 0;
     }
   }, 600); // 1 minute

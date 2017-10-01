@@ -1,6 +1,5 @@
 import web3 from '../../../components/Web3.js';
 import EthereumTx from 'ethereumjs-tx';
-import crypto from 'crypto';
 import pasync from 'pasync';
 
 export const CREATE_EVENT = 'CREATE_EVENT';
@@ -12,18 +11,7 @@ let getContractInstance = (abi, address) => {
   return instance;
 };
 
-let decryptPrivateKey = (key, ciphered) => {
-  let algorithm = 'aes256';
-  let inputEncoding = 'utf8';
-  let outputEncoding = 'hex';
-
-  let decipher = crypto.createDecipher(algorithm, key);
-  let deciphered = decipher.update(ciphered, outputEncoding, inputEncoding);
-  deciphered += decipher.final(inputEncoding);
-  return deciphered;
-};
-
-export const createEvent = (name, qty, price, password) => {
+export const createEvent = (name, qty, price) => {
   return async function(dispatch, getState) {
     // TODO: Update this
     let { user } = getState().auth;
@@ -54,9 +42,7 @@ export const createEvent = (name, qty, price, password) => {
 
     // nonce++;
 
-    let privateKey = decryptPrivateKey(password, user.encryptedPrivateKey).substring(2);
-
-    privateKey = Buffer.from(privateKey, 'hex');
+    let privateKey = user.privateKey;
 
     const tx = new EthereumTx(txParams);
     tx.sign(new Buffer(privateKey));

@@ -9,11 +9,9 @@ export default function(ComposedComponent) {
     }
 
     componentDidMount() {
-      console.log('auth did mount');
       let { user } = this.props;
       if (!user || _.isEmpty(user)) {
-        console.log('no user');
-        this.props.router.push('/login');
+        this.props.router.push('/unlock-account');
       }
     }
 

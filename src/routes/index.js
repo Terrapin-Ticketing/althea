@@ -6,8 +6,10 @@ import SignupRoute from './Signup';
 import EventsRoute from './Events';
 import CreateEventRoute from './CreateEvent';
 import UserRoute from './User';
+import UnlockRoute from './Unlock';
 
 import requireAuth from '../utils/requireAuth';
+import requirePK from '../utils/requirePK';
 import requirePKTimeout from '../utils/requirePKTimeout';
 
 /*  Note: Instead of using JSX, we recommend using react-router
@@ -19,10 +21,11 @@ export const createRoutes = (store) => ({
   indexRoute: Home,
   childRoutes: [
     LoginRoute(store, [ ]),
+    UnlockRoute(store, [ requireAuth ]),
     SignupRoute(store, [ requirePKTimeout ]),
     EventsRoute(store, [ requirePKTimeout ]),
-    CreateEventRoute(store, [ requireAuth, requirePKTimeout ]),
-    UserRoute(store, [ requireAuth, requirePKTimeout ])
+    CreateEventRoute(store, [ requireAuth, requirePKTimeout, requirePK ]),
+    UserRoute(store, [ requireAuth, requirePKTimeout, requirePK ])
   ]
 });
 

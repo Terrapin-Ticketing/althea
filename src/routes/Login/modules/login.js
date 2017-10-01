@@ -2,6 +2,7 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import setAuthorizationToken from '../../../utils/setAuthorizationToken';
+let { unlockPK } = require('../../../store/authentication').actions;
 
 // ------------------------------------
 // Constants
@@ -23,7 +24,6 @@ let decryptPrivateKey = (key, ciphered) => {
 export const login = (email, password) => {
   return async (dispatch, getState) => {
     // if the password doesn't match the local token use axios to get a new one
-
     let res = await axios({
       url: `${SHAKEDOWN_URL}/login`,
       method: 'post',
@@ -40,64 +40,7 @@ export const login = (email, password) => {
       payload: user
     });
 
-    let privateKey = decryptPrivateKey(password, user.encryptedPrivateKey).substring(2);
-    privateKey = Buffer.from(privateKey, 'hex');
-    dispatch({
-      type: 'CACHE_PK',
-      payload: privateKey
-    });
-
-    //
-    // await new Promise((resolve) => {
-    //   console.log('doing it');
-    //   dispatch({
-    //     type: 'LOGIN',
-    //     payload: user
-    //   }, () => {
-    //     console.log('returned');
-    //     resolve();
-    //   });
-    // });
-    //
-    // console.log('here');
-    //
-    // await new Promise((resolve) => {
-    //   let privateKey = decryptPrivateKey(password, user.encryptedPrivateKey).substring(2);
-    //   privateKey = Buffer.from(privateKey, 'hex');
-    //   dispatch({
-    //     type: 'CACHE_PK',
-    //     payload: privateKey
-    //   }, resolve);
-    // });
-    //
-    // console.log('here');
-
-    //
-    // return axios({
-    //   url: `${API_URL}/login`,
-    //   method: 'post',
-    //   data: {email, password},
-    //   withCredentials: true
-    // })
-    //   .then((res) => {
-    //     let { token } = res.data;
-    //     let user = jwt.decode(token);
-    //     setAuthorizationToken(token);
-    //     dispatch({
-    //       type: 'LOGIN',
-    //       payload: user
-    //     });
-    //
-    //     let privateKey = decryptPrivateKey(password, user.encryptedPrivateKey).substring(2);
-    //     privateKey = Buffer.from(privateKey, 'hex');
-    //     dispatch({
-    //       type: 'CACHE_PK',
-    //       payload: privateKey
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     throw err;
-    //   });
+    unlockPK(password);
   };
 };
 

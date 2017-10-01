@@ -13,15 +13,14 @@ class CreateEvent extends Component {
     };
   }
 
-  onSubmit() {
+  async onSubmit() {
     let { name, qty, price, password } = this.state;
-    this.props.createEvent(name, parseInt(qty), web3.utils.toWei(price, 'ether'), password)
-      .then(() => {
-        this.props.router.push('/events');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      await this.props.createEvent(name, parseInt(qty), web3.utils.toWei(price, 'ether'), password);
+      this.props.router.push('/events');
+    } catch (e) {
+      console.log('err', e);
+    }
   }
 
   render() {
@@ -45,12 +44,6 @@ class CreateEvent extends Component {
           <span>Price:</span>
           <input type="text" value={this.state.price} onChange={(e) => {
             this.setState({price: e.target.value});
-          }} />
-        </label>
-        <label className='label'>
-          <span>Confirm Password:</span>
-          <input type="text" value={this.state.password || ''} onChange={(e) => {
-            this.setState({password: e.target.value});
           }} />
         </label>
         <span className='error'>{(this.props.createEventError) ? this.props.createEventError : null}</span>

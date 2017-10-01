@@ -10,7 +10,7 @@ async function logout(store) {
     payload: null
   });
 
-  browserHistory.push('/signup');
+  browserHistory.push('/login');
 }
 
 export const Navigation = (props) => {

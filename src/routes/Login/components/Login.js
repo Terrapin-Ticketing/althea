@@ -41,7 +41,7 @@ class Login extends Component {
             }} />
           </label>
           <span className='error'>{(this.state.loginError) ? this.state.loginError : null}</span>
-          <span className='user'>{(this.props.user) ? this.props.user : null}</span>
+          {/* <span className='user'>{(this.props.user) ? JSON.stringify(this.props.user) : ''}</span> */}
           <button type="submit" onClick={this.handleSubmit}>Login</button>
       </form>
     );
