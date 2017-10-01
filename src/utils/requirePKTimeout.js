@@ -9,12 +9,12 @@ function startInterval(props) {
   interval = setInterval(async () => {
     idleTime++;
     console.log('timeout: ', idleTime);
-    if (idleTime > 10) { // 20 minute timeout
+    if (idleTime > 20) { // 20 minute timeout
       await props.clearPK();
       props.router.push('/unlock-account');
       idleTime = 0;
     }
-  }, 600); // 1 minute
+  }, 6000); // 1 minute
 }
 
 function stopInterval() {
