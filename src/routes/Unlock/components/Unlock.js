@@ -20,6 +20,7 @@ class Unlock extends Component {
   render() {
     return (
       <div className="unlock-container">
+        <h2>Unlock your account:</h2>
         <input type="password" placeholder="password" onChange={(e) => {
           this.setState({ password: e.target.value });
         }}/>

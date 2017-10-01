@@ -43,6 +43,7 @@ export const createEvent = (name, qty, price) => {
     // nonce++;
 
     let privateKey = user.privateKey;
+    console.log('privateKey:', privateKey);
 
     const tx = new EthereumTx(txParams);
     tx.sign(new Buffer(privateKey));

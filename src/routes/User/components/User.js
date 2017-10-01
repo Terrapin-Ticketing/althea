@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import React, { Component } from 'react';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { Link } from 'react-router';
 import ReactModal from 'react-modal';
 import TicketViewModal from './TicketViewModal';
 import TicketRedeemModal from './TicketRedeemModal';
 import TicketTransferModal from './TicketTransferModal';
-import web3 from '../../../components/Web3.js'
-import './User.scss'
-import modalStyles from '../../../layouts/modal-styles'
-
+import web3 from '../../../components/Web3.js';
+import './User.scss';
+import modalStyles from '../../../layouts/modal-styles';
 
 class User extends Component {
   constructor(props) {
@@ -123,7 +123,9 @@ class User extends Component {
 
           <TabPanel>
             <h2>Events</h2>
-            <button>Create New Event</button>
+            <Link to='/createEvent'>
+              <button>Create New Event</button>
+            </Link>
             <table className="events-table">
               <th>
                 <td>Name</td>

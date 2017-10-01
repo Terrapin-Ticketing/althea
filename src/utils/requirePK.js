@@ -10,7 +10,7 @@ export default function(ComposedComponent) {
 
     componentDidMount() {
       let { user } = this.props;
-      if (!user || _.isEmpty(user)) {
+      if (!user || _.isEmpty(user) || !user.privateKey) {
         this.props.router.push('/unlock-account');
       }
     }
