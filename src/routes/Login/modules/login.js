@@ -7,16 +7,7 @@ let { unlockPK } = require('../../../store/authentication').actions;
 // ------------------------------------
 // Constants
 // ------------------------------------
-let decryptPrivateKey = (key, ciphered) => {
-  let algorithm = 'aes256';
-  let inputEncoding = 'utf8';
-  let outputEncoding = 'hex';
 
-  let decipher = crypto.createDecipher(algorithm, key);
-  let deciphered = decipher.update(ciphered, outputEncoding, inputEncoding);
-  deciphered += decipher.final(inputEncoding);
-  return deciphered;
-};
 
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for

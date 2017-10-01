@@ -15,17 +15,6 @@ let getContractInstance = (abi, address) => {
   return instance;
 };
 
-let decryptPrivateKey = (key, ciphered) => {
-  let algorithm = 'aes256';
-  let inputEncoding = 'utf8';
-  let outputEncoding = 'hex';
-
-  let decipher = crypto.createDecipher(algorithm, key);
-  let deciphered = decipher.update(ciphered, outputEncoding, inputEncoding);
-  deciphered += decipher.final(inputEncoding);
-  return deciphered;
-};
-
 export const getUserTickets = () => {
   return async (dispatch, getState) => {
     let { user } = getState().auth;

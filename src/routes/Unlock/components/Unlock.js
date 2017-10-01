@@ -20,10 +20,12 @@ class Unlock extends Component {
   render() {
     return (
       <div className="unlock-container">
-        <input type="password" onChange={(e) => {
+        <input type="password" placeholder="password" onChange={(e) => {
           this.setState({ password: e.target.value });
         }}/>
-        <button type="submit" onClick={(e) => this.submit(e)}></button>
+        <div className="">
+          <button type="submit" onClick={(e) => this.submit(e)}>Unlock Account</button>
+        </div>
       </div>
     );
   }

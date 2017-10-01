@@ -2,6 +2,14 @@
   // background: red;
 }
 
+.nav-item {
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  // outline: 1px solid red;
+}
+
 .navigation {
   flex-direction: column;
   background-color: #ffffff;
