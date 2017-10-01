@@ -8,6 +8,7 @@ import CreateEventRoute from './CreateEvent';
 import UserRoute from './User';
 
 import requireAuth from '../utils/requireAuth';
+import requirePKTimeout from '../utils/requirePKTimeout';
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -17,11 +18,11 @@ export const createRoutes = (store) => ({
   component: CoreLayout(store),
   indexRoute: Home,
   childRoutes: [
-    LoginRoute(store),
-    SignupRoute(store),
-    EventsRoute(store),
-    CreateEventRoute(store, [ requireAuth ]),
-    UserRoute(store, [ requireAuth ])
+    LoginRoute(store, [ ]),
+    SignupRoute(store, [ requirePKTimeout ]),
+    EventsRoute(store, [ requirePKTimeout ]),
+    CreateEventRoute(store, [ requireAuth, requirePKTimeout ]),
+    UserRoute(store, [ requireAuth, requirePKTimeout ])
   ]
 });
 

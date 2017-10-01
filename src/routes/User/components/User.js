@@ -55,6 +55,7 @@ class User extends Component {
               <tr className={`ticket-row ${(index%2 === 0) ? 'odd' : null}`} key={ticket.id}>
                 <td>{ticket.name}</td>
                 <td>{ticket.price}</td>
+                <td>{JSON.stringify(ticket.isRedeemed)}</td>
                 <td className="actions">
                   <button onClick={() => this.openTicketViewModal(ticket)}>View</button>
                   <button onClick={() => this.openTicketTransferModal(ticket)}>Transfer</button>
@@ -94,10 +95,9 @@ class User extends Component {
     const { balance } = this.props;
     return (
       <div className='container' >
-        <h1>User</h1>
+        <h1>{email}</h1>
         <div className="profile-info">
           <div className="profile-left">
-            <span className='profile-item'>Name: {email}</span>
             <span className='profile-item'>Private Key: {`${encryptedPrivateKey.slice(0, 10)}...`}</span>
             <span className='profile-item'>Balance: {(balance) ? `${web3.utils.fromWei(balance, 'ether')} ETH` : null}</span>
           </div>
@@ -120,6 +120,7 @@ class User extends Component {
                 <td>Name</td>
                 <td>Price</td>
                 <td>Qty</td>
+                <td>Actions</td>
               </th>
               <tbody>
                 {this.renderEvents()}
@@ -132,6 +133,7 @@ class User extends Component {
               <th>
                 <td>Name</td>
                 <td className="qty">Price</td>
+                <td>isRedeemed</td>
                 <td>Actions</td>
               </th>
               <tbody>

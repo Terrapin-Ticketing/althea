@@ -1,11 +1,7 @@
 import { connect } from 'react-redux';
-import { createEvent } from '../modules/createEvent';
+const mapDispatchToProps = require('../modules/createEvent');
 
 import CreateEvent from '../components/CreateEvent';
-
-const mapDispatchToProps = {
-  createEvent
-};
 
 const mapStateToProps = (state) => {
   return {

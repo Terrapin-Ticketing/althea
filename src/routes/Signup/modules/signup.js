@@ -10,24 +10,20 @@ import setAuthorizationToken from '../../../utils/setAuthorizationToken';
     creating async actions, especially when combined with redux-thunk! */
 
 export const signup = (email, password, privateKey) => {
-  return (dispatch, getState) => {
-    return axios({
-      url: `${API_URL}/signup`,
+  return async(dispatch, getState) => {
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/signup`,
       method: 'post',
       data: {email, password, privateKey},
       withCredentials: true
-    })
-      .then((res) => {
-        let { token } = res.data;
-        setAuthorizationToken(token);
-        return dispatch({
-          type: 'LOGIN', // don't know why SIGNUP_SUCCESS doesnt work
-          payload: jwt.decode(token)
-        });
-      })
-      .catch((err) => {
-        throw err;
-      });
+    });
+
+    let { token } = res.data;
+    setAuthorizationToken(token);
+    return dispatch({
+      type: 'LOGIN', // don't know why SIGNUP_SUCCESS doesnt work
+      payload: jwt.decode(token)
+    });
   };
 };
 

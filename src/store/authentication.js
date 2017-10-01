@@ -18,6 +18,18 @@ function deleteCookie(name) {
   // document.cookie = name + '=; expires=' + new Date();
 }
 
+function clearPK() {
+  return (dispatch) => {
+    dispatch({
+      type: UNCACHE_PK
+    });
+  };
+}
+
+export const actions = {
+  clearPK
+};
+
 // ------------------------------------
 // Specialized Action Creator
 // ------------------------------------
@@ -39,12 +51,6 @@ const ACTION_HANDLERS = {
     };
   },
   [UNCACHE_PK]: (state) => {
-    if (!state.user.privateKey) {
-      return {
-        ...state
-      };
-    }
-
     let user = {
       ...state.user,
       privateKey: null

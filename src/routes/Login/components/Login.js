@@ -13,22 +13,21 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit() {
-    this.props.login(this.state.email, this.state.password)
-    .then(() => {
-      console.log('no err');
+  async handleSubmit(e) {
+    e.preventDefault();
+    try {
+      await this.props.login(this.state.email, this.state.password);
       browserHistory.push('/events');
-    })
-    .catch((err) => { // email already taken
-      console.log(err);
+    } catch (e) {
+      console.log('err:', e);
       this.setState({loginError: 'You entered the wrong login information. Please try again.'});
-    });
+    }
   }
 
 
   render() {
     return (
-      <div className='login-container' >
+      <form className='login-container' onSubmit={this.handleSubmit}>
           <label className='label'>
             <span>Email:</span>
             <input type="text" value={this.state.email} onChange={(e) => {
@@ -43,8 +42,8 @@ class Login extends Component {
           </label>
           <span className='error'>{(this.state.loginError) ? this.state.loginError : null}</span>
           <span className='user'>{(this.props.user) ? this.props.user : null}</span>
-          <button onClick={this.handleSubmit}>Login</button>
-      </div>
+          <button type="submit" onClick={this.handleSubmit}>Login</button>
+      </form>
     );
   }
 }

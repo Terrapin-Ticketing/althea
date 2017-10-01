@@ -1,11 +1,28 @@
+import axios from 'axios';
+
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SET_CONTRACT_INFO = 'SET_CONTRACT_INFO'
+export const SET_CONTRACT_INFO = 'SET_CONTRACT_INFO';
 
 // ------------------------------------
 // Actions
 // ------------------------------------
+const getContractInfo = () => {
+  return async(dispatch, getState) => {
+    let res;
+    try {
+      res = await axios.get(`${EOTW_URL}/terrapin-station`);
+    } catch (e) {
+      console.log('err', e);
+    }
+    console.log('contract info set');
+    dispatch({
+      type: 'SET_CONTRACT_INFO',
+      payload: res.data
+    });
+  };
+};
 
 
 // ------------------------------------
@@ -13,13 +30,16 @@ export const SET_CONTRACT_INFO = 'SET_CONTRACT_INFO'
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_CONTRACT_INFO]: (state, action) => {
-    console.log('action: ', action)
     return {
       ...state,
       terrapinAddress: action.payload.terrapinAddress,
       abis: JSON.parse(action.payload.abis)
     };
   }
+};
+
+export const actions = {
+  getContractInfo
 };
 
 // ------------------------------------

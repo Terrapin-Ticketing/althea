@@ -23,10 +23,9 @@ let decryptPrivateKey = (key, ciphered) => {
 export const login = (email, password) => {
   return async (dispatch, getState) => {
     // if the password doesn't match the local token use axios to get a new one
-    //
 
     let res = await axios({
-      url: `${API_URL}/login`,
+      url: `${SHAKEDOWN_URL}/login`,
       method: 'post',
       data: {email, password},
       withCredentials: true

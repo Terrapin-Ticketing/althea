@@ -10,3 +10,46 @@ For example:
 @import './variables/components';
 @import './themes/default';
 */
+
+button {
+  flex: 1;
+  background: #009900;
+  padding:  10px;
+  color: #ffffff;
+  border: none;
+  border-radius: 2px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+}
+
+button:hover {
+  background: #33cd62;
+  padding:  10px;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+
+button:focus {outline:0;}
+
+input {
+  padding: 15px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+}
+
+input:focus {
+  outline: 1px #219a4b;
+}
+
+.ReactModal__Overlay {
+    z-index: 2;
+    transition: opacity 200ms ease-in-out;
+    background: rgba(0, 0, 0, 0.15);
+    &--after-open {
+        opacity: 1;
+    }
+    &--before-close {
+        opacity: 0;
+    }
+}

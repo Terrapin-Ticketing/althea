@@ -34,7 +34,9 @@ class ViewTicketModal extends Component {
     let privateKey = decryptPrivateKey(password, encryptedPrivateKey).substring(2);
     let privateKeyx = Buffer.from(privateKey, 'hex');
 
-    let message = `${eventAddress}${ticketAddress}`; // message to sign
+    let message = JSON.stringify({
+      eventAddress, ticketAddress
+    });
 
     // ecsign requires a sha3 string
     let messageHash = web3.utils.sha3(message);
