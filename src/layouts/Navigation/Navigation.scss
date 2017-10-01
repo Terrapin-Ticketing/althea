@@ -200,6 +200,8 @@
     -moz-box-shadow: 0 -6px 1px -6px #777;
     box-shadow: 0 -6px 1px -6px #777;
     border-right: 0px;
+    height: auto;
+    // height: 0%;
 
     transition: $navigation__transition;
   }

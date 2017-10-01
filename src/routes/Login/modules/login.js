@@ -1,8 +1,6 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
 import setAuthorizationToken from '../../../utils/setAuthorizationToken';
-let { unlockPK } = require('../../../store/authentication').actions;
 
 // ------------------------------------
 // Constants
@@ -22,14 +20,23 @@ export const login = (email, password) => {
       withCredentials: true
     });
 
+
     let { token } = res.data;
     setAuthorizationToken(token);
 
     let user = jwt.decode(token);
-    await unlockPK(password);
+
     dispatch({
       type: 'LOGIN',
       payload: user
+    });
+
+    dispatch({
+      type: 'UNLOCK_PK',
+      payload: {
+        encryptedPrivateKey: user.encryptedPrivateKey,
+        password
+      }
     });
   };
 };

@@ -41,11 +41,12 @@ export function clearPK() {
 export function unlockPK(password) {
   return (dispatch, getState) => {
     let { user } = getState().auth;
-    let privateKey = decryptPrivateKey(password, user.encryptedPrivateKey).substring(2);
-    privateKey = Buffer.from(privateKey, 'hex');
     dispatch({
       type: UNLOCK_PK,
-      payload: privateKey
+      payload: {
+        password,
+        encryptedPrivateKey: user.encryptedPrivateKey
+      }
     });
   };
 }
@@ -65,9 +66,12 @@ const ACTION_HANDLERS = {
     };
   },
   [UNLOCK_PK]: (state, action) => {
+    let { password, encryptedPrivateKey } = action.payload;
+    let privateKey = decryptPrivateKey(password, encryptedPrivateKey).substring(2);
+    privateKey = Buffer.from(privateKey, 'hex');
     let user = {
       ...state.user,
-      privateKey: action.payload
+      privateKey
     };
     return {
       ...state,
