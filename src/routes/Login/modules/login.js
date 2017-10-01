@@ -26,12 +26,11 @@ export const login = (email, password) => {
     setAuthorizationToken(token);
 
     let user = jwt.decode(token);
+    await unlockPK(password);
     dispatch({
       type: 'LOGIN',
       payload: user
     });
-
-    unlockPK(password);
   };
 };
 

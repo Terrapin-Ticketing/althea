@@ -10,18 +10,6 @@ class TicketTransferModal extends Component {
     this.state = {
 
     };
-    this.transferTicket = this.transferTicket.bind(this);
-  }
-
-  transferTicket(ticketAddress, recipientAddress, password) {
-    this.props.transferTicket(ticketAddress, recipientAddress, password)
-      .then((data) => {
-        console.log('ticket transfered: ', data);
-      })
-      .catch((err) => {
-        console.log('error transfering ticket: ', err);
-      });
-
   }
 
   render() {
@@ -31,13 +19,16 @@ class TicketTransferModal extends Component {
         isOpen={isOpen}
         contentLabel="View Ticket Modal"
         onRequestClose={() => closeModal()}
+        onAfterOpen={() => {
+          const { ticket } = this.props;
+          this.props.transferTicket(ticket.id, this.state.recipient);
+        }}
         style={require('./../../../layouts/modal-styles').default}
         >
           <div className="ticket-action-modal">
             <h3>Transfer Ticket:</h3>
             <span className="ticket-address">{(ticket) ? ticket.id : null}</span>
             <input type="text" onChange={(e) => this.setState({recipient: e.target.value})} placeholder="paste ticket recipient address here" />
-            <input type="text" onChange={(e) => this.setState({password: e.target.value})} placeholder="confirm your password here" />
             <button onClick={() => this.transferTicket(ticket.id, this.state.recipient, this.state.password )}>Transfer Ticket</button>
           </div>
         </ReactModal>

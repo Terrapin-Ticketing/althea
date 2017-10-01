@@ -126,7 +126,7 @@ export const getUserBalance = () => {
   };
 };
 
-export const redeemTicket = (password, data) => {
+export const redeemTicket = (data) => {
   return async (dispatch, getState) => {
     let { walletAddress, privateKey } = getState().auth.user;
 

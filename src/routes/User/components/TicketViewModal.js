@@ -54,12 +54,13 @@ class ViewTicketModal extends Component {
         onRequestClose={() => closeModal()}
         style={require('./../../../layouts/modal-styles').default}
         >
-          <canvas id="qr-canvas" ref={(c) => { this.qrCanvas = c; }} style={{ margin: 'auto' }}/>
+          <div className="ticket-container">
+            <canvas id="qr-canvas" ref={(c) => { this.qrCanvas = c; }} style={{ margin: 'auto' }}/>
 
-          <div className="ticket-action-modal">
-            <h2>View Ticket:</h2>
-            <span className="ticket-address">{(ticket) ? ticket.id : null}</span>
-
+            <div className="ticket-action-modal">
+              <h2>View Ticket:</h2>
+              <span className="ticket-address">{(ticket) ? ticket.id : null}</span>
+            </div>
           </div>
         </ReactModal>
     );

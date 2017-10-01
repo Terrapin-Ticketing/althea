@@ -76,14 +76,7 @@ class Events extends Component {
             <span className="event-header">Event Details</span>
             <span className='event-name'><b>Name:</b> {selectedEvent && selectedEvent.name}</span>
             <span className='event-price'><b>Price:</b> {selectedEvent && web3.utils.fromWei(selectedEvent.price, 'ether')} ETH</span>
-            <input
-              style={{textAlign: 'center', }}
-              value={confirmPassword}
-              placeholder="enter password to confirm purchase"
-              onChange={(e) => {
-                console.log('confirmPassword: ', confirmPassword);
-                this.setState({confirmPassword: e.target.value });
-              }}/>
+
             <button
               className={classNames('purchase-ticket', {isLoading: isLoading, notLoading: !isLoading })}
               onClick={() => {

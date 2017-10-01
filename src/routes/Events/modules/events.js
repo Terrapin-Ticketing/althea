@@ -11,17 +11,6 @@ let getContractInstance = (abi, address) => {
   return instance;
 };
 
-let decryptPrivateKey = (key, ciphered) => {
-  let algorithm = 'aes256';
-  let inputEncoding = 'utf8';
-  let outputEncoding = 'hex';
-
-  let decipher = crypto.createDecipher(algorithm, key);
-  let deciphered = decipher.update(ciphered, outputEncoding, inputEncoding);
-  deciphered += decipher.final(inputEncoding);
-  return deciphered;
-};
-
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -72,11 +61,11 @@ export function getEvents() {
   };
 }
 
-export const buyTicket = (event, password) => {
+export const buyTicket = (event) => {
   return async (dispatch, getState) => {
     let { walletAddress, encryptedPrivateKey } = getState().auth.user;
-    let privateKey = decryptPrivateKey(password, encryptedPrivateKey).substring(2);
-    privateKey = Buffer.from(privateKey, 'hex');
+
+    let { privateKey } = getState().auth.user;
 
     let { abis } = getState().terrapin;
 
