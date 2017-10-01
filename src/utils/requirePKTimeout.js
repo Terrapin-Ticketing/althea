@@ -14,7 +14,7 @@ function startInterval(props) {
       props.router.push('/unlock-account');
       idleTime = 0;
     }
-  }, 6000); // 1 minute
+  }, 60000); // 1 minute
 }
 
 function stopInterval() {
