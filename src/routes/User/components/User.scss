@@ -77,7 +77,6 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 500px;
 
   .deposit-address {
     flex: 1;
@@ -87,6 +86,11 @@
     margin: 10px 0px;
   }
 }
+
+// .tab-table {
+//   overflow: scroll;
+//   background: red;
+// }
 
 .events-table {
   display: flex;

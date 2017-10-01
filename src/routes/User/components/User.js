@@ -31,7 +31,6 @@ class User extends Component {
 
   loadData() {
     this.setState({ dataLoaded: true });
-    console.log('user did mount');
     this.props.getUserEvents();
     this.props.getUserTickets();
     this.props.getUserBalance();
@@ -126,17 +125,17 @@ class User extends Component {
             <Link to='/createEvent'>
               <button>Create New Event</button>
             </Link>
-            <table className="events-table">
-              <th>
-                <td>Name</td>
-                <td>Price</td>
-                <td>Qty</td>
-                <td>Actions</td>
-              </th>
-              <tbody>
-                {this.renderEvents()}
-              </tbody>
-            </table>
+              <table className="events-table">
+                <th>
+                  <td>Name</td>
+                  <td>Price</td>
+                  <td>Qty</td>
+                  <td>Actions</td>
+                </th>
+                <tbody>
+                  {this.renderEvents()}
+                </tbody>
+              </table>
           </TabPanel>
           <TabPanel>
             <h2>Tickets</h2>
