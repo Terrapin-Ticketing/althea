@@ -1,7 +1,9 @@
+.nav-link {
+  // background: red;
+}
+
 .navigation {
-  display: flex;
   flex-direction: column;
-  flex: 1;
   background-color: #ffffff;
   right: 0;
   left: 0;
@@ -31,15 +33,20 @@
     text-decoration: none;
     // color: #176665;
     transition: background-color .2s linear;
-
   }
 }
 
 .navigation-container {
   display: flex;
   justify-content: center;
-  align-items: center;
   background: #ffffff;
+
+  .nav-controls {
+    // display: none;/
+    display: flex;
+    flex: 1;
+    // flex-direction: row;
+  }
 
   .nav-logo {
     display: none;
@@ -84,6 +91,14 @@
         color: #219a4b;
         flex: 0 0 30px;
         align-self: center;
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+      .burger-space {
+        color: #219a4b;
+        flex: 0 0 30px;
+        align-self: center;
+        margin-right: 20px;
         margin-left: 20px;
       }
       .filler {

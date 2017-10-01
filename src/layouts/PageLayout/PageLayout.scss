@@ -1,6 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   .top-bar {
     display: flex;
@@ -36,5 +37,14 @@
       flex: 1;
     }
 
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 768px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 0%;
+    background: blue;
   }
 }
