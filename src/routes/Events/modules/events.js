@@ -18,6 +18,7 @@ export const GET_EVENTS = 'GET_EVENTS';
 export const CLICK_BUY_TICKET = 'CLICK_BUY_TICKET';
 export const BUY_TICKET = 'BUY_TICKET';
 export const SET_EVENTS = 'SET_EVENTS';
+export const CLEAR_EVENTS = 'CLEAR_EVENTS';
 
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for
@@ -130,6 +131,12 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       events: action.payload
+    };
+  },
+  [CLEAR_EVENTS]: (state) => {
+    return {
+      ...state,
+      events: []
     };
   }
 };

@@ -65,6 +65,8 @@ export const getUserEvents = () => {
     return pasync.eachSeries(eventAddresses, async (eventAddress) => {
       let eventInstance = getContractInstance(abis.event.abi, eventAddress);
       let owner = await eventInstance.methods.owner().call();
+      console.log(')  owner:', owner);
+
       if (owner === user.walletAddress) {
         let ticketAddreses = await eventInstance.methods.getTickets().call();
 

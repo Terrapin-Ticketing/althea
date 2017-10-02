@@ -10,6 +10,11 @@ async function logout(store) {
     payload: null
   });
 
+  await store.dispatch({
+    type: 'CLEAR_EVENTS',
+    payload: null
+  });
+
   browserHistory.push('/login');
 }
 

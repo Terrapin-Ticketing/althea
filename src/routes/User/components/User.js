@@ -42,6 +42,10 @@ class User extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.setState({ dataLoaded: false });
+  }
+
   openTicketViewModal(ticket) {
     this.setState({viewTicketModalOpen: true, selectedTicket: ticket});
   }
