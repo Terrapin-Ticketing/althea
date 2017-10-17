@@ -12,32 +12,29 @@ class Events extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
-      selectedEvent: null,
       events: [],
       confirmPassword: null
     };
     this.renderListItem = this.renderListItem.bind(this);
-    this.buyTicket = this.buyTicket.bind(this);
   }
 
   componentDidMount() {
     this.props.getEvents();
   }
 
-  async buyTicket(event, password) {
-    this.setState({isLoading: true});
-
-    await this.props.buyTicket(event, password);
-    await this.props.getEvents();
-    this.setState({ isLoading: false, buyModalOpen: false });
-  }
+  // async buyTicket(event, password) {
+  //   this.setState({isLoading: true});
+  //
+  //   await this.props.buyTicket(event, password);
+  //   await this.props.getEvents();
+  //   this.setState({ isLoading: false, buyModalOpen: false });
+  // }
 
   renderListItem(item, index) {
     return (
       <tr key={item.id} className={classNames('eventRow', {'odd': (index % 2 !== 0)})}>
         <td style={{flex: 2}}>{item.name}</td>
-        <td>{web3.utils.fromWei(item.price, 'ether')} ETH</td>
+        <td>${item.price}</td>
         <td>{item.qty} Left</td>
         <td>
 
@@ -62,14 +59,9 @@ class Events extends Component {
   }
 
   render() {
-    let { selectedEvent, confirmPassword, isLoading } = this.state;
-    console.log('this.props: ', this.props);
-    console.log('this.props.events: ', this.props.events);
     return (
       <div className='events-container'>
         {this.props.children}
-
-
         <h1>Upcoming Events</h1>
         <table>
           <th>
@@ -84,33 +76,6 @@ class Events extends Component {
             })}
           </tbody>
         </table>
-
-        <ReactModal
-          isOpen={this.state.buyModalOpen}
-          contentLabel="Payment Modal"
-          onRequestClose={() => {
-            if (!this.state.isLoading) {
-              this.setState({buyModalOpen: false});
-            }
-          }}
-          style={require('./../../../layouts/modal-styles').default}
-        >
-          <h2 className="checkout-header">Buy a Ticket</h2>
-          <div className="event-details">
-            <span className="event-header">Event Details</span>
-            <span className='event-name'><b>Name:</b> {selectedEvent && selectedEvent.name}</span>
-            <span className='event-price'><b>Price:</b> {selectedEvent && web3.utils.fromWei(selectedEvent.price, 'ether')} ETH</span>
-
-            <button
-              className={classNames('purchase-ticket', {isLoading: isLoading, notLoading: !isLoading })}
-              onClick={() => {
-                console.log('this.state.confirmPassword: ', confirmPassword);
-                this.buyTicket(selectedEvent, confirmPassword);
-              }}>
-              { (isLoading) ? <img src={require('../../../layouts/assets/img/spinner.svg')} /> : 'Confirm Purchase'}
-            </button>
-          </div>
-        </ReactModal>
       </div>
     );
   }

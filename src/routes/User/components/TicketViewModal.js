@@ -55,13 +55,13 @@ class ViewTicketModal extends Component {
         style={require('./../../../layouts/modal-styles').default}
         >
           <div className="ticket-container">
+            <h2>View Ticket:</h2>
             <canvas id="qr-canvas" ref={(c) => { this.qrCanvas = c; }} style={{ margin: 'auto' }}/>
             <span className="ticket-address">{(ticket) ? ticket.id : null}</span>
 
-            {/* <div className="ticket-action-modal">
-              <h2>View Ticket:</h2>
+            <div className="ticket-action-modal">
               <span className="ticket-address">{(ticket) ? ticket.id : null}</span>
-            </div> */}
+            </div>
           </div>
         </ReactModal>
     );

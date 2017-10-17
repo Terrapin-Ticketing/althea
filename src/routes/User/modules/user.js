@@ -77,7 +77,7 @@ export const getUserEvents = () => {
           id: eventInstance.options.address,
           name: web3.utils.toAscii(await eventInstance.methods.name().call()),
           qty: ticketAddreses.length,
-          price: await (ticketInstance.methods.price().call())
+          price: await (ticketInstance.methods.usdPrice().call())
         });
 
         dispatch({
