@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import classNames from 'classnames';
 import ReactModal from 'react-modal';
 import web3 from 'web3';
@@ -35,18 +36,27 @@ class Events extends Component {
         <td style={{flex: 2}}>{item.name}</td>
         <td>{web3.utils.fromWei(item.price, 'ether')} ETH</td>
         <td>{item.qty} Left</td>
-        <td><button onClick={() => {
-          this.setState({'buyModalOpen': true, selectedEvent: item });
-        }}>Buy Ticket</button></td>
+        <td>
+          <Link to={`/event/${item.id}`}>
+            <button>Select Event</button>
+          </Link>
+          <button onClick={() => {
+            this.setState({'buyModalOpen': true, selectedEvent: item });
+          }}>Buy Ticket</button>
+        </td>
       </tr>
     );
   }
 
   render() {
     let { selectedEvent, confirmPassword, isLoading } = this.state;
-
+    console.log('this.props: ', this.props);
+    console.log('this.props.events: ', this.props.events);
     return (
       <div className='events-container'>
+        {this.props.children}
+
+
         <h1>Upcoming Events</h1>
         <table>
           <th>

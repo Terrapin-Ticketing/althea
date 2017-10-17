@@ -4,6 +4,7 @@ import Home from './Home';
 import LoginRoute from './Login';
 import SignupRoute from './Signup';
 import EventsRoute from './Events';
+import EventRoute from './Event';
 import CreateEventRoute from './CreateEvent';
 import UserRoute from './User';
 import UnlockRoute from './Unlock';
@@ -24,6 +25,7 @@ export const createRoutes = (store) => ({
     UnlockRoute(store, [ requireAuth ]),
     SignupRoute(store, [ requirePKTimeout ]),
     EventsRoute(store, [ requirePKTimeout, requirePK ]),
+    EventRoute(store, [ requirePKTimeout, requirePK ]),
     CreateEventRoute(store, [ requireAuth, requirePKTimeout, requirePK ]),
     UserRoute(store, [ requireAuth, requirePKTimeout, requirePK ])
   ]

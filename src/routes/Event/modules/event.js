@@ -14,50 +14,57 @@ let getContractInstance = (abi, address) => {
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const GET_EVENTS = 'GET_EVENTS';
-export const CLICK_BUY_TICKET = 'CLICK_BUY_TICKET';
-export const BUY_TICKET = 'BUY_TICKET';
-export const SET_EVENTS = 'SET_EVENTS';
-export const CLEAR_EVENTS = 'CLEAR_EVENTS';
+export const SET_EVENT_DETAILS = 'SET_EVENT_DETAILS';
 
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
-export function getEvents() {
+export function getEventInfo(eventAddress) {
+  console.log('getEventInfo called');
   return async (dispatch, getState) => {
-    const { abis, terrapinAddress } = getState().terrapin;
 
-    let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
+    console.log('isAddress: ', web3.utils.toHex(eventAddress));
 
-    let eventAddresses = await terrapinInstance.methods.getEvents().call();
-    let events = [];
-    await pasync.eachSeries(eventAddresses, async (eventAddress) => {
-      let eventInstance = getContractInstance(abis.event.abi, eventAddress);
-      let eventOwner = await eventInstance.methods.owner().call();
+    const { abis } = getState().terrapin;
+    let eventInstance = getContractInstance(abis.event.abi, web3.utils.toHex(eventAddress));
 
-      // this take FOREVERRR to return. THIS is where our caching service will make a big difference
-      let ticketAddresses = await eventInstance.methods.getTickets().call();
+    // this take FOREVERRR to return. THIS is where our caching service will make a big difference
+    let ticketAddresses = await eventInstance.methods.getTickets().call();
+    let eventOwner = await eventInstance.methods.owner().call();
+    console.log('ticketAddresses: ', ticketAddresses);
+    let remaining = 0;
+    await pasync.each(ticketAddresses, async (ticketAddress) => {
+      console.log('ticketAddress: ', ticketAddress);
+      let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
+      let ticketOwner = await ticketInstance.methods.owner().call();
+      if (eventOwner === ticketOwner) {
+        remaining++;
+      }
+    });
 
-      let remaining = 0;
-      await pasync.each(ticketAddresses, async (ticketAddress) => {
-        let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
-        let ticketOwner = await ticketInstance.methods.owner().call();
-        if (eventOwner === ticketOwner) {
-          remaining++;
-        }
-      });
+    console.log('pass');
+    let event = {
+      id: eventInstance.options.address,
+      name: web3.utils.toAscii(await eventInstance.methods.name().call()),
+      // date: web3.utils.toAscii(await eventInstance.methods.date().call()),
+      imageUrl: web3.utils.toAscii(await eventInstance.methods.imageUrl().call()),
+      venue: {
+        name: web3.utils.toAscii(await eventInstance.methods.venueName().call()),
+        address: web3.utils.toAscii(await eventInstance.methods.venueAddress().call()),
+        city: web3.utils.toAscii(await eventInstance.methods.venueCity().call()),
+        state: web3.utils.toAscii(await eventInstance.methods.venueState().call()),
+        zip: web3.utils.toAscii(await eventInstance.methods.venueZip().call()),
+      },
+      ticketsRemaining: remaining,
+      tickets: ticketAddresses,
+      price: await (getContractInstance(abis.ticket.abi, ticketAddresses[0]).methods.usdPrice().call())
+    };
 
-      events.push({
-        id: eventInstance.options.address,
-        name: web3.utils.toAscii(await eventInstance.methods.name().call()),
-        qty: remaining,
-        price: await (getContractInstance(abis.ticket.abi, ticketAddresses[0]).methods.usdPrice().call())
-      });
+    console.log('getEventInfo dispatch: ', event);
 
-      dispatch({
-        type: SET_EVENTS,
-        payload: events
-      });
+    dispatch({
+      type: SET_EVENT_DETAILS,
+      payload: event
     });
   };
 }
@@ -113,7 +120,7 @@ export const buyTicket = (event) => {
 };
 
 export const actions = {
-  getEvents,
+  getEventInfo,
   buyTicket
 };
 
@@ -121,22 +128,11 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [GET_EVENTS]: (state, action) => {
+  [SET_EVENT_DETAILS]: (state, action) => {
+    console.log('action.payload: ', action.payload);
     return {
       ...state,
-      events: action.payload
-    };
-  },
-  [SET_EVENTS]: (state, action) => {
-    return {
-      ...state,
-      events: action.payload
-    };
-  },
-  [CLEAR_EVENTS]: (state) => {
-    return {
-      ...state,
-      events: []
+      currentEvent: action.payload
     };
   }
 };
@@ -145,10 +141,10 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  events: []
+  currentEvent: {}
 };
 
-export default function loginReducer(state = initialState, action) {
+export default function eventReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;
