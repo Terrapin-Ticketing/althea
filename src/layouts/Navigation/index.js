@@ -1,6 +1,5 @@
 import React from 'react';
-import { IndexLink, Link } from 'react-router';
-import { browserHistory } from 'react-router';
+import { browserHistory, IndexLink, Link } from 'react-router';
 import { connect } from 'react-redux';
 import './Navigation.scss';
 

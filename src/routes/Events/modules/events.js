@@ -74,7 +74,7 @@ export function getEvents() {
         id: eventInstance.options.address,
         name: web3.utils.toAscii(await eventInstance.methods.name().call()),
         qty: remaining,
-        price: await (getContractInstance(abis.ticket.abi, ticketAddresses[0]).methods.price().call())
+        price: await (getContractInstance(abis.ticket.abi, ticketAddresses[0]).methods.usdPrice().call())
       });
 
       dispatch({

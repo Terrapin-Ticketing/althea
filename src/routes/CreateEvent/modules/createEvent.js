@@ -11,7 +11,7 @@ let getContractInstance = (abi, address) => {
   return instance;
 };
 
-export const createEvent = (name, qty, price) => {
+export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip, qty) => {
   return async function(dispatch, getState) {
     // TODO: Update this
     let { user } = getState().auth;
@@ -28,8 +28,18 @@ export const createEvent = (name, qty, price) => {
 
     console.log('Total Gas Cost:', web3.utils.fromWei(gasPrice * gas, 'ether'));
 
-    let encodedAbi = terrapinInstance.methods.createEvent(web3.utils.fromAscii(name)).encodeABI();
+    console.log('gerg');
+    console.log(name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip, qty);
+    console.log(web3.utils.fromAscii(name), web3.utils.fromAscii(usdPrice), web3.utils.fromAscii(imageUrl), web3.utils.fromAscii(date),
+    web3.utils.fromAscii(venueName), web3.utils.fromAscii(venueAddress), web3.utils.fromAscii(venueCity),
+    web3.utils.fromAscii(venueState), web3.utils.fromAscii(venueZip), web3.utils.fromAscii(qty));
 
+    let encodedAbi = terrapinInstance.methods.createEvent(
+      web3.utils.fromAscii(name), web3.utils.fromAscii(usdPrice), web3.utils.fromAscii(imageUrl), web3.utils.fromAscii(date),
+      web3.utils.fromAscii(venueName), web3.utils.fromAscii(venueAddress), web3.utils.fromAscii(venueCity),
+      web3.utils.fromAscii(venueState), web3.utils.fromAscii(venueZip)
+    ).encodeABI();
+    console.log('hits11');
     let txParams = {
       nonce: nonce++,
       chainId,
@@ -57,6 +67,7 @@ export const createEvent = (name, qty, price) => {
     let eventAddresses = await terrapinInstance.methods.getEvents().call();
     let mostRecent;
     return pasync.eachSeries(eventAddresses, async (eventAddress) => {
+      console.log('eventAddress: ', eventAddress);
       let eventInstance = getContractInstance(abis.event.abi, eventAddress);
       let owner = await eventInstance.methods.owner().call();
       if (owner === user.walletAddress) {
@@ -64,12 +75,14 @@ export const createEvent = (name, qty, price) => {
       }
     })
     .then(async () => {
+      console.log('then');
       if (mostRecent) {
+        console.log('most recent');
         let N = qty;
         let nonceInterval = Array.apply(null, {length: N}).map(Number.call, Number);
 
         return pasync.each(nonceInterval, async (i) => {
-          let encodedAbi = mostRecent.methods.printTicket(parseInt(price)).encodeABI();
+          let encodedAbi = mostRecent.methods.printTicket(parseInt(usdPrice)).encodeABI();
 
           let txParams = {
             nonce: nonce + i,
@@ -85,7 +98,7 @@ export const createEvent = (name, qty, price) => {
           tx.sign(new Buffer(privateKey));
 
           const serializedTx = tx.serialize();
-
+          console.log('send transaction');
           let x = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
           console.log('made ticket', x);
         });

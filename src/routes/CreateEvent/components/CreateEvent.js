@@ -8,15 +8,22 @@ class CreateEvent extends Component {
     this.state = {
       name: '',
       qty: '', // TODO: Force to int
-      price: '', // TODO: Force to int,
+      usdPrice: '', // TODO: Force to int,
+      imageUrl: '',
+      date: '',
+      venueName: '',
+      venueAddress: '',
+      venueCity: '',
+      venueState: '',
+      venueZip: '',
       password: null
     };
   }
 
   async onSubmit() {
-    let { name, qty, price, password } = this.state;
+    let { name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip, qty } = this.state;
     try {
-      await this.props.createEvent(name, parseInt(qty), web3.utils.toWei(price, 'ether'), password);
+      await this.props.createEvent(name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip, parseInt(qty));
       this.props.router.push('/events');
     } catch (e) {
       console.log('err', e);
@@ -41,11 +48,56 @@ class CreateEvent extends Component {
           }} />
         </label>
         <label className='label'>
-          <span>Price:</span>
+          <span>Price ($):</span>
           <input type="text" value={this.state.price} onChange={(e) => {
-            this.setState({price: e.target.value});
+            this.setState({usdPrice: e.target.value});
           }} />
         </label>
+        <h2>Other Info</h2>
+        <label className='label'>
+          <span>Image Url:</span>
+          <input type="text" value={this.state.price} onChange={(e) => {
+            this.setState({imageUrl: e.target.value});
+          }} />
+        </label>
+        <label className='label'>
+          <span>Date:</span>
+          <input type="text" value={this.state.price} onChange={(e) => {
+            this.setState({date: e.target.value});
+          }} />
+        </label>
+        <h2>Venue Info</h2>
+        <label className='label'>
+          <span>Name:</span>
+          <input type="text" value={this.state.price} onChange={(e) => {
+            this.setState({venueName: e.target.value});
+          }} />
+        </label>
+        <label className='label'>
+          <span>Address:</span>
+          <input type="text" value={this.state.price} onChange={(e) => {
+            this.setState({venueAddress: e.target.value});
+          }} />
+        </label>
+        <label className='label'>
+          <span>City:</span>
+          <input type="text" value={this.state.price} onChange={(e) => {
+            this.setState({venueCity: e.target.value});
+          }} />
+        </label>
+        <label className='label'>
+          <span>State:</span>
+          <input type="text" value={this.state.price} onChange={(e) => {
+            this.setState({venueState: e.target.value});
+          }} />
+        </label>
+        <label className='label'>
+          <span>Zipcode:</span>
+          <input type="text" value={this.state.price} onChange={(e) => {
+            this.setState({venueZip: e.target.value});
+          }} />
+        </label>
+
         <span className='error'>{(this.props.createEventError) ? this.props.createEventError : null}</span>
 
         <button onClick={() => this.onSubmit()}>Create Event</button>
