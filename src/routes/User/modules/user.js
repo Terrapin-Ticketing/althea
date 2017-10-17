@@ -55,6 +55,7 @@ export const getUserTickets = () => {
 export const getUserEvents = () => {
   return async (dispatch, getState) => {
     let { user } = getState().auth;
+    if (!user || !user.walletAddress) return;
 
     let { abis, terrapinAddress } = getState().terrapin;
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
@@ -65,7 +66,7 @@ export const getUserEvents = () => {
     return pasync.eachSeries(eventAddresses, async (eventAddress) => {
       let eventInstance = getContractInstance(abis.event.abi, eventAddress);
       let owner = await eventInstance.methods.owner().call();
-      console.log(')  owner:', owner);
+      console.log(')  owner:', owner, user.walletAddress);
 
       if (owner === user.walletAddress) {
         let ticketAddreses = await eventInstance.methods.getTickets().call();
@@ -134,7 +135,10 @@ export const redeemTicket = (data) => {
 
     let sections = data.split('-');
     let { eventAddress, ticketAddress } = JSON.parse(sections[0]);
+
+    console.log('WE shouldnt create the message from the given message. this allows someone to trick a user into signing a fraud message then scanning it in themselves');
     let messageHash = sections[1];
+
     let signedMessage = sections[2];
 
     // recover from ecsign
@@ -172,58 +176,6 @@ export const redeemTicket = (data) => {
     const serializedTx = tx.serialize();
     let transaction = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
     return transaction;
-  };
-};
-
-export const createQrCode = (eventAddress, ticketAddress, password) => {
-  return (dispatch, getState) => {
-    // let { encryptedPrivateKey } = getState().auth.user;
-    // let privateKey = decryptPrivateKey(password, encryptedPrivateKey).substring(2);
-    // let privateKeyx = Buffer.from(privateKey, 'hex');
-    //
-    // let message = `${eventAddress}${ticketAddress}`; // message to sign
-    //
-    // // ecsign requires a sha3 string
-    // let messageHash = web3.utils.sha3(message);
-    // let messageHashx = Buffer.from(messageHash.substring(2), 'hex');
-    // let signedMessage = ethUtils.ecsign(messageHashx, privateKeyx);
-    // let signedHash = ethUtils.toRpcSig(signedMessage.v, signedMessage.r, signedMessage.s).toString('hex');
-    //
-    // // QR CODE:
-    // // [
-    // //   message, // store raw values
-    // //   messageHashx, // ecrecover
-    // //   signedHash // rpcSig
-    // // ]
-    //
-    // let qrCodeHex = `${message}-0x${messageHashx.toString('hex')}-${signedHash}`;
-    //
-    // console.log('qrCodeHex', qrCodeHex);
-    //
-    // return qrCodeHex;
-
-    // // recover from ecsign
-    // let sigDecoded = ethUtils.fromRpcSig(signedHash);
-    // let pubkey = ethUtils.ecrecover(messageHashx, sigDecoded.v, sigDecoded.r, sigDecoded.s);
-    // let walletAddress = ethUtils.publicToAddress(pubkey).toString('hex');
-    // console.log('walletAddress: ', walletAddress);
-
-    // var check1 = pubkey.toString('hex') ==
-    //     ethUtils.privateToPublic(privkey).toString('hex');
-    // var check2 = ethUtils.publicToAddress(pubkey).toString('hex') ==
-    //     ethUtils.privateToAddress(privkey).toString('hex');
-    //
-    // ethUtils.ecrecover(data, vrs.v, vrs.r, vrs.s);
-    //
-    // console.log(eventAddress, ticketAddress, password);
-
-    // `${eventAddress}${ticketAddress}`
-    // signed(`${eventAddress}${ticketAddress}`)
-
-    // does this public key own a ticket to this event!?
-    // await eventInstance.methods.getTickets().call()
-    // find if this person owns a ticket
-    // set ticket to "redeemed"
   };
 };
 

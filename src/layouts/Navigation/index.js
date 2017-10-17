@@ -6,12 +6,12 @@ import './Navigation.scss';
 
 async function logout(store) {
   await store.dispatch({
-    type: 'LOGOUT',
+    type: 'CLEAR_EVENTS',
     payload: null
   });
 
   await store.dispatch({
-    type: 'CLEAR_EVENTS',
+    type: 'LOGOUT',
     payload: null
   });
 

@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import ReactModal from 'react-modal';
 import web3 from 'web3';
 
+import StripeCheckout from './StripeCheckout';
+
 import './Events.scss';
 
 class Events extends Component {
@@ -24,6 +26,7 @@ class Events extends Component {
 
   async buyTicket(event, password) {
     this.setState({isLoading: true});
+
     await this.props.buyTicket(event, password);
     await this.props.getEvents();
     this.setState({ isLoading: false, buyModalOpen: false });
@@ -35,9 +38,16 @@ class Events extends Component {
         <td style={{flex: 2}}>{item.name}</td>
         <td>{web3.utils.fromWei(item.price, 'ether')} ETH</td>
         <td>{item.qty} Left</td>
-        <td><button onClick={() => {
-          this.setState({'buyModalOpen': true, selectedEvent: item });
-        }}>Buy Ticket</button></td>
+        <td>
+          <StripeCheckout
+            buyTicketStripe={this.props.buyTicketStripe}
+            event={item}
+            user={this.props.user}
+          />
+          {/* <button onClick={() => {
+            this.setState({'buyModalOpen': true, selectedEvent: item });
+          }}>Buy Ticket</button> */}
+        </td>
       </tr>
     );
   }
@@ -61,6 +71,7 @@ class Events extends Component {
             })}
           </tbody>
         </table>
+
         <ReactModal
           isOpen={this.state.buyModalOpen}
           contentLabel="Payment Modal"

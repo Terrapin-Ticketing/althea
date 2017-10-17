@@ -11,6 +11,29 @@ let getContractInstance = (abi, address) => {
   return instance;
 };
 
+async function getAvailableTicket(eventAddress, abis) {
+  let eventInstance = getContractInstance(abis.event.abi, eventAddress);
+  let eventOwner = await eventInstance.methods.owner().call();
+
+  let ticketAddresses = await eventInstance.methods.getTickets().call();
+
+  let isBreak = false;
+  let availableTicket;
+  await pasync.eachSeries(ticketAddresses, async (ticketAddress) => {
+    if (isBreak) return;
+    let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
+    let ticketOwner = await ticketInstance.methods.owner().call();
+
+    if (ticketOwner === eventOwner) {
+      availableTicket = ticketInstance;
+
+      // let newOwner = await ticketInstance.methods.owner().call();
+      isBreak = true;
+    }
+  });
+  return availableTicket;
+}
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -62,53 +85,85 @@ export function getEvents() {
   };
 }
 
-export const buyTicket = (event) => {
+export const buyTicketStripe = (token, eventAddress) => {
   return async (dispatch, getState) => {
-    let { walletAddress, encryptedPrivateKey } = getState().auth.user;
-
-    let { privateKey } = getState().auth.user;
-
+    let { walletAddress } = getState().auth.user;
     let { abis } = getState().terrapin;
 
-    let eventInstance = getContractInstance(abis.event.abi, event.id);
-    let eventOwner = await eventInstance.methods.owner().call();
+    let ticketInstance = await getAvailableTicket(eventAddress, abis);
 
-    let ticketAddresses = await eventInstance.methods.getTickets().call();
+    let res = await axios.post(`${EOTW_URL}/buy-ticket`, {
+      token,
+      ticketAddress: ticketInstance.options.address,
+      walletAddress
+    });
+
+    console.log('buying ticket through stripe', res);
+  };
+};
+
+export const buyTicket = (event) => {
+  return async (dispatch, getState) => {
+    let { walletAddress, privateKey } = getState().auth.user;
+    let { abis } = getState().terrapin;
+
+    let ticketInstance = await getAvailableTicket(event.id, abis);
+    // if (!terrapinInstance.options.addresses)
+
     let nonce = await web3.eth.getTransactionCount(walletAddress);
     let chainId = await web3.eth.net.getId();
     let gas = `0x${(4700000).toString(16)}`;
     let gasPrice = `0x${(gwei * 20).toString(16)}`;
 
-    let isBreak = false;
-    await pasync.eachSeries(ticketAddresses, async (ticketAddress) => {
-      if (isBreak) return;
-      let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
-      let ticketOwner = await ticketInstance.methods.owner().call();
+    let ticketPrice = parseInt(await ticketInstance.methods.price().call());
 
-      if (ticketOwner === eventOwner) {
-        let ticketPrice = parseInt(await ticketInstance.methods.price().call());
+    let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
+    let txParams = {
+      nonce,
+      chainId,
+      to: ticketInstance.options.address,
+      value: ticketPrice,
+      gas,
+      gasPrice,
+      data: encodedAbi
+    };
 
-        let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
-        let txParams = {
-          nonce,
-          chainId,
-          to: ticketInstance.options.address,
-          value: ticketPrice,
-          gas,
-          gasPrice,
-          data: encodedAbi
-        };
+    let tx = new EthereumTx(txParams);
+    tx.sign(new Buffer(privateKey));
+    let serializedTx = tx.serialize();
 
-        let tx = new EthereumTx(txParams);
-        tx.sign(new Buffer(privateKey));
-        let serializedTx = tx.serialize();
+    await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
 
-        await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
-
-        let newOwner = await ticketInstance.methods.owner().call();
-        isBreak = true;
-      }
-    });
+    // let isBreak = false;
+    // await pasync.eachSeries(ticketAddresses, async (ticketAddress) => {
+    //   if (isBreak) return;
+    //   let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
+    //   let ticketOwner = await ticketInstance.methods.owner().call();
+    //
+    //   if (ticketOwner === eventOwner) {
+    //     let ticketPrice = parseInt(await ticketInstance.methods.price().call());
+    //
+    //     let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
+    //     let txParams = {
+    //       nonce,
+    //       chainId,
+    //       to: ticketInstance.options.address,
+    //       value: ticketPrice,
+    //       gas,
+    //       gasPrice,
+    //       data: encodedAbi
+    //     };
+    //
+    //     let tx = new EthereumTx(txParams);
+    //     tx.sign(new Buffer(privateKey));
+    //     let serializedTx = tx.serialize();
+    //
+    //     await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+    //
+    //     // let newOwner = await ticketInstance.methods.owner().call();
+    //     isBreak = true;
+    //   }
+    // });
   };
 };
 

@@ -20,11 +20,12 @@ export const login = (email, password) => {
       withCredentials: true
     });
 
-
     let { token } = res.data;
     setAuthorizationToken(token);
 
     let user = jwt.decode(token);
+
+    console.log('setting user', user);
 
     dispatch({
       type: 'LOGIN',

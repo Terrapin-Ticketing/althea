@@ -29,18 +29,25 @@ class User extends Component {
     this.openTicketTransferModal = this.openTicketTransferModal.bind(this);
   }
 
-  loadData() {
+  async loadData() {
+    await this.props.getUserEvents();
+    await this.props.getUserTickets();
+    await this.props.getUserBalance();
     this.setState({ dataLoaded: true });
-    this.props.getUserEvents();
-    this.props.getUserTickets();
-    this.props.getUserBalance();
   }
 
-  componentWillReceiveProps() {
-    if (!this.state.dataLoaded && this.props.user) {
+  componentDidMount() {
+    if (!this.state.dataLoaded && this.props.user && this.props.user.walletAddress) {
       this.loadData();
     }
   }
+
+  // componentWillReceiveProps() {
+  //  // need this for live updating of people buying tickets
+  //   if (!this.state.dataLoaded && this.props.user && this.props.user.walletAddress) {
+  //     this.loadData();
+  //   }
+  // }
 
   componentWillUnmount() {
     this.setState({ dataLoaded: false });
