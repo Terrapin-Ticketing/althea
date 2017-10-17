@@ -15,8 +15,6 @@ let getContractInstance = (abi, address) => {
 // Constants
 // ------------------------------------
 export const GET_EVENTS = 'GET_EVENTS';
-export const CLICK_BUY_TICKET = 'CLICK_BUY_TICKET';
-export const BUY_TICKET = 'BUY_TICKET';
 export const SET_EVENTS = 'SET_EVENTS';
 export const CLEAR_EVENTS = 'CLEAR_EVENTS';
 
@@ -62,59 +60,8 @@ export function getEvents() {
   };
 }
 
-export const buyTicket = (event) => {
-  return async (dispatch, getState) => {
-    let { walletAddress, encryptedPrivateKey } = getState().auth.user;
-
-    let { privateKey } = getState().auth.user;
-
-    let { abis } = getState().terrapin;
-
-    let eventInstance = getContractInstance(abis.event.abi, event.id);
-    let eventOwner = await eventInstance.methods.owner().call();
-
-    let ticketAddresses = await eventInstance.methods.getTickets().call();
-    let nonce = await web3.eth.getTransactionCount(walletAddress);
-    let chainId = await web3.eth.net.getId();
-    let gas = `0x${(4700000).toString(16)}`;
-    let gasPrice = `0x${(gwei * 20).toString(16)}`;
-
-    let isBreak = false;
-    await pasync.eachSeries(ticketAddresses, async (ticketAddress) => {
-      if (isBreak) return;
-      let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
-      let ticketOwner = await ticketInstance.methods.owner().call();
-
-      if (ticketOwner === eventOwner) {
-        let ticketPrice = parseInt(await ticketInstance.methods.price().call());
-
-        let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
-        let txParams = {
-          nonce,
-          chainId,
-          to: ticketInstance.options.address,
-          value: ticketPrice,
-          gas,
-          gasPrice,
-          data: encodedAbi
-        };
-
-        let tx = new EthereumTx(txParams);
-        tx.sign(new Buffer(privateKey));
-        let serializedTx = tx.serialize();
-
-        await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
-
-        let newOwner = await ticketInstance.methods.owner().call();
-        isBreak = true;
-      }
-    });
-  };
-};
-
 export const actions = {
-  getEvents,
-  buyTicket
+  getEvents
 };
 
 // ------------------------------------

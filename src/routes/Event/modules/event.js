@@ -46,7 +46,7 @@ export function getEventInfo(eventAddress) {
     let event = {
       id: eventInstance.options.address,
       name: web3.utils.toAscii(await eventInstance.methods.name().call()),
-      // date: web3.utils.toAscii(await eventInstance.methods.date().call()),
+      date: web3.utils.toAscii(await eventInstance.methods.date().call()),
       imageUrl: web3.utils.toAscii(await eventInstance.methods.imageUrl().call()),
       venue: {
         name: web3.utils.toAscii(await eventInstance.methods.venueName().call()),
@@ -69,7 +69,7 @@ export function getEventInfo(eventAddress) {
   };
 }
 
-export const buyTicket = (event) => {
+export const buyTicket = (event, qty) => {
   return async (dispatch, getState) => {
     let { walletAddress, encryptedPrivateKey } = getState().auth.user;
 
@@ -86,14 +86,14 @@ export const buyTicket = (event) => {
     let gas = `0x${(4700000).toString(16)}`;
     let gasPrice = `0x${(gwei * 20).toString(16)}`;
 
-    let isBreak = false;
+    let isBreak = 0;
     await pasync.eachSeries(ticketAddresses, async (ticketAddress) => {
-      if (isBreak) return;
+      if (isBreak >= qty) return;
       let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
       let ticketOwner = await ticketInstance.methods.owner().call();
 
       if (ticketOwner === eventOwner) {
-        let ticketPrice = parseInt(await ticketInstance.methods.price().call());
+        let ticketPrice = parseInt(await ticketInstance.methods.usdPrice().call()); // TODO: this will need to be modified
 
         let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
         let txParams = {
@@ -113,7 +113,8 @@ export const buyTicket = (event) => {
         await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
 
         let newOwner = await ticketInstance.methods.owner().call();
-        isBreak = true;
+        nonce++;
+        isBreak++;
       }
     });
   };
@@ -129,7 +130,6 @@ export const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_EVENT_DETAILS]: (state, action) => {
-    console.log('action.payload: ', action.payload);
     return {
       ...state,
       currentEvent: action.payload
