@@ -15,6 +15,7 @@ let getContractInstance = (abi, address) => {
 // Constants
 // ------------------------------------
 export const SET_EVENT_DETAILS = 'SET_EVENT_DETAILS';
+export const UPDATE_ORDER = 'UPDATE_ORDER';
 
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for
@@ -69,6 +70,17 @@ export function getEventInfo(eventAddress) {
   };
 }
 
+export const updateOrder = (order) => {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: UPDATE_ORDER,
+      payload: order
+    })
+  }
+}
+
+
+
 export const buyTicket = (event, qty) => {
   return async (dispatch, getState) => {
     let { walletAddress, encryptedPrivateKey } = getState().auth.user;
@@ -122,6 +134,7 @@ export const buyTicket = (event, qty) => {
 
 export const actions = {
   getEventInfo,
+  updateOrder,
   buyTicket
 };
 
@@ -133,6 +146,12 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       currentEvent: action.payload
+    };
+  },
+  [UPDATE_ORDER]: (state, action) => {
+    return {
+      ...state,
+      order: action.payload
     };
   }
 };

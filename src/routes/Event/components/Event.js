@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import classNames from 'classnames';
 import ReactModal from 'react-modal';
 import web3 from 'web3';
@@ -15,6 +16,7 @@ class Event extends Component {
       ticketQty: 0
     };
     this.buyTicket = this.buyTicket.bind(this);
+    this.updateOrder = this.updateOrder.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +28,11 @@ class Event extends Component {
     await this.props.buyTicket(event, this.state.ticketQty);
     this.props.getEventInfo(this.props.params.id);
     this.setState({ isLoading: false, buyModalOpen: false });
+  }
+
+  updateOrder(count) {
+    this.setState({ ticketQty: count })
+    this.props.updateOrder(count);
   }
 
   renderTickets() {
@@ -40,7 +47,7 @@ class Event extends Component {
         <td>{this.props.event.ticketsRemaining}</td>
         <td><QtyCounter
           count={this.state.ticketQty}
-          onChange={(count) => this.setState({ ticketQty: count })}
+          onChange={(count) => this.updateOrder(count) }
           ticketsRemaining={this.props.event.ticketsRemaining}/></td>
       </tr>
     );
@@ -84,9 +91,9 @@ class Event extends Component {
               {this.renderTickets()}
             </tbody>
           </table>
-          <button onClick={() => {
-            this.setState({'buyModalOpen': true });
-          }}>Buy Ticket</button>
+          <button><Link to='checkout'>
+            Buy Ticket
+          </Link></button>
         </div>
 
         <ReactModal
