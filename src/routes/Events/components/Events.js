@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import ReactModal from 'react-modal';
 import web3 from 'web3';
 
+import Price from '../../../components/shared/Price';
+
 import StripeCheckout from './StripeCheckout';
 
 import './Events.scss';
@@ -34,14 +36,12 @@ class Events extends Component {
     return (
       <tr key={item.id} className={classNames('eventRow', {'odd': (index % 2 !== 0)})}>
         <td style={{flex: 2}}>{item.name}</td>
-        <td>${item.price}</td>
+        <td><Price price={item.price}/></td>
         <td>{item.qty} Left</td>
         <td>
-
           {/* <button onClick={() => {
             this.setState({'buyModalOpen': true, selectedEvent: item });
           }}>Buy Ticket</button> */}
-
           <Link to={`/event/${item.id}`}>
             <button>Select Event</button>
           </Link>

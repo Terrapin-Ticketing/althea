@@ -7,6 +7,8 @@ import TicketRedeemModal from './TicketRedeemModal';
 import TicketTransferModal from './TicketTransferModal';
 import web3 from '../../../components/Web3.js';
 import './User.scss';
+import Price from '../../../components/shared/Price';
+
 import modalStyles from '../../../layouts/modal-styles';
 
 class User extends Component {
@@ -72,7 +74,7 @@ class User extends Component {
           return (
               <tr className={`ticket-row ${(index%2 === 0) ? 'odd' : null}`} key={ticket.id}>
                 <td>{ticket.name}</td>
-                <td>{ticket.price}</td>
+                <td><Price price={ticket.price} /></td>
                 <td>{JSON.stringify(ticket.isRedeemed)}</td>
                 <td className="actions">
                   <button onClick={() => this.openTicketViewModal(ticket)}>View</button>
@@ -94,7 +96,7 @@ class User extends Component {
           return (
               <tr className={`event-row ${(index%2 === 0) ? 'odd' : null}`} key={event.id}>
                 <td>{event.name}</td>
-                <td className="qty">{event.price}</td>
+                <td className="qty"><Price price={event.price}/></td>
                 <td>{event.qty}</td>
                 <td className="actions">
                   <button onClick={() => this.openTicketRedeemModal(event)}>Redeem Tickets</button></td>
