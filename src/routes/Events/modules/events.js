@@ -90,6 +90,12 @@ export const buyTicketStripe = (token, eventAddress) => {
 
     let ticketInstance = await getAvailableTicket(eventAddress, abis);
 
+    console.log('sending:', {
+      token,
+      ticketAddress: ticketInstance.options.address,
+      walletAddress
+    });
+
     let res = await axios.post(`${EOTW_URL}/buy-ticket`, {
       token,
       ticketAddress: ticketInstance.options.address,

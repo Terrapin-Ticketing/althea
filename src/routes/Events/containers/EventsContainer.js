@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getEvents, buyTicket, buyTicketStripe } from '../modules/events';
+import { getEvents, buyTicketStripe } from '../modules/events';
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -14,7 +14,6 @@ import Events from '../components/Events';
 
 const mapDispatchToProps = {
   getEvents,
-  buyTicket,
   buyTicketStripe
 };
 

@@ -22,6 +22,7 @@ class CreateEvent extends Component {
 
   async onSubmit() {
     let { name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip, qty } = this.state;
+
     try {
       await this.props.createEvent(name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip, parseInt(qty));
       this.props.router.push('/events');
@@ -50,7 +51,8 @@ class CreateEvent extends Component {
         <label className='label'>
           <span>Price ($):</span>
           <input type="text" value={this.state.price} onChange={(e) => {
-            this.setState({usdPrice: e.target.value});
+            let usdPrice = parseFloat(e.target.value) * 100; // make amount non-decimal
+            this.setState({ usdPrice });
           }} />
         </label>
         <h2>Other Info</h2>
