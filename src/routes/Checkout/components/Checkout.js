@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
 import web3 from 'web3';
 import classNames from 'classnames';
+import Price from '../../../components/shared/Price';
 import './Checkout.scss';
 
 class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: ''
+      name: '',
+      serviceFee: 1,
+      cardFee: 1.50,
     };
+    this.renderOrder = this.renderOrder.bind(this);
+    this.renderServiceFee = this.renderServiceFee.bind(this);
+    this.renderCardFee = this.renderCardFee.bind(this);
+    this.renderTotal = this.renderTotal.bind(this);
+  }
+
+  componentDidMount() {
+    let { event, order } = this.props;
+    let { serviceFee, cardFee } = this.state;
+    this.setState({ total: (event.price * order) + serviceFee + cardFee })
   }
 
   async onSubmit() {
@@ -16,14 +29,33 @@ class Checkout extends Component {
   }
 
   renderOrder() {
+    console.log('this.props122: ', this.props);
     let { order, event } = this.props;
     return (
-      <tr>
-        <td>General Admission</td>
-        <td>{order}</td>
-        <td>{event.price}</td>
-      </tr>
+      <div className="orderRow">
+        <div className="left-column">
+          <span>
+            {event.name} <br />
+            General Admission x {order}
+          </span>
+        </div>
+        <div className="right-column">
+          <Price price={event.price} />
+        </div>
+      </div>
     );
+  }
+
+  renderServiceFee() {
+    return <Price price={this.state.serviceFee} />;
+  }
+
+  renderCardFee() {
+    return <Price price={this.state.cardFee} />;
+  }
+
+  renderTotal() {
+    return <Price price={this.state.total} />;
   }
 
   render() {
@@ -38,7 +70,7 @@ class Checkout extends Component {
           <div className='left-column'>
             <h1>{name}</h1>
             <h4>{date}</h4>
-            <h4>${price}</h4>
+            <h4><Price price={price} /></h4>
           </div>
           <div className='right-column'>
             <div className='venue-info'>
@@ -54,12 +86,20 @@ class Checkout extends Component {
         <div className='event-bottom-info'>
           <div className="left-column">
             <h1>Order</h1>
-            <table>
-              <th><td>Ticket Type</td><td>Qty</td></th>
-              <tbody>
+            <div className="order-table">
+              <div className="header">
+                <span className="ticket">Ticket</span>
+                <span className="price">Price</span>
+              </div>
+              <div className="body">
                 {this.renderOrder()}
-              </tbody>
-            </table>
+              </div>
+            </div>
+            <div className="fee-details">
+              <div className="service-fee">Service Fee: {this.renderServiceFee()}</div>
+              <div className="card-fee">Credit Card Processing Fee: {this.renderCardFee()}</div>
+              <div className="total">Total: {this.renderTotal()}</div>
+            </div>
           </div>
           <div className="right-column">
             <h1>Checkout</h1>

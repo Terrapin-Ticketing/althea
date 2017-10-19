@@ -2,6 +2,7 @@
   .event-top-info {
     display: flex;
     flex-direction: row;
+    margin-bottom: 20px;
     .event-image-container {
       flex: 1;
     }
@@ -13,14 +14,79 @@
     }
   }
 
+  .order-table {
+    display: flex;
+    flex-direction: column;
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      background: #c7c7c7;
+      padding: 10px;
+      .ticket {
+        flex: 1;
+      }
+      .price {
+        flex: 1;
+      }
+    }
+
+    .body {
+      display: flex;
+      flex-direction: row;
+      padding: 10px;
+      .orderRow {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+
+        .left-column {
+          flex: 1;
+        }
+        .right-column {
+          flex: 1;
+        }
+      }
+    }
+  }
+
+  .fee-details {
+    background: #c7c7c7;
+    .service-fee {
+      padding: 10px;
+    }
+    .card-fee {
+      padding: 10px;
+    }
+    .total {
+      padding: 10px;
+    }
+  }
+
   .event-bottom-info {
     display: flex;
     flex-direction: row;
+    margin-top: 20px;
+    border-top: 1px solid #c7c7c7;
     .left-column {
       flex: 2;
+      padding: 20px;
+      border-right: 1px solid #c7c7c7;
+
+      .left-column { // order panel
+        border: none;
+        padding: 0px;
+      }
+
+      .right-column { // order panel
+        border: none;
+        padding: 0px;
+      }
+
     }
     .right-column {
       flex: 2;
+      padding: 20px;
     }
   }
 
