@@ -9,7 +9,7 @@ export default (store, wrappers = []) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const Events = require('./containers/UserContainer').default;
+      const User = require('./containers/UserContainer').default;
       const reducer = require('./modules/user').default;
 
       /*  Add the reducer to the store on key 'login'  */
@@ -17,7 +17,7 @@ export default (store, wrappers = []) => ({
 
       /*  Return getComponent */
       // wrap component in any higher order components pass to it
-      let wrapped = Events;
+      let wrapped = User;
       wrappers.forEach((wrapper) => wrapped = wrapper(wrapped));
       /*  Return getComponent   */
       cb(null, wrapped);

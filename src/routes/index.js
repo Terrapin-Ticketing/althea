@@ -2,7 +2,6 @@
 import CoreLayout from '../layouts/PageLayout/PageLayout';
 import Home from './Home';
 import LoginRoute from './Login';
-import SignupRoute from './Signup';
 import EventsRoute from './Events';
 import EventRoute from './Event';
 import CreateEventRoute from './CreateEvent';
@@ -23,13 +22,12 @@ export const createRoutes = (store) => ({
   indexRoute: Home,
   childRoutes: [
     LoginRoute(store, [ ]),
+    EventRoute(store, [ ]),
+    EventsRoute(store, [ ]),
     UnlockRoute(store, [ requireAuth ]),
-    SignupRoute(store, [ requirePKTimeout ]),
-    EventsRoute(store, [ requirePKTimeout, requirePK ]),
-    EventRoute(store, [ requirePKTimeout, requirePK ]),
-    CheckoutRoute(store, [ requirePKTimeout, requirePK ]),
+    CheckoutRoute(store, [ requireAuth ]),
     CreateEventRoute(store, [ requireAuth, requirePKTimeout, requirePK ]),
-    UserRoute(store, [ requireAuth, requirePKTimeout, requirePK ])
+    UserRoute(store, [ requireAuth, requirePKTimeout, requirePK,  ])
   ]
 });
 

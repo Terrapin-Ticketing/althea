@@ -1,6 +1,8 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import setAuthorizationToken from '../../../utils/setAuthorizationToken';
+const authModules = require('../../../store/authentication').actions;
+const locationModules = require('../../../store/location').actions;
 
 // ------------------------------------
 // Constants
@@ -25,25 +27,39 @@ export const login = (email, password) => {
 
     let user = jwt.decode(token);
 
-    console.log('setting user', user);
-
     dispatch({
       type: 'LOGIN',
       payload: user
     });
 
-    dispatch({
-      type: 'UNLOCK_PK',
-      payload: {
-        encryptedPrivateKey: user.encryptedPrivateKey,
-        password
-      }
+    // await authModules.unlockPK(password);
+    await locationModules.clearRedirectUrl();
+  };
+};
+
+export const signup = (email, password, privateKey) => {
+  return async(dispatch, getState) => {
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/signup`,
+      method: 'post',
+      data: {email, password, privateKey},
+      withCredentials: true
     });
+
+    let { token } = res.data;
+    setAuthorizationToken(token);
+    let user = jwt.decode(token);
+    dispatch({
+      type: 'LOGIN',
+      payload: user
+    });
+    await this.props.unlockPK(password);
   };
 };
 
 export const actions = {
-  login
+  login,
+  signup
 };
 
 // ------------------------------------

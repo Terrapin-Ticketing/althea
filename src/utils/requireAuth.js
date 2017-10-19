@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
+const { setRedirectUrl } = require('../store/location').actions;
 
 export default function(ComposedComponent) {
   class Authenticate extends React.Component {
@@ -11,6 +13,7 @@ export default function(ComposedComponent) {
     componentDidMount() {
       let { user } = this.props;
       if (!user || _.isEmpty(user)) {
+        this.props.setRedirectUrl(this.props.route.path);
         this.props.router.push('/login');
       }
     }
@@ -21,6 +24,7 @@ export default function(ComposedComponent) {
   }
 
   const mapDispatchToProps = {
+    setRedirectUrl
   };
 
   function mapStateToProps(state) {

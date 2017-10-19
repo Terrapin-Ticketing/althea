@@ -4,7 +4,6 @@ import StripeCheckout from 'react-stripe-checkout';
 export default class TakeMoney extends React.Component {
   onToken = async (token) => {
     let { buyTicketStripe, event } = this.props;
-    console.log('tickert:', event);
     await buyTicketStripe(JSON.stringify(token), event.id);
     // fetch('/save-stripe-token', {
     //   method: 'POST',

@@ -39,6 +39,7 @@ export function clearPK() {
 }
 
 export function unlockPK(password) {
+  console.log('hits unlockPK');
   return (dispatch, getState) => {
     let { user } = getState().auth;
     dispatch({
@@ -66,6 +67,7 @@ const ACTION_HANDLERS = {
     };
   },
   [UNLOCK_PK]: (state, action) => {
+    console.log('hits UNLOCK_PK');
     let { password, encryptedPrivateKey } = action.payload;
     let privateKey = decryptPrivateKey(password, encryptedPrivateKey).substring(2);
     privateKey = Buffer.from(privateKey, 'hex');

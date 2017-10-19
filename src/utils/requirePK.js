@@ -8,7 +8,7 @@ export default function(ComposedComponent) {
       super(props);
     }
 
-    componentDidMount() {
+    componentWillMount() {
       let { user } = this.props;
       if (!user || _.isEmpty(user) || !user.privateKey) {
         this.props.router.push('/unlock-account');
@@ -16,6 +16,7 @@ export default function(ComposedComponent) {
     }
 
     render() {
+      console.log('requirePK props: ', this.props);
       return (<ComposedComponent {...this.props} />);
     }
   }

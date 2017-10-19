@@ -50,6 +50,7 @@ export default function(ComposedComponent) {
     }
 
     render() {
+      console.log('requirePKTimeout props: ', this.props);
       return (<ComposedComponent {...this.props} />);
     }
   }

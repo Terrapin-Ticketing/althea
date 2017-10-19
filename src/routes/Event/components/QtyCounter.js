@@ -19,7 +19,6 @@ class QtyCounter extends Component {
   render() {
     let { count } = this.state;
     let { ticketsRemaining } = this.props;
-    console.log('this.props: ', this.props);
     return (
       <div className="ticket-qty">
         <button className="qty-control" onClick={() => {

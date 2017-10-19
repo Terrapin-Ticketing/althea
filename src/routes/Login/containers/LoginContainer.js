@@ -15,7 +15,8 @@ import Login from '../components/Login';
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    loginError: state.loginError
+    loginError: state.loginError,
+    redirectUrl: state.location.redirectUrl
   };
 };
 

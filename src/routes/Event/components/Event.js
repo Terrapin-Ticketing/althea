@@ -54,7 +54,6 @@ class Event extends Component {
   }
 
   render() {
-    console.log('this.props: ', this.props);
     let { name, price, date, time, venue, imageUrl } = this.props.event;
     let { isLoading } = this.state;
     if (!this.props.event.name) {

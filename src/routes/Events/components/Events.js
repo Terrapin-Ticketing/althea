@@ -6,8 +6,6 @@ import web3 from 'web3';
 
 import Price from '../../../components/shared/Price';
 
-import StripeCheckout from './StripeCheckout';
-
 import './Events.scss';
 
 class Events extends Component {
@@ -45,14 +43,6 @@ class Events extends Component {
           <Link to={`/event/${item.id}`}>
             <button>Select Event</button>
           </Link>
-          <StripeCheckout
-            buyTicketStripe={this.props.buyTicketStripe}
-            event={item}
-            user={this.props.user}
-          />
-          {/* <button onClick={() => {
-            this.setState({'buyModalOpen': true, selectedEvent: item });
-          }}>Buy Ticket</button> */}
         </td>
       </tr>
     );
