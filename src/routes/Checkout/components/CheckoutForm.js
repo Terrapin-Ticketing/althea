@@ -15,7 +15,7 @@ class CheckoutForm extends React.Component {
     let { buyTicketStripe, event } = this.props;
     console.log('tickert:', event);
     await buyTicketStripe(JSON.stringify(token), event.id);
-    console.log('done');
+    this.props.router.push('/user');
 
     // However, this line of code will do the same thing:
     // this.props.stripe.createToken({type: 'card', name: 'Jenny Rosen'});
