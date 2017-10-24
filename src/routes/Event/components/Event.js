@@ -31,7 +31,7 @@ class Event extends Component {
   }
 
   updateOrder(count) {
-    this.setState({ ticketQty: count })
+    this.setState({ ticketQty: count });
     this.props.updateOrder(count);
   }
 
@@ -109,7 +109,7 @@ class Event extends Component {
           <h2 className="checkout-header">Buy a Ticket</h2>
           <div className="event-details">
             <span className="event-header">Event Details</span>
-            <span className='event-name'><b>Name:</b> {name}</span>
+            <span className='event-name'><b>Name:</b>{name}</span>
             <span className='event-price'><b>Price:</b>${price}</span>
 
             <button

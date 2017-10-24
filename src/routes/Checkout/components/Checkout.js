@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import web3 from 'web3';
 import classNames from 'classnames';
+import { Elements } from 'react-stripe-elements';
+
+import CheckoutForm from './CheckoutForm';
+
 import Price from '../../../components/shared/Price';
 import './Checkout.scss';
 
@@ -21,15 +25,15 @@ class Checkout extends Component {
   componentDidMount() {
     let { event, order } = this.props;
     let { serviceFee, cardFee } = this.state;
-    this.setState({ total: (event.price * order) + serviceFee + cardFee })
+    this.setState({ total: (event.price * order) + serviceFee + cardFee });
   }
 
-  async onSubmit() {
-
+  async buyTicket() {
+    let { cardNumber, cardDate, cardCvc, name } = this.state;
+    console.log(cardNumber, cardDate, cardCvc, name);
   }
 
   renderOrder() {
-    console.log('this.props122: ', this.props);
     let { order, event } = this.props;
     return (
       <div className="orderRow">
@@ -101,43 +105,50 @@ class Checkout extends Component {
               <div className="total">Total: {this.renderTotal()}</div>
             </div>
           </div>
-          <div className="right-column">
-            <h1>Checkout</h1>
-            <span className='user'>Signed in as {(this.props.user) ? this.props.user.email : null}</span>
-            <label className='label'>
-              <span>Name:</span>
-              <input type="text" value={this.state.name} onChange={(e) => {
-                this.setState({name: e.target.value});
-              }} />
-            </label>
-            <label className='label'>
-              <span>Credit Card Number:</span>
-              <input type="text" value={this.state.name} onChange={(e) => {
-                this.setState({cardNumber: e.target.value});
-              }} />
-            </label>
-            <label className='label'>
-              <span>Expiration Date:</span>
-              <input type="text" value={this.state.name} onChange={(e) => {
-                this.setState({cardDate: e.target.value});
-              }} />
-            </label>
-            <label className='label'>
-              <span>CVC:</span>
-              <input type="text" value={this.state.name} onChange={(e) => {
-                this.setState({cardCvc: e.target.value});
-              }} />
-            </label>
-            <span className='error'>{(this.props.checkoutError) ? this.props.checkoutError : null}</span>
 
-            <button
-              className={classNames('purchase-ticket', {isLoading: isLoading, notLoading: !isLoading })}
-              onClick={() => {
-                this.buyTicket(this.props.event);
-              }}>
-              { (isLoading) ? <img src={require('../../../layouts/assets/img/spinner.svg')} /> : 'Checkout'}
-            </button>
-          </div>
+          <Elements>
+            <CheckoutForm
+              buyTicketStripe={this.props.buyTicketStripe}
+              event={this.props.event} />
+            {/* <div className="right-column">
+              <h1>Checkout</h1>
+              <span className='user'>Signed in as {(this.props.user) ? this.props.user.email : null}</span>
+              <label className='label'>
+                <span>Name:</span>
+                <input type="text" value={this.state.name} onChange={(e) => {
+                  this.setState({name: e.target.value});
+                }} />
+              </label>
+              <label className='label'>
+                <span>Credit Card Number:</span>
+                <input type="text" value={this.state.cardNumber} onChange={(e) => {
+                  this.setState({cardNumber: e.target.value});
+                }} />
+              </label>
+              <label className='label'>
+                <span>Expiration Date:</span>
+                <input type="text" value={this.state.cardDate} onChange={(e) => {
+                  this.setState({cardDate: e.target.value});
+                }} />
+              </label>
+              <label className='label'>
+                <span>CVC:</span>
+                <input type="text" value={this.state.cardCvc} onChange={(e) => {
+                  this.setState({cardCvc: e.target.value});
+                }} />
+              </label>
+              <span className='error'>{(this.props.checkoutError) ? this.props.checkoutError : null}</span>
+
+              <button
+                className={classNames('purchase-ticket', {isLoading: isLoading, notLoading: !isLoading })}
+                onClick={() => {
+                  this.buyTicket(this.props.event);
+                }}>
+                { (isLoading) ? <img src={require('../../../layouts/assets/img/spinner.svg')} /> : 'Checkout'}
+              </button>
+            </div> */}
+          </Elements>
+
         </div>
       </div>
     );
