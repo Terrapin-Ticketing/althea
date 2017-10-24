@@ -32,8 +32,8 @@ export const login = (email, password) => {
       payload: user
     });
 
-    // await authModules.unlockPK(password);
-    await locationModules.clearRedirectUrl();
+    authModules.unlockPK(password);
+    locationModules.clearRedirectUrl();
   };
 };
 

@@ -28,7 +28,7 @@ export function getEventInfo(eventAddress) {
 
     const { abis } = getState().terrapin;
     let eventInstance = getContractInstance(abis.event.abi, web3.utils.toHex(eventAddress));
-
+    console.log('eventInstance: ', eventInstance);
     // this take FOREVERRR to return. THIS is where our caching service will make a big difference
     let ticketAddresses = await eventInstance.methods.getTickets().call();
     let eventOwner = await eventInstance.methods.owner().call();
@@ -47,6 +47,7 @@ export function getEventInfo(eventAddress) {
     let event = {
       id: eventInstance.options.address,
       name: web3.utils.toAscii(await eventInstance.methods.name().call()),
+      owner: await eventInstance.methods.owner().call(),
       date: web3.utils.toAscii(await eventInstance.methods.date().call()),
       imageUrl: web3.utils.toAscii(await eventInstance.methods.imageUrl().call()),
       venue: {

@@ -91,7 +91,10 @@ export const getUserEvents = () => {
 
 export const transferTicket = (ticketAddress, recipientAddress) => {
   return async (dispatch, getState) => {
-    let privateKey = getState().auth.user;
+    let { privateKey } = getState().auth.user;
+
+    console.log('hits transferTicket');
+    console.log('ticketAddress: ', ticketAddress);
 
     const { abis } = getState().terrapin;
     const ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
@@ -109,9 +112,14 @@ export const transferTicket = (ticketAddress, recipientAddress) => {
       data: encodedAbi
     };
 
+    console.log('before signing');
+
     const tx = new EthereumTx(txParams);
+    console.log('after tx');
     tx.sign(new Buffer(privateKey));
+    console.log('after sign');
     const serializedTx = tx.serialize();
+    console.log('after serialized');
     let transaction = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
     console.log('transfered ticket: ', transaction);
   };

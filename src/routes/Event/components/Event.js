@@ -54,7 +54,7 @@ class Event extends Component {
   }
 
   render() {
-    let { name, price, date, time, venue, imageUrl } = this.props.event;
+    let { name, price, owner, date, time, venue, imageUrl } = this.props.event;
     let { isLoading } = this.state;
     if (!this.props.event.name) {
       return (
@@ -69,6 +69,7 @@ class Event extends Component {
           </div>
           <div className='left-column'>
             <h1>{name}</h1>
+            <h4>Owner: {owner}</h4>
             <h4>{date}</h4>
             <h4>${price}</h4>
           </div>

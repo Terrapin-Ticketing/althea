@@ -29,7 +29,6 @@ export const Navigation = (props) => {
         <IndexLink to='/'><img className="nav-logo" src={require('../assets/img/logo-square.png')} /></IndexLink>
         <label htmlFor="burger-check" className="burger-space"></label>
         <div className='navigation'>
-          {(!user) ? (<span className='nav-item'><Link to='/signup' className='nav-item' activeClassName='page-layout__nav-item--active'>Signup</Link></span>) : null}
           {(!user) ? (<span className='nav-item'><Link to='/login' className='nav-item' activeClassName='page-layout__nav-item--active'>Login</Link></span>): null}
           <span className='nav-item'><Link to='/events' className='nav-item' activeClassName='page-layout__nav-item--active'>Events</Link></span>
           {(user) ? (<span className='nav-item'><Link to='/createEvent' className='nav-item' activeClassName='page-layout__nav-item--active'>Create Event</Link></span>): null}
