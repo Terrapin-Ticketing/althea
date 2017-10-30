@@ -98,7 +98,8 @@ const ACTION_HANDLERS = {
     }
     return {
       ...state,
-      user: null
+      user: null,
+      balance: null
     };
   },
   [SET_USER_BALANCE]: (state, action) => {

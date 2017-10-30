@@ -19,6 +19,15 @@
   }
 }
 
+button.buy-ticket-button {
+  width: 100%;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
+
 .ReactModalPortal > * {
     // When the modal is closed, overlay div has no css class
     // This selector should be overridden by the `&--after-open` class below

@@ -17,9 +17,12 @@ class Event extends Component {
     };
     this.buyTicket = this.buyTicket.bind(this);
     this.updateOrder = this.updateOrder.bind(this);
+    this.renderTickets = this.renderTickets.bind(this);
+    this.renderTicketTable = this.renderTicketTable.bind(this);
   }
 
   componentDidMount() {
+    console.log('this.props.params.id: ', this.props.params.id);
     this.props.getEventInfo(this.props.params.id);
   }
 
@@ -53,8 +56,20 @@ class Event extends Component {
     );
   }
 
+  renderTicketTable() {
+    return (
+      <table>
+        <th><td>Ticket Type</td><td>Price</td><td>Tickets Remaining</td><td>Quantity</td></th>
+        <tbody>
+          {this.renderTickets()}
+        </tbody>
+      </table>
+    );
+  }
+
   render() {
     let { name, price, owner, date, time, venue, imageUrl } = this.props.event;
+    console.log('event.props: ', this.props);
     let { isLoading } = this.state;
     if (!this.props.event.name) {
       return (
@@ -85,13 +100,8 @@ class Event extends Component {
           </div>
         </div>
         <div className='event-bottom-info'>
-          <table>
-            <th><td>Ticket Type</td><td>Price</td><td>Tickets Remaining</td><td>Quantity</td></th>
-            <tbody>
-              {this.renderTickets()}
-            </tbody>
-          </table>
-          <button><Link to='checkout'>
+          {(this.props.params.ticketId) ? (this.props.children) : (this.renderTicketTable())}
+          <button className="buy-ticket-button"><Link to='checkout'>
             Buy Ticket
           </Link></button>
         </div>

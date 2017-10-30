@@ -9,6 +9,7 @@ export const SET_USER_EVENTS = 'SET_USER_EVENTS';
 export const SET_USER_TICKETS = 'SET_USER_TICKETS';
 export const GET_USER_TICKETS = 'GET_USER_TICKETS';
 export const GET_USER_EVENTS = 'GET_USER_EVENTS';
+export const LOGOUT = 'LOGOUT';
 
 let getContractInstance = (abi, address) => {
   const instance = new web3.eth.Contract(abi, address);
@@ -214,7 +215,14 @@ const ACTION_HANDLERS = {
       ...state,
       events: action.payload
     };
-  }
+  },
+  [LOGOUT]: (state, action) => {
+    return {
+      ...state,
+      tickets: null,
+      events: null
+    };
+  },
 };
 
 // ------------------------------------

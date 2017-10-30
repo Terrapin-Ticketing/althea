@@ -23,7 +23,7 @@ export const UPDATE_ORDER = 'UPDATE_ORDER';
 export function getEventInfo(eventAddress) {
   console.log('getEventInfo called');
   return async (dispatch, getState) => {
-
+    console.log('before isAddress: ', eventAddress);
     console.log('isAddress: ', web3.utils.toHex(eventAddress));
 
     const { abis } = getState().terrapin;
