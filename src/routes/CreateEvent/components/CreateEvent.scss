@@ -3,6 +3,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: 1170px;
+  margin: 0 auto;
 
   h1 {
     margin: 0px;
@@ -28,7 +30,7 @@
   }
 
   .submit-form {
-    width: 50%;
+    width: 90%;
   }
 
   button.submit-form {
@@ -53,7 +55,7 @@
 
   button {
     flex: 1;
-    width: 80%;
+    width: 100%;
     margin-top: 25px;
   }
 }

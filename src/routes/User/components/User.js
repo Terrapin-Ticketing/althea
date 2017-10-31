@@ -99,6 +99,7 @@ class User extends Component {
                 <td className="qty"><Price price={event.price}/></td>
                 <td>{event.qty}</td>
                 <td className="actions">
+                  <button><Link to={`/event/${event.id}`}>View Event</Link></button>
                   <button onClick={() => this.openTicketRedeemModal(event)}>Redeem Tickets</button></td>
               </tr>
           );
@@ -114,7 +115,7 @@ class User extends Component {
     const { email, walletAddress, encryptedPrivateKey } = this.props.user;
     const { balance } = this.props;
     return (
-      <div className='container' >
+      <div className='user-container'>
         <h1>{email}</h1>
         <div className="profile-info">
           <div className="profile-left">
@@ -135,9 +136,6 @@ class User extends Component {
 
           <TabPanel>
             <h2>Events</h2>
-            <Link to='/createEvent'>
-              <button>Create New Event</button>
-            </Link>
               <table className="events-table">
                 <th>
                   <td>Name</td>
