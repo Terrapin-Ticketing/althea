@@ -3,13 +3,10 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { Link } from 'react-router';
 import ReactModal from 'react-modal';
 import TicketViewModal from './TicketViewModal';
-import TicketRedeemModal from './TicketRedeemModal';
 import TicketTransferModal from './TicketTransferModal';
 import web3 from '../../../components/Web3.js';
 import './User.scss';
 import Price from '../../../components/shared/Price';
-
-import modalStyles from '../../../layouts/modal-styles';
 
 class User extends Component {
   constructor(props) {
@@ -63,10 +60,6 @@ class User extends Component {
     this.setState({transferTicketModalOpen: true, selectedTicket: ticket});
   }
 
-  openTicketRedeemModal(event) {
-    this.setState({redeemTicketModalOpen: true, selectedEvent: event});
-  }
-
   renderTickets() {
     if (this.props.tickets) {
       return (
@@ -99,8 +92,7 @@ class User extends Component {
                 <td className="qty"><Price price={event.price}/></td>
                 <td>{event.qty}</td>
                 <td className="actions">
-                  <button><Link to={`/event/${event.id}`}>View Event</Link></button>
-                  <button onClick={() => this.openTicketRedeemModal(event)}>Redeem Tickets</button></td>
+                  <button><Link to={`/event/${event.id}/manage`}>Manage Event</Link></button></td>
               </tr>
           );
         })
@@ -176,12 +168,6 @@ class User extends Component {
           closeModal={() => this.setState({transferTicketModalOpen: false, selectedTicket: null })}
           isOpen={this.state.transferTicketModalOpen}
           transferTicket={this.props.transferTicket} />
-
-        <TicketRedeemModal
-          event={this.state.selectedEvent}
-          closeModal={() => this.setState({redeemTicketModalOpen: false, selectedEvent: null })}
-          isOpen={this.state.redeemTicketModalOpen}
-          redeemTicket={this.props.redeemTicket} />
 
         <ReactModal
           isOpen={this.state.depositModalOpen}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { IndexLink, Link } from 'react-router';
 import PropTypes from 'prop-types';
-import Navigation from '../Navigation';
+// import Sidebar from '../Sidebar';
 import './PageLayout.scss';
 
 export default (store) => {
@@ -23,7 +23,7 @@ export default (store) => {
           </div>
         </div>
         <div className="page-container">
-          {/* <Navigation store={store}/> */}
+          {/* <Sidebar store={store}/> */}
           <div className='page-content'>
             {children}
           </div>

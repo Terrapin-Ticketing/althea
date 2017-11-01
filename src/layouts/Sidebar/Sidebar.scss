@@ -12,12 +12,10 @@
 
 .navigation {
   flex-direction: column;
-  background-color: #ffffff;
   right: 0;
   left: 0;
   font-family: 'Lato', sans-serif;
   height: 100%;
-  border-right: 1px solid #e8e8e8;
 
   .nav-item {
     display: flex;
@@ -48,6 +46,7 @@
   display: flex;
   justify-content: center;
   background: #ffffff;
+  border-right: 1px solid #e8e8e8;
 
   .nav-controls {
     // display: none;/

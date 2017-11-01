@@ -1,42 +1,32 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import classNames from 'classnames';
-import ReactModal from 'react-modal';
-import web3 from 'web3';
-import QtyCounter from './QtyCounter';
+import TicketRedeemModal from './TicketRedeemModal';
 import EventInfoContainer from './../../../components/shared/EventInfo';
+import Sidebar from '../../../layouts/Sidebar';
+import QtyCounter from '../../Event/components/QtyCounter';
 
-import './Event.scss';
+import './EventManager.scss';
 
-class Event extends Component {
+class EventManager extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      buyModalOpen: false,
-      isLoading: false,
+      redeemTicketModalOpen: false,
       ticketQty: 0
     };
-    this.buyTicket = this.buyTicket.bind(this);
-    this.updateOrder = this.updateOrder.bind(this);
-    this.renderTickets = this.renderTickets.bind(this);
-    this.renderTicketTable = this.renderTicketTable.bind(this);
   }
 
   componentDidMount() {
-    console.log('this.props.params.id: ', this.props.params.id);
     this.props.getEventInfo(this.props.params.id);
+    this.props.getEventTickets(this.props.params.id);
   }
 
-  async buyTicket(event) {
-    this.setState({isLoading: true});
-    await this.props.buyTicket(event, this.state.ticketQty);
-    this.props.getEventInfo(this.props.params.id);
-    this.setState({ isLoading: false, buyModalOpen: false });
+  openTicketRedeemModal() {
+    this.setState({redeemTicketModalOpen: true });
   }
 
   updateOrder(count) {
     this.setState({ ticketQty: count });
-    this.props.updateOrder(count);
   }
 
   renderTickets() {
@@ -77,25 +67,35 @@ class Event extends Component {
   }
 
   render() {
-    console.log('this.props: ', this.props);
-    let { isLoading } = this.state;
+    console.log('eventManager: ', this.props);
+    if (!this.props.unsoldTickets) {
+      return (
+        <div>nothing yet</div>
+      );
+    }
     if (!this.props.event.name) {
       return (
         <div>nothing yet</div>
       );
     }
     return (
-      <div className='event-container'>
-        <EventInfoContainer event={this.props.event} />
-        <div className='event-bottom-info'>
-          {(this.props.params.ticketId) ? null : this.renderTicketTable()}
-          {this.props.children}
-          {this.renderBuyButton()}
+      <div className='sidebar-page-container'>
+        <Sidebar openTicketRedeemModal={() => this.openTicketRedeemModal()} event={this.props.event} />
+        <div className='event-manager-container'>
+          <EventInfoContainer event={this.props.event} />
+          {(!this.props.children) ? this.renderTicketTable() : null}
+          <div className='event-bottom-info'>
+            {this.props.children}
+          </div>
+          <TicketRedeemModal
+            event={this.props.event}
+            closeModal={() => this.setState({ redeemTicketModalOpen: false })}
+            isOpen={this.state.redeemTicketModalOpen}
+            redeemTicket={this.props.redeemTicket} />
         </div>
-
       </div>
     );
   }
 }
 
-export default Event;
+export default EventManager;

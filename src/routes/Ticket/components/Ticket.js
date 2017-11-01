@@ -24,7 +24,7 @@ class Ticket extends Component {
         <span className="price">
           ${usdPrice}
         </span>
-        <span>{(isRedeemed) ? 'Not Redeemed' : 'Redeemed'}</span>
+        <span>{(isRedeemed) ? 'Redeemed' : 'Not Redeemed'}</span>
       </div>
     );
   }
