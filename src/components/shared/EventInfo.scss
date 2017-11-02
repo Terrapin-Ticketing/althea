@@ -1,0 +1,13 @@
+.event-top-info {
+  display: flex;
+  flex-direction: row;
+  .event-image-container {
+    flex: 1;
+  }
+  .left-column {
+    flex: 2;
+  }
+  .right-column {
+    flex: 2;
+  }
+}

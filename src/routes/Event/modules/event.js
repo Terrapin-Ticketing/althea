@@ -46,6 +46,9 @@ export const UPDATE_ORDER = 'UPDATE_ORDER';
     creating async actions, especially when combined with redux-thunk! */
 export function getEventInfo(eventAddress) {
   return async (dispatch, getState) => {
+    console.log('before isAddress: ', eventAddress);
+    console.log('isAddress: ', web3.utils.toHex(eventAddress));
+
     const { abis } = getState().terrapin;
     let eventInstance = getContractInstance(abis.event.abi, web3.utils.toHex(eventAddress));
     // this take FOREVERRR to return. THIS is where our caching service will make a big difference

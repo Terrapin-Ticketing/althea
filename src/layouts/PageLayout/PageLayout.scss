@@ -5,13 +5,36 @@
 
   .top-bar {
     display: flex;
-    justify-content: center;
-    align-items: center;
     background: #ffffff;
     -webkit-box-shadow: 0 6px 2px -6px #777;
     -moz-box-shadow: 0 6px 2px -6px #777;
     box-shadow: 0 6px 2px -6px #777;
     z-index: 1;
+    padding: 10px;
+
+    .left-column {
+      display: flex;
+      flex: 1;
+      justify-content: flex-start;
+      align-self: center;
+    }
+
+    .right-column {
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+      align-self: center;
+
+      .active {
+        text-decoration: underline;
+      }
+
+      a {
+        text-decoration: none;
+        color: #009933;
+        margin: 0 10px;
+      }
+    }
 
     img {
       width: 75px;
@@ -25,7 +48,6 @@
     flex-wrap: wrap;
 
     .page-content {
-      padding: 15px;
       flex: 5;
     }
 

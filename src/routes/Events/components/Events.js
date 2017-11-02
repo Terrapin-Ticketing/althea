@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
-import ReactModal from 'react-modal';
-import web3 from 'web3';
-
 import Price from '../../../components/shared/Price';
 
 import './Events.scss';
@@ -21,14 +18,6 @@ class Events extends Component {
   componentDidMount() {
     this.props.getEvents();
   }
-
-  // async buyTicket(event, password) {
-  //   this.setState({isLoading: true});
-  //
-  //   await this.props.buyTicket(event, password);
-  //   await this.props.getEvents();
-  //   this.setState({ isLoading: false, buyModalOpen: false });
-  // }
 
   renderListItem(item, index) {
     return (

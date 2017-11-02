@@ -2,6 +2,7 @@
 import React from 'react';
 import {injectStripe} from 'react-stripe-elements';
 import {Elements, CardNumberElement, CardExpiryElement, CardCVCElement} from 'react-stripe-elements';
+import { browserHistory } from 'react-router';
 
 class CheckoutForm extends React.Component {
   handleSubmit = async ev => {
@@ -12,10 +13,9 @@ class CheckoutForm extends React.Component {
     // tokenize, since there's only one in this group.
     let token = await this.props.stripe.createToken({name: 'Jenny Rosen'});
 
-    let { buyTicketStripe, event } = this.props;
-    console.log('tickert:', event);
-    await buyTicketStripe(JSON.stringify(token), event.id);
-    this.props.router.push('/user');
+    let { buyTicketsStripe, order } = this.props;
+    await buyTicketsStripe(JSON.stringify(token), order);
+    browserHistory.push('/user');
 
     // However, this line of code will do the same thing:
     // this.props.stripe.createToken({type: 'card', name: 'Jenny Rosen'});

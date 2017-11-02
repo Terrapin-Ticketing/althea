@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactModal from 'react-modal';
 import QrReader from 'react-qr-reader';
-import './User.scss';
+import './EventManager.scss';
 import modalStyles from '../../../layouts/modal-styles'
 import classNames from 'classnames'
 

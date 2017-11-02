@@ -6,11 +6,19 @@ import pasync from 'pasync';
 export const CHECKOUT = 'CHECKOUT';
 
 const gwei = 1000000000;
+const wei = 1000000000000000000;
 
 let getContractInstance = (abi, address) => {
   const instance = new web3.eth.Contract(abi, address);
   return instance;
 };
+
+async function requestEtherPrice() {
+  let etherPrice = await new Promise((resolve) => {
+    resolve(30600);
+  });
+  return etherPrice;
+}
 
 export function getEtherPrice() {
   return async (dispatch, getState) => {
@@ -20,10 +28,7 @@ export function getEtherPrice() {
     //   type: 'none',
     //   payload: []
     // });
-    let etherPrice = await new Promise((resolve) => {
-      resolve(30600);
-    });
-    return etherPrice;
+    return await requestEtherPrice();
   };
 }
 
@@ -61,9 +66,13 @@ export const buyTicketsWithEther = (order) => {
   return async (dispatch, getState) => {
     let { ticketQty: qty, eventAddress } = order;
 
+    let etherPrice = await requestEtherPrice();
+
     let { walletAddress } = getState().auth.user;
 
     let { privateKey } = getState().auth.user;
+
+    console.log('privateKey', privateKey);
 
     let { abis } = getState().terrapin;
 
@@ -84,12 +93,22 @@ export const buyTicketsWithEther = (order) => {
       if (ticketOwner === eventOwner) {
         let ticketPrice = parseInt(await ticketInstance.methods.usdPrice().call()); // TODO: this will need to be modified
 
+        let fee = Math.ceil((50 / etherPrice) * wei);
+
+        let weiPrice = Math.ceil((ticketPrice / etherPrice) * wei) + fee;
+
+        console.log('weiRequired', weiPrice);
+
+        ticketInstance.events.Log().on('data', (data) => {
+          console.log('got some data', data);
+        });
+
         let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
         let txParams = {
           nonce,
           chainId,
           to: ticketInstance.options.address,
-          value: ticketPrice,
+          value: weiPrice,
           gas,
           gasPrice,
           data: encodedAbi
@@ -101,7 +120,7 @@ export const buyTicketsWithEther = (order) => {
 
         await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
 
-        let newOwner = await ticketInstance.methods.owner().call();
+        // let newOwner = await ticketInstance.methods.owner().call();
         nonce++;
         isBreak++;
       }
@@ -110,16 +129,20 @@ export const buyTicketsWithEther = (order) => {
   };
 };
 
-export const buyTicketStripe = (token, eventAddress) => {
+export const buyTicketsStripe = (token, order) => {
   return async (dispatch, getState) => {
     let { walletAddress } = getState().auth.user;
     let { abis } = getState().terrapin;
 
-    let ticketInstance = await getAvailableTicket(eventAddress, abis);
+    // let ticketInstance = await getAvailableTicket(eventAddress, abis);
+    let ticketInstances = order.ticketInstances;
+
+    console.log('sending request');
 
     let res = await axios.post(`${EOTW_URL}/buy-ticket`, {
       token,
-      ticketAddress: ticketInstance.options.address,
+      fees: 150, // should be calculated later
+      ticketAddresses: ticketInstances.map((instance) => instance.options.address),
       walletAddress
     });
 

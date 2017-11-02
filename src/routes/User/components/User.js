@@ -3,13 +3,10 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { Link } from 'react-router';
 import ReactModal from 'react-modal';
 import TicketViewModal from './TicketViewModal';
-import TicketRedeemModal from './TicketRedeemModal';
 import TicketTransferModal from './TicketTransferModal';
 import web3 from '../../../components/Web3.js';
 import './User.scss';
 import Price from '../../../components/shared/Price';
-
-import modalStyles from '../../../layouts/modal-styles';
 
 class User extends Component {
   constructor(props) {
@@ -63,10 +60,6 @@ class User extends Component {
     this.setState({transferTicketModalOpen: true, selectedTicket: ticket});
   }
 
-  openTicketRedeemModal(event) {
-    this.setState({redeemTicketModalOpen: true, selectedEvent: event});
-  }
-
   renderTickets() {
     if (this.props.tickets) {
       return (
@@ -99,7 +92,7 @@ class User extends Component {
                 <td className="qty"><Price price={event.price}/></td>
                 <td>{event.qty}</td>
                 <td className="actions">
-                  <button onClick={() => this.openTicketRedeemModal(event)}>Redeem Tickets</button></td>
+                  <button><Link to={`/event/${event.id}/manage`}>Manage Event</Link></button></td>
               </tr>
           );
         })
@@ -114,7 +107,7 @@ class User extends Component {
     const { email, walletAddress, encryptedPrivateKey } = this.props.user;
     const { balance } = this.props;
     return (
-      <div className='container' >
+      <div className='user-container'>
         <h1>{email}</h1>
         <div className="profile-info">
           <div className="profile-left">
@@ -135,9 +128,6 @@ class User extends Component {
 
           <TabPanel>
             <h2>Events</h2>
-            <Link to='/createEvent'>
-              <button>Create New Event</button>
-            </Link>
               <table className="events-table">
                 <th>
                   <td>Name</td>
@@ -178,12 +168,6 @@ class User extends Component {
           closeModal={() => this.setState({transferTicketModalOpen: false, selectedTicket: null })}
           isOpen={this.state.transferTicketModalOpen}
           transferTicket={this.props.transferTicket} />
-
-        <TicketRedeemModal
-          event={this.state.selectedEvent}
-          closeModal={() => this.setState({redeemTicketModalOpen: false, selectedEvent: null })}
-          isOpen={this.state.redeemTicketModalOpen}
-          redeemTicket={this.props.redeemTicket} />
 
         <ReactModal
           isOpen={this.state.depositModalOpen}

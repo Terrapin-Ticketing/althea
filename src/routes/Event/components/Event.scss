@@ -1,21 +1,19 @@
-// .events-container {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: flex-start;
-//   align-items: flex-start;
-// }
-
-.event-top-info {
+.event-container {
   display: flex;
-  flex-direction: row;
-  .event-image-container {
-    flex: 1;
-  }
-  .left-column {
-    flex: 2;
-  }
-  .right-column {
-    flex: 2;
+  flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  max-width: 1170px;
+  margin: 0 auto;
+}
+
+button.buy-ticket-button {
+  width: 100%;
+
+  a {
+    text-decoration: none;
+    color: white;
+    width: 100%;
   }
 }
 

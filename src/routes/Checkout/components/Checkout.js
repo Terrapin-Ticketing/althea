@@ -82,7 +82,7 @@ class Checkout extends Component {
   }
 
   render() {
-    let { order, event, buyTicketStripe } = this.props;
+    let { order, event, buyTicketsStripe } = this.props;
     let { name, price, date, time, venue, imageUrl } = event;
 
     // let { isLoading } = this.states
@@ -128,10 +128,11 @@ class Checkout extends Component {
           </div>
 
           <CheckoutForm
+            total={this.state.total}
             event={event}
             order={order}
             paymentType={order.paymentType}
-            buyTicketStripe={buyTicketStripe}
+            buyTicketsStripe={buyTicketsStripe}
             onPaymentTypeChange={this.onPaymentTypeChange.bind(this)}
             user={this.props.user}
             getEtherPrice={this.props.getEtherPrice}

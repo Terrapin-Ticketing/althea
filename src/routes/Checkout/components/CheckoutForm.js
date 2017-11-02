@@ -23,22 +23,26 @@ export default class PaymentType extends React.Component {
   }
 
   async buyTicketsWithEther() {
-    await this.props.buyTicketsWithEther(this.props.order);
+    let { buyTicketsWithEther, order, user } = this.props;
+    if (!user.privateKey) {
+      return browserHistory.push('/unlock-account');
+    }
+    await buyTicketsWithEther(order);
     alert('successfully bought ticket');
     browserHistory.push('/user');
   }
 
   renderForm(paymentType) {
-    let { buyTicketStripe, event } = this.props;
+    let { buyTicketsStripe, event, user, total, order } = this.props;
     let { etherPrice } = this.state;
 
     switch (paymentType) {
       case 'ETH':
         return (
           <div className="user-info">
-            <span>{ this.props.user.email }</span>
-            <span>{ (this.props.user.walletAddress).substring(0, 8) }...</span>
-            <p>Hitting "Confirm" will charge {etherPrice} from your account.</p>
+            <span>{ user.email }</span>
+            <span>{ (user.walletAddress).substring(0, 8) }...</span>
+            <p>Hitting "Confirm" will charge {(total / etherPrice).toString().substring(0, 8)} ETH from your account.</p>
             <button type="submit" onClick={this.buyTicketsWithEther.bind(this)}>Confirm order</button>
           </div>
         );
@@ -46,8 +50,9 @@ export default class PaymentType extends React.Component {
         return (
           <Elements>
             <USDCheckout
-              buyTicketStripe={buyTicketStripe}
-              event={event} />
+              buyTicketsStripe={buyTicketsStripe}
+              event={event}
+              order={order} />
           </Elements>
         );
     }

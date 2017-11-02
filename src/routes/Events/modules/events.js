@@ -83,29 +83,6 @@ export function getEvents() {
   };
 }
 
-export const buyTicketStripe = (token, eventAddress) => {
-  return async (dispatch, getState) => {
-    let { walletAddress } = getState().auth.user;
-    let { abis } = getState().terrapin;
-
-    let ticketInstance = await getAvailableTicket(eventAddress, abis);
-
-    console.log('sending:', {
-      token,
-      ticketAddress: ticketInstance.options.address,
-      walletAddress
-    });
-
-    let res = await axios.post(`${EOTW_URL}/buy-ticket`, {
-      token,
-      ticketAddress: ticketInstance.options.address,
-      walletAddress
-    });
-
-    console.log('buying ticket through stripe', res);
-  };
-};
-
 export const actions = {
   getEvents
 };

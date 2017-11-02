@@ -9,6 +9,7 @@ export const SET_USER_EVENTS = 'SET_USER_EVENTS';
 export const SET_USER_TICKETS = 'SET_USER_TICKETS';
 export const GET_USER_TICKETS = 'GET_USER_TICKETS';
 export const GET_USER_EVENTS = 'GET_USER_EVENTS';
+export const LOGOUT = 'LOGOUT';
 
 let getContractInstance = (abi, address) => {
   const instance = new web3.eth.Contract(abi, address);
@@ -137,56 +138,6 @@ export const getUserBalance = () => {
   };
 };
 
-export const redeemTicket = (data) => {
-  return async (dispatch, getState) => {
-    let { walletAddress, privateKey } = getState().auth.user;
-
-    let sections = data.split('-');
-    let { eventAddress, ticketAddress } = JSON.parse(sections[0]);
-
-    console.log('WE shouldnt create the message from the given message. this allows someone to trick a user into signing a fraud message then scanning it in themselves');
-    let messageHash = sections[1];
-
-    let signedMessage = sections[2];
-
-    // recover from ecsign
-    let sigDecoded = ethUtils.fromRpcSig(signedMessage);
-    let messageHashx = Buffer.from(messageHash.substring(2), 'hex');
-    let pubkey = ethUtils.ecrecover(messageHashx, sigDecoded.v, sigDecoded.r, sigDecoded.s);
-    let recoveredAddress = `0x${ethUtils.publicToAddress(pubkey).toString('hex')}`;
-
-    const { abis } = getState().terrapin;
-    const ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
-
-    let ticketOwner = await ticketInstance.methods.owner().call();
-    if (ticketOwner.toLowerCase() !== recoveredAddress.toLowerCase()) {
-      throw new Error('This ticket is not owned by signer');
-    }
-
-    let isRedeemed = await ticketInstance.methods.isRedeemed().call();
-
-    console.log('isRedeemed', isRedeemed);
-    if (isRedeemed) throw new Error('This ticket has already been redeemed');
-
-    let encodedAbi = ticketInstance.methods.redeemTicket().encodeABI();
-    let txParams = {
-      nonce: await web3.eth.getTransactionCount(walletAddress),
-      chainId: await web3.eth.net.getId(),
-      to: ticketAddress, // with 0x
-      gas: `0x${(4700000).toString(16)}`,
-      gasPrice: `0x${(4000000000).toString(16)}`,
-      value: 0,
-      data: encodedAbi
-    };
-
-    const tx = new EthereumTx(txParams);
-    tx.sign(new Buffer(privateKey));
-    const serializedTx = tx.serialize();
-    let transaction = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
-    return transaction;
-  };
-};
-
 // export const actions = {
 //   // getUserTickets,
 //   getUserEvents,
@@ -214,7 +165,14 @@ const ACTION_HANDLERS = {
       ...state,
       events: action.payload
     };
-  }
+  },
+  [LOGOUT]: (state, action) => {
+    return {
+      ...state,
+      tickets: null,
+      events: null
+    };
+  },
 };
 
 // ------------------------------------

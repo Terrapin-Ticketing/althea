@@ -36,73 +36,80 @@ class CreateEvent extends Component {
       <div className='createEvent-container' >
         <h1>Create Event</h1>
         <span className='user'>Signed in as {(this.props.user) ? this.props.user.email : null}</span>
-        <label className='label'>
-          <span>Event Name:</span>
-          <input type="text" value={this.state.name} onChange={(e) => {
-            this.setState({name: e.target.value});
-          }} />
-        </label>
-        <label className='label'>
-          <span>Qty:</span>
-          <input type="text" value={this.state.qty} onChange={(e) => {
-            this.setState({qty: e.target.value});
-          }} />
-        </label>
-        <label className='label'>
-          <span>Price ($):</span>
-          <input type="text" value={this.state.price} onChange={(e) => {
-            let usdPrice = parseFloat(e.target.value) * 100; // make amount non-decimal
-            this.setState({ usdPrice });
-          }} />
-        </label>
-        <h2>Other Info</h2>
-        <label className='label'>
-          <span>Image Url:</span>
-          <input type="text" value={this.state.price} onChange={(e) => {
-            this.setState({imageUrl: e.target.value});
-          }} />
-        </label>
-        <label className='label'>
-          <span>Date:</span>
-          <input type="text" value={this.state.price} onChange={(e) => {
-            this.setState({date: e.target.value});
-          }} />
-        </label>
-        <h2>Venue Info</h2>
-        <label className='label'>
-          <span>Name:</span>
-          <input type="text" value={this.state.price} onChange={(e) => {
-            this.setState({venueName: e.target.value});
-          }} />
-        </label>
-        <label className='label'>
-          <span>Address:</span>
-          <input type="text" value={this.state.price} onChange={(e) => {
-            this.setState({venueAddress: e.target.value});
-          }} />
-        </label>
-        <label className='label'>
-          <span>City:</span>
-          <input type="text" value={this.state.price} onChange={(e) => {
-            this.setState({venueCity: e.target.value});
-          }} />
-        </label>
-        <label className='label'>
-          <span>State:</span>
-          <input type="text" value={this.state.price} onChange={(e) => {
-            this.setState({venueState: e.target.value});
-          }} />
-        </label>
-        <label className='label'>
-          <span>Zipcode:</span>
-          <input type="text" value={this.state.price} onChange={(e) => {
-            this.setState({venueZip: e.target.value});
-          }} />
-        </label>
-
-        <span className='error'>{(this.props.createEventError) ? this.props.createEventError : null}</span>
-
-        <button onClick={() => this.onSubmit()}>Create Event</button>
+        <div className='form-container'>
+          <div className='left-column'>
+            <h2>Event Info</h2>
+            <label className='label'>
+              <span>Event Name:</span>
+              <input type="text" value={this.state.name} onChange={(e) => {
+                this.setState({name: e.target.value});
+              }} />
+            </label>
+            <label className='label'>
+              <span>Qty:</span>
+              <input type="text" value={this.state.qty} onChange={(e) => {
+                this.setState({qty: e.target.value});
+              }} />
+            </label>
+            <label className='label'>
+              <span>Price ($):</span>
+              <input type="text" value={this.state.price} onChange={(e) => {
+                let usdPrice = parseFloat(e.target.value) * 100; // make amount non-decimal
+                this.setState({ usdPrice });
+              }} />
+            </label>
+            <h2>Other Info</h2>
+            <label className='label'>
+              <span>Image Url:</span>
+              <input type="text" value={this.state.price} onChange={(e) => {
+                this.setState({imageUrl: e.target.value});
+              }} />
+            </label>
+            <label className='label'>
+              <span>Date:</span>
+              <input type="text" value={this.state.price} onChange={(e) => {
+                this.setState({date: e.target.value});
+              }} />
+            </label>
+          </div>
+          <div className='right-column'>
+            <h2>Venue Info</h2>
+            <label className='label'>
+              <span>Name:</span>
+              <input type="text" value={this.state.price} onChange={(e) => {
+                this.setState({venueName: e.target.value});
+              }} />
+            </label>
+            <label className='label'>
+              <span>Address:</span>
+              <input type="text" value={this.state.price} onChange={(e) => {
+                this.setState({venueAddress: e.target.value});
+              }} />
+            </label>
+            <label className='label'>
+              <span>City:</span>
+              <input type="text" value={this.state.price} onChange={(e) => {
+                this.setState({venueCity: e.target.value});
+              }} />
+            </label>
+            <label className='label'>
+              <span>State:</span>
+              <input type="text" value={this.state.price} onChange={(e) => {
+                this.setState({venueState: e.target.value});
+              }} />
+            </label>
+            <label className='label'>
+              <span>Zipcode:</span>
+              <input type="text" value={this.state.price} onChange={(e) => {
+                this.setState({venueZip: e.target.value});
+              }} />
+            </label>
+          </div>
+        </div>
+        <div className="submit-form">
+          <span className='error'>{(this.props.createEventError) ? this.props.createEventError : null}</span>
+          <button className="submit-form" onClick={() => this.onSubmit()}>Create Event</button>
+        </div>
       </div>
     );
   }
