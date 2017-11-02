@@ -5,10 +5,27 @@ import pasync from 'pasync';
 
 export const CHECKOUT = 'CHECKOUT';
 
+const gwei = 1000000000;
+
 let getContractInstance = (abi, address) => {
   const instance = new web3.eth.Contract(abi, address);
   return instance;
 };
+
+export function getEtherPrice() {
+  return async (dispatch, getState) => {
+    // let res = JSON.parse(await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR'));
+    // console.log('ETHER PRICE:', res.USD, res);
+    // dispatch({
+    //   type: 'none',
+    //   payload: []
+    // });
+    let etherPrice = await new Promise((resolve) => {
+      resolve(30600);
+    });
+    return etherPrice;
+  };
+}
 
 async function getAvailableTicket(eventAddress, abis) {
   let eventInstance = getContractInstance(abis.event.abi, eventAddress);
@@ -40,6 +57,59 @@ export function checkout(something) {
   };
 }
 
+export const buyTicketsWithEther = (order) => {
+  return async (dispatch, getState) => {
+    let { ticketQty: qty, eventAddress } = order;
+
+    let { walletAddress } = getState().auth.user;
+
+    let { privateKey } = getState().auth.user;
+
+    let { abis } = getState().terrapin;
+
+    let eventInstance = getContractInstance(abis.event.abi, eventAddress);
+    let eventOwner = await eventInstance.methods.owner().call();
+
+    let ticketInstances = order.ticketInstances;
+    let nonce = await web3.eth.getTransactionCount(walletAddress);
+    let chainId = await web3.eth.net.getId();
+    let gas = `0x${(4700000).toString(16)}`;
+    let gasPrice = `0x${(gwei * 20).toString(16)}`;
+
+    let isBreak = 0;
+    await pasync.eachSeries(ticketInstances, async (ticketInstance) => {
+      if (isBreak >= qty) return;
+      let ticketOwner = await ticketInstance.methods.owner().call();
+
+      if (ticketOwner === eventOwner) {
+        let ticketPrice = parseInt(await ticketInstance.methods.usdPrice().call()); // TODO: this will need to be modified
+
+        let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
+        let txParams = {
+          nonce,
+          chainId,
+          to: ticketInstance.options.address,
+          value: ticketPrice,
+          gas,
+          gasPrice,
+          data: encodedAbi
+        };
+
+        let tx = new EthereumTx(txParams);
+        tx.sign(new Buffer(privateKey));
+        let serializedTx = tx.serialize();
+
+        await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+
+        let newOwner = await ticketInstance.methods.owner().call();
+        nonce++;
+        isBreak++;
+      }
+    });
+    return true;
+  };
+};
+
 export const buyTicketStripe = (token, eventAddress) => {
   return async (dispatch, getState) => {
     let { walletAddress } = getState().auth.user;
@@ -58,7 +128,9 @@ export const buyTicketStripe = (token, eventAddress) => {
 };
 
 export const actions = {
-  checkout
+  checkout,
+  getEtherPrice,
+  buyTicketsWithEther
 };
 
 // ------------------------------------

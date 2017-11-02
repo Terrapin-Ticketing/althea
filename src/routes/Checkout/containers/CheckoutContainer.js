@@ -6,7 +6,8 @@ import Checkout from '../components/Checkout';
 const mapStateToProps = (state) => {
   return {
     event: state.event.currentEvent,
-    order: state.event.order
+    order: state.event.order,
+    user: state.auth.user,
   };
 };
 

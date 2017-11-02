@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import web3 from 'web3';
 import classNames from 'classnames';
-import { Elements } from 'react-stripe-elements';
 
 import CheckoutForm from './CheckoutForm';
 
@@ -14,7 +13,7 @@ class Checkout extends Component {
     this.state = {
       name: '',
       serviceFee: 1,
-      cardFee: 1.50,
+      cardFee: 150,
     };
     this.renderOrder = this.renderOrder.bind(this);
     this.renderServiceFee = this.renderServiceFee.bind(this);
@@ -22,10 +21,9 @@ class Checkout extends Component {
     this.renderTotal = this.renderTotal.bind(this);
   }
 
-  componentDidMount() {
-    let { event, order } = this.props;
+  async componentDidMount() {
     let { serviceFee, cardFee } = this.state;
-    this.setState({ total: (event.price * order) + serviceFee + cardFee });
+    this.setState({ total: this.calculateTotal(serviceFee + cardFee)});
   }
 
   async buyTicket() {
@@ -40,7 +38,7 @@ class Checkout extends Component {
         <div className="left-column">
           <span>
             {event.name} <br />
-            General Admission x {order}
+            General Admission x {order.ticketQty}
           </span>
         </div>
         <div className="right-column">
@@ -62,9 +60,32 @@ class Checkout extends Component {
     return <Price price={this.state.total} />;
   }
 
+  calculateTotal(fees) {
+    let { event, order } = this.props;
+    return (event.price * order.ticketQty) + fees;
+  }
+
+  onPaymentTypeChange(paymentType) {
+    if (paymentType === 'USD') {
+      this.setState({
+        serviceFee: 1,
+        cardFee: 150,
+        total: this.calculateTotal(1 + 150)
+      });
+    } else if (paymentType === 'ETH') {
+      this.setState({
+        serviceFee: 0,
+        cardFee: 1,
+        total: this.calculateTotal(0 + 1)
+      });
+    }
+  }
+
   render() {
-    let { name, price, date, time, venue, imageUrl } = this.props.event;
-    let { isLoading } = this.state;
+    let { order, event, buyTicketStripe } = this.props;
+    let { name, price, date, time, venue, imageUrl } = event;
+
+    // let { isLoading } = this.states
     return (
       <div className='checkout-container'>
         <div className='event-top-info'>
@@ -106,10 +127,22 @@ class Checkout extends Component {
             </div>
           </div>
 
-          <Elements>
+          <CheckoutForm
+            event={event}
+            order={order}
+            paymentType={order.paymentType}
+            buyTicketStripe={buyTicketStripe}
+            onPaymentTypeChange={this.onPaymentTypeChange.bind(this)}
+            user={this.props.user}
+            getEtherPrice={this.props.getEtherPrice}
+            buyTicketsWithEther={this.props.buyTicketsWithEther}
+          />
+
+          {/* <Elements>
             <CheckoutForm
               buyTicketStripe={this.props.buyTicketStripe}
               event={this.props.event} />
+          </Elements> */}
             {/* <div className="right-column">
               <h1>Checkout</h1>
               <span className='user'>Signed in as {(this.props.user) ? this.props.user.email : null}</span>
@@ -147,8 +180,6 @@ class Checkout extends Component {
                 { (isLoading) ? <img src={require('../../../layouts/assets/img/spinner.svg')} /> : 'Checkout'}
               </button>
             </div> */}
-          </Elements>
-
         </div>
       </div>
     );

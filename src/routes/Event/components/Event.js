@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import ReactModal from 'react-modal';
 import web3 from 'web3';
 import QtyCounter from './QtyCounter';
+import Price from '../../../components/shared/Price';
 
 import './Event.scss';
 
@@ -15,7 +16,7 @@ class Event extends Component {
       isLoading: false,
       ticketQty: 0
     };
-    this.buyTicket = this.buyTicket.bind(this);
+    // this.buyTicket = this.buyTicket.bind(this);
     this.updateOrder = this.updateOrder.bind(this);
   }
 
@@ -23,16 +24,24 @@ class Event extends Component {
     this.props.getEventInfo(this.props.params.id);
   }
 
-  async buyTicket(event) {
-    this.setState({isLoading: true});
-    await this.props.buyTicket(event, this.state.ticketQty);
-    this.props.getEventInfo(this.props.params.id);
-    this.setState({ isLoading: false, buyModalOpen: false });
+  componentWillUnmount() {
   }
 
-  updateOrder(count) {
-    this.setState({ ticketQty: count });
-    this.props.updateOrder(count);
+  // async buyTicket(event) {
+  //   this.setState({isLoading: true});
+  //   await this.props.buyTicket(event, this.state.ticketQty);
+  //   this.props.getEventInfo(this.props.params.id);
+  //   this.setState({ isLoading: false, buyModalOpen: false });
+  // }
+
+  updateOrder(ticketQty) {
+    this.setState({ ticketQty });
+    let paymentType = 'USD';
+    this.props.updateOrder({
+      ticketQty,
+      paymentType,
+      eventAddress: this.props.params.id
+    });
   }
 
   renderTickets() {
@@ -43,7 +52,7 @@ class Event extends Component {
     return (
       <tr>
         <td>General Admission</td>
-        <td>${this.props.event.price}</td>
+        <td><Price price={this.props.event.price}/></td>
         <td>{this.props.event.ticketsRemaining}</td>
         <td><QtyCounter
           count={this.state.ticketQty}
@@ -71,7 +80,7 @@ class Event extends Component {
             <h1>{name}</h1>
             <h4>Owner: {owner}</h4>
             <h4>{date}</h4>
-            <h4>${price}</h4>
+            <h4><Price price={price}/></h4>
           </div>
           <div className='right-column'>
             <div className='venue-info'>
@@ -91,12 +100,14 @@ class Event extends Component {
               {this.renderTickets()}
             </tbody>
           </table>
-          <button><Link to='checkout'>
-            Buy Ticket
-          </Link></button>
+          <button>
+            <Link to='checkout'>
+              Buy Ticket
+            </Link>
+          </button>
         </div>
 
-        <ReactModal
+        {/* <ReactModal
           isOpen={this.state.buyModalOpen}
           contentLabel="Payment Modal"
           onRequestClose={() => {
@@ -116,11 +127,11 @@ class Event extends Component {
               className={classNames('purchase-ticket', {isLoading: isLoading, notLoading: !isLoading })}
               onClick={() => {
                 this.buyTicket(this.props.event);
-              }}>
+              }}>hello
               { (isLoading) ? <img src={require('../../../layouts/assets/img/spinner.svg')} /> : 'Confirm Purchase'}
             </button>
           </div>
-        </ReactModal>
+        </ReactModal> */}
       </div>
     );
   }

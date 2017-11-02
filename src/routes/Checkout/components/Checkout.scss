@@ -66,6 +66,12 @@
     }
   }
 
+  .user-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+
   .event-bottom-info {
     display: flex;
     flex-direction: row;
@@ -90,6 +96,18 @@
     .right-column {
       flex: 2;
       padding: 20px;
+    }
+
+    .payment-types {
+      display: flex;
+
+      button {
+        background: gray;
+      }
+
+      .active {
+        background: #090;
+      }
     }
   }
 

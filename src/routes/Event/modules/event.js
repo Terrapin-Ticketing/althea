@@ -11,6 +11,30 @@ let getContractInstance = (abi, address) => {
   return instance;
 };
 
+async function getAvailableTickets(num, eventAddress, abis) {
+  let eventInstance = getContractInstance(abis.event.abi, eventAddress);
+  let eventOwner = await eventInstance.methods.owner().call();
+
+  let ticketAddresses = await eventInstance.methods.getTickets().call();
+
+  let isBreak = false;
+  let availableTickets = [];
+  await pasync.eachSeries(ticketAddresses, async (ticketAddress) => {
+    if (isBreak) return;
+    let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
+    let ticketOwner = await ticketInstance.methods.owner().call();
+
+    if (ticketOwner === eventOwner) {
+      availableTickets.push(ticketInstance);
+      // availableTicket = ticketInstance;
+      if (availableTickets.length >= num) {
+        isBreak = true;
+      }
+    }
+  });
+  return availableTickets;
+}
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -21,21 +45,14 @@ export const UPDATE_ORDER = 'UPDATE_ORDER';
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
 export function getEventInfo(eventAddress) {
-  console.log('getEventInfo called');
   return async (dispatch, getState) => {
-
-    console.log('isAddress: ', web3.utils.toHex(eventAddress));
-
     const { abis } = getState().terrapin;
     let eventInstance = getContractInstance(abis.event.abi, web3.utils.toHex(eventAddress));
-    console.log('eventInstance: ', eventInstance);
     // this take FOREVERRR to return. THIS is where our caching service will make a big difference
     let ticketAddresses = await eventInstance.methods.getTickets().call();
     let eventOwner = await eventInstance.methods.owner().call();
-    console.log('ticketAddresses: ', ticketAddresses);
     let remaining = 0;
     await pasync.each(ticketAddresses, async (ticketAddress) => {
-      console.log('ticketAddress: ', ticketAddress);
       let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
       let ticketOwner = await ticketInstance.methods.owner().call();
       if (eventOwner === ticketOwner) {
@@ -43,7 +60,6 @@ export function getEventInfo(eventAddress) {
       }
     });
 
-    console.log('pass');
     let event = {
       id: eventInstance.options.address,
       name: web3.utils.toAscii(await eventInstance.methods.name().call()),
@@ -62,8 +78,6 @@ export function getEventInfo(eventAddress) {
       price: await (getContractInstance(abis.ticket.abi, ticketAddresses[0]).methods.usdPrice().call())
     };
 
-    console.log('getEventInfo dispatch: ', event);
-
     dispatch({
       type: SET_EVENT_DETAILS,
       payload: event
@@ -73,14 +87,20 @@ export function getEventInfo(eventAddress) {
 
 export const updateOrder = (order) => {
   return async (dispatch, getState) => {
+    let { abis } = getState().terrapin;
+    let availableTickets = await getAvailableTickets(order.ticketQty, order.eventAddress, abis);
+    // get available tickets
+    // getAvailableTicket()
+    order = {
+      ...order,
+      ticketInstances: availableTickets
+    };
     dispatch({
       type: UPDATE_ORDER,
       payload: order
-    })
-  }
-}
-
-
+    });
+  };
+};
 
 export const buyTicket = (event, qty) => {
   return async (dispatch, getState) => {

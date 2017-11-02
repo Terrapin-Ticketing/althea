@@ -23,5 +23,5 @@ export default (store, wrappers = []) => ({
 
     /* Webpack named bundle   */
     }, 'events');
-  }
+  },
 });
