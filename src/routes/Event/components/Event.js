@@ -38,12 +38,13 @@ class Event extends Component {
   //   this.setState({ isLoading: false, buyModalOpen: false });
   // }
 
-  updateOrder(ticketQty) {
+  updateOrder(ticketQty, ticketAddress) {
     this.setState({ ticketQty });
     let paymentType = 'USD';
     this.props.updateOrder({
       ticketQty,
       paymentType,
+      ticketAddress,
       eventAddress: this.props.params.id
     });
   }
@@ -93,12 +94,18 @@ class Event extends Component {
         <div>nothing yet</div>
       );
     }
+    const childrenWithProps = React.Children.map(this.props.children,
+     (child) => React.cloneElement(child, {
+       updateOrder: this.updateOrder.bind(this)
+     })
+    );
+
     return (
       <div className='event-container'>
         <EventInfoContainer event={this.props.event} />
         <div className='event-bottom-info'>
           {(this.props.params.ticketId) ? null : this.renderTicketTable()}
-          {this.props.children}
+          {childrenWithProps}
           {this.renderBuyButton()}
         </div>
 
