@@ -4,6 +4,7 @@ import EthereumTx from 'ethereumjs-tx';
 import pasync from 'pasync';
 
 export const CHECKOUT = 'CHECKOUT';
+export const SET_TX_LIST = 'SET_TX_LIST';
 
 const gwei = 1000000000;
 const wei = 1000000000000000000;
@@ -122,8 +123,13 @@ export const buyTicketsWithEther = (order) => {
         isBreak++;
       }
     });
-    console.log('transactionsList: ', transactionsList);
-    return transactionsList;
+
+    dispatch({
+      type: SET_TX_LIST,
+      payload: transactionsList
+    });
+
+    return true;
   };
 };
 
@@ -141,6 +147,13 @@ export const buyTicketsStripe = (token, order) => {
       ticketAddresses: ticketInstances.map((instance) => instance.options.address),
       walletAddress
     });
+    console.log('res.data', res.data);
+
+    dispatch({
+      type: SET_TX_LIST,
+      payload: res.data
+    });
+
     return res.data;
   };
 };
@@ -158,6 +171,12 @@ const ACTION_HANDLERS = {
   [CHECKOUT]: (state, action) => {
     return {
       ...state
+    };
+  },
+  [SET_TX_LIST]: (state, action) => {
+    return {
+      ...state,
+      txList: action.payload
     };
   }
 };
