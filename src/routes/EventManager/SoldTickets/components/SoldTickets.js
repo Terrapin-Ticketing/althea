@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import classNames from 'classnames';
-import web3 from 'web3';
+import Price from '../../../../components/shared/Price';
 
 import './SoldTickets.scss';
 
@@ -23,7 +22,7 @@ class SoldTickets extends Component {
         <div className='ticket-table-item'>
           <div className='item-field'>General Admission <br /></div>
           <div className='item-field address-item'><i>{ticket.id}</i></div>
-          <div className='item-field'>{ticket.price}</div>
+          <div className='item-field'><Price price={ticket.price} /></div>
           <div className='item-field'><Link to={`/event/${this.props.params.id}/ticket/${ticket.id}`}>View Ticket</Link></div>
         </div>
       );
