@@ -57,7 +57,6 @@ async function getAvailableTicket(eventAddress, abis) {
 
 
 export function checkout(something) {
-  console.log('checkout called');
   return async (dispatch, getState) => {
   };
 }
@@ -71,8 +70,6 @@ export const buyTicketsWithEther = (order) => {
     let { walletAddress } = getState().auth.user;
 
     let { privateKey } = getState().auth.user;
-
-    console.log('privateKey', privateKey);
 
     let { abis } = getState().terrapin;
 
@@ -96,8 +93,6 @@ export const buyTicketsWithEther = (order) => {
         let fee = Math.ceil((50 / etherPrice) * wei);
 
         let weiPrice = Math.ceil((ticketPrice / etherPrice) * wei) + fee;
-
-        console.log('weiRequired', weiPrice);
 
         ticketInstance.events.Log().on('data', (data) => {
           console.log('got some data', data);
@@ -137,16 +132,12 @@ export const buyTicketsStripe = (token, order) => {
     // let ticketInstance = await getAvailableTicket(eventAddress, abis);
     let ticketInstances = order.ticketInstances;
 
-    console.log('sending request');
-
     let res = await axios.post(`${EOTW_URL}/buy-ticket`, {
       token,
       fees: 150, // should be calculated later
       ticketAddresses: ticketInstances.map((instance) => instance.options.address),
       walletAddress
     });
-
-    console.log('buying ticket through stripe', res);
   };
 };
 

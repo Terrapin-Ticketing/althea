@@ -1,0 +1,24 @@
+.ticket-table {
+  display: flex;
+  flex-direction: column;
+  .ticket-table-header {
+    display: flex;
+    flex: 1;
+    background: #c7c7c7;
+  }
+
+  .ticket-table-item {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+  }
+  .item-field {
+    display: flex;
+    flex: 1;
+    padding: 10px;
+  }
+}
+
+.address-item {
+  flex: 2 !important;
+}

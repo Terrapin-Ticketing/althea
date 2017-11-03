@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import Loading from '../../../components/shared/Loading.js';
 
 import './Ticket.scss';
 
@@ -32,7 +33,7 @@ class Ticket extends Component {
   render() {
     if (!this.props.ticket) {
       return (
-        <div>nothing yet</div>
+        <Loading />
       );
     }
     return (

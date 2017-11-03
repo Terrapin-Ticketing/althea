@@ -5,7 +5,6 @@ import './Sidebar.scss';
 
 export const Sidebar = (props) => {
   let { event, openTicketRedeemModal } = props;
-  console.log('sidebar props: ', props);
   return (
     <div className="navigation-container">
       <div className="nav-controls">
@@ -13,7 +12,8 @@ export const Sidebar = (props) => {
         <label htmlFor="burger-check" className="burger"></label>
         <label htmlFor="burger-check" className="burger-space"></label>
         <div className='navigation'>
-          <span className='nav-item'><Link to={`/event/${event.id}/manage`} className='nav-item' activeClassName='page-layout__nav-item--active'>Customer View</Link></span>
+          <span className='nav-item'><Link to={`/event/${event.id}/manage/preview`} className='nav-item' activeClassName='page-layout__nav-item--active'>Preview</Link></span>
+          <span className='nav-item'><Link to={`/event/${event.id}/manage/stats`} className='nav-item' activeClassName='page-layout__nav-item--active'>Stats</Link></span>
           <span className='nav-item'><Link to={`/event/${event.id}/manage/unsoldTickets`} className='nav-item' activeClassName='page-layout__nav-item--active'>Unsold Tickets</Link></span>
           <span className='nav-item'><Link to={`/event/${event.id}/manage/soldTickets`} className='nav-item' activeClassName='page-layout__nav-item--active'>Sold Tickets</Link></span>
           <span className='nav-item'><Link onClick={() => openTicketRedeemModal()} className='nav-item' activeClassName='page-layout__nav-item--active'>Redeem Tickets</Link></span>

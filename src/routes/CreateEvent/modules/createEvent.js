@@ -17,7 +17,6 @@ export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddr
     let { user } = getState().auth;
     let { abis, terrapinAddress } = getState().terrapin;
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
-    console.log('instance Addr:', terrapinInstance.options.address);
 
     let chainId = await web3.eth.net.getId();
     let nonce = await web3.eth.getTransactionCount(user.walletAddress);
@@ -25,8 +24,6 @@ export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddr
     let gasPrice = `0x${(gwei * 20).toString(16)}`;
     // let gasPrice = gwei * 30;
     let gas = `0x${(4700000).toString(16)}`;
-
-    console.log('Total Gas Cost:', web3.utils.fromWei(gasPrice * gas, 'ether'));
 
     let values = [ name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip ].map(web3.utils.fromAscii);
     let encodedAbi = terrapinInstance.methods.createEvent(...values).encodeABI();
@@ -51,13 +48,10 @@ export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddr
 
     let data = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
 
-    console.log('Event Created');
-
     // get event address
     let eventAddresses = await terrapinInstance.methods.getEvents().call();
     let mostRecent;
     await pasync.eachSeries(eventAddresses, async (eventAddress) => {
-      console.log('eventAddress: ', eventAddress);
       let eventInstance = getContractInstance(abis.event.abi, eventAddress);
       let owner = await eventInstance.methods.owner().call();
       if (owner === user.walletAddress) {
@@ -66,7 +60,6 @@ export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddr
     });
 
     if (mostRecent) {
-      console.log('most recent');
       let N = qty;
       let nonceInterval = Array.apply(null, {length: N}).map(Number.call, Number);
 
@@ -87,30 +80,9 @@ export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddr
         tx.sign(new Buffer(privateKey));
 
         const serializedTx = tx.serialize();
-        console.log('send transaction');
         let x = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
-        console.log('made ticket', x);
       });
     }
-    // console.log('CREATING EVent!!!');
-    // return new Promise((resolve, reject) => {
-    //   web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`)
-    //     .on('transactionHash', async function(hash) {
-    //       console.log('transactionHash', hash);
-    //       let x = await web3.eth.getTransaction(hash);
-    //       console.log('transaction:', x);
-    //     })
-    //     .on('receipt', function(receipt) {
-    //       console.log('receipt', receipt);
-    //     })
-    //     .on('confirmation', function(confirmationNumber, receipt) {
-    //       console.log('confirmation', confirmationNumber, receipt);
-    //     })
-    //     .on('error', (err) => {
-    //       console.log('ERROR: ', err);
-    //       reject(err);
-    //     }); // If a out of gas error, the second parameter is the receipt.;
-    // });
   };
 };
 

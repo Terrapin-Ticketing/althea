@@ -18,7 +18,6 @@ export function locationChange(location = '/') {
 }
 
 export function setRedirectUrl(path) {
-  console.log('hits setRedirectUrl', path);
   return async(dispatch, getState) => {
     dispatch({
       type: SET_REDIRECT_URL,

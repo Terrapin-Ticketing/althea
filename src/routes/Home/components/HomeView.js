@@ -4,12 +4,7 @@ import './HomeView.scss'
 
 export const HomeView = () => (
   <div>
-    <h4>Welcome to Terrapin Ticketing!</h4>
-    <p>Create An Account</p>
-    <p>Get Ether from faucet</p>
-    <p>Create an event</p>
-    <p>View a ticket</p>
-    <p>Redeem a ticket</p>
+    <h2>Some Rise, Some Fall, Some Climb...to get to Terrapin</h2>
   </div>
 );
 

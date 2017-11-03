@@ -4,6 +4,7 @@ import TicketRedeemModal from './TicketRedeemModal';
 import EventInfoContainer from './../../../components/shared/EventInfo';
 import Sidebar from '../../../layouts/Sidebar';
 import QtyCounter from '../../Event/components/QtyCounter';
+import Loading from '../../../components/shared/Loading.js';
 
 import './EventManager.scss';
 
@@ -25,57 +26,15 @@ class EventManager extends Component {
     this.setState({redeemTicketModalOpen: true });
   }
 
-  updateOrder(count) {
-    this.setState({ ticketQty: count });
-  }
-
-  renderTickets() {
-    // let { tickets } = this.props.event;
-    // return tickets.map((ticket, index) => {
-    //   return <tr><td>{ticket.type.name}</td><td>{ticket.type.price}</td><td>Qty: Up/Down Selector</td></tr>
-    // });
-    return (
-      <tr>
-        <td>General Admission</td>
-        <td>${this.props.event.price}</td>
-        <td>{this.props.event.ticketsRemaining}</td>
-        <td><QtyCounter
-          count={this.state.ticketQty}
-          onChange={(count) => this.updateOrder(count) }
-          ticketsRemaining={this.props.event.ticketsRemaining}/></td>
-      </tr>
-    );
-  }
-
-  renderTicketTable() {
-    return (
-      <table>
-        <th><td>Ticket Type</td><td>Price</td><td>Tickets Remaining</td><td>Quantity</td></th>
-        <tbody>
-          {this.renderTickets()}
-        </tbody>
-      </table>
-    );
-  }
-
-  renderBuyButton() {
-    return (
-      <button className="buy-ticket-button"><Link to='checkout'>
-        Buy Ticket
-      </Link></button>
-    );
-  }
-
   render() {
-    console.log('eventManager: ', this.props);
     if (!this.props.unsoldTickets) {
       return (
-        <div>nothing yet</div>
+        <Loading />
       );
     }
     if (!this.props.event.name) {
       return (
-        <div>nothing yet</div>
+        <Loading />
       );
     }
     return (
@@ -83,7 +42,6 @@ class EventManager extends Component {
         <Sidebar openTicketRedeemModal={() => this.openTicketRedeemModal()} event={this.props.event} />
         <div className='event-manager-container'>
           <EventInfoContainer event={this.props.event} />
-          {(!this.props.children) ? this.renderTicketTable() : null}
           <div className='event-bottom-info'>
             {this.props.children}
           </div>

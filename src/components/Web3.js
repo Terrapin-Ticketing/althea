@@ -6,6 +6,4 @@ utils.toAscii = function(input) { return utils.toAsciiOriginal(input).replace(/\
 // let web3 = new Web3(new Web3.providers.HttpProvider(WEB3_HOST));
 let web3 = new Web3(WEB3_HOST);
 
-console.log('provider:', web3.currentProvider);
-
 export default web3;
