@@ -89,7 +89,15 @@ export function getEventInfo(eventAddress) {
 export const updateOrder = (order) => {
   return async (dispatch, getState) => {
     let { abis } = getState().terrapin;
-    let availableTickets = await getAvailableTickets(order.ticketQty, order.eventAddress, abis);
+    let availableTickets = [];
+    // if user sends single address, assume it's a single ticket
+    if (order.ticketAddress) {
+      availableTickets = [ order.ticketAddress ];
+    } else {
+      availableTickets = await getAvailableTickets(order.ticketQty, order.eventAddress, abis);
+    }
+
+    // let availableTickets = await getAvailableTickets(order.ticketQty, order.eventAddress, abis);
     // get available tickets
     // getAvailableTicket()
     order = {

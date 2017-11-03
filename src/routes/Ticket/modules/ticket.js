@@ -82,7 +82,8 @@ export function getTicketInfo(ticketAddress) {
       issuer: await ticketInstance.methods.issuer().call(),
       eventAddress: await ticketInstance.methods.eventAddress().call(),
       isRedeemed: await ticketInstance.methods.isRedeemed().call(),
-      usdPrice: await ticketInstance.methods.usdPrice().call()
+      usdPrice: await ticketInstance.methods.usdPrice().call(),
+      isForSale: await ticketInstance.methods.isForSale().call(),
     };
 
     console.log('getEventInfo dispatch: ', ticket);

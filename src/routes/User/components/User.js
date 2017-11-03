@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import ReactModal from 'react-modal';
 import TicketViewModal from './TicketViewModal';
 import TicketTransferModal from './TicketTransferModal';
@@ -48,6 +48,10 @@ class User extends Component {
   //   }
   // }
 
+  async sellTicket(ticket) {
+    await this.props.sellTicket(ticket);
+  }
+
   componentWillUnmount() {
     this.setState({ dataLoaded: false });
   }
@@ -60,19 +64,27 @@ class User extends Component {
     this.setState({transferTicketModalOpen: true, selectedTicket: ticket});
   }
 
+  ticketClick(ticket) {
+    return (e) => {
+      if (e.target.name === 'action-button') return;
+      browserHistory.push(`event/${ticket.eventId}/ticket/${ticket.id}`);
+    };
+  }
+
   renderTickets() {
     if (this.props.tickets) {
       return (
         this.props.tickets.map((ticket, index) => {
           return (
-              <tr className={`ticket-row ${(index%2 === 0) ? 'odd' : null}`} key={ticket.id}>
-                <td>{ticket.name}</td>
-                <td><Price price={ticket.price} /></td>
-                <td>{JSON.stringify(ticket.isRedeemed)}</td>
-                <td className="actions">
-                  <button onClick={() => this.openTicketViewModal(ticket)}>View</button>
-                  <button onClick={() => this.openTicketTransferModal(ticket)}>Transfer</button>
-                </td>
+              <tr className={`ticket-row ${(index%2 === 0) ? 'odd' : null}`} key={ticket.id} onClick={this.ticketClick(ticket).bind(this)}>
+                  <td>{ticket.name}</td>
+                  <td><Price price={ticket.price} /></td>
+                  <td>{JSON.stringify(ticket.isRedeemed)}</td>
+                  <td className="actions">
+                    <button name="action-button" onClick={() => this.sellTicket(ticket)}>Sell</button>
+                    <button name="action-button" onClick={() => this.openTicketViewModal(ticket)}>View</button>
+                    <button name="action-button" onClick={() => this.openTicketTransferModal(ticket)}>Transfer</button>
+                  </td>
               </tr>
           );
         })
