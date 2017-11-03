@@ -24,7 +24,8 @@ export default class PaymentType extends React.Component {
     if (!user.privateKey) {
       return browserHistory.push('/unlock-account');
     }
-    await buyTicketsWithEther(order);
+    let transactionsList = await buyTicketsWithEther(order);
+    console.log('transactionsList: ', transactionsList);
     alert('successfully bought ticket');
     browserHistory.push('/user');
   }

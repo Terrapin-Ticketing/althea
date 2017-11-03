@@ -14,9 +14,9 @@ class CheckoutForm extends React.Component {
     let token = await this.props.stripe.createToken({name: 'Jenny Rosen'});
 
     let { buyTicketsStripe, order } = this.props;
-    await buyTicketsStripe(JSON.stringify(token), order);
-    browserHistory.push('/user');
-
+    let transactionsList = await buyTicketsStripe(JSON.stringify(token), order);
+    console.log('transactionsList: ', transactionsList);
+    // TODO: Don't push to user, send to confirmation page
     // However, this line of code will do the same thing:
     // this.props.stripe.createToken({type: 'card', name: 'Jenny Rosen'});
   }
