@@ -122,6 +122,7 @@ export const buyTicketsWithEther = (order) => {
         isBreak++;
       }
     });
+    console.log('transactionsList: ', transactionsList);
     return transactionsList;
   };
 };

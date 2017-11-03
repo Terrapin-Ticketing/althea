@@ -1,0 +1,137 @@
+.checkout-container {
+  max-width: 1170px;
+  margin: 0 auto;
+  
+  .checkout-form {
+  }
+
+  .event-top-info {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    .event-image-container {
+      flex: 1;
+    }
+    .left-column {
+      flex: 2;
+    }
+    .right-column {
+      flex: 2;
+    }
+  }
+
+  .order-table {
+    display: flex;
+    flex-direction: column;
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      background: #c7c7c7;
+      padding: 10px;
+      .ticket {
+        flex: 1;
+      }
+      .price {
+        flex: 1;
+      }
+    }
+
+    .body {
+      display: flex;
+      flex-direction: row;
+      padding: 10px;
+      .orderRow {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+
+        .left-column {
+          flex: 1;
+        }
+        .right-column {
+          flex: 1;
+        }
+      }
+    }
+  }
+
+  .fee-details {
+    background: #c7c7c7;
+    .service-fee {
+      padding: 10px;
+    }
+    .card-fee {
+      padding: 10px;
+    }
+    .total {
+      padding: 10px;
+    }
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+
+  .event-bottom-info {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    border-top: 1px solid #c7c7c7;
+    .left-column {
+      flex: 2;
+      padding: 20px;
+      border-right: 1px solid #c7c7c7;
+
+      .left-column { // order panel
+        border: none;
+        padding: 0px;
+      }
+
+      .right-column { // order panel
+        border: none;
+        padding: 0px;
+      }
+
+    }
+    .right-column {
+      flex: 2;
+      padding: 20px;
+    }
+
+    .payment-types {
+      display: flex;
+
+      button {
+        background: gray;
+      }
+
+      .active {
+        background: #090;
+      }
+    }
+  }
+
+  .label {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 15px 0;
+
+    span {
+      flex: 1;
+    }
+    input {
+      flex: 1;
+    }
+  }
+
+  button {
+    flex: 1;
+    width: 80%;
+    margin-top: 25px;
+  }
+}
