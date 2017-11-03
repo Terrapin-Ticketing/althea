@@ -16,7 +16,6 @@ const getContractInfo = () => {
     } catch (e) {
       console.log('err', e);
     }
-    console.log('contract info set');
     dispatch({
       type: 'SET_CONTRACT_INFO',
       payload: res.data

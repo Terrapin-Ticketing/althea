@@ -104,7 +104,7 @@ class User extends Component {
                 <td className="qty"><Price price={event.price}/></td>
                 <td>{event.qty}</td>
                 <td className="actions">
-                  <button><Link to={`/event/${event.id}/manage`}>Manage Event</Link></button></td>
+                  <button><Link to={`/event/${event.id}/manage/preview`}>Manage Event</Link></button></td>
               </tr>
           );
         })

@@ -17,7 +17,6 @@ export default class PaymentType extends React.Component {
   componentDidMount() {
     this.props.getEtherPrice()
       .then((etherPrice) => {
-        console.log('etherPrice', etherPrice);
         this.setState({ etherPrice });
       });
   }

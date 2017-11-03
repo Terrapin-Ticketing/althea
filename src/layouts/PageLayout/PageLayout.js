@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import './PageLayout.scss';
 
 export default (store) => {
-  console.log('store: ', store.getState());
   const { user } = store.getState().auth;
   const PageLayout = ({ children }) => {
     return (

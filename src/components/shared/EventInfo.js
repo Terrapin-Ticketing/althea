@@ -11,7 +11,6 @@ class EventInfo extends Component {
 
   render() {
     let { name, price, owner, date, time, venue, imageUrl } = this.props.event;
-    console.log('event.props: ', this.props);
     return (
       <div className='event-top-info'>
         <div className='event-image-container'>

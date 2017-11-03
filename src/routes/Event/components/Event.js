@@ -6,6 +6,7 @@ import web3 from 'web3';
 import QtyCounter from './QtyCounter';
 import EventInfoContainer from './../../../components/shared/EventInfo';
 import Price from './../../../components/shared/Price';
+import Loading from '../../../components/shared/Loading.js';
 
 import './Event.scss';
 
@@ -24,7 +25,6 @@ class Event extends Component {
   }
 
   componentDidMount() {
-    console.log('this.props.params.id: ', this.props.params.id);
     this.props.getEventInfo(this.props.params.id);
   }
 
@@ -91,7 +91,7 @@ class Event extends Component {
     let { isLoading } = this.state;
     if (!this.props.event.name) {
       return (
-        <div>nothing yet</div>
+        <Loading />
       );
     }
     const childrenWithProps = React.Children.map(this.props.children,
