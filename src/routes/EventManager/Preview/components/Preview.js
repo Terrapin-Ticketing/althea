@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import Price from '../../../../components/shared/Price';
 import QtyCounter from '../../../Event/components/QtyCounter';
 
 import './Preview.scss';
@@ -30,7 +31,7 @@ class Preview extends Component {
     return (
       <tr>
         <td>General Admission</td>
-        <td>${this.props.event.price}</td>
+        <td><Price price={this.props.event.price} /></td>
         <td>{this.props.event.ticketsRemaining}</td>
         <td><QtyCounter
           count={this.state.ticketQty}
