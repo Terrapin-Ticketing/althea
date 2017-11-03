@@ -19,6 +19,7 @@ async function getAvailableTickets(num, eventAddress, abis) {
 
   let isBreak = false;
   let availableTickets = [];
+
   await pasync.eachSeries(ticketAddresses, async (ticketAddress) => {
     if (isBreak) return;
     let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);

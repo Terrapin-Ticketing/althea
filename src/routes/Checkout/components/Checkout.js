@@ -51,13 +51,13 @@ class Checkout extends Component {
   render() {
     let { serviceFee, cardFee, total } = this.state;
     let { order, event, buyTicketsStripe, user, getEtherPrice, buyTicketsWithEther, signup } = this.props;
+    console.log('order', order);
     return (
       <div className='checkout-container'>
-        <EventInfo event={event}/>
+        <EventInfo event={event} />
+        <Register signup={signup} />
 
-        {/* <Register signup={signup} /> */}
         <div className='event-bottom-info'>
-
           <Order
             serviceFee={serviceFee}
             cardFee={cardFee}
@@ -76,7 +76,6 @@ class Checkout extends Component {
             getEtherPrice={getEtherPrice}
             buyTicketsWithEther={buyTicketsWithEther}
           />
-
         </div>
       </div>
     );
