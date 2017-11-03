@@ -1,6 +1,9 @@
+import axios from 'axios';
 import cookie from 'cookie';
-import setAuthorizationToken from '../utils/setAuthorizationToken';
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
+import setAuthorizationToken from '../utils/setAuthorizationToken';
+
 
 // ------------------------------------
 // Constants
@@ -52,8 +55,57 @@ export function unlockPK(password) {
   };
 }
 
+export const signup = (email, password, privateKey) => {
+  return async(dispatch) => {
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/signup`,
+      method: 'post',
+      data: {email, password, privateKey},
+      withCredentials: true
+    });
+
+    let { token } = res.data;
+    setAuthorizationToken(token);
+    let user = jwt.decode(token);
+    dispatch({
+      type: 'LOGIN',
+      payload: user
+    });
+    await unlockPK(password);
+  };
+};
+
+export const login = (email, password) => {
+  return async (dispatch) => {
+    // if the password doesn't match the local token use axios to get a new one
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/login`,
+      method: 'post',
+      data: {email, password},
+      withCredentials: true
+    });
+
+    let { token } = res.data;
+    setAuthorizationToken(token);
+
+    let user = jwt.decode(token);
+
+    dispatch({
+      type: 'LOGIN',
+      payload: user
+    });
+
+    unlockPK(password);
+
+    dispatch({
+      type: 'CLEAR_REDIRECT_URL',
+      payload: null
+    });
+  };
+};
+
 export const actions = {
-  clearPK, unlockPK
+  clearPK, unlockPK, signup, login
 };
 
 // ------------------------------------

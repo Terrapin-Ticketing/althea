@@ -1,5 +1,11 @@
 import { connect } from 'react-redux';
-const mapDispatchToProps = require('../modules/login');
+const modules = require('../modules/login');
+const authModules = require('../../../store/authentication').actions;
+
+let mapDispatchToProps = {
+  ...modules,
+  ...authModules
+};
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for

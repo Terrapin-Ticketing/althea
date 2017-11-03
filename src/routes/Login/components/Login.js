@@ -43,6 +43,7 @@ class Login extends Component {
         await this.props.signup(email, password, privateKey);
         (redirectUrl) ? browserHistory.push(redirectUrl) : browserHistory.push('/events');
       } catch (err) { // email already taken
+        console.log(err);
         this.setState({loginError: 'That email is already in use. Please try again.'});
       }
     } else {

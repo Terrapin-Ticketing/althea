@@ -1,5 +1,11 @@
 import { connect } from 'react-redux';
-const mapDispatchToProps = require('../modules/checkout');
+const modules = require('../modules/checkout');
+const authModules = require('../../../store/authentication').actions;
+
+let mapDispatchToProps = {
+  ...modules,
+  ...authModules
+};
 
 import Checkout from '../components/Checkout';
 
@@ -8,6 +14,7 @@ const mapStateToProps = (state) => {
     event: state.event.currentEvent,
     order: state.event.order,
     user: state.auth.user,
+    redirectUrl: state.location.redirectUrl
   };
 };
 

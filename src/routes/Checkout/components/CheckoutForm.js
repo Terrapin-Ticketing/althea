@@ -10,15 +10,13 @@ export default class PaymentType extends React.Component {
     super(props);
 
     this.state = {
-      active: props.paymentType
+      active: props.order.paymentType
     };
   }
 
-  componentDidMount() {
-    this.props.getEtherPrice()
-      .then((etherPrice) => {
-        this.setState({ etherPrice });
-      });
+  async componentDidMount() {
+    let etherPrice = await this.props.getEtherPrice();
+    this.setState({ etherPrice });
   }
 
   async buyTicketsWithEther() {
