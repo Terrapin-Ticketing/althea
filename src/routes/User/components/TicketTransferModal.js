@@ -20,7 +20,6 @@ class TicketTransferModal extends Component {
 
   render() {
     const { ticket, isOpen, closeModal } = this.props;
-    console.log('ticket: ', ticket);
     return (
       <ReactModal
         isOpen={isOpen}

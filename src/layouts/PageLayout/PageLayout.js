@@ -1,11 +1,20 @@
 import React from 'react';
-import { IndexLink, Link } from 'react-router';
+import { IndexLink, Link, browserHistory } from 'react-router';
 import PropTypes from 'prop-types';
 // import Sidebar from '../Sidebar';
 import './PageLayout.scss';
 
 export default (store) => {
   const { user } = store.getState().auth;
+
+  const logout = () => {
+    store.dispatch({
+      type: 'LOGOUT',
+      payload: {}
+    });
+    browserHistory.push('login');
+  };
+
   const PageLayout = ({ children }) => {
     return (
       <div className='container'>
@@ -18,6 +27,7 @@ export default (store) => {
             <Link to='/createEvent' activeClassName='active'>Create Event</Link>
             {(user) ? <Link to='/user' activeClassName='active'>My Account</Link> : null }
             {(!user) ? <Link to='/login' activeClassName='active'>Sign Up</Link> : null }
+            {(user) ? <Link style={{cursor: 'pointer'}} onClick={() => logout()}>Logout</Link> : null }
             <Link to='#'>Help</Link>
           </div>
         </div>

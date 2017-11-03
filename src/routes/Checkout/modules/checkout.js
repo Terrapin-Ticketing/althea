@@ -83,6 +83,7 @@ export const buyTicketsWithEther = (order) => {
     let gasPrice = `0x${(gwei * 20).toString(16)}`;
 
     let isBreak = 0;
+    let transactionsList = [];
     await pasync.eachSeries(ticketInstances, async (ticketInstance) => {
       if (isBreak >= qty) return;
       let ticketOwner = await ticketInstance.methods.owner().call();
@@ -113,14 +114,15 @@ export const buyTicketsWithEther = (order) => {
         tx.sign(new Buffer(privateKey));
         let serializedTx = tx.serialize();
 
-        await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+        let transasction = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+        transactionsList.push(transasction);
 
         // let newOwner = await ticketInstance.methods.owner().call();
         nonce++;
         isBreak++;
       }
     });
-    return true;
+    return transactionsList;
   };
 };
 
@@ -138,6 +140,7 @@ export const buyTicketsStripe = (token, order) => {
       ticketAddresses: ticketInstances.map((instance) => instance.options.address),
       walletAddress
     });
+    return res.data;
   };
 };
 
