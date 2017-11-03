@@ -147,6 +147,13 @@ export const buyTicketsStripe = (token, order) => {
       ticketAddresses: ticketInstances.map((instance) => instance.options.address),
       walletAddress
     });
+    console.log('res.data', res.data);
+
+    dispatch({
+      type: SET_TX_LIST,
+      payload: res.data
+    });
+
     return res.data;
   };
 };
@@ -164,6 +171,12 @@ const ACTION_HANDLERS = {
   [CHECKOUT]: (state, action) => {
     return {
       ...state
+    };
+  },
+  [SET_TX_LIST]: (state, action) => {
+    return {
+      ...state,
+      txList: action.payload
     };
   }
 };
