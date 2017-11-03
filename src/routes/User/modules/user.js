@@ -67,6 +67,7 @@ export const getUserTickets = () => {
         let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
         let owner = await ticketInstance.methods.owner().call();
         let isRedeemed = await ticketInstance.methods.isRedeemed().call();
+
         if (owner === user.walletAddress) {
           tickets.push({
             id: ticketInstance.options.address,
