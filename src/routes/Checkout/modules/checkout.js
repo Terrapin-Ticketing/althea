@@ -4,6 +4,7 @@ import EthereumTx from 'ethereumjs-tx';
 import pasync from 'pasync';
 
 export const CHECKOUT = 'CHECKOUT';
+export const SET_TX_LIST = 'SET_TX_LIST';
 
 const gwei = 1000000000;
 const wei = 1000000000000000000;
@@ -122,7 +123,13 @@ export const buyTicketsWithEther = (order) => {
         isBreak++;
       }
     });
-    return transactionsList;
+
+    dispatch({
+      type: SET_TX_LIST,
+      payload: transactionsList
+    });
+
+    return true;
   };
 };
 
