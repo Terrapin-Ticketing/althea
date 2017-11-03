@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import CheckoutForm from './CheckoutForm';
 
 import Price from '../../../components/shared/Price';
+import EventInfo from '../../../components/shared/EventInfo';
 import './Checkout.scss';
 
 class Checkout extends Component {
@@ -88,7 +89,8 @@ class Checkout extends Component {
     // let { isLoading } = this.states
     return (
       <div className='checkout-container'>
-        <div className='event-top-info'>
+        <EventInfo event={event}/>
+        {/* <div className='event-top-info'>
           <div className='event-image-container'>
             <img src={imageUrl} className='event-image' />
           </div>
@@ -107,7 +109,8 @@ class Checkout extends Component {
               {time}
             </div>
           </div>
-        </div>
+        </div> */}
+
         <div className='event-bottom-info'>
           <div className="left-column">
             <h1>Order</h1>
