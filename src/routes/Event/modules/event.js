@@ -33,6 +33,7 @@ async function getAvailableTickets(num, eventAddress, abis) {
       }
     }
   });
+  console.log('availableTickets: ', availableTickets);
   return availableTickets;
 }
 
@@ -82,7 +83,33 @@ export function getEventInfo(eventAddress) {
 
     dispatch({
       type: SET_EVENT_DETAILS,
-      payload: event
+      payload: {
+        ...getState().event,
+        ...event
+      }
+    });
+  };
+}
+
+export function getEventAuxInfo(eventAddress) {
+  return async (dispatch, getState) => {
+
+    let event = getState().event;
+    console.log('hits22');
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/event/${eventAddress}`,
+      method: 'get'
+    });
+
+    console.log('res: ', res);
+    console.log('event: ', event);
+
+    dispatch({
+      type: SET_EVENT_DETAILS,
+      payload: {
+        ...event.currentEvent,
+        ...res.data.event
+      }
     });
   };
 }
@@ -165,6 +192,7 @@ export const buyTicket = (event, qty) => {
 
 export const actions = {
   getEventInfo,
+  getEventAuxInfo,
   updateOrder,
   buyTicket
 };
@@ -174,9 +202,14 @@ export const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_EVENT_DETAILS]: (state, action) => {
+    console.log('action.payload: ', action.payload);
+    console.log('state: ', state);
     return {
       ...state,
-      currentEvent: action.payload
+      currentEvent: {
+        ...state.currentEvent,
+        ...action.payload
+      }
     };
   },
   [UPDATE_ORDER]: (state, action) => {

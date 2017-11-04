@@ -23,7 +23,6 @@ class Preview extends Component {
   }
 
   renderTickets() {
-    console.log('turds.props: ', this.props);
     // let { tickets } = this.props.event;
     // return tickets.map((ticket, index) => {
     //   return <tr><td>{ticket.type.name}</td><td>{ticket.type.price}</td><td>Qty: Up/Down Selector</td></tr>
@@ -61,7 +60,6 @@ class Preview extends Component {
   }
 
   render() {
-    console.log('this.props: ', this.props);
     return (
       <div className='event-container'>
         {this.renderTicketTable()}

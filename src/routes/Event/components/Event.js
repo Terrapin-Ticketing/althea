@@ -26,6 +26,7 @@ class Event extends Component {
 
   componentDidMount() {
     this.props.getEventInfo(this.props.params.id);
+    this.props.getEventAuxInfo(this.props.params.id);
   }
 
   componentWillUnmount() {
@@ -94,12 +95,19 @@ class Event extends Component {
 
   render() {
     console.log('this.props: ', this.props);
+    let { backgroundColor, primaryColor, textColor, description, website,
+      venueName, venueAddress, venueState, venueCity, venueZip } = this.props.event;
     let { isLoading } = this.state;
     if (!this.props.event.name) {
       return (
         <Loading />
       );
     }
+    // if (!this.props.event.backgroundColor) {
+    //   return (
+    //     <Loading />
+    //   );
+    // }
     const childrenWithProps = React.Children.map(this.props.children,
      (child) => React.cloneElement(child, {
        updateOrder: this.updateOrder.bind(this)
@@ -107,14 +115,15 @@ class Event extends Component {
     );
 
     return (
-      <div className='event-container'>
-        <EventInfoContainer event={this.props.event} />
-        <div className='event-bottom-info'>
-          {(this.props.params.ticketId) ? null : this.renderTicketTable()}
-          {childrenWithProps}
-          {this.renderBuyButton()}
+      <div style={{backgroundColor: backgroundColor, color: textColor }} className="event-container">
+        <div className='event-inner-container'>
+          <EventInfoContainer event={this.props.event} />
+          <div className='event-bottom-info'>
+            {(this.props.params.ticketId) ? null : this.renderTicketTable()}
+            {childrenWithProps}
+            {this.renderBuyButton()}
+          </div>
         </div>
-
       </div>
     );
   }

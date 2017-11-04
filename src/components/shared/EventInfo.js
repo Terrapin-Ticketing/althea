@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Price from './Price';
 import classNames from 'classnames';
 
 import './EventInfo.scss';
@@ -14,13 +15,13 @@ class EventInfo extends Component {
     return (
       <div className='event-top-info'>
         <div className='event-image-container'>
-          <img src={imageUrl} className='event-image' />
+          <img src={imageUrl} style={{width: 250}} className='event-image' />
         </div>
         <div className='left-column'>
           <h1>{name}</h1>
           <h4>Owner: {owner}</h4>
           <h4>{date}</h4>
-          <h4>${price}</h4>
+          <h4><Price price={price} /></h4>
         </div>
         <div className='right-column'>
           <div className='venue-info'>

@@ -5,7 +5,15 @@ import {Elements, CardNumberElement, CardExpiryElement, CardCVCElement} from 're
 import { browserHistory } from 'react-router';
 
 class CheckoutForm extends React.Component {
-  handleSubmit = async ev => {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null
+    };
+  }
+
+  handleSubmit = async(ev) => {
     // We don't want to let default form submission happen here, which would refresh the page.
     ev.preventDefault();
 
@@ -14,11 +22,19 @@ class CheckoutForm extends React.Component {
     let token = await this.props.stripe.createToken({name: 'Jenny Rosen'});
 
     let { buyTicketsStripe, order } = this.props;
-    let transactionsList = await buyTicketsStripe(JSON.stringify(token), order);
-    console.log('transactionsList: ', transactionsList);
+    try {
+      let transactionsList = await buyTicketsStripe(JSON.stringify(token), order);
+      browserHistory.push('/CheckoutConfirmation');
+    } catch(err) {
+      this.setState({error: err});
+    }
     // TODO: Don't push to user, send to confirmation page
     // However, this line of code will do the same thing:
     // this.props.stripe.createToken({type: 'card', name: 'Jenny Rosen'});
+  }
+
+  renderError() {
+    if (this.state.error) return (<div className='dank'>{this.state.error}</div>);
   }
 
   render() {
@@ -31,6 +47,9 @@ class CheckoutForm extends React.Component {
           <CardExpiryElement style={{base: {fontSize: '18px'}}} />
           <CardCVCElement style={{base: {fontSize: '18px'}}} />
         </label>
+        <div className='error'>
+          {this.renderError()}
+        </div>
         <button type="submit">Confirm order</button>
       </form>
     );
