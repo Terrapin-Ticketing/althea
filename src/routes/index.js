@@ -27,7 +27,7 @@ export const createRoutes = (store) => ({
     EventsRoute(store, [ ]),
     EventManager(store, [ ]),
     UnlockRoute(store, [ requireAuth ]),
-    CheckoutRoute(store, [ requireAuth ]),
+    CheckoutRoute(store, [ ]),
     CreateEventRoute(store, [ requireAuth, requirePKTimeout, requirePK ]),
     UserRoute(store, [ requireAuth, requirePKTimeout, requirePK ])
   ]

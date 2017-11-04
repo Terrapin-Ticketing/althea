@@ -33,30 +33,6 @@ export function getEtherPrice() {
   };
 }
 
-async function getAvailableTicket(eventAddress, abis) {
-  let eventInstance = getContractInstance(abis.event.abi, eventAddress);
-  let eventOwner = await eventInstance.methods.owner().call();
-
-  let ticketAddresses = await eventInstance.methods.getTickets().call();
-
-  let isBreak = false;
-  let availableTicket;
-  await pasync.eachSeries(ticketAddresses, async (ticketAddress) => {
-    if (isBreak) return;
-    let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
-    let ticketOwner = await ticketInstance.methods.owner().call();
-
-    if (ticketOwner === eventOwner) {
-      availableTicket = ticketInstance;
-
-      // let newOwner = await ticketInstance.methods.owner().call();
-      isBreak = true;
-    }
-  });
-  return availableTicket;
-}
-
-
 export function checkout(something) {
   return async (dispatch, getState) => {
   };
@@ -147,7 +123,6 @@ export const buyTicketsStripe = (token, order) => {
       ticketAddresses: ticketInstances.map((instance) => instance.options.address),
       walletAddress
     });
-    console.log('res.data', res.data);
 
     dispatch({
       type: SET_TX_LIST,

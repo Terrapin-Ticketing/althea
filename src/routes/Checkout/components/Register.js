@@ -1,6 +1,6 @@
 // CheckoutForm.js
 import React from 'react';
-// import { browserHistory } from 'react-router';
+import { Link } from 'react-router';
 
 class Register extends React.Component {
   constructor(props) {
@@ -31,24 +31,44 @@ class Register extends React.Component {
 
   render() {
     let { email, password, confirmPassword } = this.state;
+    let { onRegister } = this.props;
     return (
-      <form onSubmit={this.handleSubmit} className="register-container">
-         <label className='label'>
+      <form className="section-container">
+         <span className="section-header">Registration Information</span>
+
+        <p>Already have an account? Log in <Link to={'/login'}>here</Link></p>
+
+         <label className='section'>
            <span>Email:</span>
            <input type="text" value={email} onChange={(e) => {
-             this.setState({email: e.target.value});
+             let email = e.target.value;
+             onRegister({
+               ...this.state,
+               email
+             });
+             this.setState({ email });
            }} />
          </label>
-         <label className='label'>
+         <label className='section'>
            <span>Password:</span>
            <input type="text" value={password} onChange={(e) => {
-             this.setState({password: e.target.value});
+             let password = e.target.value;
+             onRegister({
+               ...this.state,
+               password
+             });
+             this.setState({ password });
            }} />
          </label>
-         <label className='label'>
+         <label className='section'>
            <span>Confirm Password:</span>
            <input type="text" value={confirmPassword} onChange={(e) => {
-             this.setState({confirmPassword: e.target.value});
+             let confirmPassword = e.target.value;
+             onRegister({
+               ...this.state,
+               confirmPassword
+             });
+             this.setState({ confirmPassword });
            }} />
          </label>
       </form>

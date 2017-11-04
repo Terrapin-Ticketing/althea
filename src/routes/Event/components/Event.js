@@ -41,6 +41,12 @@ class Event extends Component {
   updateOrder(ticketQty, ticketAddress) {
     this.setState({ ticketQty });
     let paymentType = 'USD';
+    console.log('updateOrder', {
+      ticketQty,
+      paymentType,
+      ticketAddress,
+      eventAddress: this.props.params.id
+    });
     this.props.updateOrder({
       ticketQty,
       paymentType,

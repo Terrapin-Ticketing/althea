@@ -22,23 +22,17 @@ class CheckoutForm extends React.Component {
   }
 
   render() {
+    let { classname } = this.props;
     return (
-      <div className="right-column">
-        <form onSubmit={this.handleSubmit} className="checkout-form">
-          {/* <AddressSection /> */}
-          <label>
-            Card details
-            <CardNumberElement style={{base: {fontSize: '18px'}}} />
-            <CardExpiryElement style={{base: {fontSize: '18px'}}} />
-            <CardCVCElement style={{base: {fontSize: '18px'}}} />
-          </label>
-          {/* <label>
-            Card details
-            <AddressElement style={{base: {fontSize: '18px'}}} />
-          </label> */}
-          <button type="submit">Confirm order</button>
-        </form>
-      </div>
+      <form onSubmit={this.handleSubmit} className={`checkout-form ${classname}`}>
+        <label>
+          Card details
+          <CardNumberElement style={{base: {fontSize: '18px'}}} />
+          <CardExpiryElement style={{base: {fontSize: '18px'}}} />
+          <CardCVCElement style={{base: {fontSize: '18px'}}} />
+        </label>
+        <button type="submit">Confirm order</button>
+      </form>
     );
   }
 }
