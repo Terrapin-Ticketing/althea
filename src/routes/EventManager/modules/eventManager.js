@@ -49,9 +49,6 @@ export const getEventTickets = (eventAddress) => {
         });
       }
 
-      console.log('unsoldTickets: ', unsoldTickets);
-      console.log('soldTickets: ', soldTickets);
-
       dispatch({
         type: SET_EVENT_TICKETS,
         payload: {

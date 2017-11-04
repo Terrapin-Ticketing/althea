@@ -8,7 +8,9 @@ const mapStateToProps = (state) => {
   return {
     transactions: state.checkout.txList,
     email: state.checkout.email,
-    paymentMethod: state.checkout.paymentMethod
+    paymentMethod: state.checkout.paymentMethod,
+    event: state.event.currentEvent,
+    order: state.event.order
   };
 };
 

@@ -22,11 +22,6 @@ class Checkout extends Component {
     this.setState({ total: this.calculateTotal(serviceFee + cardFee)});
   }
 
-  async buyTicket() {
-    let { cardNumber, cardDate, cardCvc, name } = this.state;
-    console.log(cardNumber, cardDate, cardCvc, name);
-  }
-
   calculateTotal(fees) {
     let { event, order } = this.props;
     return (event.price * order.ticketQty) + fees;

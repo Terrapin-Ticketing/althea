@@ -1,4 +1,8 @@
 .event-container {
+  height: 100%;
+}
+
+.event-inner-container {
   display: flex;
   flex-direction: column;
   // justify-content: center;

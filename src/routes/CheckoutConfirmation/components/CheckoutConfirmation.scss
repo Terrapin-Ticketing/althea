@@ -1,0 +1,72 @@
+.checkout-confirmation-container {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+  max-width: 1170px;
+  height: 100%;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 25px;
+  margin: 25px auto;
+
+  h1.header {
+    display: flex;
+    align-self: center;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+
+  .order-table {
+    display: flex;
+    flex-direction: column;
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      background: #c7c7c7;
+      padding: 10px;
+      .ticket {
+        flex: 1;
+      }
+      .price {
+        flex: 1;
+      }
+    }
+
+    .body {
+      display: flex;
+      flex-direction: row;
+      padding: 10px;
+      .orderRow {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+
+        .left-column {
+          flex: 1;
+        }
+        .right-column {
+          flex: 1;
+        }
+      }
+    }
+  }
+
+  .fee-details {
+    background: #c7c7c7;
+    .service-fee {
+      padding: 10px;
+    }
+    .card-fee {
+      padding: 10px;
+    }
+    .total {
+      padding: 10px;
+    }
+  }
+}
