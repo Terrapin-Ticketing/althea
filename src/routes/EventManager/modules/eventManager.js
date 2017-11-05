@@ -89,7 +89,6 @@ export function getEventInfo(eventAddress) {
       name: web3.utils.toAscii(await eventInstance.methods.name().call()),
       owner: await eventInstance.methods.owner().call(),
       date: web3.utils.toAscii(await eventInstance.methods.date().call()),
-      imageUrl: web3.utils.toAscii(await eventInstance.methods.imageUrl().call()),
       venue: {
         name: web3.utils.toAscii(await eventInstance.methods.venueName().call()),
         address: web3.utils.toAscii(await eventInstance.methods.venueAddress().call()),

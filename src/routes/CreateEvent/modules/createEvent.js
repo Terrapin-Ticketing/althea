@@ -25,7 +25,8 @@ export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddr
     // let gasPrice = gwei * 30;
     let gas = `0x${(4700000).toString(16)}`;
 
-    let values = [ name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip ].map(web3.utils.fromAscii);
+    // let values = [ name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip ].map(web3.utils.fromAscii);
+    let values = [ name, usdPrice, date ].map(web3.utils.fromAscii);
     let encodedAbi = terrapinInstance.methods.createEvent(...values).encodeABI();
 
     let txParams = {

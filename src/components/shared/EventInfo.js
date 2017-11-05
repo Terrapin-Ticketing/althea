@@ -24,11 +24,11 @@ class EventInfo extends Component {
           <h4><Price price={price} /></h4>
         </div>
         <div className='right-column'>
-          <div className='venue-info'>
+          {/* <div className='venue-info'>
             {venue.name} <br />
             {venue.address} <br />
             {venue.city}, {venue.state} {venue.zip}
-          </div>
+          </div> */}
           <div className='time'>
             {time}
           </div>
