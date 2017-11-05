@@ -1,7 +1,5 @@
-import axios from 'axios';
 import pasync from 'pasync';
 import EthereumTx from 'ethereumjs-tx';
-import crypto from 'crypto';
 import web3 from '../../../components/Web3.js';
 
 const gwei = 1000000000;
@@ -25,7 +23,9 @@ async function getAvailableTickets(num, eventAddress, abis) {
     let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
     let ticketOwner = await ticketInstance.methods.owner().call();
 
-    if (ticketOwner === eventOwner) {
+    let isForSale = await ticketInstance.methods.isForSale().call();
+
+    if (ticketOwner === eventOwner && isForSale) {
       availableTickets.push(ticketInstance);
       // availableTicket = ticketInstance;
       if (availableTickets.length >= num) {
