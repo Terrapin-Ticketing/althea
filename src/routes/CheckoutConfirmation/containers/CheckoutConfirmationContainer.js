@@ -10,7 +10,8 @@ const mapStateToProps = (state) => {
     email: state.checkout.email,
     paymentMethod: state.checkout.paymentMethod,
     event: state.event.currentEvent,
-    order: state.event.order
+    order: state.event.order,
+    user: state.auth.user
   };
 };
 

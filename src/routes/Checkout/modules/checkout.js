@@ -76,6 +76,9 @@ export const buyTicketsWithEther = (order) => {
           console.log('got some data', data);
         });
 
+        console.log('ticket:', ticketInstance.options.address);
+        console.log('orig owner:', await ticketInstance.methods.owner().call());
+
         let encodedAbi = ticketInstance.methods.buyTicket().encodeABI();
         let txParams = {
           nonce,
@@ -94,7 +97,7 @@ export const buyTicketsWithEther = (order) => {
         let transasction = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
         transactionsList.push(transasction);
 
-        // let newOwner = await ticketInstance.methods.owner().call();
+        console.log('new owner:', await ticketInstance.methods.owner().call());
         nonce++;
         isBreak++;
       }

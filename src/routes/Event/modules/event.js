@@ -112,7 +112,7 @@ export const updateOrder = (order) => {
     let availableTickets = [];
     // if user sends single address, assume it's a single ticket
     if (order.ticketAddress) {
-      availableTickets = [ order.ticketAddress ];
+      availableTickets = [ getContractInstance(abis.ticket.abi, order.ticketAddress) ];
     } else {
       availableTickets = await getAvailableTickets(order.ticketQty, order.eventAddress, abis);
     }

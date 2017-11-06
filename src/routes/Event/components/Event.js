@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import classNames from 'classnames';
 import ReactModal from 'react-modal';
 import web3 from 'web3';
@@ -25,8 +25,12 @@ class Event extends Component {
   }
 
   componentDidMount() {
-    this.props.getEventInfo(this.props.params.id);
-    this.props.getEventAuxInfo(this.props.params.id);
+    let { id, ticketId } = this.props.params;
+    this.props.getEventInfo(id);
+    this.props.getEventAuxInfo(id);
+    if (ticketId) {
+      this.updateOrder(1, ticketId);
+    }
   }
 
   componentWillUnmount() {
@@ -39,9 +43,15 @@ class Event extends Component {
   //   this.setState({ isLoading: false, buyModalOpen: false });
   // }
 
-  updateOrder(ticketQty, ticketAddress) {
+  async updateOrder(ticketQty, ticketAddress) {
     this.setState({ ticketQty });
     let paymentType = 'USD';
+    console.log('ORDER:', {
+      ticketQty,
+      paymentType,
+      ticketAddress,
+      eventAddress: this.props.params.id
+    });
     this.props.updateOrder({
       ticketQty,
       paymentType,
@@ -81,9 +91,13 @@ class Event extends Component {
 
   renderBuyButton() {
     return (
-      <button className="buy-ticket-button"><Link to='checkout'>
-        Buy Ticket
-      </Link></button>
+      <button className="buy-ticket-button" onClick={async () => {
+        if (this.props.params.ticketId) {
+          console.log('ticket specified');
+          await this.updateOrder(1, this.props.params.ticketId);
+        }
+        browserHistory.push('/checkout');
+      }}>Buy Ticket</button>
     );
   }
 
@@ -109,7 +123,7 @@ class Event extends Component {
             <div className='event-inner-container'>
               {(this.props.params.ticketId) ? (
                 <div className='ticket-bar'>
-                  { this.props.children }
+                  { childrenWithProps }
                   { this.renderBuyButton() }
                 </div>
               ) : (

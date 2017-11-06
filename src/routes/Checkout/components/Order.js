@@ -34,15 +34,17 @@ class Order extends React.Component {
 
         <h3 className="event-name">{event.name}</h3>
 
-        <div className="payment-toggle">
-          Payment Method:
-          <button className={classNames(
-            { active: paymentType === 'USD' && 'active' }
-          )} onClick={() => onPaymentTypeChange('USD')}>USD</button>
-          <button className={classNames(
-            { active: paymentType === 'ETH' && 'active' }
-          )} onClick={() => onPaymentTypeChange('ETH')}>ETH</button>
-        </div>
+        { onPaymentTypeChange ? (
+          <div className="payment-toggle">
+            Payment Method:
+            <button className={classNames(
+              { active: paymentType === 'USD' && 'active' }
+            )} onClick={() => onPaymentTypeChange('USD')}>USD</button>
+            <button className={classNames(
+              { active: paymentType === 'ETH' && 'active' }
+            )} onClick={() => onPaymentTypeChange('ETH')}>ETH</button>
+          </div>
+        ) : null }
 
         <table className="order-details">
           <tbody>
@@ -63,24 +65,26 @@ class Order extends React.Component {
         <div className="total"><b>Total: <Price price={total}/></b></div>
         <br/>
 
-        <div className="payment-method">
-          { paymentType === 'USD' ? (
-            <Elements>
-              <USDCheckout
-                buyTicketsStripe={buyTicketsWithStripe}
-                event={event}
-                order={order}
-                classname="payment-info" />
-            </Elements>
-          ) : (
-            <div className="payment-info">
-              <span>{ user.email }</span>
-              <span>{ (user.walletAddress).substring(0, 8) }...</span>
-              <p>Hitting "Confirm" will charge {(total / etherPrice).toString().substring(0, 8)} ETH from your account.</p>
-              <button type="submit" onClick={buyTicketsWithEther}>Confirm order</button>
-            </div>
-          ) }
-        </div>
+        { onPaymentTypeChange ? (
+          <div className="payment-method">
+            { paymentType === 'USD' ? (
+              <Elements>
+                <USDCheckout
+                  buyTicketsStripe={buyTicketsWithStripe}
+                  event={event}
+                  order={order}
+                  classname="payment-info" />
+              </Elements>
+            ) : (
+              <div className="payment-info">
+                <span>{ user.email }</span>
+                <span>{ (user.walletAddress).substring(0, 8) }...</span>
+                <p>Hitting "Confirm" will charge {(total / etherPrice).toString().substring(0, 8)} ETH from your account.</p>
+                <button type="submit" onClick={buyTicketsWithEther}>Confirm order</button>
+              </div>
+            ) }
+          </div>
+        ) : null }
       </div>
     );
   }

@@ -62,12 +62,12 @@ class Checkout extends Component {
     let { userData } = this.state;
     if (userData) await signup(userData.email, userData.password);
     // user is defined after this point
+    console.log(this.props.user);
   }
 
   async buyTicketsWithStripe(token, order) {
     await this.registerUser();
     let { buyTicketsStripe } = this.props;
-    console.log('herer');
     await buyTicketsStripe(token, order);
   }
 
@@ -77,8 +77,7 @@ class Checkout extends Component {
     if (!user.privateKey) return browserHistory.push('/unlock-account');
     let transactionsList = await buyTicketsWithEther(order);
     console.log('transactionsList: ', transactionsList);
-    alert('successfully bought ticket');
-    browserHistory.push('/user');
+    browserHistory.push('/CheckoutConfirmation');
   }
 
   async onRegister(userData) {
@@ -95,6 +94,10 @@ class Checkout extends Component {
 
         { user ? (<span></span>) : (<Register onRegister={this.onRegister.bind(this)} />) }
 
+        {/* <OrderSummary /> */}
+
+        {/* <PaymentMethod /> */}
+
         <Order
           serviceFee={serviceFee}
           cardFee={cardFee}
@@ -108,6 +111,7 @@ class Checkout extends Component {
           buyTicketsWithEther={this.buyTicketsWithEther.bind(this)}
           buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
         />
+
 
           {/* <div className="payment-toggle">
             <button className={classNames(
