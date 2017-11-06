@@ -42,6 +42,12 @@ class Event extends Component {
   updateOrder(ticketQty, ticketAddress) {
     this.setState({ ticketQty });
     let paymentType = 'USD';
+    console.log('updateOrder', {
+      ticketQty,
+      paymentType,
+      ticketAddress,
+      eventAddress: this.props.params.id
+    });
     this.props.updateOrder({
       ticketQty,
       paymentType,
@@ -88,7 +94,8 @@ class Event extends Component {
   }
 
   render() {
-    let { backgroundColor, primaryColor, imageUrl, textColor, description, website,
+    console.log('this.props: ', this.props);
+    let { backgroundColor, primaryColor, textColor, description, website,
       venueName, venueAddress, venueState, venueCity, venueZip } = this.props.event;
     let { isLoading } = this.state;
     if (!this.props.event.name) {
@@ -96,7 +103,11 @@ class Event extends Component {
         <Loading />
       );
     }
-    console.log('ticket props: ', this.props);
+    // if (!this.props.event.backgroundColor) {
+    //   return (
+    //     <Loading />
+    //   );
+    // }
     const childrenWithProps = React.Children.map(this.props.children,
      (child) => React.cloneElement(child, {
        updateOrder: this.updateOrder.bind(this)
@@ -105,42 +116,15 @@ class Event extends Component {
 
     return (
       <div style={{backgroundColor: backgroundColor, color: textColor }} className="event-container">
-            <EventInfoContainer event={this.props.event} />
-            <div className='event-inner-container'>
-              {(this.props.params.ticketId) ? (
-                <div className='ticket-bar'>
-                  { this.props.children }
-                  { this.renderBuyButton() }
-                </div>
-              ) : (
-                <div className='middle-bar'>
-                  <div className='spacing'></div>
-                  <div className='order-container'>
-                    <QtyCounter
-                      count={this.state.ticketQty}
-                      onChange={(count) => this.updateOrder(count) }
-                      ticketsRemaining={this.props.event.ticketsRemaining}/>
-                      {this.renderBuyButton()}
-                  </div>
-                </div>
-              )}
-            <div className='event-bottom-info'>
-              <div className="left-column">
-                <h2>Description</h2>
-                { /* TODO: Probably shouldn't allow this to be put in this way... */}
-                <div dangerouslySetInnerHTML={{__html: description}}></div>
-              </div>
-              <div className="right-column">
-                <h3>Date</h3>
-
-                <h3>Location</h3>
-                  {venueName} <br />
-                  {venueAddress} <br />
-                  {venueCity}, {venueState} {venueZip}
-              </div>
-            </div>
+        <div className='event-inner-container'>
+          <EventInfoContainer event={this.props.event} />
+          <div className='event-bottom-info'>
+            {(this.props.params.ticketId) ? null : this.renderTicketTable()}
+            {childrenWithProps}
+            {this.renderBuyButton()}
           </div>
         </div>
+      </div>
     );
   }
 }

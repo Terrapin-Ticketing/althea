@@ -1,7 +1,8 @@
-import { injectReducer } from '../../../store/reducers';
+import { injectReducer } from '../../store/reducers';
+import TicketRoute from '../Ticket';
 
 export default (store, wrappers = []) => ({
-  path: 'preview',
+  path: 'event/:id',
   /*  Async getComponent is only invoked when route matches   */
   getComponent(nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -13,7 +14,7 @@ export default (store, wrappers = []) => ({
       const reducer = require('./modules/event').default;
 
       /*  Add the reducer to the store on key 'login'  */
-      injectReducer(store, { key: 'preview', reducer });
+      injectReducer(store, { key: 'event', reducer });
 
       // wrap component in any higher order components pass to it
       let wrapped = Event;
@@ -22,6 +23,9 @@ export default (store, wrappers = []) => ({
       cb(null, wrapped);
 
     /* Webpack named bundle   */
-  }, 'preview');
-  }
+    }, 'event');
+  },
+  childRoutes: [
+    TicketRoute(store, [ ])
+  ]
 });

@@ -1,13 +1,13 @@
 .event-top-info {
   display: flex;
   flex-direction: row;
+  min-height: 400px;
   .event-image-container {
-    flex: 1;
-  }
-  .left-column {
     flex: 2;
   }
   .right-column {
-    flex: 2;
+    flex: 1;
+    background: #f0f1f2;
+    padding: 15px;
   }
 }

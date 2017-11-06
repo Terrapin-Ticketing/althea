@@ -2,7 +2,7 @@ import axios from 'axios';
 import pasync from 'pasync';
 import EthereumTx from 'ethereumjs-tx';
 import crypto from 'crypto';
-import web3 from '../../../components/Web3.js';
+import web3 from '../../../../components/Web3.js';
 
 const gwei = 1000000000;
 

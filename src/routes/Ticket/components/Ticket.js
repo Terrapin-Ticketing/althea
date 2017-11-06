@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import Loading from '../../../components/shared/Loading.js';
+import Loading from '../../../components/shared/Loading';
+import Price from '../../../components/shared/Price';
 
 import './Ticket.scss';
 
@@ -24,7 +25,7 @@ class Ticket extends Component {
           <i>{id}</i>
         </span>
         <span className="price">
-          ${usdPrice}
+          <Price price={usdPrice} />
         </span>
         <span>{(isRedeemed) ? 'Redeemed' : 'Not Redeemed'}</span>
         <span>{(isForSale) ? 'For Sale' : 'Not For Sale' }</span>

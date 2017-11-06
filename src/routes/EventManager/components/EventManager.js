@@ -20,6 +20,7 @@ class EventManager extends Component {
   componentDidMount() {
     this.props.getEventInfo(this.props.params.id);
     this.props.getEventTickets(this.props.params.id);
+    this.props.getEventAuxInfo(this.props.params.id);
   }
 
   openTicketRedeemModal() {
@@ -41,8 +42,8 @@ class EventManager extends Component {
       <div className='sidebar-page-container'>
         <Sidebar openTicketRedeemModal={() => this.openTicketRedeemModal()} event={this.props.event} />
         <div className='event-manager-container'>
-          <EventInfoContainer event={this.props.event} />
-          <div className='event-bottom-info'>
+          {/* <EventInfoContainer event={this.props.event} /> */}
+          {/* <div className='event-bottom-info'> */}
             {this.props.children}
           </div>
           <TicketRedeemModal
@@ -51,7 +52,6 @@ class EventManager extends Component {
             isOpen={this.state.redeemTicketModalOpen}
             redeemTicket={this.props.redeemTicket} />
         </div>
-      </div>
     );
   }
 }

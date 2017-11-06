@@ -61,21 +61,15 @@ export const getEventTickets = (eventAddress) => {
 };
 
 export function getEventInfo(eventAddress) {
-  console.log('getEventInfo called');
   return async (dispatch, getState) => {
-    console.log('before isAddress: ', eventAddress);
-    console.log('isAddress: ', web3.utils.toHex(eventAddress));
 
     const { abis } = getState().terrapin;
     let eventInstance = getContractInstance(abis.event.abi, web3.utils.toHex(eventAddress));
-    console.log('eventInstance: ', eventInstance);
     // this take FOREVERRR to return. THIS is where our caching service will make a big difference
     let ticketAddresses = await eventInstance.methods.getTickets().call();
     let eventOwner = await eventInstance.methods.owner().call();
-    console.log('ticketAddresses: ', ticketAddresses);
     let remaining = 0;
     await pasync.each(ticketAddresses, async (ticketAddress) => {
-      console.log('ticketAddress: ', ticketAddress);
       let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
       let ticketOwner = await ticketInstance.methods.owner().call();
       if (eventOwner === ticketOwner) {
@@ -83,36 +77,53 @@ export function getEventInfo(eventAddress) {
       }
     });
 
-    console.log('pass');
     let event = {
       id: eventInstance.options.address,
       name: web3.utils.toAscii(await eventInstance.methods.name().call()),
       owner: await eventInstance.methods.owner().call(),
       date: web3.utils.toAscii(await eventInstance.methods.date().call()),
-      venue: {
-        name: web3.utils.toAscii(await eventInstance.methods.venueName().call()),
-        address: web3.utils.toAscii(await eventInstance.methods.venueAddress().call()),
-        city: web3.utils.toAscii(await eventInstance.methods.venueCity().call()),
-        state: web3.utils.toAscii(await eventInstance.methods.venueState().call()),
-        zip: web3.utils.toAscii(await eventInstance.methods.venueZip().call()),
-      },
       ticketsRemaining: remaining,
       tickets: ticketAddresses,
       price: await (getContractInstance(abis.ticket.abi, ticketAddresses[0]).methods.usdPrice().call())
     };
 
-    console.log('getEventInfo dispatch: ', event);
+    dispatch({
+      type: SET_EVENT_DETAILS,
+      payload: {
+        ...getState().eventManager.event,
+        ...event
+      }
+    });
+  };
+}
+
+export function getEventAuxInfo(eventAddress) {
+  return async (dispatch, getState) => {
+
+    let event = getState().eventManager.event;
+    console.log('hits22');
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/event/${eventAddress}`,
+      method: 'get'
+    });
+
+    console.log('res: ', res);
+    console.log('event: ', event);
 
     dispatch({
       type: SET_EVENT_DETAILS,
-      payload: event
+      payload: {
+        ...event,
+        ...res.data.event
+      }
     });
   };
 }
 
 export const actions = {
   getEventTickets,
-  getEventInfo
+  getEventInfo,
+  getEventAuxInfo
 };
 
 // ------------------------------------
