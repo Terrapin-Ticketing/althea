@@ -21,7 +21,7 @@ export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddr
     let chainId = await web3.eth.net.getId();
     let nonce = await web3.eth.getTransactionCount(user.walletAddress);
 
-    let gasPrice = `0x${(gwei * 200).toString(16)}`;
+    let gasPrice = `0x${(gwei * 300).toString(16)}`;
     // let gasPrice = gwei * 30;
     let gas = `0x${(4700000).toString(16)}`;
 
