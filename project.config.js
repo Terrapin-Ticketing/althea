@@ -11,7 +11,7 @@ switch (NODE_ENV) {
     WEB3_HOST = JSON.stringify('http://localhost:8545');
     break;
   case 'demo': {
-    WEB3_HOST = JSON.stringify('http://104.131.33.58:8545');
+    WEB3_HOST = JSON.stringify('http://138.197.106.138:8545');
     SHAKEDOWN_URL = JSON.stringify('http://104.131.21.183');
     EOTW_URL = JSON.stringify('http://104.131.33.58');
     break;

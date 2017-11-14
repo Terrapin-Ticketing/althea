@@ -48,10 +48,10 @@ export const buyTicketsWithEther = (order) => {
 
     let { privateKey } = getState().auth.user;
 
-    let { abis } = getState().terrapin;
+    // let { abis } = getState().terrapin;
 
-    let eventInstance = getContractInstance(abis.event.abi, eventAddress);
-    let eventOwner = await eventInstance.methods.owner().call();
+    // let eventInstance = getContractInstance(abis.event.abi, eventAddress);
+    // let eventOwner = await eventInstance.methods.owner().call();
 
     let ticketInstances = order.ticketInstances;
     let nonce = await web3.eth.getTransactionCount(walletAddress);
@@ -63,12 +63,14 @@ export const buyTicketsWithEther = (order) => {
     let transactionsList = [];
     await pasync.eachSeries(ticketInstances, async (ticketInstance) => {
       if (isBreak >= qty) return;
-      let ticketOwner = await ticketInstance.methods.owner().call();
+      // let ticketOwner = await ticketInstance.methods.owner().call();
 
-      if (ticketOwner === eventOwner) {
+      let isForSale = await ticketInstance.methods.isForSale().call();
+
+      if (isForSale) {
         let ticketPrice = parseInt(await ticketInstance.methods.usdPrice().call()); // TODO: this will need to be modified
 
-        let fee = Math.ceil((50 / etherPrice) * wei);
+        let fee = Math.ceil((5000 / etherPrice) * wei);
 
         let weiPrice = Math.ceil((ticketPrice / etherPrice) * wei) + fee;
 
