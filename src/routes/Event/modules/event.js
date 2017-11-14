@@ -146,7 +146,7 @@ export const buyTicket = (event, qty) => {
     let nonce = await web3.eth.getTransactionCount(walletAddress);
     let chainId = await web3.eth.net.getId();
     let gas = `0x${(4700000).toString(16)}`;
-    let gasPrice = `0x${(gwei * 20).toString(16)}`;
+    let gasPrice = `0x${(gwei * 200).toString(16)}`;
 
     let isBreak = 0;
     await pasync.eachSeries(ticketAddresses, async (ticketAddress) => {
