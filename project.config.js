@@ -12,16 +12,16 @@ switch (NODE_ENV) {
     break;
   case 'demo': {
     WEB3_HOST = JSON.stringify('http://138.197.106.138:8545');
-    SHAKEDOWN_URL = JSON.stringify('http://104.131.21.183');
-    EOTW_URL = JSON.stringify('http://104.131.33.58');
+    SHAKEDOWN_URL = JSON.stringify('https://shakedown.terrapintickets.io');
+    EOTW_URL = JSON.stringify('https://eotw.terrapintickets.io');
     break;
   }
   case 'ropsten': {
     let infura_apikey = 'ErkMqD1W4xWqfkfqNBnt';
     let ropsten_host = 'https://ropsten.infura.io/'+infura_apikey;
     WEB3_HOST = JSON.stringify(ropsten_host);
-    SHAKEDOWN_URL = JSON.stringify('http://104.131.21.183');
-    EOTW_URL = JSON.stringify('http://104.131.33.58');
+    SHAKEDOWN_URL = JSON.stringify('https://shakedown.terrapintickets.io');
+    EOTW_URL = JSON.stringify('https://eotw.terrapintickets.io');
     break;
   }
   default:
