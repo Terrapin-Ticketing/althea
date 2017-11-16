@@ -57,7 +57,7 @@ export const buyTicketsWithEther = (order) => {
     let nonce = await web3.eth.getTransactionCount(walletAddress);
     let chainId = await web3.eth.net.getId();
     let gas = `0x${(4700000).toString(16)}`;
-    let gasPrice = `0x${(GAS_PRICE).toString(16)}`;
+    let gasPrice = `0x${(GAS_PRICE * 1).toString(16)}`;
 
     let isBreak = 0;
     let transactionsList = [];
