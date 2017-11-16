@@ -6,6 +6,9 @@ let SHAKEDOWN_URL = JSON.stringify('http://localhost:8080');
 let EOTW_URL = JSON.stringify('http://localhost:8000');
 let STRIPE_PUBLIC_KEY = JSON.stringify('pk_test_GvYM7xVYxIO8vE41geXObIYD');
 
+let gwei = 1000000000;
+let GAS_PRICE = 300 * gwei;
+
 switch (NODE_ENV) {
   case 'testrpc':
     WEB3_HOST = JSON.stringify('http://localhost:8545');
@@ -49,7 +52,8 @@ module.exports = {
     SHAKEDOWN_URL,
     EOTW_URL,
     WEB3_HOST,
-    STRIPE_PUBLIC_KEY
+    STRIPE_PUBLIC_KEY,
+    GAS_PRICE
   },
   /** Whether to enable verbose logging */
   verbose: false,
