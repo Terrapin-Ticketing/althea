@@ -8,7 +8,7 @@
     "compile": "node build/scripts/compile",
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
     "demo": "npm run clean && cross-env NODE_ENV=demo npm run compile && rm -rf /var/www/html && mv dist html && mv html /var/www/",
-    "ropsten": "npm run clean && cross-env NODE_ENV=production npm run compile && rm -rf /var/www/html && mv dist html && mv html /var/www/",
+    "ropsten": "npm run clean && cross-env NODE_ENV=ropsten npm run compile && rm -rf /var/www/html && mv dist html && mv html /var/www/",
     "start": "cross-env NODE_ENV=development node build/scripts/start",
     "dev": "npm start",
     "test": "cross-env NODE_ENV=test karma start build/karma.config",
