@@ -4,22 +4,17 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 let WEB3_HOST = JSON.stringify('http://localhost:8545');
 let SHAKEDOWN_URL = JSON.stringify('http://localhost:8080');
 let EOTW_URL = JSON.stringify('http://localhost:8000');
+
 let STRIPE_PUBLIC_KEY = JSON.stringify('pk_test_GvYM7xVYxIO8vE41geXObIYD');
 
 let gwei = 1000000000;
-let GAS_PRICE = 1 * gwei;
+let GAS_PRICE = 10 * gwei;
 // let GAS_PRICE = 1 * gwei;
 
 switch (NODE_ENV) {
   case 'testrpc':
     WEB3_HOST = JSON.stringify('http://localhost:8545');
     break;
-  case 'devropsten': {
-    let infura_apikey = 'ErkMqD1W4xWqfkfqNBnt';
-    let ropsten_host = 'https://ropsten.infura.io/'+infura_apikey;
-    WEB3_HOST = JSON.stringify(ropsten_host);
-    break;
-  }
   case 'demo': {
     let infura_apikey = 'ErkMqD1W4xWqfkfqNBnt';
     let ropsten_host = 'https://ropsten.infura.io/'+infura_apikey;

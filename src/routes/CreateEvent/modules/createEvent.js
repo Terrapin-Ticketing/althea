@@ -11,13 +11,16 @@ let getContractInstance = (abi, address) => {
 
 export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip, qty) => {
   return async function(dispatch, getState) {
+    console.log('creting event');
     // TODO: Update this
     let { user } = getState().auth;
     let { abis, terrapinAddress } = getState().terrapin;
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
 
     let chainId = await web3.eth.net.getId();
-    let nonce = await web3.eth.getTransactionCount(user.walletAddress);
+    let nonce = await web3.eth.getTransactionCount(user.walletAddress) + 1;
+
+    console.log('one');
 
     let gasPrice = `0x${(GAS_PRICE * 1).toString(16)}`;
     // let gasPrice = gwei * 30;
@@ -26,6 +29,8 @@ export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddr
     // let values = [ name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip ].map(web3.utils.fromAscii);
     let values = [ name, usdPrice, date ].map(web3.utils.fromAscii);
     let encodedAbi = terrapinInstance.methods.createEvent(...values).encodeABI();
+
+    console.log('two', encodedAbi);
 
     let txParams = {
       nonce: nonce++,
@@ -37,7 +42,7 @@ export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddr
       data: encodedAbi
     };
 
-    // nonce++;
+    console.log('three');
 
     let privateKey = user.privateKey;
 

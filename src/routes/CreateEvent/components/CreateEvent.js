@@ -24,6 +24,7 @@ class CreateEvent extends Component {
     let { name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip, qty } = this.state;
 
     try {
+      console.log('trying');
       await this.props.createEvent(name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip, parseInt(qty));
       this.props.router.push('/events');
     } catch (e) {
