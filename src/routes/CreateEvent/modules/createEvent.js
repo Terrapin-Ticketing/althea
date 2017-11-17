@@ -45,6 +45,7 @@ export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddr
     tx.sign(new Buffer(privateKey));
     const serializedTx = tx.serialize();
 
+    console.log('before event');
     let eventTx = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
     console.log('eventTx:', eventTx);
 

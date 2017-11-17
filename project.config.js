@@ -14,13 +14,7 @@ switch (NODE_ENV) {
   case 'testrpc':
     WEB3_HOST = JSON.stringify('http://localhost:8545');
     break;
-  case 'demo': {
-    WEB3_HOST = JSON.stringify('http://138.197.106.138:8545');
-    SHAKEDOWN_URL = JSON.stringify('https://shakedown.terrapintickets.io');
-    EOTW_URL = JSON.stringify('https://eotw.terrapintickets.io');
-    break;
-  }
-  case 'ropsten': {
+  case 'ropsten' || 'demo': {
     let infura_apikey = 'ErkMqD1W4xWqfkfqNBnt';
     let ropsten_host = 'https://ropsten.infura.io/'+infura_apikey;
     WEB3_HOST = JSON.stringify(ropsten_host);
