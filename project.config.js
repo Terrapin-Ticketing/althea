@@ -7,7 +7,8 @@ let EOTW_URL = JSON.stringify('http://localhost:8000');
 let STRIPE_PUBLIC_KEY = JSON.stringify('pk_test_GvYM7xVYxIO8vE41geXObIYD');
 
 let gwei = 1000000000;
-let GAS_PRICE = 20 * gwei;
+let GAS_PRICE = 1 * gwei;
+// let GAS_PRICE = 1 * gwei;
 
 switch (NODE_ENV) {
   case 'testrpc':

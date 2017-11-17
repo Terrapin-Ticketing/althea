@@ -116,14 +116,14 @@ class User extends Component {
 
   render() {
     if (!this.props.user) return null;
-    const { email, walletAddress, encryptedPrivateKey } = this.props.user;
+    const { email, walletAddress, encryptedPrivateKey, privateKey } = this.props.user;
     const { balance } = this.props;
     return (
       <div className='user-container'>
         <h1>{email}</h1>
         <div className="profile-info">
           <div className="profile-left">
-            <span className='profile-item'>Private Key: {`${encryptedPrivateKey.slice(0, 10)}...`}</span>
+            <span className='profile-item'>Encrypted Key: {`${encryptedPrivateKey.slice(0, 10)}...`}</span>
             <span className='profile-item'>Balance: {(balance) ? `${web3.utils.fromWei(balance, 'ether')} ETH` : null}</span>
           </div>
           <div className="profile-right">

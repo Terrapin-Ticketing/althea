@@ -4,8 +4,6 @@ import pasync from 'pasync';
 
 export const CREATE_EVENT = 'CREATE_EVENT';
 
-let gwei = 1000000000;
-
 let getContractInstance = (abi, address) => {
   const instance = new web3.eth.Contract(abi, address);
   return instance;
@@ -47,7 +45,8 @@ export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddr
     tx.sign(new Buffer(privateKey));
     const serializedTx = tx.serialize();
 
-    let data = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+    let eventTx = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+    console.log('eventTx:', eventTx);
 
     // get event address
     let eventAddresses = await terrapinInstance.methods.getEvents().call();
@@ -64,7 +63,7 @@ export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddr
       let N = qty;
       let nonceInterval = Array.apply(null, {length: N}).map(Number.call, Number);
 
-      return pasync.each(nonceInterval, async (i) => {
+      await pasync.each(nonceInterval, async (i) => {
         let encodedAbi = mostRecent.methods.printTicket(parseInt(usdPrice)).encodeABI();
 
         let txParams = {
@@ -81,7 +80,8 @@ export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddr
         tx.sign(new Buffer(privateKey));
 
         const serializedTx = tx.serialize();
-        let x = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+        let sentTransaction = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+        console.log('TicketTransaction:', sentTransaction);
       });
     }
   };
