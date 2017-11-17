@@ -34,6 +34,8 @@ switch (NODE_ENV) {
   default:
 }
 
+console.log(WEB3_HOST, SHAKEDOWN_URL, EOTW_URL);
+
 module.exports = {
   /** The environment to use when building the project */
   env: NODE_ENV,
