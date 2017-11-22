@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -9,20 +8,14 @@ export const SET_CONTRACT_INFO = 'SET_CONTRACT_INFO';
 // Actions
 // ------------------------------------
 const getContractInfo = () => {
-  return async(dispatch, getState) => {
-    let res;
-    try {
-      res = await axios.get(`${EOTW_URL}/terrapin-station`);
-    } catch (e) {
-      console.log('err', e);
-    }
+  return async(dispatch) => {
+    let res = await axios.get(`${EOTW_URL}/terrapin-station`);
     dispatch({
-      type: 'SET_CONTRACT_INFO',
+      type: SET_CONTRACT_INFO,
       payload: res.data
     });
   };
 };
-
 
 // ------------------------------------
 // Specialized Action Creator

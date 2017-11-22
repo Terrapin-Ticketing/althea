@@ -119,13 +119,13 @@ export const buyTicketsStripe = (token, order) => {
     let { walletAddress } = getState().auth.user;
     let { abis } = getState().terrapin;
 
-    // let ticketInstance = await getAvailableTicket(eventAddress, abis);
-    let ticketInstances = order.ticketInstances;
+    console.log(order);
 
     let res = await axios.post(`${EOTW_URL}/buy-ticket`, {
       token,
       fees: 150, // should be calculated later
-      ticketAddresses: ticketInstances.map((instance) => instance.options.address),
+      qty: order.ticketQty,
+      eventAddress: order.eventAddress,
       walletAddress
     });
 

@@ -33,29 +33,18 @@ class Event extends Component {
     }
   }
 
-  componentWillUnmount() {
-  }
-
-  // async buyTicket(event) {
-  //   this.setState({isLoading: true});
-  //   await this.props.buyTicket(event, this.state.ticketQty);
-  //   this.props.getEventInfo(this.props.params.id);
-  //   this.setState({ isLoading: false, buyModalOpen: false });
-  // }
-
   async updateOrder(ticketQty, ticketAddress) {
     this.setState({ ticketQty });
     let paymentType = 'USD';
-    console.log('ORDER:', {
-      ticketQty,
-      paymentType,
-      ticketAddress,
-      eventAddress: this.props.params.id
-    });
+    // console.log('ORDER:', {
+    //   ticketQty,
+    //   paymentType,
+    //   ticketAddress,
+    //   eventAddress: this.props.params.id
+    // });
     this.props.updateOrder({
       ticketQty,
       paymentType,
-      ticketAddress,
       eventAddress: this.props.params.id
     });
   }
@@ -92,10 +81,10 @@ class Event extends Component {
   renderBuyButton() {
     return (
       <button className="buy-ticket-button" onClick={async () => {
-        if (this.props.params.ticketId) {
-          console.log('ticket specified');
-          await this.updateOrder(1, this.props.params.ticketId);
-        }
+        // if (this.props.params.ticketId) {
+        //   console.log('ticket specified');
+        //   await this.updateOrder(1, this.props.params.ticketId);
+        // }
         browserHistory.push('/checkout');
       }}>Buy Ticket</button>
     );
@@ -124,7 +113,10 @@ class Event extends Component {
               {(this.props.params.ticketId) ? (
                 <div className='ticket-bar'>
                   { childrenWithProps }
-                  { this.renderBuyButton() }
+                  <div className="">
+                    make payment available on this page
+                  </div>
+                  {/* { this.renderBuyButton() } */}
                 </div>
               ) : (
                 <div className='middle-bar'>
@@ -133,7 +125,7 @@ class Event extends Component {
                     <QtyCounter
                       count={this.state.ticketQty}
                       onChange={(count) => this.updateOrder(count) }
-                      ticketsRemaining={this.props.event.ticketsRemaining}/>
+                      ticketsRemaining={this.props.event.ticketsRemaining} />
                       {this.renderBuyButton()}
                   </div>
                 </div>

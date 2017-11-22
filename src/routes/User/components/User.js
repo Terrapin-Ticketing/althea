@@ -116,7 +116,7 @@ class User extends Component {
 
   render() {
     if (!this.props.user) return null;
-    const { email, walletAddress, encryptedPrivateKey, privateKey } = this.props.user;
+    const { email, walletAddress, encryptedPrivateKey } = this.props.user;
     const { balance } = this.props;
     return (
       <div className='user-container'>
@@ -210,8 +210,8 @@ class User extends Component {
 
 
       </div>
-    )
+    );
   }
 }
 
-export default User
+export default User;

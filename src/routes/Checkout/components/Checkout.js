@@ -27,11 +27,6 @@ class Checkout extends Component {
     this.setState({ etherPrice });
   }
 
-  async buyTickets() {
-    let { cardNumber, cardDate, cardCvc, name } = this.state;
-    console.log(cardNumber, cardDate, cardCvc, name);
-  }
-
   calculateTotal(fees) {
     let { event, order } = this.props;
     return (event.price * order.ticketQty) + fees;
@@ -112,44 +107,6 @@ class Checkout extends Component {
           buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
         />
 
-
-          {/* <div className="payment-toggle">
-            <button className={classNames(
-              { active: paymentType === 'USD' && 'active' }
-            )} onClick={this.onPaymentTypeChange('USD')}>USD</button>
-            <button className={classNames(
-              { active: paymentType === 'ETH' && 'active' }
-            )} onClick={this.onPaymentTypeChange('ETH')}>ETH</button>
-          </div>
-
-          { paymentType === 'USD' ? (
-            <Elements>
-              <USDCheckout
-                buyTicketsStripe={this.buyTicketsWithStripe.bind(this)}
-                event={event}
-                order={order} />
-            </Elements>
-          ) : (
-            <div className="user-info">
-              <span>{ user.email }</span>
-              <span>{ (user.walletAddress).substring(0, 8) }...</span>
-              <p>Hitting "Confirm" will charge {(total / etherPrice).toString().substring(0, 8)} ETH from your account.</p>
-              <button type="submit" onClick={this.buyTicketsWithEther.bind(this)}>Confirm order</button>
-            </div>
-          ) } */}
-
-          {/* <CheckoutForm
-            total={total}
-            event={event}
-            order={order}
-            user={user}
-            buyTickets={this.buyTickets}
-            onPaymentTypeChange={this.onPaymentTypeChange.bind(this)}
-
-            buyTicketsStripe={buyTicketsStripe}
-            getEtherPrice={getEtherPrice}
-            buyTicketsWithEther={buyTicketsWithEther}
-          /> */}
       </div>
     );
   }
