@@ -33,7 +33,7 @@ class Checkout extends Component {
   }
 
   onPaymentTypeChange(paymentType) {
-    let { event } = this.props;
+    let { event, order } = this.props;
     if (paymentType === 'USD') {
       let cardFee = (event.price * .029) + 30;
       this.setState({
@@ -45,7 +45,7 @@ class Checkout extends Component {
     } else if (paymentType === 'ETH') {
       this.setState({
         serviceFee: 0,
-        cardFee: 1,
+        cardFee: 15 * order.ticketQty,
         total: this.calculateTotal(0 + 1),
         paymentType,
       });
