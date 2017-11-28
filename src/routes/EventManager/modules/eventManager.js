@@ -81,7 +81,7 @@ export function getEventInfo(eventAddress) {
       id: eventInstance.options.address,
       name: web3.utils.toAscii(await eventInstance.methods.name().call()),
       owner: await eventInstance.methods.owner().call(),
-      date: web3.utils.toAscii(await eventInstance.methods.date().call()),
+      // date: web3.utils.toAscii(await eventInstance.methods.date().call()),
       ticketsRemaining: remaining,
       tickets: ticketAddresses,
       price: await (getContractInstance(abis.ticket.abi, ticketAddresses[0]).methods.usdPrice().call())

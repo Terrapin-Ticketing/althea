@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 
 import Order from './Order';
+import Payment from './Payment'
 import Register from './Register';
 
 import EventInfo from '../../../components/shared/EventInfo';
@@ -93,20 +94,33 @@ class Checkout extends Component {
 
         {/* <PaymentMethod /> */}
 
-        <Order
-          serviceFee={serviceFee}
-          cardFee={cardFee}
-          total={total}
-          order={order}
-          event={event}
-          etherPrice={etherPrice}
-          user={user}
-          paymentType={paymentType}
-          onPaymentTypeChange={this.onPaymentTypeChange.bind(this)}
-          buyTicketsWithEther={this.buyTicketsWithEther.bind(this)}
-          buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
-        />
+        <div className="route-container checkout-container card">
+          <Order
+            serviceFee={serviceFee}
+            cardFee={cardFee}
+            total={total}
+            order={order}
+            event={event}
+            etherPrice={etherPrice}
+            user={user}
+            paymentType={paymentType}
+            onPaymentTypeChange={this.onPaymentTypeChange.bind(this)}
+            buyTicketsWithEther={this.buyTicketsWithEther.bind(this)}
+            buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
+          />
 
+          <Payment
+            total={total}
+            order={order}
+            event={event}
+            etherPrice={etherPrice}
+            user={user}
+            paymentType={paymentType}
+            onPaymentTypeChange={this.onPaymentTypeChange.bind(this)}
+            buyTicketsWithEther={this.buyTicketsWithEther.bind(this)}
+            buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
+          />
+        </div>
       </div>
     );
   }
