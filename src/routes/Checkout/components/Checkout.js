@@ -90,7 +90,7 @@ class Checkout extends Component {
     let { order, event, user } = this.props;
 
     return (
-      <div className='checkout-container'>
+      <div className='route-container'>
         <EventInfo event={event} />
 
         { user ? (<span></span>) : (<Register onRegister={this.onRegister.bind(this)} />) }

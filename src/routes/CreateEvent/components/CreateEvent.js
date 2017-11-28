@@ -33,7 +33,7 @@ class CreateEvent extends Component {
 
   render() {
     return (
-      <div className='createEvent-container' >
+      <div className='route-container card' >
         <h1>Create Event</h1>
         <span className='user'>Signed in as {(this.props.user) ? this.props.user.email : null}</span>
         <div className='form-container'>

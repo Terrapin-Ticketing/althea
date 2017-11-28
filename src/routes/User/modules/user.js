@@ -16,39 +16,6 @@ let getContractInstance = (abi, address) => {
   return instance;
 };
 
-export const sellTicket = (ticket) => {
-  return async (dispatch, getState) => {
-    let { privateKey } = getState().auth.user;
-
-    console.log(ticket);
-    console.log(privateKey);
-
-    const { abis } = getState().terrapin;
-    const ticketInstance = getContractInstance(abis.ticket.abi, ticket.id);
-
-    let chainId = await web3.eth.net.getId();
-    let nonce = await web3.eth.getTransactionCount(getState().auth.user.walletAddress);
-    console.log('before');
-    let encodedAbi = ticketInstance.methods.setIsForSale(true).encodeABI();
-    let txParams = {
-      nonce: nonce,
-      chainId: chainId,
-      to: ticketInstance.options.address, // with 0x
-      gas: `0x${(4700000).toString(16)}`,
-      gasPrice: `0x${(4000000000).toString(16)}`,
-      data: encodedAbi
-    };
-
-    const tx = new EthereumTx(txParams);
-    tx.sign(new Buffer(privateKey));
-    console.log('aftere');
-    const serializedTx = tx.serialize();
-    await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
-    console.log('herer');
-    return true;
-  };
-};
-
 export const getUserTickets = () => {
   return async (dispatch, getState) => {
     let { user } = getState().auth;
@@ -122,36 +89,6 @@ export const getUserEvents = () => {
         });
       }
     });
-  };
-};
-
-export const transferTicket = (ticketAddress, recipientAddress) => {
-  return async (dispatch, getState) => {
-    let { privateKey } = getState().auth.user;
-
-    console.log('hits transferTicket');
-    console.log('ticketAddress: ', ticketAddress);
-
-    const { abis } = getState().terrapin;
-    const ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
-
-    let chainId = await web3.eth.net.getId();
-    let nonce = await web3.eth.getTransactionCount(getState().auth.user.walletAddress);
-
-    let encodedAbi = ticketInstance.methods.transferTicket(recipientAddress).encodeABI();
-    let txParams = {
-      nonce: nonce,
-      chainId: chainId,
-      to: ticketAddress, // with 0x
-      gas: `0x${(4700000).toString(16)}`,
-      gasPrice: `0x${(4000000000).toString(16)}`,
-      data: encodedAbi
-    };
-
-    const tx = new EthereumTx(txParams);
-    tx.sign(new Buffer(privateKey));
-    const serializedTx = tx.serialize();
-    let transaction = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
   };
 };
 

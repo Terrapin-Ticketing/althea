@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getTicketInfo } from '../modules/ticket';
+import { getTicketInfo, getEventInfo, getEventAuxInfo, updateOrder, sellTicket, transferTicket } from '../modules/ticket';
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -13,12 +13,19 @@ import Ticket from '../components/Ticket';
     implementing our wrapper around increment; the component doesn't care   */
 
 const mapDispatchToProps = {
-  getTicketInfo
+  getTicketInfo,
+  getEventInfo,
+  getEventAuxInfo,
+  updateOrder,
+  sellTicket,
+  transferTicket
 };
 
 const mapStateToProps = (state) => {
+  console.log('state: ', state);
   return {
-    ticket: state.ticket.ticket
+    ticket: state.ticket.ticket,
+    event: state.ticket.currentEvent
   };
 };
 

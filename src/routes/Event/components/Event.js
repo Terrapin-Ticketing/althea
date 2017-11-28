@@ -81,7 +81,7 @@ class Event extends Component {
 
   renderBuyButton() {
     return (
-      <button className="buy-ticket-button"><Link to='checkout'>
+      <button className="ripple buy-ticket-button"><Link to='checkout'>
         Buy Ticket
       </Link></button>
     );
@@ -104,26 +104,19 @@ class Event extends Component {
     );
 
     return (
-      <div style={{backgroundColor: backgroundColor, color: textColor }} className="event-container">
+      <div style={{backgroundColor: backgroundColor, color: textColor }} className="route-container">
             <EventInfoContainer event={this.props.event} />
             <div className='event-inner-container'>
-              {(this.props.params.ticketId) ? (
-                <div className='ticket-bar'>
-                  { this.props.children }
-                  { this.renderBuyButton() }
+              <div className='middle-bar'>
+                <div className='spacing'></div>
+                <div className='order-container'>
+                  <QtyCounter
+                    count={this.state.ticketQty}
+                    onChange={(count) => this.updateOrder(count) }
+                    ticketsRemaining={this.props.event.ticketsRemaining}/>
+                    {this.renderBuyButton()}
                 </div>
-              ) : (
-                <div className='middle-bar'>
-                  <div className='spacing'></div>
-                  <div className='order-container'>
-                    <QtyCounter
-                      count={this.state.ticketQty}
-                      onChange={(count) => this.updateOrder(count) }
-                      ticketsRemaining={this.props.event.ticketsRemaining}/>
-                      {this.renderBuyButton()}
-                  </div>
-                </div>
-              )}
+              </div>
             <div className='event-bottom-info'>
               <div className="left-column">
                 <h2>Description</h2>

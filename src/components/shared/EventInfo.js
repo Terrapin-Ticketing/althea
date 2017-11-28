@@ -11,16 +11,28 @@ class EventInfo extends Component {
   }
 
   render() {
-    let { name, price, owner, date, time, venue, imageUrl } = this.props.event;
+    let { name, price, owner, date, time, imageUrl, website,
+      venueName, venueAddress, venueState, venueCity, venueZip } = this.props.event;
+    console.log('this.props.event: ', this.props.event);
     return (
-      <div>
-        <div className='blured-background' style={{backgroundImage: `url(${imageUrl})`}}></div>
+      <div className="event-outer-container">
+        <div className="blurred-contianer">
+          <div className='blured-background' style={{backgroundImage: `url(${imageUrl})`}}></div>
+        </div>
         <div className='event-inner-container'>
           <div className='event-top-info'>
-            <div className='event-image-container' style={{background: `url(${imageUrl})`, backgroundSize: 'cover'}}></div>
+            <div className='event-image-container' style={{background: `url(${imageUrl})`, backgroundSize: 'contain', backgroundPosition: 'center' }}></div>
             <div className='right-column'>
-              <h2>{name}</h2>
-              <h2>{date}</h2>
+              <div className="basic-info">
+                <h2>{name}</h2>
+                <h2>{date}</h2>
+                <h4>{website}</h4>
+              </div>
+              <div className="venueInfo">
+                <h3 className="venue-info">{venueName}</h3>
+                <h4 className="venue-info">{venueAddress}</h4>
+                <h4 className="venue-info">{venueCity}, {venueState} {venueZip}</h4>
+              </div>
             </div>
           </div>
         </div>

@@ -27,15 +27,22 @@ export default (store) => {
       return (
         <div className='container'>
           <div className="top-bar">
-            <div className="left-column">
+            <div className="logo-container">
               <IndexLink to='/'><img style={{width: 300}} src={require('../assets/img/logo-side-text.png')} /></IndexLink>
             </div>
-            <div className="right-column">
-              <Link to='/events' activeClassName='active'>Events</Link>
-              <Link to='/createEvent' activeClassName='active'>Create Event</Link>
-              {(user) ? <Link to='/user' activeClassName='active'>My Account</Link> : null }
-              {(!user) ? <Link to='/login' activeClassName='active'>Login</Link> : null }
-              {(user) ? <Link style={{cursor: 'pointer'}} onClick={() => logout()}>Logout</Link> : null }
+            <div className="navigation-container">
+              <div className="nav-controls">
+                <input className="burger-check" id="burger-check" type="checkbox" />
+                <label htmlFor="burger-check" className="burger"></label>
+                <label htmlFor="burger-check" className="burger-space"></label>
+              </div>
+            </div>
+            <div className="top-navigation">
+              <span className='nav-item'><Link to='/events' className="nav-item" activeClassName='active'>Events</Link></span>
+              <span className='nav-item'><Link to='/createEvent' className="nav-item" activeClassName='active'>Create Event</Link></span>
+              {(user) ? <span className='nav-item'><Link to='/user' className="nav-item" activeClassName='active'>My Account</Link></span> : null }
+              {(!user) ? <span className='nav-item'><Link to='/login' className="nav-item" activeClassName='active'>Login</Link></span> : null }
+              {(user) ? <span className='nav-item'><Link style={{cursor: 'pointer'}} className="nav-item" onClick={() => logout()}>Logout</Link></span> : null }
               {/* <Link to='#'>Help</Link> */}
             </div>
           </div>

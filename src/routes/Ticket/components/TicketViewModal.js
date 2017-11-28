@@ -4,7 +4,7 @@ import ethUtils from 'ethereumjs-util';
 import web3 from '../../../components/Web3.js';
 import QRCode from 'qrcode';
 
-import './User.scss';
+import './Ticket.scss';
 import modalStyles from '../../../layouts/modal-styles';
 
 class ViewTicketModal extends Component {

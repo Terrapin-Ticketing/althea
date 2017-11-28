@@ -33,7 +33,7 @@ class Register extends React.Component {
     let { email, password, confirmPassword } = this.state;
     let { onRegister } = this.props;
     return (
-      <form className="section-container">
+      <form className="route-container card">
          <span className="section-header">Registration Information</span>
 
         <p>Already have an account? Log in <Link to={'/login'}>here</Link></p>

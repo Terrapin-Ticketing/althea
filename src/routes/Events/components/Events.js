@@ -26,11 +26,8 @@ class Events extends Component {
         <td><Price price={item.price}/></td>
         <td>{item.qty} Left</td>
         <td>
-          {/* <button onClick={() => {
-            this.setState({'buyModalOpen': true, selectedEvent: item });
-          }}>Buy Ticket</button> */}
           <Link to={`/event/${item.id}`}>
-            <button>Select Event</button>
+            <button className='ripple'>Select Event</button>
           </Link>
         </td>
       </tr>
@@ -39,7 +36,7 @@ class Events extends Component {
 
   render() {
     return (
-      <div className='events-container'>
+      <div className='route-container card'>
         {this.props.children}
         <h1>Upcoming Events</h1>
         <table>

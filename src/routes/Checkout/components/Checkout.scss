@@ -3,217 +3,73 @@ $terrapin-blue: #006666;
 $border-radius: 5px;
 
 .checkout-container {
-  max-width: 1170px;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
-.section-container {
+.payment-details {
   display: flex;
   flex-direction: column;
-  margin: 10px 0;
-  max-width: 700px;
-  margin: 10px auto;
-
-  border: 1px solid $terrapin-green;
-  border-radius: $border-radius;
-
-  .section-header {
-    background-color: $terrapin-green;
-    color: white;
-    padding: 5px;
-  }
-
-  .section {
-    display: flex;
-  }
-
-  .section span {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    align-items: flex-end;
-    align-self: center;
-    margin-right: 10px;
-  }
-
-  .section input {
-    flex: 2;
-  }
-
-  .event-name {
-    padding: 10px;
-  }
+  flex: 1 50%;
+  padding: 0 25px;
+  border-left: 1px solid #f0f1f2;
 
   .payment-toggle {
-    // display: flex;
-    button {
-      background: gray;
-    }
-    .active {
-      background: $terrapin-green;
-    }
-  }
-
-  .order-details-header {
-    td {
-      display: flex;
-      justify-content: center;
-    }
-  }
-
-  .order-details-rows {
     display: flex;
-    td {
-      display: flex;
-      justify-content: center;
-      flex: 1;
+    flex-direction: row;
+
+    .active {
+      background: #090;
+      color: #fff;
     }
 
-    b {
-      // font-weight: bold;
+    .inactive {
+      background: #fff;
+      color: #090;
     }
-  }
-
-  .fee-details {
-    padding: 20px;
   }
 
   .payment-info {
-    display: flex;
-    flex-direction: column;
+    flex: 1 1;
+    height: 100%;
+    min-height: inherit;
   }
 }
 
+.order-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1 50%;
+  padding: 25px;
+}
 
-// .checkout-form {
-// }
-//
-// .event-top-info {
-//   display: flex;
-//   flex-direction: row;
-//   margin-bottom: 20px;
-//   .event-image-container {
-//     flex: 1;
-//   }
-//   .left-column {
-//     flex: 2;
-//   }
-//   .right-column {
-//     flex: 2;
-//   }
-// }
-//
-// .order-table {
-//   display: flex;
-//   flex-direction: column;
-//
-//   .header {
-//     display: flex;
-//     flex-direction: row;
-//     background: #c7c7c7;
-//     padding: 10px;
-//     .ticket {
-//       flex: 1;
-//     }
-//     .price {
-//       flex: 1;
-//     }
-//   }
-//
-//   .body {
-//     display: flex;
-//     flex-direction: row;
-//     padding: 10px;
-//     .orderRow {
-//       flex: 1;
-//       display: flex;
-//       flex-direction: row;
-//
-//       .left-column {
-//         flex: 1;
-//       }
-//       .right-column {
-//         flex: 1;
-//       }
-//     }
-//   }
-// }
-//
-// .fee-details {
-//   background: #c7c7c7;
-//   .service-fee {
-//     padding: 10px;
-//   }
-//   .card-fee {
-//     padding: 10px;
-//   }
-//   .total {
-//     padding: 10px;
-//   }
-// }
-//
-// .user-info {
-//   display: flex;
-//   flex-direction: column;
-// }
-//
-//
-// .event-bottom-info {
-//   display: flex;
-//   flex-direction: row;
-//   margin-top: 20px;
-//   border-top: 1px solid #c7c7c7;
-//   .left-column {
-//     flex: 2;
-//     padding: 20px;
-//     border-right: 1px solid #c7c7c7;
-//
-//     .left-column { // order panel
-//       border: none;
-//       padding: 0px;
-//     }
-//
-//     .right-column { // order panel
-//       border: none;
-//       padding: 0px;
-//     }
-//
-//   }
-//   .right-column {
-//     flex: 2;
-//     padding: 20px;
-//   }
-//
-//   .payment-types {
-//     display: flex;
-//
-//     button {
-//       background: gray;
-//     }
-//
-//     .active {
-//       background: #090;
-//     }
-//   }
-// }
-//
-// .label {
-//   flex: 1;
-//   display: flex;
-//   flex-direction: column;
-//   width: 80%;
-//   margin: 15px 0;
-//
-//   span {
-//     flex: 1;
-//   }
-//   input {
-//     flex: 1;
-//   }
-// }
-//
-// button {
-//   flex: 1;
-//   width: 80%;
-//   margin-top: 25px;
-// }
+.order-box {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f0f1f2;
+
+  td.price {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .service-fee {
+    border-top: solid 1px #f0f1f2;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .card-fee {
+    border-top: solid 1px #f0f1f2;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .total {
+    border-top: solid 2px #f0f1f2;
+  }
+
+
+}

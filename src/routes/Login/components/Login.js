@@ -54,7 +54,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div className='login-container'>
+      <div className='route-container login-container card'>
         <div className='login-form-container'>
           <div className='login-type-container'>
             <button

@@ -10,6 +10,7 @@ import UnlockRoute from './Unlock';
 import CheckoutRoute from './Checkout';
 import CheckoutConfirmationRoute from './CheckoutConfirmation';
 import EventManager from './EventManager';
+import TicketRoute from './Ticket';
 
 import requireAuth from '../utils/requireAuth';
 import requirePK from '../utils/requirePK';
@@ -27,6 +28,7 @@ export const createRoutes = (store) => ({
     EventRoute(store, [ ]),
     EventsRoute(store, [ ]),
     EventManager(store, [ ]),
+    TicketRoute(store, [ ]),
     CheckoutConfirmationRoute(store, [ ]),
     UnlockRoute(store, [ requireAuth ]),
     CheckoutRoute(store, [ ]),
