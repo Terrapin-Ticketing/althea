@@ -1,5 +1,9 @@
 import { connect } from 'react-redux';
-const mapDispatchToProps = require('../modules/createEvent');
+const defaultActions = require('../modules/createEvent');
+
+const mapDispatchToProps = {
+  ...defaultActions
+};
 
 import CreateEvent from '../components/CreateEvent';
 

@@ -9,22 +9,30 @@ import {StripeProvider} from 'react-stripe-elements';
 const { getContractInfo } = require('../store/terrapin').actions;
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { isLoading: true };
+  }
+
   static propTypes = {
     store: PropTypes.object.isRequired,
     routes: PropTypes.object.isRequired,
   }
 
-  componentWillMount() {
-    this.props.getContractInfo();
+  async componentDidMount() {
+    await this.props.getContractInfo();
+    this.setState({ isLoading: false });
   }
 
   render() {
     return (
       <Provider store={this.props.store}>
         <StripeProvider apiKey={STRIPE_PUBLIC_KEY}>
-          <div style={{ height: '100%' }}>
-            <Router history={browserHistory} children={this.props.routes} />
-          </div>
+          { this.state.isLoading ? <span>isLoading</span> : (
+            <div style={{ height: '100%' }}>
+              <Router history={browserHistory} children={this.props.routes} />
+            </div>
+          )}
         </StripeProvider>
       </Provider>
     );

@@ -1,10 +1,8 @@
 import axios from 'axios';
 import pasync from 'pasync';
 import EthereumTx from 'ethereumjs-tx';
-import crypto from 'crypto';
 import web3 from '../../../components/Web3.js';
-
-const gwei = 1000000000;
+import moment from 'moment';
 
 let getContractInstance = (abi, address) => {
   const instance = new web3.eth.Contract(abi, address);
@@ -51,26 +49,18 @@ export function getEventInfo(eventAddress) {
 
     const { abis } = getState().terrapin;
     let eventInstance = getContractInstance(abis.event.abi, web3.utils.toHex(eventAddress));
-    // this take FOREVERRR to return. THIS is where our caching service will make a big difference
-    let ticketAddresses = await eventInstance.methods.getTickets().call();
-    let eventOwner = await eventInstance.methods.owner().call();
-    let remaining = 0;
-    await pasync.each(ticketAddresses, async (ticketAddress) => {
-      let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
-      let ticketOwner = await ticketInstance.methods.owner().call();
-      if (eventOwner === ticketOwner) {
-        remaining++;
-      }
-    });
+
+    let remaining = await eventInstance.methods.getRemainingTickets().call();
+    let price = await eventInstance.methods.baseUSDPrice().call();
 
     let event = {
       id: eventInstance.options.address,
       name: web3.utils.toAscii(await eventInstance.methods.name().call()),
       owner: await eventInstance.methods.owner().call(),
-      date: web3.utils.toAscii(await eventInstance.methods.date().call()),
+      startDate: moment.unix(await eventInstance.methods.startDate().call()).format('DD/MM/YYYY'),
+      endDate: moment.unix(await eventInstance.methods.endDate().call()).format('DD/MM/YYYY'),
       ticketsRemaining: remaining,
-      tickets: ticketAddresses,
-      price: await (getContractInstance(abis.ticket.abi, ticketAddresses[0]).methods.usdPrice().call())
+      price
     };
 
     dispatch({
@@ -87,43 +77,47 @@ export function getEventAuxInfo(eventAddress) {
   return async (dispatch, getState) => {
 
     let event = getState().event;
-    console.log('hits22');
-    let res = await axios({
-      url: `${SHAKEDOWN_URL}/event/${eventAddress}`,
-      method: 'get'
-    });
-
-    console.log('res: ', res);
-    console.log('event: ', event);
-
-    dispatch({
-      type: SET_EVENT_DETAILS,
-      payload: {
+    let payload = {};
+    try {
+      let res = await axios({
+        url: `${SHAKEDOWN_URL}/event/${eventAddress}`,
+        method: 'get'
+      });
+      payload = {
         ...event.currentEvent,
         ...res.data.event
-      }
+      };
+    } catch (e) {
+      console.log('no aux data found');
+      payload = {
+        ...event.currentEvent,
+      };
+    }
+    dispatch({
+      type: SET_EVENT_DETAILS,
+      payload
     });
   };
 }
 
 export const updateOrder = (order) => {
   return async (dispatch, getState) => {
-    let { abis } = getState().terrapin;
-    let availableTickets = [];
+    // let { abis } = getState().terrapin;
+    // let availableTickets = [];
     // if user sends single address, assume it's a single ticket
-    if (order.ticketAddress) {
-      availableTickets = [ order.ticketAddress ];
-    } else {
-      availableTickets = await getAvailableTickets(order.ticketQty, order.eventAddress, abis);
-    }
+    // if (order.ticketAddress) {
+    //   availableTickets = [ getContractInstance(abis.ticket.abi, order.ticketAddress) ];
+    // } else {
+    //   availableTickets = await getAvailableTickets(order.ticketQty, order.eventAddress, abis);
+    // }
 
     // let availableTickets = await getAvailableTickets(order.ticketQty, order.eventAddress, abis);
     // get available tickets
     // getAvailableTicket()
-    order = {
-      ...order,
-      ticketInstances: availableTickets
-    };
+    // order = {
+    //   ...order,
+    //   ticketInstances: availableTickets
+    // };
     dispatch({
       type: UPDATE_ORDER,
       payload: order
@@ -146,7 +140,7 @@ export const buyTicket = (event, qty) => {
     let nonce = await web3.eth.getTransactionCount(walletAddress);
     let chainId = await web3.eth.net.getId();
     let gas = `0x${(4700000).toString(16)}`;
-    let gasPrice = `0x${(gwei * 20).toString(16)}`;
+    let gasPrice = `0x${(GAS_PRICE * 1).toString(16)}`;
 
     let isBreak = 0;
     await pasync.eachSeries(ticketAddresses, async (ticketAddress) => {
@@ -194,8 +188,6 @@ export const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_EVENT_DETAILS]: (state, action) => {
-    console.log('action.payload: ', action.payload);
-    console.log('state: ', state);
     return {
       ...state,
       currentEvent: {

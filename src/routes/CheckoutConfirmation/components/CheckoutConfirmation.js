@@ -23,7 +23,8 @@ class CheckoutConfirmation extends Component {
 
   render() {
     console.log('confirm.props: ', this.props);
-    let { transactions, name, email, order, event } = this.props;
+    let { transactions, order, event, user } = this.props;
+    let { email, walletAddress } = user;
     let cardFee = 5;
     let serviceFee = 4;
     let total = cardFee + serviceFee;
@@ -32,7 +33,7 @@ class CheckoutConfirmation extends Component {
         <h1 className='header'>Purchase Receipt</h1>
         <div className="user-info">
           <h2>Your Details</h2>
-          <div>Name: {name}</div>
+          <div>Wallet: {(walletAddress).substring(0, 8)}...</div>
           <div>Email: {email}</div>
 
           <h2>Tickets</h2>
@@ -45,6 +46,7 @@ class CheckoutConfirmation extends Component {
             total={this.calculateTotal(total)}
             order={order}
             event={event}
+            user={this.props.user}
           />
         </div>
         <button onClick={() => browserHistory.push('user')}>Manage Your Tickets</button>

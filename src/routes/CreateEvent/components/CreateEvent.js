@@ -23,12 +23,19 @@ class CreateEvent extends Component {
   async onSubmit() {
     let { name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip, qty } = this.state;
 
-    try {
-      await this.props.createEvent(name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip, parseInt(qty));
-      this.props.router.push('/events');
-    } catch (e) {
-      console.log('err', e);
-    }
+    await this.props.createEvent(
+      name,
+      usdPrice,
+      imageUrl,
+      date,
+      venueName,
+      venueAddress,
+      venueCity,
+      venueState,
+      venueZip,
+      parseInt(qty)
+    );
+    this.props.router.push('/events');
   }
 
   render() {

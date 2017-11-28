@@ -146,8 +146,8 @@ class User extends Component {
           </table>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default User
+export default User;

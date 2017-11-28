@@ -4,16 +4,31 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 let WEB3_HOST = JSON.stringify('http://localhost:8545');
 let SHAKEDOWN_URL = JSON.stringify('http://localhost:8080');
 let EOTW_URL = JSON.stringify('http://localhost:8000');
+
 let STRIPE_PUBLIC_KEY = JSON.stringify('pk_test_GvYM7xVYxIO8vE41geXObIYD');
+
+let gwei = 1000000000;
+let GAS_PRICE = 10 * gwei;
+// let GAS_PRICE = 1 * gwei;
 
 switch (NODE_ENV) {
   case 'testrpc':
     WEB3_HOST = JSON.stringify('http://localhost:8545');
     break;
   case 'demo': {
-    WEB3_HOST = JSON.stringify('http://104.131.33.58:8545');
-    SHAKEDOWN_URL = JSON.stringify('http://104.131.21.183');
-    EOTW_URL = JSON.stringify('http://104.131.33.58');
+    let infura_apikey = 'ErkMqD1W4xWqfkfqNBnt';
+    let ropsten_host = 'https://ropsten.infura.io/'+infura_apikey;
+    WEB3_HOST = JSON.stringify(ropsten_host);
+    SHAKEDOWN_URL = JSON.stringify('https://shakedown.terrapintickets.io');
+    EOTW_URL = JSON.stringify('https://eotw.terrapintickets.io');
+    break;
+  }
+  case 'ropsten': {
+    let infura_apikey = 'ErkMqD1W4xWqfkfqNBnt';
+    let ropsten_host = 'https://ropsten.infura.io/'+infura_apikey;
+    WEB3_HOST = JSON.stringify(ropsten_host);
+    SHAKEDOWN_URL = JSON.stringify('https://shakedown.terrapintickets.io');
+    EOTW_URL = JSON.stringify('https://eotw.terrapintickets.io');
     break;
   }
   default:
@@ -41,7 +56,8 @@ module.exports = {
     SHAKEDOWN_URL,
     EOTW_URL,
     WEB3_HOST,
-    STRIPE_PUBLIC_KEY
+    STRIPE_PUBLIC_KEY,
+    GAS_PRICE
   },
   /** Whether to enable verbose logging */
   verbose: false,

@@ -27,18 +27,13 @@ class Checkout extends Component {
     this.setState({ etherPrice });
   }
 
-  async buyTickets() {
-    let { cardNumber, cardDate, cardCvc, name } = this.state;
-    console.log(cardNumber, cardDate, cardCvc, name);
-  }
-
   calculateTotal(fees) {
     let { event, order } = this.props;
     return (event.price * order.ticketQty) + fees;
   }
 
   onPaymentTypeChange(paymentType) {
-    let { event } = this.props;
+    let { event, order } = this.props;
     if (paymentType === 'USD') {
       let cardFee = (event.price * .029) + 30;
       this.setState({
@@ -50,7 +45,7 @@ class Checkout extends Component {
     } else if (paymentType === 'ETH') {
       this.setState({
         serviceFee: 0,
-        cardFee: 1,
+        cardFee: 15 * order.ticketQty,
         total: this.calculateTotal(0 + 1),
         paymentType,
       });
@@ -62,12 +57,12 @@ class Checkout extends Component {
     let { userData } = this.state;
     if (userData) await signup(userData.email, userData.password);
     // user is defined after this point
+    console.log(this.props.user);
   }
 
   async buyTicketsWithStripe(token, order) {
     await this.registerUser();
     let { buyTicketsStripe } = this.props;
-    console.log('herer');
     await buyTicketsStripe(token, order);
   }
 
@@ -77,8 +72,7 @@ class Checkout extends Component {
     if (!user.privateKey) return browserHistory.push('/unlock-account');
     let transactionsList = await buyTicketsWithEther(order);
     console.log('transactionsList: ', transactionsList);
-    alert('successfully bought ticket');
-    browserHistory.push('/user');
+    browserHistory.push('/CheckoutConfirmation');
   }
 
   async onRegister(userData) {
@@ -95,6 +89,10 @@ class Checkout extends Component {
 
         { user ? (<span></span>) : (<Register onRegister={this.onRegister.bind(this)} />) }
 
+        {/* <OrderSummary /> */}
+
+        {/* <PaymentMethod /> */}
+
         <Order
           serviceFee={serviceFee}
           cardFee={cardFee}
@@ -109,43 +107,6 @@ class Checkout extends Component {
           buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
         />
 
-          {/* <div className="payment-toggle">
-            <button className={classNames(
-              { active: paymentType === 'USD' && 'active' }
-            )} onClick={this.onPaymentTypeChange('USD')}>USD</button>
-            <button className={classNames(
-              { active: paymentType === 'ETH' && 'active' }
-            )} onClick={this.onPaymentTypeChange('ETH')}>ETH</button>
-          </div>
-
-          { paymentType === 'USD' ? (
-            <Elements>
-              <USDCheckout
-                buyTicketsStripe={this.buyTicketsWithStripe.bind(this)}
-                event={event}
-                order={order} />
-            </Elements>
-          ) : (
-            <div className="user-info">
-              <span>{ user.email }</span>
-              <span>{ (user.walletAddress).substring(0, 8) }...</span>
-              <p>Hitting "Confirm" will charge {(total / etherPrice).toString().substring(0, 8)} ETH from your account.</p>
-              <button type="submit" onClick={this.buyTicketsWithEther.bind(this)}>Confirm order</button>
-            </div>
-          ) } */}
-
-          {/* <CheckoutForm
-            total={total}
-            event={event}
-            order={order}
-            user={user}
-            buyTickets={this.buyTickets}
-            onPaymentTypeChange={this.onPaymentTypeChange.bind(this)}
-
-            buyTicketsStripe={buyTicketsStripe}
-            getEtherPrice={getEtherPrice}
-            buyTicketsWithEther={buyTicketsWithEther}
-          /> */}
       </div>
     );
   }

@@ -1,10 +1,8 @@
 import web3 from '../../../components/Web3.js';
-import EthereumTx from 'ethereumjs-tx';
-import pasync from 'pasync';
+import ethTx from '../../../components/ethTx.js';
+import moment from 'moment';
 
 export const CREATE_EVENT = 'CREATE_EVENT';
-
-let gwei = 1000000000;
 
 let getContractInstance = (abi, address) => {
   const instance = new web3.eth.Contract(abi, address);
@@ -13,77 +11,28 @@ let getContractInstance = (abi, address) => {
 
 export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip, qty) => {
   return async function(dispatch, getState) {
-    // TODO: Update this
     let { user } = getState().auth;
     let { abis, terrapinAddress } = getState().terrapin;
     let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
+    // console.log(moment(date).unix());
+    // TODO: set up date
+    let startDate = moment().unix();
+    let endDate = moment().add(1, 'days').unix();
 
-    let chainId = await web3.eth.net.getId();
-    let nonce = await web3.eth.getTransactionCount(user.walletAddress);
+    let encodedAbi = terrapinInstance.methods.createEvent(
+      web3.utils.fromAscii(name),
+      qty,
+      usdPrice,
+      startDate,
+      endDate
+    ).encodeABI();
 
-    let gasPrice = `0x${(gwei * 20).toString(16)}`;
-    // let gasPrice = gwei * 30;
-    let gas = `0x${(4700000).toString(16)}`;
-
-    // let values = [ name, usdPrice, imageUrl, date, venueName, venueAddress, venueCity, venueState, venueZip ].map(web3.utils.fromAscii);
-    let values = [ name, usdPrice, date ].map(web3.utils.fromAscii);
-    let encodedAbi = terrapinInstance.methods.createEvent(...values).encodeABI();
-
-    let txParams = {
-      nonce: nonce++,
-      chainId,
-      to: terrapinInstance.options.address,
-      value: 0,
-      gas,
-      gasPrice,
-      data: encodedAbi
-    };
-
-    // nonce++;
-
-    let privateKey = user.privateKey;
-
-    const tx = new EthereumTx(txParams);
-    tx.sign(new Buffer(privateKey));
-    const serializedTx = tx.serialize();
-
-    let data = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
-
-    // get event address
-    let eventAddresses = await terrapinInstance.methods.getEvents().call();
-    let mostRecent;
-    await pasync.eachSeries(eventAddresses, async (eventAddress) => {
-      let eventInstance = getContractInstance(abis.event.abi, eventAddress);
-      let owner = await eventInstance.methods.owner().call();
-      if (owner === user.walletAddress) {
-        mostRecent = eventInstance;
-      }
+    let address = terrapinInstance.options.address;
+    await ethTx(user, encodedAbi, address);
+    dispatch({
+      type: CREATE_EVENT,
+      payload: ''
     });
-
-    if (mostRecent) {
-      let N = qty;
-      let nonceInterval = Array.apply(null, {length: N}).map(Number.call, Number);
-
-      return pasync.each(nonceInterval, async (i) => {
-        let encodedAbi = mostRecent.methods.printTicket(parseInt(usdPrice)).encodeABI();
-
-        let txParams = {
-          nonce: nonce + i,
-          chainId,
-          to: mostRecent.options.address,
-          value: 0,
-          gas,
-          gasPrice,
-          data: encodedAbi
-        };
-
-        const tx = new EthereumTx(txParams);
-        tx.sign(new Buffer(privateKey));
-
-        const serializedTx = tx.serialize();
-        let x = await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
-      });
-    }
   };
 };
 
