@@ -28,7 +28,7 @@ export const createEvent = (name, usdPrice, imageUrl, date, venueName, venueAddr
     ).encodeABI();
 
     let address = terrapinInstance.options.address;
-    await ethTx(user, encodedAbi, address);
+    await ethTx.createTx(user, address, encodedAbi);
     dispatch({
       type: CREATE_EVENT,
       payload: ''

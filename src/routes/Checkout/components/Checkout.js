@@ -81,7 +81,7 @@ class Checkout extends Component {
 
   render() {
     let { serviceFee, cardFee, total, etherPrice, paymentType } = this.state;
-    let { order, event, user } = this.props;
+    let { order, event, user, priceToEther } = this.props;
 
     return (
       <div className='route-container'>
@@ -105,6 +105,7 @@ class Checkout extends Component {
           onPaymentTypeChange={this.onPaymentTypeChange.bind(this)}
           buyTicketsWithEther={this.buyTicketsWithEther.bind(this)}
           buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
+          priceToEther={priceToEther}
         />
 
       </div>

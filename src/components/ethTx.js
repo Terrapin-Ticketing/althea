@@ -1,7 +1,9 @@
 import web3 from './Web3.js';
 import EthereumTx from 'ethereumjs-tx';
 
-export default async (user, encodedAbi, address) => {
+const wei = 1000000000000000000;
+
+export const createTx = async(user, address, encodedAbi, value = 0) => {
   let chainId = await web3.eth.net.getId();
   let nonce = await web3.eth.getTransactionCount(user.walletAddress);
 
@@ -12,7 +14,7 @@ export default async (user, encodedAbi, address) => {
     nonce: nonce++,
     chainId,
     to: address,
-    value: 0,
+    value,
     gas,
     gasPrice,
     data: encodedAbi
@@ -25,4 +27,25 @@ export default async (user, encodedAbi, address) => {
   const serializedTx = tx.serialize();
 
   return await web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+};
+
+export const getEtherPrice = async() => {
+  let etherPrice = await new Promise((resolve) => {
+    resolve(30600);
+  });
+  return etherPrice;
+};
+
+export const usdToWei = async(usdPrice) => {
+  let etherPrice = await getEtherPrice();
+  // gas fee
+  let weiPrice = Math.ceil((usdPrice / etherPrice) * wei);
+  return weiPrice;
+};
+
+export default {
+  createTx,
+  getEtherPrice,
+  usdToEther,
+  wei
 };

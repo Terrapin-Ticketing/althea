@@ -22,10 +22,12 @@ const getContractInfo = () => {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_CONTRACT_INFO]: (state, action) => {
+    let { terrapinAddress, abis, walletAddress } = action.payload;
     return {
       ...state,
-      terrapinAddress: action.payload.terrapinAddress,
-      abis: JSON.parse(action.payload.abis)
+      terrapinAddress,
+      abis: JSON.parse(abis),
+      walletAddress
     };
   }
 };

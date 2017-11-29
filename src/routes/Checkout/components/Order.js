@@ -9,6 +9,14 @@ import Price from '../../../components/shared/Price';
 class Order extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      etherPrice: null
+    };
+  }
+
+  async componentDidMount() {
+    let etherPrice = await this.props.priceToEther(this.props.total);
+    this.setState({ etherPrice });
   }
 
   renderTickets() {
@@ -23,7 +31,7 @@ class Order extends React.Component {
   }
 
   render() {
-    let { serviceFee, cardFee, total, event, order, etherPrice, user,
+    let { serviceFee, cardFee, total, event, order, user,
       onPaymentTypeChange, buyTicketsWithEther, buyTicketsWithStripe,
       paymentType
     } = this.props;
@@ -74,9 +82,10 @@ class Order extends React.Component {
               </Elements>
             ) : (
               <div className="payment-info">
-                <span>{ user.email }</span>
+                Pay {this.state.etherPrice} to { user.walletAddress }
+                {/* <span>{ user.email }</span>
                 <span>{ (user.walletAddress).substring(0, 8) }...</span>
-                <p>Hitting "Confirm" will charge {(total / etherPrice).toString().substring(0, 8)} ETH from your account.</p>
+                <p>Hitting "Confirm" will charge {this.state.etherPrice} ETH from your account.</p> */}
                 <button type="submit" onClick={buyTicketsWithEther}>Confirm order</button>
               </div>
             ) }
