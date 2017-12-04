@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 
 import Order from './Order';
+import Payment from './Payment';
 import Register from './Register';
 
 import EventInfo from '../../../components/shared/EventInfo';
@@ -33,6 +34,7 @@ class Checkout extends Component {
   }
 
   onPaymentTypeChange(paymentType) {
+    // this.setState({ paymentType });
     let { event, order } = this.props;
     if (paymentType === 'USD') {
       let cardFee = (event.price * .029) + 30;
@@ -81,7 +83,7 @@ class Checkout extends Component {
 
   render() {
     let { serviceFee, cardFee, total, etherPrice, paymentType } = this.state;
-    let { order, event, user, priceToEther } = this.props;
+    let { order, event, user } = this.props;
 
     return (
       <div className='route-container'>
@@ -89,25 +91,29 @@ class Checkout extends Component {
 
         { user ? (<span></span>) : (<Register onRegister={this.onRegister.bind(this)} />) }
 
-        {/* <OrderSummary /> */}
+        <div className="route-container checkout-container card">
+          <Order
+            // serviceFee={serviceFee}
+            // cardFee={cardFee}
+            ticketPrice={event.price}
+            qty={order.ticketQty}
+            paymentType={paymentType}
+            // total={total}
+            // order={order}
+            // event={event}
+            // user={user}
+            // etherPrice={etherPrice}
+          />
 
-        {/* <PaymentMethod /> */}
-
-        <Order
-          serviceFee={serviceFee}
-          cardFee={cardFee}
-          total={total}
-          order={order}
-          event={event}
-          etherPrice={etherPrice}
-          user={user}
-          paymentType={paymentType}
-          onPaymentTypeChange={this.onPaymentTypeChange.bind(this)}
-          buyTicketsWithEther={this.buyTicketsWithEther.bind(this)}
-          buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
-          priceToEther={priceToEther}
-        />
-
+          <Payment
+            onPaymentTypeChange={this.onPaymentTypeChange.bind(this)}
+            order={order}
+            event={event}
+            paymentType={paymentType}
+            buyTicketsWithEther={this.buyTicketsWithEther.bind(this)}
+            buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
+          />
+        </div>
       </div>
     );
   }

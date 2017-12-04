@@ -46,6 +46,5 @@ export const usdToWei = async(usdPrice) => {
 export default {
   createTx,
   getEtherPrice,
-  usdToEther,
   wei
 };

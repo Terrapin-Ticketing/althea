@@ -51,7 +51,9 @@ export function getEventInfo(eventAddress) {
     let eventInstance = getContractInstance(abis.event.abi, web3.utils.toHex(eventAddress));
 
     let remaining = await eventInstance.methods.getRemainingTickets().call();
-    let price = await eventInstance.methods.baseUSDPrice().call();
+    let price = await eventInstance.methods.getTicketPrice('GA').call();
+
+    console.log(price);
 
     let event = {
       id: eventInstance.options.address,

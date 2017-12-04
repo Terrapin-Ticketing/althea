@@ -27,12 +27,15 @@ export function getEvents() {
       let eventInstance = getContractInstance(abis.event.abi, eventAddress);
 
       let remaining = await eventInstance.methods.getRemainingTickets().call();
+      console.log('herer');
+      let price = parseInt(await eventInstance.methods.getTicketPrice('GA').call());
+      console.log('price', price);
 
       events.push({
         id: eventInstance.options.address,
         name: web3.utils.toAscii(await eventInstance.methods.name().call()),
         qty: remaining,
-        price: await eventInstance.methods.baseUSDPrice().call()
+        price
       });
 
       dispatch({
