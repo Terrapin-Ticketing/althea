@@ -1,10 +1,6 @@
+import axios from 'axios';
 import pasync from 'pasync';
-import web3 from '../../../components/Web3.js';
 
-let getContractInstance = (abi, address) => {
-  const instance = new web3.eth.Contract(abi, address);
-  return instance;
-};
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -17,29 +13,38 @@ export const CLEAR_EVENTS = 'CLEAR_EVENTS';
     creating async actions, especially when combined with redux-thunk! */
 export function getEvents() {
   return async (dispatch, getState) => {
-    const { abis, terrapinAddress } = getState().terrapin;
+    let res = await axios.get(`${SHAKEDOWN_URL}/events`);
 
-    let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
+    console.log(res);
 
-    let eventAddresses = await terrapinInstance.methods.getEvents().call();
-    let events = [];
-    await pasync.eachSeries(eventAddresses, async (eventAddress) => {
-      let eventInstance = getContractInstance(abis.event.abi, eventAddress);
-
-      let remaining = await eventInstance.methods.getRemainingTickets().call();
-
-      events.push({
-        id: eventInstance.options.address,
-        name: web3.utils.toAscii(await eventInstance.methods.name().call()),
-        qty: remaining,
-        price: await eventInstance.methods.baseUSDPrice().call()
-      });
-
-      dispatch({
-        type: SET_EVENTS,
-        payload: events
-      });
+    dispatch({
+      type: SET_EVENTS,
+      payload: res.events
     });
+
+    // const { abis, terrapinAddress } = getState().terrapin;
+    //
+    // let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
+    //
+    // let eventAddresses = await terrapinInstance.methods.getEvents().call();
+    // let events = [];
+    // await pasync.eachSeries(eventAddresses, async (eventAddress) => {
+    //   let eventInstance = getContractInstance(abis.event.abi, eventAddress);
+    //
+    //   let remaining = await eventInstance.methods.getRemainingTickets().call();
+    //
+    //   events.push({
+    //     id: eventInstance.options.address,
+    //     name: web3.utils.toAscii(await eventInstance.methods.name().call()),
+    //     qty: remaining,
+    //     price: await eventInstance.methods.baseUSDPrice().call()
+    //   });
+    //
+    //   dispatch({
+    //     type: SET_EVENTS,
+    //     payload: events
+    //   });
+    // });
   };
 }
 

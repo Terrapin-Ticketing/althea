@@ -22,7 +22,6 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => {
-  console.log('state: ', state);
   return {
     ticket: state.ticket.ticket,
     event: state.ticket.currentEvent

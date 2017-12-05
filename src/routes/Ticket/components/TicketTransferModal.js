@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import ReactModal from 'react-modal';
-import web3 from '../../../components/Web3.js'
 import './Ticket.scss'
 import modalStyles from '../../../layouts/modal-styles'
 

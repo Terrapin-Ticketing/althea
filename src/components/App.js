@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 
 import {StripeProvider} from 'react-stripe-elements';
 
-const { getContractInfo } = require('../store/terrapin').actions;
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -19,20 +17,14 @@ class App extends React.Component {
     routes: PropTypes.object.isRequired,
   }
 
-  async componentDidMount() {
-    await this.props.getContractInfo();
-    this.setState({ isLoading: false });
-  }
 
   render() {
     return (
       <Provider store={this.props.store}>
         <StripeProvider apiKey={STRIPE_PUBLIC_KEY}>
-          { this.state.isLoading ? <span>isLoading</span> : (
-            <div style={{ height: '100%' }}>
-              <Router history={browserHistory} children={this.props.routes} />
-            </div>
-          )}
+          <div style={{ height: '100%' }}>
+            <Router history={browserHistory} children={this.props.routes} />
+          </div>
         </StripeProvider>
       </Provider>
     );
@@ -40,12 +32,10 @@ class App extends React.Component {
 }
 
 const mapDispatchToProps = {
-  getContractInfo
 };
 
 const mapStateToProps = (state) => {
   return {
-    test: {}
   };
 };
 

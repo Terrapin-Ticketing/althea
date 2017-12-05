@@ -1,6 +1,5 @@
 import axios from 'axios';
 import cookie from 'cookie';
-import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
@@ -10,20 +9,6 @@ import setAuthorizationToken from '../utils/setAuthorizationToken';
 // ------------------------------------
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
-export const SET_USER_BALANCE = 'SET_USER_BALANCE';
-export const UNLOCK_PK = 'UNLOCK_PK';
-export const CLEAR_PK = 'CLEAR_PK';
-
-let decryptPrivateKey = (key, ciphered) => {
-  let algorithm = 'aes256';
-  let inputEncoding = 'utf8';
-  let outputEncoding = 'hex';
-
-  let decipher = crypto.createDecipher(algorithm, key);
-  let deciphered = decipher.update(ciphered, outputEncoding, inputEncoding);
-  deciphered += decipher.final(inputEncoding);
-  return deciphered;
-};
 
 function deleteCookie(name) {
   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -33,27 +18,6 @@ function deleteCookie(name) {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function clearPK() {
-  return (dispatch) => {
-    dispatch({
-      type: CLEAR_PK
-    });
-  };
-}
-
-export function unlockPK(password) {
-  console.log('hits unlockPK');
-  return (dispatch, getState) => {
-    let { user } = getState().auth;
-    dispatch({
-      type: UNLOCK_PK,
-      payload: {
-        password,
-        encryptedPrivateKey: user.encryptedPrivateKey
-      }
-    });
-  };
-}
 
 export const signup = (email, password, privateKey) => {
   return async(dispatch) => {
@@ -67,11 +31,11 @@ export const signup = (email, password, privateKey) => {
     let { token } = res.data;
     setAuthorizationToken(token);
     let user = jwt.decode(token);
+
     dispatch({
       type: 'LOGIN',
       payload: user
     });
-    await unlockPK(password);
   };
 };
 
@@ -95,8 +59,6 @@ export const login = (email, password) => {
       payload: user
     });
 
-    unlockPK(password);
-
     dispatch({
       type: 'CLEAR_REDIRECT_URL',
       payload: null
@@ -105,7 +67,7 @@ export const login = (email, password) => {
 };
 
 export const actions = {
-  clearPK, unlockPK, signup, login
+  signup, login
 };
 
 // ------------------------------------
@@ -118,30 +80,6 @@ const ACTION_HANDLERS = {
       user: action.payload
     };
   },
-  [UNLOCK_PK]: (state, action) => {
-    console.log('hits UNLOCK_PK');
-    let { password, encryptedPrivateKey } = action.payload;
-    let privateKey = decryptPrivateKey(password, encryptedPrivateKey).substring(2);
-    privateKey = Buffer.from(privateKey, 'hex');
-    let user = {
-      ...state.user,
-      privateKey
-    };
-    return {
-      ...state,
-      user
-    };
-  },
-  [CLEAR_PK]: (state) => {
-    let user = {
-      ...state.user,
-      privateKey: null
-    };
-    return {
-      ...state,
-      user
-    };
-  },
   [LOGOUT]: (state) => {
     const parsedCookie = cookie.parse(document.cookie);
     if (parsedCookie.cookieToken) {
@@ -152,12 +90,6 @@ const ACTION_HANDLERS = {
       ...state,
       user: null,
       balance: null
-    };
-  },
-  [SET_USER_BALANCE]: (state, action) => {
-    return {
-      ...state,
-      balance: action.payload
     };
   },
 };

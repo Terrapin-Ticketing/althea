@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { Link, browserHistory } from 'react-router';
 import ReactModal from 'react-modal';
-import web3 from '../../../components/Web3.js';
 import './User.scss';
 import Price from '../../../components/shared/Price';
 

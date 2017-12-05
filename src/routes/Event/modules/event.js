@@ -1,39 +1,7 @@
 import axios from 'axios';
 import pasync from 'pasync';
 import EthereumTx from 'ethereumjs-tx';
-import web3 from '../../../components/Web3.js';
 import moment from 'moment';
-
-let getContractInstance = (abi, address) => {
-  const instance = new web3.eth.Contract(abi, address);
-  return instance;
-};
-
-async function getAvailableTickets(num, eventAddress, abis) {
-  let eventInstance = getContractInstance(abis.event.abi, eventAddress);
-  let eventOwner = await eventInstance.methods.owner().call();
-
-  let ticketAddresses = await eventInstance.methods.getTickets().call();
-
-  let isBreak = false;
-  let availableTickets = [];
-
-  await pasync.eachSeries(ticketAddresses, async (ticketAddress) => {
-    if (isBreak) return;
-    let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
-    let ticketOwner = await ticketInstance.methods.owner().call();
-
-    if (ticketOwner === eventOwner) {
-      availableTickets.push(ticketInstance);
-      // availableTicket = ticketInstance;
-      if (availableTickets.length >= num) {
-        isBreak = true;
-      }
-    }
-  });
-  console.log('availableTickets: ', availableTickets);
-  return availableTickets;
-}
 
 // ------------------------------------
 // Constants
@@ -46,30 +14,30 @@ export const UPDATE_ORDER = 'UPDATE_ORDER';
     creating async actions, especially when combined with redux-thunk! */
 export function getEventInfo(eventAddress) {
   return async (dispatch, getState) => {
-
-    const { abis } = getState().terrapin;
-    let eventInstance = getContractInstance(abis.event.abi, web3.utils.toHex(eventAddress));
-
-    let remaining = await eventInstance.methods.getRemainingTickets().call();
-    let price = await eventInstance.methods.baseUSDPrice().call();
-
-    let event = {
-      id: eventInstance.options.address,
-      name: web3.utils.toAscii(await eventInstance.methods.name().call()),
-      owner: await eventInstance.methods.owner().call(),
-      startDate: moment.unix(await eventInstance.methods.startDate().call()).format('DD/MM/YYYY'),
-      endDate: moment.unix(await eventInstance.methods.endDate().call()).format('DD/MM/YYYY'),
-      ticketsRemaining: remaining,
-      price
-    };
-
-    dispatch({
-      type: SET_EVENT_DETAILS,
-      payload: {
-        ...getState().event,
-        ...event
-      }
-    });
+    //
+    // const { abis } = getState().terrapin;
+    // let eventInstance = getContractInstance(abis.event.abi, web3.utils.toHex(eventAddress));
+    //
+    // let remaining = await eventInstance.methods.getRemainingTickets().call();
+    // let price = await eventInstance.methods.baseUSDPrice().call();
+    //
+    // let event = {
+    //   id: eventInstance.options.address,
+    //   name: web3.utils.toAscii(await eventInstance.methods.name().call()),
+    //   owner: await eventInstance.methods.owner().call(),
+    //   startDate: moment.unix(await eventInstance.methods.startDate().call()).format('DD/MM/YYYY'),
+    //   endDate: moment.unix(await eventInstance.methods.endDate().call()).format('DD/MM/YYYY'),
+    //   ticketsRemaining: remaining,
+    //   price
+    // };
+    //
+    // dispatch({
+    //   type: SET_EVENT_DETAILS,
+    //   payload: {
+    //     ...getState().event,
+    //     ...event
+    //   }
+    // });
   };
 }
 

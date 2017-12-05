@@ -1,13 +1,5 @@
-import web3 from '../../../components/Web3.js';
 import pasync from 'pasync';
 import axios from 'axios';
-import EthereumTx from 'ethereumjs-tx';
-
-let getContractInstance = (abi, address) => {
-  const instance = new web3.eth.Contract(abi, address);
-  return instance;
-};
-
 
 // ------------------------------------
 // Constants
@@ -16,88 +8,40 @@ export const SET_TICKET_DETAILS = 'SET_TICKET_DETAILS';
 export const SET_EVENT_DETAILS = 'SET_EVENT_DETAILS';
 export const UPDATE_ORDER = 'UPDATE_ORDER';
 
-export function getEventInfo(eventAddress) {
+export function getEventInfo() {
   return async (dispatch, getState) => {
 
-    const { abis } = getState().terrapin;
-    let eventInstance = getContractInstance(abis.event.abi, web3.utils.toHex(eventAddress));
-    // this take FOREVERRR to return. THIS is where our caching service will make a big difference
-    let ticketAddresses = await eventInstance.methods.getTickets().call();
-    let eventOwner = await eventInstance.methods.owner().call();
-    let remaining = 0;
-    await pasync.each(ticketAddresses, async (ticketAddress) => {
-      let ticketInstance = getContractInstance(abis.ticket.abi, ticketAddress);
-      let ticketOwner = await ticketInstance.methods.owner().call();
-      if (eventOwner === ticketOwner) {
-        remaining++;
-      }
-    });
-
-    let event = {
-      id: eventInstance.options.address,
-      name: web3.utils.toAscii(await eventInstance.methods.name().call()),
-      owner: await eventInstance.methods.owner().call(),
-      date: web3.utils.toAscii(await eventInstance.methods.date().call()),
-      ticketsRemaining: remaining,
-      tickets: ticketAddresses,
-      price: await (getContractInstance(abis.ticket.abi, ticketAddresses[0]).methods.usdPrice().call())
-    };
-
-    dispatch({
-      type: SET_EVENT_DETAILS,
-      payload: {
-        ...getState().event,
-        ...event
-      }
-    });
   };
 }
 
 export function getEventAuxInfo(eventAddress) {
   return async (dispatch, getState) => {
 
-    let ticket = getState().ticket;
-    console.log('hits22');
-    let res = await axios({
-      url: `${SHAKEDOWN_URL}/event/${eventAddress}`,
-      method: 'get'
-    });
-
-    console.log('res: ', res);
-    console.log('event: ', event);
-
-    dispatch({
-      type: SET_EVENT_DETAILS,
-      payload: {
-        ...ticket.currentEvent,
-        ...res.data.event
-      }
-    });
   };
 }
 
 export const updateOrder = (order) => {
   return async (dispatch, getState) => {
-    let { abis } = getState().terrapin;
-    let availableTickets = [];
-    // if user sends single address, assume it's a single ticket
-    if (order.ticketAddress) {
-      availableTickets = [ order.ticketAddress ];
-    } else {
-      availableTickets = await getAvailableTickets(order.ticketQty, order.eventAddress, abis);
-    }
-
-    // let availableTickets = await getAvailableTickets(order.ticketQty, order.eventAddress, abis);
-    // get available tickets
-    // getAvailableTicket()
-    order = {
-      ...order,
-      ticketInstances: availableTickets
-    };
-    dispatch({
-      type: UPDATE_ORDER,
-      payload: order
-    });
+    // let { abis } = getState().terrapin;
+    // let availableTickets = [];
+    // // if user sends single address, assume it's a single ticket
+    // if (order.ticketAddress) {
+    //   availableTickets = [ order.ticketAddress ];
+    // } else {
+    //   availableTickets = await getAvailableTickets(order.ticketQty, order.eventAddress, abis);
+    // }
+    //
+    // // let availableTickets = await getAvailableTickets(order.ticketQty, order.eventAddress, abis);
+    // // get available tickets
+    // // getAvailableTicket()
+    // order = {
+    //   ...order,
+    //   ticketInstances: availableTickets
+    // };
+    // dispatch({
+    //   type: UPDATE_ORDER,
+    //   payload: order
+    // });
   };
 };
 
