@@ -68,7 +68,10 @@ $border-radius: 5px;
   }
 
   .total {
+    font-weight: bold;
     border-top: solid 2px #f0f1f2;
+    display: flex;
+    justify-content: space-between;
   }
 
 

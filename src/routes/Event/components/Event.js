@@ -134,11 +134,14 @@ class Event extends Component {
               </div>
               <div className="right-column">
                 <h3>Date</h3>
+                September 20-22, 2018
 
                 <h3>Location</h3>
                   {venueName} <br />
                   {venueAddress} <br />
-                  {venueCity}, {venueState} {venueZip}
+                  {venueCity}, {venueState} {venueZip} <br />
+
+                <h3>{website}</h3>
               </div>
             </div>
           </div>
