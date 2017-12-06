@@ -79,7 +79,7 @@ class Event extends Component {
 
   renderBuyButton() {
     return (
-      <button className="buy-ticket-button"><Link to='checkout'>
+      <button className="waves-effect waves-light buy-ticket-button"><Link to='checkout'>
         Buy Ticket
       </Link></button>
     );

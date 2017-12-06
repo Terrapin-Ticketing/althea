@@ -33,6 +33,7 @@
     "instascan": "^1.0.0",
     "jsonwebtoken": "^8.0.1",
     "lodash": "^4.17.4",
+    "material-ui": "^1.0.0-beta.22",
     "moment": "^2.19.2",
     "object-assign": "^4.1.1",
     "pasync": "^1.4.2",

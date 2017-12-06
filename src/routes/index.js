@@ -19,14 +19,14 @@ export const createRoutes = (store) => ({
   component: CoreLayout(store),
   indexRoute: Home,
   childRoutes: [
-    // LoginRoute(store, [ ]),
-    // EventRoute(store, [ ]),
+    LoginRoute(store, [ ]),
+    EventRoute(store, [ ]),
     EventsRoute(store, [ ]),
+    CheckoutRoute(store, [ ]),
     // EventManager(store, [ ]),
     // TicketRoute(store, [ ]),
     // CheckoutConfirmationRoute(store, [ ]),
     // UnlockRoute(store, [ requireAuth ]),
-    // CheckoutRoute(store, [ ]),
     // CreateEventRoute(store, [ requireAuth, requirePKTimeout, requirePK ]),
     // UserRoute(store, [ requireAuth, requirePKTimeout, requirePK ])
   ]

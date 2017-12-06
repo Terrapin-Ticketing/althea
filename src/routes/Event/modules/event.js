@@ -12,58 +12,28 @@ export const UPDATE_ORDER = 'UPDATE_ORDER';
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
-export function getEventInfo(eventAddress) {
+export function getEventInfo(eventId) {
   return async (dispatch, getState) => {
-    //
-    // const { abis } = getState().terrapin;
-    // let eventInstance = getContractInstance(abis.event.abi, web3.utils.toHex(eventAddress));
-    //
-    // let remaining = await eventInstance.methods.getRemainingTickets().call();
-    // let price = await eventInstance.methods.baseUSDPrice().call();
-    //
-    // let event = {
-    //   id: eventInstance.options.address,
-    //   name: web3.utils.toAscii(await eventInstance.methods.name().call()),
-    //   owner: await eventInstance.methods.owner().call(),
-    //   startDate: moment.unix(await eventInstance.methods.startDate().call()).format('DD/MM/YYYY'),
-    //   endDate: moment.unix(await eventInstance.methods.endDate().call()).format('DD/MM/YYYY'),
-    //   ticketsRemaining: remaining,
-    //   price
-    // };
-    //
-    // dispatch({
-    //   type: SET_EVENT_DETAILS,
-    //   payload: {
-    //     ...getState().event,
-    //     ...event
-    //   }
-    // });
-  };
-}
+    let currentEvent = {
+      id: eventId,
+      name: 'Test Event',
+      price: 5,
+      venue: {
+        name: 'Test Venue',
+        address: '123 Fake Street',
+        city: 'Fake City',
+        state: 'OH',
+        zipcode: 12345
+      },
+      // backgroundColor:
+      imageUrl: 'https://scontent.fluk1-1.fna.fbcdn.net/v/t31.0-8/24313276_10155983241603336_536130591003332189_o.jpg?oh=e11833f4696ea7867b931d36937d0071&oe=5A95E5EE',
+      description: 'The law of Resonance provides the answers as to how the law of attraction operates and creates the events, conditions and circumstances in your life. A gathering of like minded, motivated, music loving individuals.',
+      website: 'http://TestEvent.com'
+    };
 
-export function getEventAuxInfo(eventAddress) {
-  return async (dispatch, getState) => {
-
-    let event = getState().event;
-    let payload = {};
-    try {
-      let res = await axios({
-        url: `${SHAKEDOWN_URL}/event/${eventAddress}`,
-        method: 'get'
-      });
-      payload = {
-        ...event.currentEvent,
-        ...res.data.event
-      };
-    } catch (e) {
-      console.log('no aux data found');
-      payload = {
-        ...event.currentEvent,
-      };
-    }
     dispatch({
       type: SET_EVENT_DETAILS,
-      payload
+      payload: currentEvent
     });
   };
 }
@@ -146,7 +116,6 @@ export const buyTicket = (event, qty) => {
 
 export const actions = {
   getEventInfo,
-  getEventAuxInfo,
   updateOrder,
   buyTicket
 };
@@ -158,10 +127,7 @@ const ACTION_HANDLERS = {
   [SET_EVENT_DETAILS]: (state, action) => {
     return {
       ...state,
-      currentEvent: {
-        ...state.currentEvent,
-        ...action.payload
-      }
+      currentEvent: action.payload
     };
   },
   [UPDATE_ORDER]: (state, action) => {
@@ -176,7 +142,8 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  currentEvent: {}
+  currentEvent: {},
+  order: { ticketQty: 1 }
 };
 
 export default function eventReducer(state = initialState, action) {

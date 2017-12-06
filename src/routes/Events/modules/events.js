@@ -13,9 +13,25 @@ export const CLEAR_EVENTS = 'CLEAR_EVENTS';
     creating async actions, especially when combined with redux-thunk! */
 export function getEvents() {
   return async (dispatch, getState) => {
-    let res = await axios.get(`${SHAKEDOWN_URL}/events`);
+    // let res = await axios.get(`${SHAKEDOWN_URL}/events`);
 
-    console.log(res);
+    let res = { events: [
+      {
+        id: 123,
+        name: 'Test Event 1',
+        price: 5,
+      },
+      {
+        id: 124,
+        name: 'Test Event 2',
+        price: 5,
+      },
+      {
+        id: 125,
+        name: 'Test Event 3',
+        price: 5,
+      }
+    ]};
 
     dispatch({
       type: SET_EVENTS,

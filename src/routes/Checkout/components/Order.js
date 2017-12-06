@@ -21,6 +21,7 @@ class Order extends React.Component {
 
   renderTickets() {
     let { order, event } = this.props;
+    console.log('this.props: ', this.props);
     return (
       <tr key={event.id} className="order-details-rows">
         <td>{event.id.substring(0, 8)}...</td>

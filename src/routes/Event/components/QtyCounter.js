@@ -21,12 +21,12 @@ class QtyCounter extends Component {
     let { ticketsRemaining } = this.props;
     return (
       <div className="ticket-qty">
-        <button className="ripple qty-control" onClick={() => {
+        <button className="waves-effect qty-control btn terrapin-green" onClick={() => {
           (count > 0) && this.setState({count: count - 1});
           (count > 0) && this.onChange(count - 1);
         }}>-</button>
           <span className='current-qty'> {this.props.count} </span>
-          <button className="ripple qty-control" onClick={() => {
+          <button className="waves-effect qty-control btn terrapin-green" onClick={() => {
             (ticketsRemaining > count) && this.setState({count: count + 1});
             (ticketsRemaining > count) && this.onChange(count + 1);
           }}>+</button>

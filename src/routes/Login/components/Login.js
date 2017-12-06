@@ -54,7 +54,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div className='route-container login-container card'>
+      <div className='route-container login-container container card'>
         <div className='login-form-container'>
           <div className='login-type-container'>
             <button
@@ -69,13 +69,13 @@ class Login extends Component {
             </button>
           </div>
 
-          <form className='login-form' onSubmit={this.handleSubmit}>
-            <label className='label'>
-              <span>Email:</span>
-              <input type="text" value={this.state.email} onChange={(e) => {
+          <form className='col s12' onSubmit={this.handleSubmit}>
+            <div class="input-field col s6">
+              <label for="last_name">Last Name</label>
+              <input id="last_name" type="text" class="validate" value={this.state.email} onChange={(e) => {
                 this.setState({email: e.target.value});
               }} />
-            </label>
+            </div>
             <label className='label'>
               <span>Password:</span>
               <input type="text" value={this.state.password} onChange={(e) => {

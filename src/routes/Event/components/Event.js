@@ -16,7 +16,7 @@ class Event extends Component {
     this.state = {
       buyModalOpen: false,
       isLoading: false,
-      ticketQty: 0
+      ticketQty: 1
     };
     // this.buyTicket = this.buyTicket.bind(this);
     this.updateOrder = this.updateOrder.bind(this);
@@ -27,21 +27,11 @@ class Event extends Component {
   componentDidMount() {
     let { id, ticketId } = this.props.params;
     this.props.getEventInfo(id);
-    this.props.getEventAuxInfo(id);
-    if (ticketId) {
-      this.updateOrder(1, ticketId);
-    }
   }
 
   async updateOrder(ticketQty, ticketAddress) {
     this.setState({ ticketQty });
     let paymentType = 'USD';
-    // console.log('ORDER:', {
-    //   ticketQty,
-    //   paymentType,
-    //   ticketAddress,
-    //   eventAddress: this.props.params.id
-    // });
     this.props.updateOrder({
       ticketQty,
       paymentType,
@@ -50,10 +40,6 @@ class Event extends Component {
   }
 
   renderTickets() {
-    // let { tickets } = this.props.event;
-    // return tickets.map((ticket, index) => {
-    //   return <tr><td>{ticket.type.name}</td><td>{ticket.type.price}</td><td>Qty: Up/Down Selector</td></tr>
-    // });
     return (
       <tr>
         <td>General Admission</td>
@@ -80,15 +66,13 @@ class Event extends Component {
 
   renderBuyButton() {
     return (
-      <button className="ripple buy-ticket-button"><Link to='checkout'>
-        Buy Ticket
-      </Link></button>
+      <button onClick={()=> browserHistory.push('checkout')} className="waves-effect waves-light btn-large terrapin-green">Buy Tickets</button>
     );
   }
 
   render() {
-    let { backgroundColor, primaryColor, imageUrl, textColor, description, website,
-      venueName, venueAddress, venueState, venueCity, venueZip } = this.props.event;
+    console.log('this.props.event', this.props.event);
+    let { backgroundColor, textColor, description, website, venue } = this.props.event;
     let { isLoading } = this.state;
     if (!this.props.event.name) {
       return (
@@ -103,9 +87,9 @@ class Event extends Component {
     );
 
     return (
-      <div style={{backgroundColor: backgroundColor, color: textColor }} className="route-container">
+      <div style={{backgroundColor: backgroundColor, color: textColor }} className="container">
             <EventInfoContainer event={this.props.event} />
-            <div className='event-inner-container'>
+            <div className='card'>
               {(this.props.params.ticketId) ? (
                 <div className='ticket-bar'>
                   { childrenWithProps }
@@ -127,6 +111,17 @@ class Event extends Component {
                 </div>
               )}
             <div className='event-bottom-info'>
+<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+
+<div id="modal1" className="modal">
+  <div className="modal-content">
+    <h4>Modal Header</h4>
+    <p>A bunch of text</p>
+  </div>
+  <div className="modal-footer">
+    <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+  </div>
+</div>
               <div className="left-column">
                 <h2>Description</h2>
                 { /* TODO: Probably shouldn't allow this to be put in this way... */}
@@ -137,9 +132,9 @@ class Event extends Component {
                 September 20-22, 2018
 
                 <h3>Location</h3>
-                  {venueName} <br />
-                  {venueAddress} <br />
-                  {venueCity}, {venueState} {venueZip} <br />
+                  {venue.name} <br />
+                  {venue.address} <br />
+                  {venue.city}, {venue.state} {venue.zip} <br />
 
                 <h3>{website}</h3>
               </div>
