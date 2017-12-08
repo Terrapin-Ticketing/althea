@@ -9,22 +9,18 @@ import Price from '../../../components/shared/Price';
 class Order extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      etherPrice: null
-    };
+    this.state = { };
   }
 
   async componentDidMount() {
-    let etherPrice = await this.props.priceToEther(this.props.total);
-    this.setState({ etherPrice });
+
   }
 
   renderTickets() {
     let { order, event } = this.props;
-    console.log('this.props: ', this.props);
     return (
       <tr key={event.id} className="order-details-rows">
-        <td>{event.id.substring(0, 8)}...</td>
+        <td className="name-column">{event.id.substring(0, 8)}...</td>
         <td>{order.ticketQty}</td>
         <td className="price"><Price price={event.price} /></td>
       </tr>
@@ -32,27 +28,25 @@ class Order extends React.Component {
   }
 
   render() {
-    let { serviceFee, cardFee, total, event, order, user,
-      onPaymentTypeChange, buyTicketsWithEther, buyTicketsWithStripe,
-      paymentType
-    } = this.props;
+    let { serviceFee, cardFee, total } = this.props;
 
     return (
-        <div className="order-details">
+        <div className="order-details col s12 l6">
           <h2>Order Details</h2>
           <div className="order-box">
-            <table className="order-table">
+            <table className="order-table bordered">
+              <thead>
+                <tr className="order-details-header">
+                  <th className="name-column">Event</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
               <tbody>
-                <th className="order-details-header">
-                  <td>Event</td>
-                  <td>Quantity</td>
-                  <td>Price</td>
-                </th>
                 { this.renderTickets() }
-
-                <tr className="service-fee">Service Fee <span><Price price={serviceFee} /></span></tr>
-                <tr className="card-fee">Credit Card Processing <span><Price price={cardFee} /></span></tr>
-                <tr className="total">Total: <span><Price price={total} /></span></tr>
+                <tr className="service-fee"><td className="name-column">Service Fee</td><td></td><td><Price price={serviceFee} /></td></tr>
+                <tr className="card-fee"><td className="name-column">Credit Card Processing</td><td></td><td><Price price={cardFee} /></td></tr>
+                <tr className="total"><td className="name-column">Total:</td><td></td><td><Price price={total} /></td></tr>
               </tbody>
             </table>
           </div>

@@ -41,16 +41,19 @@ class CheckoutForm extends React.Component {
     let { classname } = this.props;
     return (
       <form onSubmit={this.handleSubmit} className={`checkout-form ${classname}`}>
-        <label>
-          Card details
-          <CardNumberElement style={{base: {fontSize: '18px'}}} />
-          <CardExpiryElement style={{base: {fontSize: '18px'}}} />
-          <CardCVCElement style={{base: {fontSize: '18px'}}} />
-        </label>
+          <div className="input-field col s12">
+            <CardNumberElement style={{base: {fontSize: '18px'}}} />
+          </div>
+          <div className="input-field col s12">
+            <CardExpiryElement style={{base: {fontSize: '18px'}}} />
+          </div>
+          <div className="input-field col s12">
+            <CardCVCElement style={{base: {fontSize: '18px'}}} />
+          </div>
         <div className='error'>
           {this.renderError()}
         </div>
-        <button type="submit">Confirm order</button>
+        <button className="wave-effect waves-light btn btn-large terrapin-green" type="submit">Confirm order</button>
       </form>
     );
   }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import Order from './Order';
 import Payment from './Payment'
@@ -33,26 +34,6 @@ class Checkout extends Component {
     return (event.price * order.ticketQty) + fees;
   }
 
-  onPaymentTypeChange(paymentType) {
-    let { event, order } = this.props;
-    if (paymentType === 'USD') {
-      let cardFee = (event.price * .029) + 30;
-      this.setState({
-        serviceFee: 1,
-        cardFee,
-        total: this.calculateTotal(1 + cardFee),
-        paymentType,
-      });
-    } else if (paymentType === 'ETH') {
-      this.setState({
-        serviceFee: 0,
-        cardFee: 15 * order.ticketQty,
-        total: this.calculateTotal(0 + 1),
-        paymentType,
-      });
-    }
-  }
-
   async registerUser() {
     let { signup } = this.props;
     let { userData } = this.state;
@@ -67,60 +48,46 @@ class Checkout extends Component {
     await buyTicketsStripe(token, order);
   }
 
-  async buyTicketsWithEther() {
-    await this.registerUser();
-    let { buyTicketsWithEther, order, user } = this.props;
-    if (!user.privateKey) return browserHistory.push('/unlock-account');
-    let transactionsList = await buyTicketsWithEther(order);
-    console.log('transactionsList: ', transactionsList);
-    browserHistory.push('/CheckoutConfirmation');
-  }
-
   async onRegister(userData) {
     this.setState({ userData });
   }
 
   render() {
-    let { serviceFee, cardFee, total, etherPrice, paymentType } = this.state;
-    let { order, event, user, priceToEther } = this.props;
+    let { serviceFee, cardFee, total } = this.state;
+    let { order, event, user } = this.props;
 
     return (
-      <div className='route-container'>
+      <div className='container'>
         <EventInfo event={event} />
+
+        <ReactCSSTransitionGroup
+          transitionAppear={true}
+          transitionAppearTimeout={600}
+          transitionEnterTimeout={600}
+          transitionLeaveTimeout={200}
+          transitionName="SlideIn" >
 
         { user ? (<span></span>) : (<Register onRegister={this.onRegister.bind(this)} />) }
 
-        {/* <OrderSummary /> */}
+        <div className="row card checkout-information">
+              <Order
+                serviceFee={serviceFee}
+                cardFee={cardFee}
+                total={total}
+                order={order}
+                event={event}
+                user={user}
+                buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
+              />
 
-        {/* <PaymentMethod /> */}
-
-        <div className="route-container checkout-container card">
-          <Order
-            serviceFee={serviceFee}
-            cardFee={cardFee}
-            total={total}
-            order={order}
-            event={event}
-            etherPrice={etherPrice}
-            user={user}
-            paymentType={paymentType}
-            onPaymentTypeChange={this.onPaymentTypeChange.bind(this)}
-            buyTicketsWithEther={this.buyTicketsWithEther.bind(this)}
-            buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
-          />
-
-          <Payment
-            total={total}
-            order={order}
-            event={event}
-            etherPrice={etherPrice}
-            user={user}
-            paymentType={paymentType}
-            onPaymentTypeChange={this.onPaymentTypeChange.bind(this)}
-            buyTicketsWithEther={this.buyTicketsWithEther.bind(this)}
-            buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
-          />
+              <Payment
+                order={order}
+                event={event}
+                user={user}
+                buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
+              />
         </div>
+      </ReactCSSTransitionGroup>
       </div>
     );
   }

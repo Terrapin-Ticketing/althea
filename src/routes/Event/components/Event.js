@@ -27,6 +27,20 @@ class Event extends Component {
   componentDidMount() {
     let { id, ticketId } = this.props.params;
     this.props.getEventInfo(id);
+    $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrainWidth: false, // Does not change width of dropdown to that of the activator
+      hover: false, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false, // Displays dropdown below the button
+      alignment: 'left', // Displays dropdown with edge aligned to the left of button
+      stopPropagation: false // Stops event propagation
+    }
+);
+
+
+
   }
 
   async updateOrder(ticketQty, ticketAddress) {
@@ -71,7 +85,6 @@ class Event extends Component {
   }
 
   render() {
-    console.log('this.props.event', this.props.event);
     let { backgroundColor, textColor, description, website, venue } = this.props.event;
     let { isLoading } = this.state;
     if (!this.props.event.name) {
@@ -79,7 +92,7 @@ class Event extends Component {
         <Loading />
       );
     }
-    console.log('ticket props: ', this.props);
+
     const childrenWithProps = React.Children.map(this.props.children,
      (child) => React.cloneElement(child, {
        updateOrder: this.updateOrder.bind(this)
@@ -111,17 +124,16 @@ class Event extends Component {
                 </div>
               )}
             <div className='event-bottom-info'>
-<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+              <a className='dropdown-button btn' data-activates='dropdown1'>Drop Me!</a>
 
-<div id="modal1" className="modal">
-  <div className="modal-content">
-    <h4>Modal Header</h4>
-    <p>A bunch of text</p>
-  </div>
-  <div className="modal-footer">
-    <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-  </div>
-</div>
+              <ul id='dropdown1' className='dropdown-content'>
+                <li><a href="#!">one</a></li>
+                <li><a href="#!">two</a></li>
+                <li className="divider"></li>
+                <li><a href="#!">three</a></li>
+                <li><a href="#!"><i className="material-icons">view_module</i>four</a></li>
+                <li><a href="#!"><i className="material-icons">cloud</i>five</a></li>
+              </ul>
               <div className="left-column">
                 <h2>Description</h2>
                 { /* TODO: Probably shouldn't allow this to be put in this way... */}

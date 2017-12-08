@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 import {StripeProvider} from 'react-stripe-elements';
 
 class App extends React.Component {
@@ -22,9 +24,9 @@ class App extends React.Component {
     return (
       <Provider store={this.props.store}>
         <StripeProvider apiKey={STRIPE_PUBLIC_KEY}>
-          <div style={{ height: '100%' }}>
-            <Router history={browserHistory} children={this.props.routes} />
-          </div>
+            <div style={{ height: '100%' }}>
+              <Router history={browserHistory} children={this.props.routes} />
+            </div>
         </StripeProvider>
       </Provider>
     );
