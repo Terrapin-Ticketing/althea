@@ -15,29 +15,7 @@ class ViewTicketModal extends Component {
   }
 
   async createQrCode(eventAddress, ticketAddress) {
-    // let { privateKey } = this.props.user;
-    //
-    // let message = JSON.stringify({
-    //   eventAddress, ticketAddress
-    // });
-    //
-    // // ecsign requires a sha3 string
-    // let messageHash = web3.utils.sha3(message);
-    // let messageHashx = Buffer.from(messageHash.substring(2), 'hex');
-    // let signedMessage = ethUtils.ecsign(messageHashx, privateKey);
-    // let signedHash = ethUtils.toRpcSig(signedMessage.v, signedMessage.r, signedMessage.s).toString('hex');
-    //
-    // let qrCodeHex = `${message}-0x${messageHashx.toString('hex')}-${signedHash}`;
-    //
-    // await new Promise((resolve, reject) => {
-    //   let canvCtx = this.qrCanvas;
-    //   QRCode.toCanvas(canvCtx, qrCodeHex, (error) => {
-    //     if (error) return reject(error);
-    //     resolve();
-    //   });
-    // });
-    //
-    // return qrCodeHex;
+    
   }
 
   render() {

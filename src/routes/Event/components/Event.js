@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
 import classNames from 'classnames';
 import ReactModal from 'react-modal';
-import web3 from 'web3';
 import QtyCounter from './QtyCounter';
 import EventInfoContainer from './../../../components/shared/EventInfo';
 import Price from './../../../components/shared/Price';

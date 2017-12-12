@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import web3 from 'web3';
 import './CreateEvent.scss';
 
 class CreateEvent extends Component {
