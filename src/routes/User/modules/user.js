@@ -1,4 +1,5 @@
 import pasync from 'pasync';
+import axios from 'axios';
 
 export const GET_USER_INFO = 'GET_USER_INFO';
 export const SET_USER_EVENTS = 'SET_USER_EVENTS';
@@ -9,6 +10,14 @@ export const LOGOUT = 'LOGOUT';
 
 export const getUserTickets = () => {
   return async (dispatch, getState) => {
+    let { data: { tickets } } = await axios(`${SHAKEDOWN_URL}/tickets/find`,
+      { method: 'post', withCredentials: true,
+      data: { query: {ownerId: getState().auth.user._id}}});
+
+    dispatch({
+      type: SET_USER_TICKETS,
+      payload: tickets
+    });
   };
 };
 
@@ -17,8 +26,31 @@ export const getUserEvents = () => {
   };
 };
 
-export const getUserBalance = () => {
-  return (dispatch, getState) => {
+export const transferTicket = (ticketAddress, recipientAddress) => {
+  return async (dispatch, getState) => {
+    console.log('transfer');
+  };
+};
+
+export const toggleForSale = (ticket, index) => {
+  return async (dispatch, getState) => {
+    let isForSale = !ticket.isForSale; // invert isForSale
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/tickets/${ticket.id}/sell`,
+      method: 'post',
+      data: {isForSale},
+      withCredentials: true
+    });
+
+    console.log('res: ', res);
+
+    let tickets = getState().user.tickets;
+    tickets[index] = res.body
+
+    dispatch({
+      type: 'SET_USER_TICKETS',
+      payload: tickets
+    });
   };
 };
 

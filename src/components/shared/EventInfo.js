@@ -15,7 +15,7 @@ class EventInfo extends Component {
       venueName, venueAddress, venueState, venueCity, venueZip } = this.props.event;
     console.log('this.props.event: ', this.props.event);
     return (
-      <div className="event-outer-container">
+      <div className="event-outer-container card">
         <div className="blurred-contianer">
           <div className='blured-background' style={{backgroundImage: `url(${imageUrl})`}}></div>
         </div>

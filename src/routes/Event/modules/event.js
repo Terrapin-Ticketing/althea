@@ -14,6 +14,8 @@ export const UPDATE_ORDER = 'UPDATE_ORDER';
     creating async actions, especially when combined with redux-thunk! */
 export function getEventInfo(eventId) {
   return async (dispatch, getState) => {
+    let { data: { event } } = await axios.get(`${SHAKEDOWN_URL}/events/${eventId}`);
+    console.log('event: ', event);
     let currentEvent = {
       id: eventId,
       name: 'Test Event',
@@ -33,7 +35,7 @@ export function getEventInfo(eventId) {
 
     dispatch({
       type: SET_EVENT_DETAILS,
-      payload: currentEvent
+      payload: event
     });
   };
 }

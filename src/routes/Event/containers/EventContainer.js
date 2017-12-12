@@ -19,7 +19,6 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => {
-  console.log('state: ', state);
   return {
     event: state.event.currentEvent
   };

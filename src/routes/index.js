@@ -10,7 +10,8 @@ import CheckoutRoute from './Checkout';
 import CheckoutConfirmationRoute from './CheckoutConfirmation';
 import EventManager from './EventManager';
 import TicketRoute from './Ticket';
-import Transition from '../utils/AppearTransition.js';
+import Transition from '../utils/AppearTransition';
+import requireAuth from '../utils/requireAuth';
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -20,16 +21,15 @@ export const createRoutes = (store) => ({
   component: CoreLayout(store),
   indexRoute: Home,
   childRoutes: [
-    LoginRoute(store, [ ]),
+    LoginRoute(store, [ Transition ]),
     EventRoute(store, [ Transition ]),
-    EventsRoute(store, [ ]),
+    EventsRoute(store, [ requireAuth ]),
     CheckoutRoute(store, [ ]),
+    UserRoute(store, [ requireAuth, Transition ]),
+    TicketRoute(store, [ Transition ]),
     // EventManager(store, [ ]),
-    // TicketRoute(store, [ ]),
     // CheckoutConfirmationRoute(store, [ ]),
-    // UnlockRoute(store, [ requireAuth ]),
     // CreateEventRoute(store, [ requireAuth, requirePKTimeout, requirePK ]),
-    // UserRoute(store, [ requireAuth, requirePKTimeout, requirePK ])
   ]
 });
 

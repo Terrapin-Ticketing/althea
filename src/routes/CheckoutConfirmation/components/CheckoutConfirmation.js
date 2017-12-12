@@ -22,7 +22,6 @@ class CheckoutConfirmation extends Component {
   }
 
   render() {
-    console.log('confirm.props: ', this.props);
     let { transactions, order, event, user } = this.props;
     let { email, walletAddress } = user;
     let cardFee = 5;

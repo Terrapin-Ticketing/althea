@@ -4,6 +4,7 @@ import { Link, browserHistory } from 'react-router';
 import ReactModal from 'react-modal';
 import './User.scss';
 import Price from '../../../components/shared/Price';
+import TicketTransferModal from '../../Ticket/components/TicketTransferModal';
 
 class User extends Component {
   constructor(props) {
@@ -23,25 +24,24 @@ class User extends Component {
     };
   }
 
-  async loadData() {
-    await this.props.getUserEvents();
-    await this.props.getUserTickets();
-    await this.props.getUserBalance();
-    this.setState({ dataLoaded: true });
-  }
-
   componentDidMount() {
-    if (!this.state.dataLoaded && this.props.user && this.props.user.walletAddress) {
-      this.loadData();
-    }
-  }
+    this.props.getUserEvents();
+    this.props.getUserTickets();
+    $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrainWidth: false, // Does not change width of dropdown to that of the activator
+      hover: false, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false, // Displays dropdown below the button
+      alignment: 'left', // Displays dropdown with edge aligned to the left of button
+      stopPropagation: false // Stops event propagation
+    });
 
-  // componentWillReceiveProps() {
-  //  // need this for live updating of people buying tickets
-  //   if (!this.state.dataLoaded && this.props.user && this.props.user.walletAddress) {
-  //     this.loadData();
-  //   }
-  // }
+    $('.modal').modal({
+      complete: function() { alert('Closed'); }
+    });
+  }
 
   async sellTicket(ticket) {
     await this.props.sellTicket(ticket);
@@ -51,23 +51,53 @@ class User extends Component {
     this.setState({ dataLoaded: false });
   }
 
+  openTicketTransferModal(ticket) {
+    this.setState({transferTicketModalOpen: true, selectedTicket: ticket});
+  }
+
   ticketClick(ticket) {
     return (e) => {
-      browserHistory.push(`event/${ticket.eventId}/ticket/${ticket.id}`);
+      browserHistory.push(`event/${ticket.event.id}/ticket/${ticket.id}`);
     };
+  }
+  
+  toggleForSale(ticket) {
+    this.props.toggleForSale(ticket);
   }
 
   renderTickets() {
     if (this.props.tickets) {
       return (
         this.props.tickets.map((ticket, index) => {
+
           return (
-              <tr className={`ticket-row ${(index%2 === 0) ? 'odd' : null}`} key={ticket.id} onClick={this.ticketClick(ticket).bind(this)}>
-                  <td>{ticket.name}</td>
+              <tr className={`ticket-row ${(index%2 === 0) ? 'odd' : null}`} key={ticket.id}>
+                  <td className="col s6">
+                    <span className="title">{ticket.event.name} <small className="super-small"><i>{ticket.id}</i></small></span> <br />
+                    <small className="caption">{ticket.event.venue.city}, {ticket.event.venue.state}</small>
+                  </td>
+                  <td> <div className="switch">
+                    <label>
+                    <input type="checkbox"
+                      checked={ticket.isForSale}
+                      onChange={() => this.toggleForSale(ticket)}
+                    /><span className="lever"></span>
+                    </label>
+                  </div></td>
                   <td><Price price={ticket.price} /></td>
-                  <td>{JSON.stringify(ticket.isRedeemed)}</td>
-                  <td className="actions">
-                    <button name="action-button" onClick={this.ticketClick(ticket).bind(this)}>Manage</button>
+                  <td>
+                    {/* <button name="action-button" className="btn terrapin-green" onClick={this.ticketClick(ticket).bind(this)}>Manage</button> */}
+                    <button className='dropdown-button btn' data-activates={`dropdown-${index}`}>Actions</button>
+
+                    <ul id={`dropdown-${index}`} className='dropdown-content'>
+                      <li onClick={this.ticketClick(ticket).bind(this)}><a href="#!"><i className="material-icons">event_seat</i>View Ticket</a></li>
+                      <li className="divider"></li>
+                      <li><a href="#!"><i className="material-icons">link</i>Permalink</a></li>
+                      <li onClick={() => this.setState({transferTicketModalOpen: true, selectedTicket: ticket})}><a href="#!"><i className="material-icons">email</i>Transfer via Email</a></li>
+                      <li><a href="#!"><i className="material-icons">attach_money</i>Mark as For Sale</a></li>
+                      <li className="divider"></li>
+                      <li><a href="#!"><i className="material-icons">event</i>View Event</a></li>
+                    </ul>
                   </td>
               </tr>
           );
@@ -103,47 +133,63 @@ class User extends Component {
     const { email, walletAddress, encryptedPrivateKey } = this.props.user;
     const { balance } = this.props;
     return (
-      <div className="route-container">
-        <div className='card'>
-          <h1>{email}</h1>
-          <div className="profile-info">
-            <div className="profile-left">
-              <span className='profile-item'>Private Key: {`${encryptedPrivateKey.slice(0, 10)}...`}</span>
-              <span className='profile-item'>Balance: {(balance) ? `${web3.utils.fromWei(balance, 'ether')} ETH` : null}</span>
-            </div>
-            <div className="profile-right">
-              {/* Nothing here...   */}
+      <div className="route-container container">
+        <div className='card col s12'>
+          <div className="card-content">
+            <h1>{email}</h1>
+            <div className="profile-info">
+              <div className="profile-left">
+              </div>
+              <div className="profile-right">
+                {/* Nothing here...   */}
+              </div>
             </div>
           </div>
         </div>
-        <div className="user-container card">
-          <h2>Tickets</h2>
-          <table className="tickets-table">
-            <th>
-              <td>Name</td>
-              <td className="qty">Price</td>
-              <td>isRedeemed</td>
-              <td>Actions</td>
-            </th>
-            <tbody>
-              {this.renderTickets()}
-            </tbody>
-          </table>
+        <div className="card col s12">
+          <div className="card-content">
+            <h2>Tickets</h2>
+            <table className="highlight responsive-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <td>For Sale</td>
+                  <th className="qty">Price</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.renderTickets()}
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div className="user-container card">
-          <h2>Events</h2>
-          <table className="events-table">
-            <th>
-              <td>Name</td>
-              <td>Price</td>
-              <td>Qty</td>
-              <td>Actions</td>
-            </th>
-            <tbody>
-              {this.renderEvents()}
-            </tbody>
-          </table>
+        <div className="card col s12">
+          <div className="card-content">
+            <h2>Events</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Qty</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.renderEvents()}
+              </tbody>
+            </table>
+          </div>
         </div>
+
+        <TicketTransferModal
+          ticket={this.state.selectedTicket}
+          closeModal={() => this.setState({transferTicketModalOpen: false, selectedTicket: null })}
+          isOpen={this.state.transferTicketModalOpen}
+          transferTicket={this.props.transferTicket} />
+
+
       </div>
     );
   }

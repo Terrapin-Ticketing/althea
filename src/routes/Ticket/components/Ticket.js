@@ -19,8 +19,7 @@ class Ticket extends Component {
   componentDidMount() {
     this.props.getTicketInfo(this.props.params.ticketAddress);
     this.props.getEventInfo(this.props.params.eventAddress);
-    this.props.getEventAuxInfo(this.props.params.eventAddress);
-    this.props.updateOrder(1);
+    $('.collapsible').collapsible();
   }
 
   renderTicketInfo() {
@@ -60,24 +59,44 @@ class Ticket extends Component {
       );
     }
     return (
-      <div className='route-container'>
+      <div className='route-container container'>
         <EventInfo event={this.props.event} />
+
+        <ul className="collapsible" data-collapsible="accordion">
+          <li>
+            <div className="collapsible-header"><i className="material-icons">pageview</i>Click to View Barcode</div>
+            <div className="collapsible-body center">
+              <img src={require('../../../layouts/assets/img/barcode.png')} /> <br />
+              <span>This is the barcode that will be scanned to get you into the event.</span>
+            </div>
+          </li>
+        </ul>
+
         <div className="card">
-          <h2>Ticket Details</h2>
-          <div className="ticket-details-header">
-            <span className="ticket-type">Ticket Type</span>
-            <span>Price</span>
-            <span>Is Redeemed</span>
-            <span>Is For Sale</span>
+            <div className="card-content">
+            <span className="card-title"><h2>Ticket Details</h2></span>
+            <div className="ticket-details-header">
+              <span className="ticket-type">Ticket Type</span>
+              <span>Price</span>
+              <span>Is Redeemed</span>
+              <span>Is For Sale</span>
+            </div>
+            {this.renderTicketInfo()}
           </div>
-          {this.renderTicketInfo()}
         </div>
         <div className="card">
-          <h2>Ticket Actions</h2>
-          <button name="action-button" onClick={() => this.openTicketViewModal(this.props.ticket)}>View Barcode</button>
-          <button name="action-button" onClick={() => this.sellTicket(this.props.ticket)}>Sell Ticket</button>
-          <button name="action-button" onClick={() => this.openTicketTransferModal(this.props.ticket)}>Transfer</button>
-          <button name="action-button">View History</button>
+          <div className="card-content">
+            <span className="card-title"><h2>Ticket Actions</h2></span>
+
+            <ul className="collection">
+              <a className="collection-item"><i className="material-icons">event_seat</i><span>View Barcode</span></a>
+              <a className="collection-item"><i className="material-icons">link</i><span>Permalink</span></a>
+              <a className="collection-item"><i className="material-icons">attach_money</i><span>Mark as For Sale</span></a>
+              <a className="collection-item"><i className="material-icons">payment</i><span>Mark as For Sale</span></a>
+              <a className="collection-item"><i className="material-icons">email</i><span>Transfer via Email</span></a>
+              <a className="collection-item disabled"><i className="material-icons">history</i><span>View History</span></a>
+            </ul>
+          </div>
         </div>
         <TicketViewModal
           ticket={this.state.selectedTicket}

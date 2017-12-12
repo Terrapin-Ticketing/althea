@@ -87,33 +87,9 @@ export function getEventInfo(eventAddress) {
   };
 }
 
-export function getEventAuxInfo(eventAddress) {
-  return async (dispatch, getState) => {
-    //
-    // let event = getState().eventManager.event;
-    // console.log('hits22');
-    // let res = await axios({
-    //   url: `${SHAKEDOWN_URL}/event/${eventAddress}`,
-    //   method: 'get'
-    // });
-    //
-    // console.log('res: ', res);
-    // console.log('event: ', event);
-    //
-    // dispatch({
-    //   type: SET_EVENT_DETAILS,
-    //   payload: {
-    //     ...event,
-    //     ...res.data.event
-    //   }
-    // });
-  };
-}
-
 export const actions = {
   getEventTickets,
-  getEventInfo,
-  getEventAuxInfo
+  getEventInfo
 };
 
 // ------------------------------------

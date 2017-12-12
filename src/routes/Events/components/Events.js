@@ -21,11 +21,11 @@ class Events extends Component {
 
   renderListItem(item, index) {
     return (
-      <tr key={item.id}>
+      <tr key={item._id}>
         <td>{item.name}</td>
         <td><Price price={item.price}/></td>
         <td>{item.qty} Left</td>
-        <td><Link to={`/event/${item.id}`}><button className="btn waves-effect waves-light terrapin-green">Select Event</button></Link></td>
+        <td><Link to={`/event/${item._id}`}><button className="btn waves-effect waves-light terrapin-green">Select Event</button></Link></td>
       </tr>
     );
   }

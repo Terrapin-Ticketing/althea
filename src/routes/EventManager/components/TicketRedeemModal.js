@@ -43,10 +43,16 @@ class TicketRedeemModal extends Component {
       <ReactModal
         isOpen={isOpen}
         contentLabel="Redeem Ticket Modal"
-        // onAfterOpen={() => {
-        //   const { ticket } = this.props;
-        //   this.props.redeemTicket(ticket.id);
-        // }}
+        className={{
+          base: 'modal',
+          afterOpen: 'modal',
+          beforeClose: 'modal'
+        }}
+        overlayClassName={{
+          base: 'modal-overlay',
+          afterOpen: 'modal-overlay',
+          beforeClose: 'modal-overlay'
+        }}
         onRequestClose={() => closeModal()}
         style={require('./../../../layouts/modal-styles').default}
         >

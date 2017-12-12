@@ -13,54 +13,13 @@ export const CLEAR_EVENTS = 'CLEAR_EVENTS';
     creating async actions, especially when combined with redux-thunk! */
 export function getEvents() {
   return async (dispatch, getState) => {
-    // let res = await axios.get(`${SHAKEDOWN_URL}/events`);
-
-    let res = { events: [
-      {
-        id: 123,
-        name: 'Test Event 1',
-        price: 5,
-      },
-      {
-        id: 124,
-        name: 'Test Event 2',
-        price: 5,
-      },
-      {
-        id: 125,
-        name: 'Test Event 3',
-        price: 5,
-      }
-    ]};
+    let { data: { events } } = await axios(`${SHAKEDOWN_URL}/events/find`, { method: 'post', withCredentials: true });
+    console.log('events: ', events);
 
     dispatch({
       type: SET_EVENTS,
-      payload: res.events
+      payload: events
     });
-
-    // const { abis, terrapinAddress } = getState().terrapin;
-    //
-    // let terrapinInstance = getContractInstance(abis.terrapin.abi, terrapinAddress);
-    //
-    // let eventAddresses = await terrapinInstance.methods.getEvents().call();
-    // let events = [];
-    // await pasync.eachSeries(eventAddresses, async (eventAddress) => {
-    //   let eventInstance = getContractInstance(abis.event.abi, eventAddress);
-    //
-    //   let remaining = await eventInstance.methods.getRemainingTickets().call();
-    //
-    //   events.push({
-    //     id: eventInstance.options.address,
-    //     name: web3.utils.toAscii(await eventInstance.methods.name().call()),
-    //     qty: remaining,
-    //     price: await eventInstance.methods.baseUSDPrice().call()
-    //   });
-    //
-    //   dispatch({
-    //     type: SET_EVENTS,
-    //     payload: events
-    //   });
-    // });
   };
 }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Login.scss';
 import { browserHistory } from 'react-router';
+import classNames from 'classnames'
 
 class Login extends Component {
   constructor(props) {
@@ -54,58 +55,58 @@ class Login extends Component {
 
   render() {
     return (
-      <div className='route-container login-container container card'>
-        <div className='login-form-container'>
-          <div className='login-type-container'>
+      <div className='container login-container'>
+        <div className="card login-card">
+          <div className='row card login-selector'>
             <button
-              className={(this.state.loginType === 'login') && 'active'}
-              onClick={() => this.setState({ loginType: 'login' })}>
-              Login
-            </button>
-            <button
-              className={(this.state.loginType === 'register') && 'active'}
-              onClick={() => this.setState({ loginType: 'register' })}>
-              Register
-            </button>
-          </div>
-
-          <form className='col s12' onSubmit={this.handleSubmit}>
-            <div class="input-field col s6">
-              <label for="last_name">Last Name</label>
-              <input id="last_name" type="text" class="validate" value={this.state.email} onChange={(e) => {
-                this.setState({email: e.target.value});
-              }} />
-            </div>
-            <label className='label'>
-              <span>Password:</span>
-              <input type="text" value={this.state.password} onChange={(e) => {
-                this.setState({password: e.target.value});
-              }} />
-            </label>
-            {(this.state.loginType === 'register') && (
-              <label className='label'>
-                <span>Confirm Password:</span>
-                <input type="text" value={this.state.confirmPassword} onChange={(e) => {
-                  this.setState({confirmPassword: e.target.value});
-                }} />
-              </label>
+              className={classNames('col s6 btn-flat btn-large',
+              {'active': (this.state.loginType === 'login')},
+              {'inactive': (this.state.loginType === 'register')}
             )}
-            {(this.state.loginType === 'register') && (
-              <label className='label'>
-                <span>Private Key (optional):</span>
-                <input type="text" value={this.state.privateKey} onChange={(e) => {
-                  this.setState({privateKey: e.target.value});
-                }} />
-              </label>
-            )}
-            <span className='error'>{(this.state.loginError) ? this.state.loginError : null}</span>
-            {/* <span className='user'>{(this.props.user) ? JSON.stringify(this.props.user) : ''}</span> */}
-            <button type="submit"
-              onClick={this.handleSubmit}>{this.state.loginType.charAt(0).toUpperCase() + this.state.loginType.slice(1)}
-            </button>
-          </form>
-        </div>
+            onClick={() => this.setState({ loginType: 'login' })}>
+            Login
+          </button>
+          <button
+            className={classNames('col s6 btn-flat btn-large',
+            {'active': (this.state.loginType === 'register')},
+            {'inactive': (this.state.loginType === 'login')}
+          )}
+          onClick={() => this.setState({ loginType: 'register' })}>
+          Register
+        </button>
       </div>
+
+      <form className='col s12 login-form' onSubmit={this.handleSubmit}>
+        <div className="input-field col s6">
+          <label for="email">Email</label>
+          <input id="email" type="text" className="validate" value={this.state.email} onChange={(e) => {
+            this.setState({email: e.target.value});
+          }} />
+        </div>
+        <div className="input-field col s6">
+          <label for="password">Password</label>
+          <input id="password" type="text" value={this.state.password} onChange={(e) => {
+            this.setState({password: e.target.value});
+          }} />
+        </div>
+        {(this.state.loginType === 'register') && (
+          <div className="input-field col s6">
+            <label for="confirm_password">Confirm Password</label>
+            <input id="confirm_password" type="text" className="validate" value={this.state.confirmPassword} onChange={(e) => {
+              this.setState({confirmPassword: e.target.value});
+            }} />
+          </div>
+        )}
+        <div className="submit-row">
+          <span className='error'>{(this.state.loginError) ? this.state.loginError : null}</span>
+          {/* <span className='user'>{(this.props.user) ? JSON.stringify(this.props.user) : ''}</span> */}
+          <button type="submit" className="btn-large terrapin-green center-align" onClick={this.handleSubmit}>
+            {this.state.loginType.charAt(0).toUpperCase() + this.state.loginType.slice(1)}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
     );
   }
 }

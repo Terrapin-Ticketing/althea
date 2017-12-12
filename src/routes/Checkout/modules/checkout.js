@@ -27,10 +27,7 @@ export function checkout(something) {
 
 export const buyTicketsStripe = (token, order) => {
   return async (dispatch, getState) => {
-    let { walletAddress } = getState().auth.user;
-
-    console.log(order);
-
+    let walletAddress = '123';
     let res = await axios.post(`${EOTW_URL}/buy-ticket`, {
       token,
       fees: 150, // should be calculated later

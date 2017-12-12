@@ -1,11 +1,5 @@
 import { connect } from 'react-redux';
-const modules = require('../modules/login');
-const authModules = require('../../../store/authentication').actions;
-
-let mapDispatchToProps = {
-  ...modules,
-  ...authModules
-};
+const mapDispatchToProps = require('../modules/login');
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -28,14 +22,12 @@ const mapStateToProps = (state) => {
 
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
-
     import { createSelector } from 'reselect'
     const counter = (state) => state.counter
     const tripleCount = createSelector(counter, (count) => count * 3)
     const mapStateToProps = (state) => ({
       counter: tripleCount(state)
     })
-
     Selectors can compute derived data, allowing Redux to store the minimal possible state.
     Selectors are efficient. A selector is not recomputed unless one of its arguments change.
     Selectors are composable. They can be used as input to other selectors.

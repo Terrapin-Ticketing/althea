@@ -20,7 +20,6 @@ class EventManager extends Component {
   componentDidMount() {
     this.props.getEventInfo(this.props.params.id);
     this.props.getEventTickets(this.props.params.id);
-    this.props.getEventAuxInfo(this.props.params.id);
   }
 
   openTicketRedeemModal() {
