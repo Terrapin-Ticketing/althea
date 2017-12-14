@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { Link, browserHistory } from 'react-router';
 import ReactModal from 'react-modal';
 import './User.scss';
 import Price from '../../../components/shared/Price';
 import TicketTransferModal from '../../Ticket/components/TicketTransferModal';
+import TicketRow from './TicketRow';
 
 class User extends Component {
   constructor(props) {
@@ -13,15 +13,14 @@ class User extends Component {
       name: '',
       qty: null, // TODO: Force to int
       price: null, // TODO: Force to int
-      tickets: [],
       events: [],
-      balance: null,
       selectedTicket: null,
       transferTicketModalOpen: false,
       viewTicketModalOpen: false,
       redeemTicketModalOpen: false,
       selectedEvent: null
     };
+    this.toggleForSale = this.toggleForSale.bind(this);
   }
 
   componentDidMount() {
@@ -57,50 +56,20 @@ class User extends Component {
 
   ticketClick(ticket) {
     return (e) => {
-      browserHistory.push(`event/${ticket.event.id}/ticket/${ticket.id}`);
+      browserHistory.push(`event/${ticket.eventId._id}/ticket/${ticket._id}`);
     };
   }
-  
-  toggleForSale(ticket) {
-    this.props.toggleForSale(ticket);
+
+  toggleForSale(ticket, index) {
+    this.props.toggleForSale(ticket, index);
   }
 
-  renderTickets() {
-    if (this.props.tickets) {
+  renderTickets(tickets) {
+    if (tickets) {
+      console.log('rerenders');
       return (
         this.props.tickets.map((ticket, index) => {
-
-          return (
-              <tr className={`ticket-row ${(index%2 === 0) ? 'odd' : null}`} key={ticket.id}>
-                  <td className="col s6">
-                    <span className="title">{ticket.event.name} <small className="super-small"><i>{ticket.id}</i></small></span> <br />
-                    <small className="caption">{ticket.event.venue.city}, {ticket.event.venue.state}</small>
-                  </td>
-                  <td> <div className="switch">
-                    <label>
-                    <input type="checkbox"
-                      checked={ticket.isForSale}
-                      onChange={() => this.toggleForSale(ticket)}
-                    /><span className="lever"></span>
-                    </label>
-                  </div></td>
-                  <td><Price price={ticket.price} /></td>
-                  <td>
-                    {/* <button name="action-button" className="btn terrapin-green" onClick={this.ticketClick(ticket).bind(this)}>Manage</button> */}
-                    <button className='dropdown-button btn' data-activates={`dropdown-${index}`}>Actions</button>
-
-                    <ul id={`dropdown-${index}`} className='dropdown-content'>
-                      <li onClick={this.ticketClick(ticket).bind(this)}><a href="#!"><i className="material-icons">event_seat</i>View Ticket</a></li>
-                      <li className="divider"></li>
-                      <li><a href="#!"><i className="material-icons">link</i>Permalink</a></li>
-                      <li onClick={() => this.setState({transferTicketModalOpen: true, selectedTicket: ticket})}><a href="#!"><i className="material-icons">email</i>Transfer via Email</a></li>
-                      <li><a href="#!"><i className="material-icons">attach_money</i>Mark as For Sale</a></li>
-                      <li className="divider"></li>
-                      <li><a href="#!"><i className="material-icons">event</i>View Event</a></li>
-                    </ul>
-                  </td>
-              </tr>
-          );
+          return <TicketRow key={index} ticket={ticket} toggleForSale={() => this.toggleForSale(ticket, index)} />
         })
       );
     } else {
@@ -113,12 +82,12 @@ class User extends Component {
       return (
         this.props.events.map((event, index) => {
           return (
-              <tr className={`event-row ${(index%2 === 0) ? 'odd' : null}`} key={event.id}>
+              <tr className={`event-row ${(index%2 === 0) ? 'odd' : null}`} key={event._id}>
                 <td>{event.name}</td>
                 <td className="qty"><Price price={event.price}/></td>
                 <td>{event.qty}</td>
                 <td className="actions">
-                  <button><Link to={`/event/${event.id}/manage/preview`}>Manage Event</Link></button></td>
+                  <button><Link to={`/event/${event._id}/manage/preview`}>Manage Event</Link></button></td>
               </tr>
           );
         })
@@ -129,9 +98,9 @@ class User extends Component {
   }
 
   render() {
+    console.log('rerenders123');
     if (!this.props.user) return null;
-    const { email, walletAddress, encryptedPrivateKey } = this.props.user;
-    const { balance } = this.props;
+    const { email } = this.props.user;
     return (
       <div className="route-container container">
         <div className='card col s12'>
@@ -159,7 +128,7 @@ class User extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.renderTickets()}
+                {this.renderTickets(this.props.tickets)}
               </tbody>
             </table>
           </div>

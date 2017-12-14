@@ -47,27 +47,25 @@ export default (store) => {
           transitionEnterTimeout={600}
           transitionLeaveTimeout={200}
           transitionName="Appear" >
-          <nav>
-            <div className="nav-wrapper">
-              <div className="brand-logo">
-                <img onClick={() => browserHistory.push('/')} className="responsive-img" src={require('../assets/img/logo-white-side-text.png')} />
-              </div>
-              {/* <img style={{width: 300}} src={require('../assets/img/logo-side-text.png')} /> */}
-              <ul id="nav-mobile" className="right hide-on-med-and-down">
-                <li><Link to='/events' className="nav-item" activeClassName='active'>Events</Link></li>
-                {(!user) ? (<li><Link to='/login' className="nav-item" activeClassName='active'>Login</Link></li>) : null}
-                {(user) ? (<li className='nav-item'><Link to='/my-profile' className='nav-item' activeClassName='page-layout__nav-item--active'>My Profile</Link></li>) : null}
-                {(user) ? (<li className='nav-item'><Link onClick={() => logout()} className='nav-item' activeClassName='page-layout__nav-item--active'>Logout</Link></li>) : null}
-              </ul>
-            </div>
-          </nav>
-        <div className='page-content'>
-          {children}
-        </div>
-      </ReactCSSTransitionGroup>
-      );
-    }
-  };
+
+          <header className="header terrapin-green z-depth-2">
+            <img src={require('../assets/img/logo-white-side-text.png')} className="logo" />
+            <input className="menu-btn" type="checkbox" id="menu-btn" />
+            <label className="menu-icon" htmlFor="menu-btn"><span className="navicon"></span></label>
+            <ul className="menu">
+              <li><Link to="events">Events</Link></li>
+              {(!user) ? (<li><Link to='/login' className="nav-item" activeClassName='active'>Login</Link></li>) : null}
+               {(user) ? (<li><Link to='/my-profile' className='nav-item' activeClassName='page-layout__nav-item--active'>My Profile</Link></li>) : null}
+               {(user) ? (<li><Link onClick={() => logout()} className='nav-item' activeClassName='page-layout__nav-item--active'>Logout</Link></li>) : null}
+            </ul>
+          </header>
+          <div className='page-content'>
+            {children}
+          </div>
+        </ReactCSSTransitionGroup>
+        );
+      }
+    };
 
   PageLayout.propTypes = {
     children: PropTypes.node

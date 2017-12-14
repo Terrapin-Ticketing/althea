@@ -14,7 +14,7 @@ export function getEventInfo() {
   };
 }
 
-export function getTicketInfo(ticketAddress) {
+export function getTicketInfo(ticketId) {
   return async (dispatch, getState) => {
 
     // dispatch({
@@ -30,7 +30,7 @@ export const sellTicket = (ticket) => {
   };
 };
 
-export const transferTicket = (ticketAddress, recipientAddress) => {
+export const transferTicket = (ticketId, recipientAddress) => {
   return async (dispatch, getState) => {
 
   };

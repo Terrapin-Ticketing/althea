@@ -1,7 +1,7 @@
-import { injectReducer } from '../../store/reducers';
+import { injectReducer } from '../../store/reducers'
 
 export default (store, wrappers = []) => ({
-  path: 'event/:eventId/ticket/:ticketId',
+  path: ':urlSafeName/activate',
   /*  Async getComponent is only invoked when route matches   */
   getComponent(nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -9,19 +9,19 @@ export default (store, wrappers = []) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const Events = require('./containers/TicketContainer').default;
-      const reducer = require('./modules/ticket').default;
+      const Activate = require('./containers/ActivateContainer').default;
+      const reducer = require('./modules/activate').default;
 
-      /*  Add the reducer to the store on key 'login'  */
-      injectReducer(store, { key: 'ticket', reducer });
+      /*  Add the reducer to the store on key 'activate'  */
+      injectReducer(store, { key: 'activate', reducer });
 
       // wrap component in any higher order components pass to it
-      let wrapped = Events;
+      let wrapped = Activate;
       wrappers.forEach((wrapper) => wrapped = wrapper(wrapped));
       /*  Return getComponent   */
       cb(null, wrapped);
 
     /* Webpack named bundle   */
-    }, 'ticket');
+  }, 'activate');
   }
 });

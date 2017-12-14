@@ -17,8 +17,8 @@ class Ticket extends Component {
   }
 
   componentDidMount() {
-    this.props.getTicketInfo(this.props.params.ticketAddress);
-    this.props.getEventInfo(this.props.params.eventAddress);
+    this.props.getTicketInfo(this.props.params.ticketId);
+    this.props.getEventInfo(this.props.params.eventId);
     $('.collapsible').collapsible();
   }
 

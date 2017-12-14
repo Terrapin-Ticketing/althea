@@ -14,6 +14,8 @@ export const getUserTickets = () => {
       { method: 'post', withCredentials: true,
       data: { query: {ownerId: getState().auth.user._id}}});
 
+
+      console.log('tickets: ', tickets);
     dispatch({
       type: SET_USER_TICKETS,
       payload: tickets
@@ -36,19 +38,21 @@ export const toggleForSale = (ticket, index) => {
   return async (dispatch, getState) => {
     let isForSale = !ticket.isForSale; // invert isForSale
     let res = await axios({
-      url: `${SHAKEDOWN_URL}/tickets/${ticket.id}/sell`,
+      url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/sell`,
       method: 'post',
       data: {isForSale},
       withCredentials: true
     });
 
-    console.log('res: ', res);
+    console.log('res.data.ticket: ', res.data.ticket);
 
     let tickets = getState().user.tickets;
-    tickets[index] = res.body
+    console.log('tickets: ', tickets);
+    tickets[index] = res.data.ticket;
+    console.log('tickets2: ', tickets);
 
     dispatch({
-      type: 'SET_USER_TICKETS',
+      type: SET_USER_TICKETS,
       payload: tickets
     });
   };
@@ -71,6 +75,7 @@ const ACTION_HANDLERS = {
     };
   },
   [SET_USER_TICKETS]: (state, action) => {
+    console.log('SET_USER_TICKETS');
     return {
       ...state,
       tickets: action.payload
