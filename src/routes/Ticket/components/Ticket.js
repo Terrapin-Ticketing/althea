@@ -11,14 +11,17 @@ import './Ticket.scss';
 class Ticket extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    console.log('props: ', props);
+    this.state = {
+      isForSale: this.props.ticket.isForSale
+    };
     this.openTicketViewModal = this.openTicketViewModal.bind(this);
     this.openTicketTransferModal = this.openTicketTransferModal.bind(this);
   }
 
   componentDidMount() {
     this.props.getTicketInfo(this.props.params.ticketId);
-    this.props.getEventInfo(this.props.params.eventId);
+    this.setState({isForSale: this.props.ticket.isForSale});
     $('.collapsible').collapsible();
   }
 
@@ -52,19 +55,25 @@ class Ticket extends Component {
     this.setState({transferTicketModalOpen: true, selectedTicket: ticket});
   }
 
+  toggleForSale() {
+    this.setState({isForSale: !this.state.isForSale});
+    this.props.toggleForSale(this.props.ticket);
+  }
+
   render() {
-    if (!this.props.ticket) {
+    console.log('Ticket this.props: ', this.props);
+    if (!this.props.ticket._id) {
       return (
         <Loading />
       );
     }
     return (
       <div className='route-container container'>
-        <EventInfo event={this.props.event} />
+        <EventInfo event={this.props.ticket.eventId} />
 
         <ul className="collapsible" data-collapsible="accordion">
           <li>
-            <div className="collapsible-header"><i className="material-icons">pageview</i>Click to View Barcode</div>
+            <div className="collapsible-header active"><i className="material-icons">pageview</i>Click to View Barcode</div>
             <div className="collapsible-body center">
               <img src={require('../../../layouts/assets/img/barcode.png')} /> <br />
               <span>This is the barcode that will be scanned to get you into the event.</span>
@@ -75,13 +84,31 @@ class Ticket extends Component {
         <div className="card">
             <div className="card-content">
             <span className="card-title"><h2>Ticket Details</h2></span>
-            <div className="ticket-details-header">
-              <span className="ticket-type">Ticket Type</span>
-              <span>Price</span>
-              <span>Is Redeemed</span>
-              <span>Is For Sale</span>
-            </div>
-            {this.renderTicketInfo()}
+            <table className="highlight responsive-table">
+              <thead>
+                <tr>
+                  <th>Ticket Type</th>
+                  <th>Price</th>
+                  <th>ID</th>
+                  <th>For Sale</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{this.props.ticket.type}</td>
+                  <td>{this.props.ticket.price}</td>
+                  <td>{this.props.ticket._id}</td>
+                  <td><div className="switch">
+                    <label>
+                    <input type="checkbox"
+                      checked={this.state.isForSale}
+                      onChange={() => this.toggleForSale()}
+                    /><span className="lever"></span>
+                    </label>
+                  </div></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
         <div className="card">
@@ -91,7 +118,7 @@ class Ticket extends Component {
             <ul className="collection">
               <a className="collection-item"><i className="material-icons">event_seat</i><span>View Barcode</span></a>
               <a className="collection-item"><i className="material-icons">link</i><span>Permalink</span></a>
-              <a className="collection-item"><i className="material-icons">attach_money</i><span>Mark as For Sale</span></a>
+              <a className="collection-item" onClick={() => this.toggleForSale()}><i className="material-icons">attach_money</i><span>Mark as For Sale</span></a>
               <a className="collection-item"><i className="material-icons">payment</i><span>Mark as For Sale</span></a>
               <a className="collection-item"><i className="material-icons">email</i><span>Transfer via Email</span></a>
               <a className="collection-item disabled"><i className="material-icons">history</i><span>View History</span></a>

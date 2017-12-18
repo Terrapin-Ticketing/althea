@@ -16,17 +16,36 @@ export function getEventInfo() {
 
 export function getTicketInfo(ticketId) {
   return async (dispatch, getState) => {
+    console.log('test');
+    let { data: { tickets } } = await axios(`${SHAKEDOWN_URL}/tickets/find`,
+      { method: 'post', withCredentials: true,
+      data: { query: {_id: ticketId}}});
 
-    // dispatch({
-    //   type: SET_TICKET_DETAILS,
-    //   payload: ticket
-    // });
+
+      console.log('tickets[0]: ', tickets[0]);
+
+
+    dispatch({
+      type: SET_TICKET_DETAILS,
+      payload: tickets[0]
+    });
   };
 }
 
-export const sellTicket = (ticket) => {
+export const toggleForSale = (ticket) => {
   return async (dispatch, getState) => {
-
+    let isForSale = !ticket.isForSale; // invert isForSale
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/sell`,
+      method: 'post',
+      data: {isForSale},
+      withCredentials: true
+    });
+    let ticketObj = res.data.ticket;
+    dispatch({
+      type: SET_TICKET_DETAILS,
+      payload: ticketObj
+    });
   };
 };
 
@@ -39,7 +58,7 @@ export const transferTicket = (ticketId, recipientAddress) => {
 export const actions = {
   getTicketInfo,
   getEventInfo,
-  sellTicket,
+  toggleForSale,
   transferTicket
 };
 

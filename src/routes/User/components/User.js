@@ -121,9 +121,10 @@ class User extends Component {
             <table className="highlight responsive-table">
               <thead>
                 <tr>
+                  <th>Date</th>
                   <th>Name</th>
-                  <td>For Sale</td>
                   <th className="qty">Price</th>
+                  <td>Status</td>
                   <th></th>
                 </tr>
               </thead>

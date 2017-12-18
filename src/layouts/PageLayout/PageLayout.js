@@ -49,7 +49,7 @@ export default (store) => {
           transitionName="Appear" >
 
           <header className="header terrapin-green z-depth-2">
-            <img src={require('../assets/img/logo-white-side-text.png')} className="logo" />
+            <img src={require('../assets/img/tt-logo-white.svg')} className="logo img-responsive" style={{height: 55}} />
             <input className="menu-btn" type="checkbox" id="menu-btn" />
             <label className="menu-icon" htmlFor="menu-btn"><span className="navicon"></span></label>
             <ul className="menu">
