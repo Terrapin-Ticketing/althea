@@ -48,8 +48,7 @@ class Ticket extends Component {
   }
 
   isOwner() {
-    console.log('isOwner: ', this.props.user._id, this.props.ticket.ownerId);
-    if (this.props.user._id !== this.props.ticket.ownerId) return true;
+    if (this.props.user._id === this.props.ticket.ownerId) return true;
     return false;
   }
 
@@ -115,10 +114,16 @@ class Ticket extends Component {
                     </label>
                   </div>
                 </td>
-                <td>
-                  <button className="activator terrapin-green white-text btn hide-on-large-only">Actions</button>
-                  <i className="material-icons activator hide-on-med-and-down" style={{cursor: 'pointer'}}>more_vert</i>
-                </td>
+                  {this.isOwner() ? (
+                    <td>
+                      <button className="activator terrapin-green white-text btn hide-on-large-only">Actions</button>
+                      <i className="material-icons activator hide-on-med-and-down" style={{cursor: 'pointer'}}>more_vert</i>
+                    </td>
+                  ) : (
+                    <td>
+                      <button className="activator terrapin-green white-text btn hide-on-large-only">Buy Now</button>
+                    </td>
+                  )}
                 </tr>
               </tbody>
             </table>
