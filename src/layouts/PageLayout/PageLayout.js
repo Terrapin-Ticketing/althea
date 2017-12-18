@@ -61,7 +61,7 @@ export default (store) => {
                {(user) ? (<li><Link onClick={() => logout()} className='nav-item' activeClassName='page-layout__nav-item--active'>Logout</Link></li>) : null}
             </ul>
           </header>
-          <div className='page-content'>
+          <div onClick={() => this.setState({ topNavOpen: false })} className='page-content'>
             {children}
           </div>
         </ReactCSSTransitionGroup>
