@@ -42,7 +42,6 @@ export default (store) => {
       // const { user } = store.getState().auth;
       const { user } = this.props;
       let children = (this.state.mounted) ? this.props.children : null;
-      console.log('PageLayout state: ', this.state);
       return (
         <ReactCSSTransitionGroup
           transitionAppear={true}
