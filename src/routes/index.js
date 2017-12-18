@@ -24,7 +24,7 @@ export const createRoutes = (store) => ({
   childRoutes: [
     LoginRoute(store, [ Transition ]),
     EventRoute(store, [ Transition ]),
-    EventsRoute(store, [ requireAuth ]),
+    EventsRoute(store, [ Transition ]),
     CheckoutRoute(store, [ ]),
     UserRoute(store, [ requireAuth, Transition ]),
     TicketRoute(store, [ Transition ]),

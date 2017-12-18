@@ -15,7 +15,7 @@ class Payment extends React.Component {
     let { order, event } = this.props;
     return (
       <tr key={event.id} className="order-details-rows">
-        <td>{event.id.substring(0, 8)}...</td>
+        <td>{event._id.substring(0, 8)}...</td>
         <td>{order.ticketQty}</td>
         <td className="price"><Price price={event.price} /></td>
       </tr>

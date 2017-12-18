@@ -24,7 +24,6 @@ class Events extends Component {
       <tr key={item._id}>
         <td>{item.name}</td>
         <td><Price price={item.price}/></td>
-        <td>{item.qty} Left</td>
         <td><Link to={`/event/${item._id}`}><button className="btn waves-effect waves-light terrapin-green">Select Event</button></Link></td>
       </tr>
     );
@@ -40,7 +39,6 @@ class Events extends Component {
             <tr>
               <th>Name</th>
               <th>Price</th>
-              <th>Qty Remaining</th>
               <th>Actions</th>
 
             </tr>

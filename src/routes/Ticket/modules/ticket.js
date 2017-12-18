@@ -21,10 +21,6 @@ export function getTicketInfo(ticketId) {
       { method: 'post', withCredentials: true,
       data: { query: {_id: ticketId}}});
 
-
-      console.log('tickets[0]: ', tickets[0]);
-
-
     dispatch({
       type: SET_TICKET_DETAILS,
       payload: tickets[0]
@@ -50,6 +46,12 @@ export const toggleForSale = (ticket) => {
 };
 
 export const transferTicket = (ticketId, recipientAddress) => {
+  return async (dispatch, getState) => {
+
+  };
+};
+
+export const buyTicket = (ticketId, recipientAddress) => {
   return async (dispatch, getState) => {
 
   };
