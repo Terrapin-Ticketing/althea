@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
-import Order from '../../Checkout/components/Order';
+import Order from '../../../components/shared/Checkout/Order';
 
 import './CheckoutConfirmation.scss';
 

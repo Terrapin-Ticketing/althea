@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Price from './Price';
+import Price from '../Price';
 import classNames from 'classnames';
 
 import './EventInfo.scss';
@@ -13,7 +13,6 @@ class EventInfo extends Component {
   render() {
     let { name, price, owner, date, time, imageUrl, website,
       venueName, venueAddress, venueState, venueCity, venueZip } = this.props.event;
-    console.log('this.props.event: ', this.props.event);
     return (
       <div className="event-outer-container card">
         <div className="blurred-contianer">

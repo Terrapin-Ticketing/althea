@@ -30,7 +30,7 @@ class Register extends React.Component {
   }
 
   render() {
-    let { email, password, confirmPassword } = this.state;
+    let { email, password } = this.state;
     let { onRegister } = this.props;
     return (
       <form className="register-container card">

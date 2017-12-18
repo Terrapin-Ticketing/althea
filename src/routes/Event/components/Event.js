@@ -3,7 +3,7 @@ import { Link, browserHistory } from 'react-router';
 import classNames from 'classnames';
 import ReactModal from 'react-modal';
 import QtyCounter from './QtyCounter';
-import EventInfoContainer from './../../../components/shared/EventInfo';
+import EventInfoContainer from './../../../components/shared/EventInfo/EventInfo';
 import Price from './../../../components/shared/Price';
 import Loading from '../../../components/shared/Loading.js';
 
@@ -136,7 +136,6 @@ class Event extends Component {
                   {venue.name} <br />
                   {venue.address} <br />
                   {venue.city}, {venue.state} {venue.zip} <br />
-
                 <h3>{website}</h3>
               </div>
             </div>

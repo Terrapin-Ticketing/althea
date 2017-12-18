@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Activate.scss';
 import { browserHistory } from 'react-router';
 import classNames from 'classnames'
-import EventInfoContainer from './../../../components/shared/EventInfo';
+import EventInfoContainer from './../../../components/shared/EventInfo/EventInfo';
 import Loading from '../../../components/shared/Loading.js';
 
 class Activate extends Component {

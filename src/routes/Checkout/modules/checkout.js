@@ -27,15 +27,24 @@ export function checkout(something) {
 
 export const buyTicketsStripe = (token, order) => {
   return async (dispatch, getState) => {
-    let walletAddress = '123';
-    let res = await axios.post(`${EOTW_URL}/buy-ticket`, {
-      token,
-      fees: 150, // should be calculated later
-      qty: order.ticketQty,
-      eventAddress: order.eventAddress,
-      walletAddress,
-      paymentType: 'USD'
-    });
+
+    console.log('order:', order);
+
+    let options = {
+      url: `${SHAKEDOWN_URL}/payment`,
+      method: 'post',
+      json: true,
+      data: {
+        token,
+        fees: 150, // should be calculated later
+        qty: order.ticketQty,
+        eventAddress: order.eventAddress,
+        paymentType: 'USD'
+      },
+      withCredentials: true
+    };
+
+    let res = await axios(options);
 
     dispatch({
       type: SET_TX_LIST,

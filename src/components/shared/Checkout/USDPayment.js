@@ -1,7 +1,7 @@
 // CheckoutForm.js
 import React from 'react';
 import {injectStripe} from 'react-stripe-elements';
-import {Elements, CardNumberElement, CardExpiryElement, CardCVCElement} from 'react-stripe-elements';
+import {CardNumberElement, CardExpiryElement, CardCVCElement} from 'react-stripe-elements';
 import { browserHistory } from 'react-router';
 
 class CheckoutForm extends React.Component {
@@ -13,24 +13,24 @@ class CheckoutForm extends React.Component {
     };
   }
 
-  handleSubmit = async(ev) => {
-    // We don't want to let default form submission happen here, which would refresh the page.
-    ev.preventDefault();
+  handleSubmit = (user) => {
+    return async(ev) => {
+      // We don't want to let default form submission happen here, which would refresh the page.
+      ev.preventDefault();
 
-    // Within the context of `Elements`, this call to createToken knows which Element to
-    // tokenize, since there's only one in this group.
-    let token = await this.props.stripe.createToken({name: 'Jenny Rosen'});
-
-    let { buyTicketsStripe, order } = this.props;
-    try {
-      let transactionsList = await buyTicketsStripe(JSON.stringify(token), order);
-      browserHistory.push('/CheckoutConfirmation');
-    } catch(err) {
-      this.setState({error: err});
-    }
-    // TODO: Don't push to user, send to confirmation page
-    // However, this line of code will do the same thing:
-    // this.props.stripe.createToken({type: 'card', name: 'Jenny Rosen'});
+      // Within the context of `Elements`, this call to createToken knows which Element to
+      // tokenize, since there's only one in this group.
+      // get name of user
+      let { token } = await this.props.stripe.createToken({ type: 'card', email: user.email});
+      let { buyTicketsStripe, order } = this.props;
+      try {
+        // let transactionsList = await buyTicketsStripe(JSON.stringify(token), order);
+        await buyTicketsStripe(token, order);
+        browserHistory.push('/CheckoutConfirmation');
+      } catch (err) {
+        this.setState({error: err});
+      }
+    };
   }
 
   renderError() {
@@ -38,9 +38,9 @@ class CheckoutForm extends React.Component {
   }
 
   render() {
-    let { classname } = this.props;
+    let { classname, user } = this.props;
     return (
-      <form onSubmit={this.handleSubmit} className={`checkout-form ${classname}`}>
+      <form onSubmit={this.handleSubmit(user).bind(this)} className={`checkout-form ${classname}`}>
           <div className="input-field col s12">
             <CardNumberElement style={{base: {fontSize: '18px'}}} />
           </div>
