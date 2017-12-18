@@ -48,7 +48,6 @@ class Ticket extends Component {
   }
 
   isOwner() {
-    console.log('isOwner: ', this.props.user._id, this.props.ticket.ownerId);
     if (this.props.user._id !== this.props.ticket.ownerId) return true;
     return false;
   }
@@ -69,7 +68,6 @@ class Ticket extends Component {
 
   render() {
     let { ticket, user, event } = this.props;
-    console.log('Ticket this.props: ', this.props);
     let order = { _id: this.props.params.ticketId, ticketQty: 1 }
     if (!this.props.ticket._id) {
       return (

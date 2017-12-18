@@ -66,7 +66,6 @@ class User extends Component {
 
   renderTickets(tickets) {
     if (tickets) {
-      console.log('rerenders');
       return (
         this.props.tickets.map((ticket, index) => {
           return <TicketRow key={index} ticket={ticket} toggleForSale={() => this.toggleForSale(ticket, index)} />
@@ -98,7 +97,6 @@ class User extends Component {
   }
 
   render() {
-    console.log('rerenders123');
     if (!this.props.user) return null;
     const { email } = this.props.user;
     return (

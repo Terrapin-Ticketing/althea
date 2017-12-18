@@ -52,11 +52,10 @@ class TicketRow extends Component {
 
   render() {
     const { ticket, key } = this.props;
-    console.log('TicketRow this.props: ', this.props);
     return (
         <tr className={`ticket-row ${(key%2 === 0) ? 'odd' : null}`} key={ticket._id}>
           <td onClick={this.ticketClick(ticket).bind(this)} style={{cursor: 'pointer'}}>
-            <span class="caption">{ticket.eventId.date}</span>
+            <span className="caption">{ticket.eventId.date}</span>
           </td>
           <td className="col s6" onClick={this.ticketClick(ticket).bind(this)} style={{cursor: 'pointer'}}>
             <span className="title">{ticket.eventId.name}</span> <br />

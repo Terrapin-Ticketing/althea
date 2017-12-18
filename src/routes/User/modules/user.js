@@ -75,7 +75,6 @@ const ACTION_HANDLERS = {
     };
   },
   [SET_USER_TICKETS]: (state, action) => {
-    console.log('SET_USER_TICKETS');
     return {
       ...state,
       tickets: action.payload
