@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Loading from '../../../components/shared/Loading';
 import Price from '../../../components/shared/Price';
-import EventInfo from '../../../components/shared/EventInfo.js';
+import EventInfo from '../../../components/shared/EventInfo/EventInfo';
 import TicketViewModal from './TicketViewModal';
 import TicketTransferModal from './TicketTransferModal';
 import Order from '../../Checkout/components/Order';

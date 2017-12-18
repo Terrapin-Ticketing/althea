@@ -1,10 +1,11 @@
 // CheckoutForm.js
 import React from 'react';
-import classNames from 'classnames';
 import { Elements } from 'react-stripe-elements';
-import USDCheckout from './USDCheckout';
+import USDPayment from './USDPayment';
 
-import Price from '../../../components/shared/Price';
+import Price from '../Price';
+
+import './Payment.scss';
 
 class Payment extends React.Component {
   constructor(props) {
@@ -23,18 +24,19 @@ class Payment extends React.Component {
   }
 
   render() {
-    let { event, order, buyTicketsWithStripe } = this.props;
+    let { event, order, buyTicketsWithStripe, user } = this.props;
 
     return (
       <div className="payment-details col s12 l6">
         <h2>Payment Details</h2>
         <div className="payment-method">
           <Elements>
-            <USDCheckout
+            <USDPayment
               buyTicketsStripe={buyTicketsWithStripe}
               event={event}
               order={order}
-              classname="payment-info" />
+              classname="payment-info"
+              user={user} />
           </Elements>
         </div>
       </div>

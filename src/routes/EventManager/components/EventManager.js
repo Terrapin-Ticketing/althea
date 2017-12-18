@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import TicketRedeemModal from './TicketRedeemModal';
-import EventInfoContainer from './../../../components/shared/EventInfo';
+import EventInfoContainer from './../../../components/shared/EventInfo/EventInfo';
 import Sidebar from '../../../layouts/Sidebar';
 import QtyCounter from '../../Event/components/QtyCounter';
 import Loading from '../../../components/shared/Loading.js';

@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import classNames from 'classnames';
 import ReactModal from 'react-modal';
 import QtyCounter from '../../../Event/components/QtyCounter.js';
-import EventInfoContainer from '../../../../components/shared/EventInfo';
+import EventInfoContainer from '../../../../components/shared/EventInfo/EventInfo';
 import Price from '../../../../components/shared/Price';
 import Loading from '../../../../components/shared/Loading.js';
 

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-import Order from './Order';
-import Payment from './Payment'
+import CheckoutComponent from '../../../components/shared/Checkout/Checkout';
 import Register from './Register';
 
-import EventInfo from '../../../components/shared/EventInfo';
+import EventInfo from '../../../components/shared/EventInfo/EventInfo';
 import './Checkout.scss';
 
 class Checkout extends Component {
@@ -44,8 +42,7 @@ class Checkout extends Component {
 
   async buyTicketsWithStripe(token, order) {
     await this.registerUser();
-    let { buyTicketsStripe } = this.props;
-    await buyTicketsStripe(token, order);
+    await this.props.buyTicketsStripe(token, order);
   }
 
   async onRegister(userData) {
@@ -65,29 +62,22 @@ class Checkout extends Component {
           transitionAppearTimeout={600}
           transitionEnterTimeout={600}
           transitionLeaveTimeout={200}
-          transitionName="SlideIn" >
+          transitionName="SlideIn"
+        >
 
-        { user ? (<span></span>) : (<Register onRegister={this.onRegister.bind(this)} />) }
+          { user ? (<span></span>) : (<Register onRegister={this.onRegister.bind(this)} />) }
 
-        <div className="row card checkout-information">
-              <Order
-                serviceFee={serviceFee}
-                cardFee={cardFee}
-                total={total}
-                order={order}
-                event={event}
-                user={user}
-                buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
-              />
+          <CheckoutComponent
+            serviceFee={serviceFee}
+            cardFee={cardFee}
+            total={total}
+            order={order}
+            event={event}
+            user={user}
+            buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
+          />
 
-              <Payment
-                order={order}
-                event={event}
-                user={user}
-                buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
-              />
-        </div>
-      </ReactCSSTransitionGroup>
+        </ReactCSSTransitionGroup>
       </div>
     );
   }

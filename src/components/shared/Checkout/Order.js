@@ -1,10 +1,8 @@
 // CheckoutForm.js
 import React from 'react';
-import classNames from 'classnames';
-import { Elements } from 'react-stripe-elements';
-import USDCheckout from './USDCheckout';
+import Price from '../Price';
 
-import Price from '../../../components/shared/Price';
+import './Order.scss';
 
 class Order extends React.Component {
   constructor(props) {
