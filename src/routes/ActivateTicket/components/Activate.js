@@ -28,7 +28,7 @@ class Activate extends Component {
     try {
       await this.props.activateTicket(urlSafeName, email, barcode);
       if (this.props.error) return this.setState({ activateError: this.props.error });
-      browserHistory.push(`/${this.props.redirect}`);
+      browserHistory.push(this.props.redirect);
     } catch (err) {
       this.setState({ activateError: err });
     }

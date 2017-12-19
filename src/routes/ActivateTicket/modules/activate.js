@@ -50,6 +50,11 @@ export function activateTicket(urlSafeName, email, barcode) {
         type: ERROR,
         payload: data.error
       });
+    } else {
+      dispatch({
+        type: ERROR,
+        payload: null
+      });
     }
 
     if (data.passwordChangeUrl) {
@@ -61,7 +66,7 @@ export function activateTicket(urlSafeName, email, barcode) {
     } else {
       dispatch({
         type: REDIRECT,
-        payload: 'my-profile'
+        payload: '/my-profile'
       });
     }
   };

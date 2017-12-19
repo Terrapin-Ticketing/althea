@@ -20,7 +20,7 @@ export default (store) => {
       type: 'LOGOUT',
       payload: {}
     });
-    browserHistory.push('login');
+    browserHistory.push('/login');
   };
 
   const PageLayout = class PageLayout extends Component {
