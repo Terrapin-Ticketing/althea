@@ -30,7 +30,7 @@ export const createRoutes = (store) => ({
     UserRoute(store, [ requireAuth, Transition ]),
     TicketRoute(store, [ Transition ]),
     ActivateTicket(store, [ Transition ]),
-    SetPassword(store, []),
+    SetPassword(store, [ Transition ]),
     // EventManager(store, [ ]),
     // CheckoutConfirmationRoute(store, [ ]),
     // CreateEventRoute(store, [ requireAuth, requirePKTimeout, requirePK ]),

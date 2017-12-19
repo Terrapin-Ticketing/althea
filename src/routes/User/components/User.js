@@ -132,7 +132,7 @@ class User extends Component {
             </table>
           </div>
         </div>
-        <div className="card col s12">
+        {/* <div className="card col s12">
           <div className="card-content">
             <h2>Events</h2>
             <table>
@@ -149,7 +149,7 @@ class User extends Component {
               </tbody>
             </table>
           </div>
-        </div>
+        </div> */}
 
         <TicketTransferModal
           ticket={this.state.selectedTicket}

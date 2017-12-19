@@ -26,7 +26,7 @@ class SetPassword extends Component {
 
   async setPassword(password) {
     await this.props.setPassword(this.props.params.token, password);
-    browserHistory.push('my-profile');
+    browserHistory.push('/my-profile');
   }
 
   render() {
@@ -34,6 +34,7 @@ class SetPassword extends Component {
       <div className='container login-container'>
         <div className="card login-card">
           <div className="card-content">
+            <div className="card-title">Set Password</div>
             <form className='col s12 login-form' onSubmit={this.handleSubmit}>
               <div className="input-field col s6">
                 <label htmlFor="password">Password</label>
