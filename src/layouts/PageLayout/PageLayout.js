@@ -55,7 +55,7 @@ export default (store) => {
             <input className="menu-btn" checked={this.state.topNavOpen} type="checkbox" id="menu-btn" />
             <label className="menu-icon" onClick={() => this.setState({ topNavOpen: !this.state.topNavOpen })} htmlFor="menu-btn"><span className="navicon"></span></label>
             <ul className="menu">
-              <li><Link to="events" onClick={() => this.setState({topNavOpen: false })}>Events</Link></li>
+              <li><Link to="/events" onClick={() => this.setState({topNavOpen: false })}>Events</Link></li>
               {(!user) ? (<li><Link to='/login' onClick={() => this.setState({topNavOpen: false })} className="nav-item" activeClassName='active'>Login</Link></li>) : null}
                {(user) ? (<li><Link to='/my-profile' onClick={() => this.setState({topNavOpen: false })} className='nav-item' activeClassName='page-layout__nav-item--active'>My Profile</Link></li>) : null}
                {(user) ? (<li><Link onClick={() => logout()} className='nav-item' activeClassName='page-layout__nav-item--active'>Logout</Link></li>) : null}
@@ -65,9 +65,9 @@ export default (store) => {
             {children}
           </div>
         </ReactCSSTransitionGroup>
-        );
-      }
-    };
+      );
+    }
+};
 
   PageLayout.propTypes = {
     children: PropTypes.node
