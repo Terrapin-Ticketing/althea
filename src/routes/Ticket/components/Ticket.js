@@ -48,8 +48,9 @@ class Ticket extends Component {
   }
 
   isOwner() {
-    if (this.props.user._id !== this.props.ticket.ownerId) return true;
-    return false;
+    let { user, ticket } = this.props;
+    if (!user || user._id !== ticket.ownerId) return false;
+    return true;
   }
 
   async registerUser() {
@@ -57,7 +58,10 @@ class Ticket extends Component {
     let { userData } = this.state;
     if (userData) await signup(userData.email, userData.password);
     // user is defined after this point
-    console.log(this.props.user);
+  }
+
+  async onRegister(userData) {
+    this.setState({ userData });
   }
 
   async buyTicketsWithStripe(token, order) {
@@ -113,10 +117,16 @@ class Ticket extends Component {
                     </label>
                   </div>
                 </td>
-                <td>
-                  <button className="activator terrapin-green white-text btn hide-on-large-only">Actions</button>
-                  <i className="material-icons activator hide-on-med-and-down" style={{cursor: 'pointer'}}>more_vert</i>
-                </td>
+                  {this.isOwner() ? (
+                    <td>
+                      <button className="activator terrapin-green white-text btn hide-on-large-only">Actions</button>
+                      <i className="material-icons activator hide-on-med-and-down" style={{cursor: 'pointer'}}>more_vert</i>
+                    </td>
+                  ) : (
+                    <td>
+                      <button className="activator terrapin-green white-text btn hide-on-large-only">Buy Now</button>
+                    </td>
+                  )}
                 </tr>
               </tbody>
             </table>

@@ -16,18 +16,11 @@ export function getEventInfo() {
 
 export function getTicketInfo(ticketId) {
   return async (dispatch, getState) => {
-    let options = {
-      url: `${SHAKEDOWN_URL}/tickets/find`,
-      method: 'post',
-      data: { query: {_id: ticketId} },
-      withCredentials: true
-    };
-
-    let { data: { tickets } } = await axios(options);
+    let { data: { ticket } } = await axios(`${SHAKEDOWN_URL}/tickets/${ticketId}`);
 
     dispatch({
       type: SET_TICKET_DETAILS,
-      payload: tickets[0]
+      payload: ticket
     });
   };
 }

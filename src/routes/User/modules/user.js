@@ -10,12 +10,17 @@ export const LOGOUT = 'LOGOUT';
 
 export const getUserTickets = () => {
   return async (dispatch, getState) => {
-    let { data: { tickets } } = await axios(`${SHAKEDOWN_URL}/tickets/find`,
-      { method: 'post', withCredentials: true,
-      data: { query: {ownerId: getState().auth.user._id}}});
-
-
-      console.log('tickets: ', tickets);
+    let options = {
+      url: `${SHAKEDOWN_URL}/tickets/find`,
+      method: 'post',
+      data: {
+        query: {
+          ownerId: getState().auth.user._id
+        }
+      },
+      withCredentials: true
+    };
+    let { data: { tickets } } = await axios(options);
     dispatch({
       type: SET_USER_TICKETS,
       payload: tickets

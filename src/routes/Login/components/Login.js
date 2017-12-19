@@ -78,21 +78,21 @@ class Login extends Component {
 
       <form className='col s12 login-form' onSubmit={this.handleSubmit}>
         <div className="input-field col s6">
-          <label for="email">Email</label>
+          <label htmlFor="email">Email</label>
           <input id="email" type="text" className="validate" value={this.state.email} onChange={(e) => {
             this.setState({email: e.target.value});
           }} />
         </div>
         <div className="input-field col s6">
-          <label for="password">Password</label>
-          <input id="password" type="text" value={this.state.password} onChange={(e) => {
+          <label htmlFor="password">Password</label>
+          <input id="password" type="password" value={this.state.password} onChange={(e) => {
             this.setState({password: e.target.value});
           }} />
         </div>
         {(this.state.loginType === 'register') && (
           <div className="input-field col s6">
-            <label for="confirm_password">Confirm Password</label>
-            <input id="confirm_password" type="text" className="validate" value={this.state.confirmPassword} onChange={(e) => {
+            <label htmlFor="confirm_password">Confirm Password</label>
+            <input id="confirm_password" type="password" className="validate" value={this.state.confirmPassword} onChange={(e) => {
               this.setState({confirmPassword: e.target.value});
             }} />
           </div>

@@ -10,7 +10,7 @@ class Activate extends Component {
     super(props);
     this.state = {
       email: '',
-      ticketNumber: '',
+      barcode: '',
       orderNumber: '',
       activateError: null
     };
@@ -21,16 +21,22 @@ class Activate extends Component {
     this.props.getEventInfo(this.props.params.urlSafeName);
   }
 
-  activateTicket() {
-    this.props.activateTicket(this.state.email, this.state.ticketNumber, this.state.orderNumber)
-    .then(() => browserHistory.push('my-profile'))
-    .catch((err) => this.setState({ activateError: err }));
+  async activateTicket(e) {
+    e.preventDefault();
+    let { params: { urlSafeName } } = this.props;
+    let { email, barcode } = this.state;
+    try {
+      await this.props.activateTicket(urlSafeName, email, barcode);
+      if (this.props.error) return this.setState({ activateError: this.props.error });
+      browserHistory.push(`/${this.props.redirect}`);
+    } catch (err) {
+      this.setState({ activateError: err });
+    }
   }
 
-
   render() {
-    console.log('this.props: ', this.props);
-    if (!this.props.event) {
+    let user = this.props.user;
+    if (!this.props.event._id) {
       return (
         <Loading />
       );
@@ -42,27 +48,26 @@ class Activate extends Component {
           <div className="card-content">
             <form className='col s12 login-form' onSubmit={this.activateTicket}>
               <div className="input-field col s6">
-                <label for="email">Email Address</label>
+                <label htmlFor="barcode">Ticket Number</label>
+                <input id="barcode" type="text" className="validate" value={this.state.barcode} onChange={(e) => {
+                  this.setState({barcode: e.target.value});
+                }} />
+              </div>
+              <div className="input-field col s6">
+                <label htmlFor="email">Email Address</label>
                 <input id="email" type="text" value={this.state.email} onChange={(e) => {
                   this.setState({email: e.target.value});
-                }} />
-              </div>
-              <div className="input-field col s6">
-                <label for="ticketNumber">Ticket Number</label>
-                <input id="ticketNumber" type="text" className="validate" value={this.state.ticketNumber} onChange={(e) => {
-                  this.setState({ticketNumber: e.target.value});
-                }} />
-              </div>
-              <div className="input-field col s6">
-                <label for="orderNumber">Order Number</label>
-                <input id="orderNumber" type="text" value={this.state.orderNumber} onChange={(e) => {
-                  this.setState({orderNumber: e.target.value});
+                }} onFocus={(e) => {
+                  e.preventDefault();
+                  if (user && user.email) {
+                    this.setState({email: user.email});
+                  }
                 }} />
               </div>
               <div className="submit-row">
                 <span className='error'>{(this.state.activateError) ? this.state.activateError : null}</span>
                 {/* <span className='user'>{(this.props.user) ? JSON.stringify(this.props.user) : ''}</span> */}
-                <button type="submit" className="btn-large terrapin-green center-align" onClick={this.activateTicket}>
+                <button type="submit" className="btn-large terrapin-green center-align">
                   Activate Ticket
                 </button>
               </div>
