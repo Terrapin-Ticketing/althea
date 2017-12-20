@@ -46,7 +46,6 @@ class UnsoldTickets extends Component {
   }
 
   render() {
-    console.log('this.props: ', this.props);
     return (
       <div className='event-container'>
         <h2>Unsold Tickets</h2>
