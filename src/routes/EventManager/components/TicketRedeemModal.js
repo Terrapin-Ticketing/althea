@@ -17,7 +17,6 @@ class TicketRedeemModal extends Component {
 
   async onScan(data) {
     let { redeemSuccess } = this.state;
-    console.log('data: ', data);
     if (data && redeemSuccess === undefined) {
       try {
         let response = await this.props.redeemTicket(data);

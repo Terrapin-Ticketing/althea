@@ -65,7 +65,7 @@ export const buyTicketsStripe = (token, ticketId) => {
     };
 
     let { data } = await axios(options);
-
+    console.log('data: ', data);
     if (data.error) {
       dispatch({
         type: ERROR,
@@ -87,7 +87,7 @@ export const buyTicketsStripe = (token, ticketId) => {
     } else {
       dispatch({
         type: REDIRECT,
-        payload: '/my-profile'
+        payload: `/my-profile?ticketId=${data.ticket._id}&eventId=${data.ticket.eventId}`
       });
     }
   };

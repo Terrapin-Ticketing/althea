@@ -99,6 +99,7 @@ class User extends Component {
   render() {
     if (!this.props.user) return null;
     const { email } = this.props.user;
+    console.log('this.props: ', this.props);
     return (
       <div className="route-container container">
         <div className='card col s12'>
@@ -115,6 +116,14 @@ class User extends Component {
         </div>
         <div className="card col s12">
           <div className="card-content">
+            {(this.props.location.query.ticketId) ? (
+              <div className="terrapin-green lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>
+                Purchase Successful (
+                  <Link to={`/event/${this.props.location.query.eventId}/ticket/${this.props.location.query.ticketId}`} >
+                   View Ticket
+                </Link>)
+              </div>
+            ): null }
             <h2>Tickets</h2>
             <table className="highlight responsive-table">
               <thead>
