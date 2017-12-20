@@ -19,6 +19,8 @@ class Activate extends Component {
 
   componentDidMount() {
     this.props.getEventInfo(this.props.params.urlSafeName);
+    let user = this.props.user;
+    if (user) this.setState({ email: user.email });
   }
 
   async activateTicket(e) {
@@ -54,14 +56,9 @@ class Activate extends Component {
                 }} />
               </div>
               <div className="input-field col s6">
-                <label htmlFor="email">Email Address</label>
+                { user ? null : (<label htmlFor="email">Email Address</label>) }
                 <input id="email" type="text" value={this.state.email} onChange={(e) => {
                   this.setState({email: e.target.value});
-                }} onFocus={(e) => {
-                  e.preventDefault();
-                  if (user && user.email) {
-                    this.setState({email: user.email});
-                  }
                 }} />
               </div>
               <div className="submit-row">

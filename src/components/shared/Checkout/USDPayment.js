@@ -3,6 +3,7 @@ import React from 'react';
 import {injectStripe} from 'react-stripe-elements';
 import {CardNumberElement, CardExpiryElement, CardCVCElement} from 'react-stripe-elements';
 import { browserHistory } from 'react-router';
+import classames from 'classnames';
 
 class CheckoutForm extends React.Component {
 
@@ -41,13 +42,13 @@ class CheckoutForm extends React.Component {
   }
 
   render() {
-    let { classname, user } = this.props;
+    let { classname, user, isLoading } = this.props;
     return (
       <form onSubmit={this.handleSubmit(user).bind(this)} className={`checkout-form ${classname}`}>
           {(!user) ? (
             <div className="col s12">
               {/* <label htmlFor="email">Email</label> */}
-              <input id="email" placeholder="Email" type="text" className="" value={this.state.email} onChange={(e) => {
+              <input id="email" placeholder="Email" type="text" className="" value={this.state.email || ''} onChange={(e) => {
                 this.setState({email: e.target.value});
               }} />
             </div>
@@ -64,7 +65,25 @@ class CheckoutForm extends React.Component {
         <div className='error'>
           {this.renderError()}
         </div>
-        <button className="wave-effect waves-light btn btn-large terrapin-green" type="submit">Confirm order</button>
+
+        <button className={classames('wave-effect waves-light btn btn-large terrapin-green', { disabled: isLoading })} type="submit">
+          Confirm order
+        </button>
+        { isLoading ? (
+          <div className="spinner-container">
+            <div className="preloader-wrapper small active">
+              <div className="spinner-layer spinner-green-only">
+                <div className="circle-clipper left">
+                  <div className="circle"></div>
+                </div><div className="gap-patch">
+                  <div className="circle"></div>
+                </div><div className="circle-clipper right">
+                  <div className="circle"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ): null}
       </form>
     );
   }
