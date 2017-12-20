@@ -4,7 +4,7 @@ import ReactModal from 'react-modal';
 import './User.scss';
 import Price from '../../../components/shared/Price';
 import TicketTransferModal from '../../Ticket/components/TicketTransferModal';
-import TicketRow from './TicketRow';
+import TicketCard from './TicketCard';
 
 class User extends Component {
   constructor(props) {
@@ -68,7 +68,7 @@ class User extends Component {
     if (tickets) {
       return (
         this.props.tickets.map((ticket, index) => {
-          return <TicketRow key={index} ticket={ticket} toggleForSale={() => this.toggleForSale(ticket, index)} />
+          return <TicketCard key={index} ticket={ticket} toggleForSale={() => this.toggleForSale(ticket, index)} />
         })
       );
     } else {

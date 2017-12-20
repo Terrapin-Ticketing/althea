@@ -4,14 +4,15 @@ import Home from './Home';
 import LoginRoute from './Login';
 import EventsRoute from './Events';
 import EventRoute from './Event';
-import CreateEventRoute from './CreateEvent';
+// import CreateEventRoute from './CreateEvent';
 import UserRoute from './User';
 import CheckoutRoute from './Checkout';
-import CheckoutConfirmationRoute from './CheckoutConfirmation';
-import EventManager from './EventManager';
+// import CheckoutConfirmationRoute from './CheckoutConfirmation';
+// import EventManager from './EventManager';
 import TicketRoute from './Ticket';
 import ActivateTicket from './ActivateTicket';
 import SetPassword from './SetPassword';
+import ForgotPassword from './ForgotPassword';
 import Transition from '../utils/AppearTransition';
 import requireAuth from '../utils/requireAuth';
 
@@ -31,6 +32,7 @@ export const createRoutes = (store) => ({
     TicketRoute(store, [ Transition ]),
     ActivateTicket(store, [ Transition ]),
     SetPassword(store, [ Transition ]),
+    ForgotPassword(store, [ Transition ]),
     // EventManager(store, [ ]),
     // CheckoutConfirmationRoute(store, [ ]),
     // CreateEventRoute(store, [ requireAuth, requirePKTimeout, requirePK ]),
