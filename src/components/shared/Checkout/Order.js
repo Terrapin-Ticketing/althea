@@ -18,7 +18,9 @@ class Order extends React.Component {
     let { order, event } = this.props;
     return (
       <tr key={event._id} className="order-details-rows">
-        <td className="name-column">{order._id.substring(0, 8)}...</td>
+        <td className="name-column">
+          { event.name } <br />
+          <i>{(order._id) ? `${order._id.substring(0, 8)}...` : order.ticketQty}</i></td>
         <td>{order.ticketQty}</td>
         <td className="price"><Price price={event.price} /></td>
       </tr>

@@ -22,7 +22,6 @@ export function getEvents() {
     };
 
     let { data: { events } } = await axios(options);
-    console.log('events: ', events);
 
     dispatch({
       type: SET_EVENTS,

@@ -28,8 +28,6 @@ export function checkout(something) {
 export const buyTicketsStripe = (token, order) => {
   return async (dispatch, getState) => {
 
-    console.log('order:', order);
-
     let options = {
       url: `${SHAKEDOWN_URL}/payment`,
       method: 'post',

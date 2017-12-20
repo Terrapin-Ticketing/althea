@@ -46,7 +46,7 @@ class Register extends React.Component {
               });
               this.setState({ email });
             }} />
-            <label for='email'>Email</label>
+            <label htmlFor='email'>Email</label>
           </div>
           <div className="input-field col s12 m6">
             <input id='password' type='text' value={password} onChange={(e) => {
@@ -57,7 +57,7 @@ class Register extends React.Component {
               });
               this.setState({ password });
             }} />
-            <label for='password'>Password</label>
+            <label htmlFor='password'>Password</label>
           </div>
         </div>
       </form>

@@ -38,7 +38,7 @@ export const UPDATE_ORDER = 'UPDATE_ORDER';
     creating async actions, especially when combined with redux-thunk! */
 export function getEventInfo(eventAddress) {
   return async (dispatch, getState) => {
-    
+
     dispatch({
       type: SET_EVENT_DETAILS,
       payload: {
@@ -57,9 +57,6 @@ export function getEventAuxInfo(eventAddress) {
       url: `${SHAKEDOWN_URL}/event/${eventAddress}`,
       method: 'get'
     });
-
-    console.log('res: ', res);
-    console.log('event: ', event);
 
     dispatch({
       type: SET_EVENT_DETAILS,
@@ -98,8 +95,6 @@ export const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_EVENT_DETAILS]: (state, action) => {
-    console.log('action.payload: ', action.payload);
-    console.log('state: ', state);
     return {
       ...state,
       currentEvent: {

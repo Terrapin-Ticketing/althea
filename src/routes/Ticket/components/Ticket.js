@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import Loading from '../../../components/shared/Loading';
 import Price from '../../../components/shared/Price';
 import EventInfo from '../../../components/shared/EventInfo/EventInfo';
@@ -53,21 +53,14 @@ class Ticket extends Component {
     return true;
   }
 
-  async registerUser() {
-    let { signup } = this.props;
-    let { userData } = this.state;
-    if (userData) await signup(userData.email, userData.password);
-    // user is defined after this point
-  }
-
   async onRegister(userData) {
     this.setState({ userData });
   }
 
   async buyTicketsWithStripe(token, order) {
-    await this.registerUser();
     let { buyTicketsStripe } = this.props;
     await buyTicketsStripe(token, order);
+    browserHistory.push(this.props.redirect);
   }
 
   render() {
@@ -147,27 +140,27 @@ class Ticket extends Component {
           </div>
         </div>
 
-        { user ? (<span></span>) : (<Register onRegister={this.onRegister.bind(this)} />) }
-
         {this.isOwner() ? (null) : (
-          <Order
-            serviceFee={this.state.serviceFee}
-            cardFee={this.state.cardFee}
-            total={this.state.total}
-            order={order}
-            event={event}
-            user={user}
-            buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
-          />
-        )}
+          <div className="row card checkout-information">
+            <div className="card-content">
+              <Order
+                serviceFee={this.state.serviceFee}
+                cardFee={this.state.cardFee}
+                total={this.state.total}
+                order={order}
+                event={event}
+                user={user}
+                buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
+              />
 
-        {this.isOwner() ? (null) : (
-          <Payment
-            order={order}
-            event={event}
-            user={user}
-            buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
-          />
+              <Payment
+                order={order}
+                event={event}
+                user={user}
+                buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
+              />
+            </div>
+          </div>
         )}
 
         <div className="card">

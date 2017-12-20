@@ -17,7 +17,6 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => {
-  console.log('unsold State: ', state);
   return {
     unsoldTickets: state.eventManager.unsoldTickets
   };

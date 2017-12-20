@@ -37,7 +37,6 @@ class Checkout extends Component {
     let { userData } = this.state;
     if (userData) await signup(userData.email, userData.password);
     // user is defined after this point
-    console.log(this.props.user);
   }
 
   async buyTicketsWithStripe(token, order) {

@@ -14,7 +14,8 @@ const mapStateToProps = (state) => {
     ticket: state.ticket.ticket,
     event: state.ticket.currentEvent,
     user: state.auth.user,
-    order: state.ticket.order
+    order: state.ticket.order,
+    redirect: state.ticket.redirect
   };
 };
 

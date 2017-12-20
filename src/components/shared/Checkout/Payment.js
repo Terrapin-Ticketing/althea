@@ -28,7 +28,7 @@ class Payment extends React.Component {
 
     return (
       <div className="payment-details col s12 l6">
-        <h2>Payment Details</h2>
+        <h2>Payment Information</h2>
         <div className="payment-method">
           <Elements>
             <USDPayment

@@ -27,8 +27,6 @@ export const setPassword = (passwordToken, password) => {
 
     let user = jwt.decode(token);
 
-    console.log(user);
-
     dispatch({
       type: 'LOGIN',
       payload: user

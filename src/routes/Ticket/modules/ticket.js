@@ -1,5 +1,6 @@
 import pasync from 'pasync';
 import axios from 'axios';
+import url from 'url';
 
 // ------------------------------------
 // Constants
@@ -7,6 +8,8 @@ import axios from 'axios';
 export const SET_TICKET_DETAILS = 'SET_TICKET_DETAILS';
 export const SET_EVENT_DETAILS = 'SET_EVENT_DETAILS';
 export const UPDATE_ORDER = 'UPDATE_ORDER';
+export const REDIRECT = 'REDIRECT';
+export const ERROR = 'ERROR';
 
 export function getEventInfo() {
   return async (dispatch, getState) => {
@@ -48,9 +51,45 @@ export const transferTicket = (ticketId, recipientAddress) => {
   };
 };
 
-export const buyTicket = (ticketId, recipientAddress) => {
+export const buyTicketsStripe = (token, ticketId) => {
   return async (dispatch, getState) => {
+    let options = {
+      url: `${SHAKEDOWN_URL}/payment/${ticketId}`,
+      method: 'post',
+      json: true,
+      data: {
+        token,
+        fees: 150, // should be calculated later,
+      },
+      withCredentials: true
+    };
 
+    let { data } = await axios(options);
+
+    if (data.error) {
+      dispatch({
+        type: ERROR,
+        payload: data.error
+      });
+    } else {
+      dispatch({
+        type: ERROR,
+        payload: null
+      });
+    }
+
+    if (data.passwordChangeUrl) {
+      let passwordChangeUrl = url.parse(data.passwordChangeUrl).pathname;
+      dispatch({
+        type: REDIRECT,
+        payload: passwordChangeUrl
+      });
+    } else {
+      dispatch({
+        type: REDIRECT,
+        payload: '/my-profile'
+      });
+    }
   };
 };
 
@@ -58,7 +97,8 @@ export const actions = {
   getTicketInfo,
   getEventInfo,
   toggleForSale,
-  transferTicket
+  transferTicket,
+  buyTicketsStripe
 };
 
 // ------------------------------------
@@ -84,6 +124,18 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       order: action.payload
+    };
+  },
+  [REDIRECT]: (state, action) => {
+    return {
+      ...state,
+      redirect: action.payload
+    };
+  },
+  [ERROR]: (state, action) => {
+    return {
+      ...state,
+      error: action.payload
     };
   }
 };

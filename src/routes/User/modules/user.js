@@ -49,12 +49,8 @@ export const toggleForSale = (ticket, index) => {
       withCredentials: true
     });
 
-    console.log('res.data.ticket: ', res.data.ticket);
-
     let tickets = getState().user.tickets;
-    console.log('tickets: ', tickets);
     tickets[index] = res.data.ticket;
-    console.log('tickets2: ', tickets);
 
     dispatch({
       type: SET_USER_TICKETS,

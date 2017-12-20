@@ -9,6 +9,7 @@ class CheckoutForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      email: null,
       error: null
     };
   }
@@ -18,15 +19,17 @@ class CheckoutForm extends React.Component {
       // We don't want to let default form submission happen here, which would refresh the page.
       ev.preventDefault();
 
+      let email = (user && user.email) || this.state.email;
+
       // Within the context of `Elements`, this call to createToken knows which Element to
       // tokenize, since there's only one in this group.
       // get name of user
-      let { token } = await this.props.stripe.createToken({ type: 'card', email: user.email});
+      let { token } = await this.props.stripe.createToken({ type: 'card', email });
       let { buyTicketsStripe, order } = this.props;
       try {
         // let transactionsList = await buyTicketsStripe(JSON.stringify(token), order);
-        await buyTicketsStripe(token, order);
-        browserHistory.push('/CheckoutConfirmation');
+        await buyTicketsStripe(token, order._id);
+        if (this.props.error) return this.setState({ activateError: this.props.error });
       } catch (err) {
         this.setState({error: err});
       }
@@ -41,6 +44,14 @@ class CheckoutForm extends React.Component {
     let { classname, user } = this.props;
     return (
       <form onSubmit={this.handleSubmit(user).bind(this)} className={`checkout-form ${classname}`}>
+          {(!user) ? (
+            <div className="col s12">
+              {/* <label htmlFor="email">Email</label> */}
+              <input id="email" placeholder="Email" type="text" className="" value={this.state.email} onChange={(e) => {
+                this.setState({email: e.target.value});
+              }} />
+            </div>
+          ): null}
           <div className="input-field col s12">
             <CardNumberElement style={{base: {fontSize: '18px'}}} />
           </div>
