@@ -44,6 +44,7 @@ export function activateTicket(urlSafeName, email, barcode) {
     };
 
     let { data } = await axios(options);
+    console.log('res',data);
 
     if (data.error) {
       dispatch({

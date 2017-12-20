@@ -58,14 +58,18 @@ class Ticket extends Component {
   }
 
   async buyTicketsWithStripe(token, order) {
+    this.setState({ isLoading: true });
+
     let { buyTicketsStripe } = this.props;
     await buyTicketsStripe(token, order);
-    browserHistory.push(this.props.redirect);
+    let { error, redirect } = this.props;
+    if (error) return this.setState({ error });
+    browserHistory.push(redirect);
   }
 
   render() {
     let { ticket, user, event } = this.props;
-    let order = { _id: this.props.params.ticketId, ticketQty: 1 }
+    let order = { _id: this.props.params.ticketId, ticketQty: 1 };
     if (!this.props.ticket._id) {
       return (
         <Loading />
@@ -79,7 +83,7 @@ class Ticket extends Component {
             {/* <span className="card-title">{ticket.eventId.name}</span> */}
             <a className="btn-floating halfway-fab waves-effect waves-light terrapin-green"><i className="material-icons">share</i></a>
           </div>
-          <div className="barcode-container center"  style={{display: 'block'}}>
+          <div className="barcode-container center" style={{display: 'block'}}>
             <img src={require('../../../layouts/assets/img/barcode.png')} /> <br />
             <span>This is the barcode that will be scanned to get you into the event.</span>
           </div>
@@ -140,7 +144,7 @@ class Ticket extends Component {
           </div>
         </div>
 
-        {this.isOwner() ? (null) : (
+        {this.isOwner() || !ticket.isForSale ? (null) : (
           <div className="row card checkout-information">
             <div className="card-content">
               <Order
@@ -157,11 +161,14 @@ class Ticket extends Component {
                 order={order}
                 event={event}
                 user={user}
+                isLoading={this.state.isLoading}
                 buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
               />
             </div>
           </div>
         )}
+
+        { this.state.error ? (<span className="card-panel red">{this.state.error}</span>) : null }
 
         <div className="card">
           <div className="card-content">
