@@ -168,7 +168,9 @@ class Ticket extends Component {
           </div>
         )}
 
-        { this.state.error ? (<span className="card-panel red">{this.state.error}</span>) : null }
+        { this.state.error ? (
+          <div className="terrapin-red lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>{this.state.error}</div>
+        ) : null }
 
         <div className="card">
           <div className="card-content">

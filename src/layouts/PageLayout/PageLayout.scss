@@ -1,5 +1,4 @@
 .page-content {
-  height: 90%;
   position: relative;
   top: 75px;
 }
@@ -139,4 +138,8 @@
   .header .menu-icon {
     display: none;
   }
+}
+
+.nav-item {
+  cursor: pointer
 }
