@@ -8,6 +8,7 @@ const locationModules = require('../../../store/location').actions;
 // Constants
 // ------------------------------------
 
+export const ERROR = 'ERROR';
 
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for
@@ -15,8 +16,6 @@ const locationModules = require('../../../store/location').actions;
 export const sendForgotPasswordEmail = (email) => {
   return async (dispatch, getState) => {
     // if the password doesn't match the local token use axios to get a new one
-    console.log('email', email);
-    console.log(`${SHAKEDOWN_URL}/set-password`);
     try {
       let res = await axios({
         url: `${SHAKEDOWN_URL}/set-password`,
@@ -24,18 +23,12 @@ export const sendForgotPasswordEmail = (email) => {
         data: { email },
         withCredentials: true
       });
-      console.log('res: ', res);
     } catch (err) {
-      console.log('err: ', err);
+      dispatch({
+        type: 'ERROR',
+        payload: err
+      });
     }
-    // let res = await axios({
-    //   url: `${SHAKEDOWN_URL}/set-password`,
-    //   method: 'post',
-    //   data: { email },
-    //   json: true,
-    //   withCredentials: true
-    // });
-
   };
 };
 
@@ -43,6 +36,12 @@ export const sendForgotPasswordEmail = (email) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [ERROR]: (state, action) => {
+    return {
+      ...state,
+      error: action.payload
+    };
+  },
 };
 
 // ------------------------------------
