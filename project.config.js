@@ -7,32 +7,27 @@ let ipAddress = getIpAddress()[0].address;
 
 // Local DEFAULTS
 let SHAKEDOWN_URL = JSON.stringify(`http://${ipAddress}:8080`);
-let EOTW_URL = JSON.stringify(`http://${ipAddress}:8000`);
 
 let STRIPE_PUBLIC_KEY = JSON.stringify('pk_test_GvYM7xVYxIO8vE41geXObIYD');
 
-// switch (NODE_ENV) {
-//   case 'testrpc':
-//     WEB3_HOST = JSON.stringify('http://localhost:8545');
-//     break;
-//   case 'demo': {
-//     let infura_apikey = 'ErkMqD1W4xWqfkfqNBnt';
-//     let ropsten_host = 'https://ropsten.infura.io/'+infura_apikey;
-//     WEB3_HOST = JSON.stringify(ropsten_host);
-//     SHAKEDOWN_URL = JSON.stringify('https://shakedown.terrapintickets.io');
-//     EOTW_URL = JSON.stringify('https://eotw.terrapintickets.io');
-//     break;
-//   }
-//   case 'ropsten': {
-//     let infura_apikey = 'ErkMqD1W4xWqfkfqNBnt';
-//     let ropsten_host = 'https://ropsten.infura.io/'+infura_apikey;
-//     WEB3_HOST = JSON.stringify(ropsten_host);
-//     SHAKEDOWN_URL = JSON.stringify('https://shakedown.terrapintickets.io');
-//     EOTW_URL = JSON.stringify('https://eotw.terrapintickets.io');
-//     break;
-//   }
-//   default:
-// }
+switch (NODE_ENV) {
+  case 'demo': {
+    SHAKEDOWN_URL = JSON.stringify('https://shakedown.terrapintickets.io');
+    break;
+  }
+  // case 'testrpc':
+  //   WEB3_HOST = JSON.stringify('http://localhost:8545');
+  //   break;
+  // case 'ropsten': {
+  //   let infura_apikey = 'ErkMqD1W4xWqfkfqNBnt';
+  //   let ropsten_host = 'https://ropsten.infura.io/'+infura_apikey;
+  //   WEB3_HOST = JSON.stringify(ropsten_host);
+  //   SHAKEDOWN_URL = JSON.stringify('https://shakedown.terrapintickets.io');
+  //   EOTW_URL = JSON.stringify('https://eotw.terrapintickets.io');
+  //   break;
+  // }
+  default:
+}
 
 function getIpAddress() {
   let ipAddresses = [];
@@ -78,7 +73,6 @@ module.exports = {
   /** A hash map of variables and their values to expose globally */
   globals: {
     SHAKEDOWN_URL,
-    EOTW_URL,
     STRIPE_PUBLIC_KEY
   },
   /** Whether to enable verbose logging */
