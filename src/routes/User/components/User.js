@@ -99,12 +99,11 @@ class User extends Component {
   render() {
     if (!this.props.user) return null;
     const { email } = this.props.user;
-    console.log('this.props: ', this.props);
     return (
       <div className="route-container container">
         <div className='card col s12'>
           <div className="card-content">
-            <h1>{email}</h1>
+            <h2>{email}</h2>
             <div className="profile-info">
               <div className="profile-left">
               </div>

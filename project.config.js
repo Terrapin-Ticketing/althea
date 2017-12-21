@@ -1,8 +1,13 @@
+let os = require('os');
+let ifaces = os.networkInterfaces();
+
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
+let ipAddress = getIpAddress()[0].address;
+
 // Local DEFAULTS
-let SHAKEDOWN_URL = JSON.stringify('http://localhost:8080');
-let EOTW_URL = JSON.stringify('http://localhost:8000');
+let SHAKEDOWN_URL = JSON.stringify(`http://${ipAddress}:8080`);
+let EOTW_URL = JSON.stringify(`http://${ipAddress}:8000`);
 
 let STRIPE_PUBLIC_KEY = JSON.stringify('pk_test_GvYM7xVYxIO8vE41geXObIYD');
 
@@ -28,6 +33,30 @@ let STRIPE_PUBLIC_KEY = JSON.stringify('pk_test_GvYM7xVYxIO8vE41geXObIYD');
 //   }
 //   default:
 // }
+
+function getIpAddress() {
+  let ipAddresses = [];
+  Object.keys(ifaces).forEach(function(ifname) {
+    let alias = 0;
+
+    ifaces[ifname].forEach(function(iface) {
+      if ('IPv4' !== iface.family || iface.internal !== false) {
+        // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+        return;
+      }
+
+      if (alias >= 1) {
+        // this single interface has multiple ipv4 addresses
+        ipAddresses.push({ ifname, alias, address: iface.address});
+      } else {
+        // this interface has only one ipv4 adress
+        ipAddresses.push({ ifname, address: iface.address});
+      }
+      ++alias;
+    });
+  });
+  return ipAddresses;
+}
 
 module.exports = {
   /** The environment to use when building the project */
