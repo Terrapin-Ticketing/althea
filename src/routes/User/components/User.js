@@ -4,7 +4,7 @@ import ReactModal from 'react-modal';
 import './User.scss';
 import Price from '../../../components/shared/Price';
 import TicketTransferModal from '../../Ticket/components/TicketTransferModal';
-import TicketRow from './TicketRow';
+import TicketCard from './TicketCard';
 
 class User extends Component {
   constructor(props) {
@@ -68,7 +68,7 @@ class User extends Component {
     if (tickets) {
       return (
         this.props.tickets.map((ticket, index) => {
-          return <TicketRow key={index} ticket={ticket} toggleForSale={() => this.toggleForSale(ticket, index)} />
+          return <TicketCard key={index} ticket={ticket} toggleForSale={() => this.toggleForSale(ticket, index)} />
         })
       );
     } else {
@@ -113,7 +113,7 @@ class User extends Component {
             </div>
           </div>
         </div>
-        <div className="card col s12">
+        <div className="col s12">
           <div className="card-content">
             {(this.props.location.query.ticketId) ? (
               <div className="terrapin-green lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>
@@ -124,20 +124,9 @@ class User extends Component {
               </div>
             ): null }
             <h2>Tickets</h2>
-            <table className="highlight responsive-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Name</th>
-                  <th className="qty">Price</th>
-                  <td>Status</td>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.renderTickets(this.props.tickets)}
-              </tbody>
-            </table>
+            <div className="row">
+              {this.renderTickets(this.props.tickets)}
+            </div>
           </div>
         </div>
         {/* <div className="card col s12">

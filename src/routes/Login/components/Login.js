@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Login.scss';
-import { browserHistory } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import classNames from 'classnames'
 
 class Login extends Component {
@@ -106,6 +106,7 @@ class Login extends Component {
         </div>
       </form>
     </div>
+    <Link to='/forgot-password' className="right-align"><small>Forgot Password?</small></Link>
   </div>
     );
   }
