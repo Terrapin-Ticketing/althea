@@ -1,3 +1,54 @@
+.card-action {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+
+  a {
+    display: flex;
+    margin: 0 !important;
+    padding: 0px;
+    text-align: center;
+  }
+}
+
+.card-title {
+  margin-bottom: 0px;
+}
+
+.venue-info {
+  margin: 25px 0;
+}
+
+.ReactModalPortal > * {
+    // When the modal is closed, overlay div has no css class
+    // This selector should be overridden by the `&--after-open` class below
+    opacity: 0;
+}
+.ReactModal__Overlay {
+  z-index: 99;
+  transition: opacity 200ms ease-in-out;
+  background: rgba(0, 0, 0, 0.15);
+  &--after-open {
+      opacity: 1;
+  }
+  &--before-close {
+      opacity: 0;
+  }
+}
+
+.ReactModal__Content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+}
+
 // .ticket-container {
 //   display: flex;
 //   flex-direction: column;

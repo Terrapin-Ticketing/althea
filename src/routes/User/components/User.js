@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
-import ReactModal from 'react-modal';
-import './User.scss';
 import Price from '../../../components/shared/Price';
-import TicketTransferModal from '../../Ticket/components/TicketTransferModal';
 import TicketCard from './TicketCard';
+import './User.scss';
 
 class User extends Component {
   constructor(props) {
@@ -21,29 +19,12 @@ class User extends Component {
       selectedEvent: null
     };
     this.toggleForSale = this.toggleForSale.bind(this);
+    this.transferTicket = this.transferTicket.bind(this);
   }
 
   componentDidMount() {
     this.props.getUserEvents();
     this.props.getUserTickets();
-    $('.dropdown-button').dropdown({
-      inDuration: 300,
-      outDuration: 225,
-      constrainWidth: false, // Does not change width of dropdown to that of the activator
-      hover: false, // Activate on hover
-      gutter: 0, // Spacing from edge
-      belowOrigin: false, // Displays dropdown below the button
-      alignment: 'left', // Displays dropdown with edge aligned to the left of button
-      stopPropagation: false // Stops event propagation
-    });
-
-    $('.modal').modal({
-      complete: function() { alert('Closed'); }
-    });
-  }
-
-  async sellTicket(ticket) {
-    await this.props.sellTicket(ticket);
   }
 
   componentWillUnmount() {
@@ -64,11 +45,21 @@ class User extends Component {
     this.props.toggleForSale(ticket, index);
   }
 
+  async transferTicket(ticketId, recipientEmail) {
+    let {ticket: transferedTicket} = await this.props.transferTicket(ticketId, recipientEmail);
+    this.setState({ ticketTransfered: true, transferedTicket: transferedTicket, recipientEmail: recipientEmail });
+    await this.props.getUserTickets();
+  }
+
   renderTickets(tickets) {
     if (tickets) {
       return (
         this.props.tickets.map((ticket, index) => {
-          return <TicketCard key={index} ticket={ticket} toggleForSale={() => this.toggleForSale(ticket, index)} />
+          return <TicketCard
+            key={index}
+            ticket={ticket}
+            transferTicket={this.transferTicket}
+            sellTicket={this.props.sellTicket} />
         })
       );
     } else {
@@ -115,6 +106,11 @@ class User extends Component {
         </div>
         <div className="col s12">
           <div className="card-content">
+            {(this.state.ticketTransfered) ? (
+              <div className="terrapin-green lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>
+                Transfered <Link to={`/event/${this.state.transferedTicket.eventId}/ticket/${this.state.transferedTicket._id}`} >{this.state.transferedTicket._id}</Link> to {this.state.recipientEmail}
+              </div>
+            ): null }
             {(this.props.location.query.ticketId) ? (
               <div className="terrapin-green lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>
                 Purchase Successful (
@@ -129,32 +125,6 @@ class User extends Component {
             </div>
           </div>
         </div>
-        {/* <div className="card col s12">
-          <div className="card-content">
-            <h2>Events</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Price</th>
-                  <th>Qty</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.renderEvents()}
-              </tbody>
-            </table>
-          </div>
-        </div> */}
-
-        <TicketTransferModal
-          ticket={this.state.selectedTicket}
-          closeModal={() => this.setState({transferTicketModalOpen: false, selectedTicket: null })}
-          isOpen={this.state.transferTicketModalOpen}
-          transferTicket={this.props.transferTicket} />
-
-
       </div>
     );
   }

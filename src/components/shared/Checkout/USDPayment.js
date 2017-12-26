@@ -1,11 +1,11 @@
-// CheckoutForm.js
+// USDPayment.js
 import React from 'react';
 import {injectStripe} from 'react-stripe-elements';
 import {CardNumberElement, CardExpiryElement, CardCVCElement} from 'react-stripe-elements';
 import { browserHistory } from 'react-router';
 import classames from 'classnames';
 
-class CheckoutForm extends React.Component {
+class USDPayment extends React.Component {
 
   constructor(props) {
     super(props);
@@ -28,8 +28,8 @@ class CheckoutForm extends React.Component {
       let { token } = await this.props.stripe.createToken({ type: 'card', email });
       let { buyTicketsStripe, order } = this.props;
       try {
-        // let transactionsList = await buyTicketsStripe(JSON.stringify(token), order);
-        await buyTicketsStripe(token, order._id);
+        // let transactionsList = await buyTicketsStripe(JSON.stringify(token), ticket);
+        await buyTicketsStripe(token, order[0]._id);
         if (this.props.error) return this.setState({ activateError: this.props.error });
       } catch (err) {
         this.setState({error: err});
@@ -89,4 +89,4 @@ class CheckoutForm extends React.Component {
   }
 }
 
-export default injectStripe(CheckoutForm);
+export default injectStripe(USDPayment);

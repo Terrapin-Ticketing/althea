@@ -7,29 +7,48 @@ import './Order.scss';
 class Order extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { };
+    this.state = {
+      serviceFee: 100,
+      cardFee: 100,
+      total: undefined
+    };
   }
 
   async componentDidMount() {
 
   }
 
+  calculateTotal() {
+    let { order } = this.props;
+    let { cardFee, serviceFee } = this.state;
+    let total = order.map((ticket) => ticket.price);
+    return total + (cardFee + serviceFee);
+  }
+
+  calculateCardFee(fees) {
+    let { order } = this.props;
+    return (event.price * order.ticketQty) + fees;
+  }
+
   renderTickets() {
-    let { order, event } = this.props;
-    return (
-      <tr key={event._id} className="order-details-rows">
-        <td className="name-column">
-          { event.name } <br />
-          <i>{(order._id) ? `${order._id.substring(0, 8)}...` : order.ticketQty}</i></td>
-        <td>{order.ticketQty}</td>
-        <td className="price"><Price price={event.price} /></td>
-      </tr>
-    );
+    let { order } = this.props;
+    return order.map((ticket, index) => {
+      return (
+        <tr key={index} className="order-details-rows">
+          <td className="name-column">
+            { ticket.eventId.name } <br />
+            { ticket.type }
+          </td>
+          <td></td>
+          <td className="price"><Price price={ticket.price} /></td>
+        </tr>
+      )
+    })
   }
 
   render() {
-    let { serviceFee, cardFee, total } = this.props;
-
+    let { order } = this.props;
+    let { serviceFee, cardFee, total } = this.state;
     return (
         <div className="order-details col s12 l6">
           <h2>Order Details</h2>
@@ -43,10 +62,20 @@ class Order extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                { this.renderTickets() }
+                {order.map((ticket, index) => {
+                  return (
+                    <tr key={index} className="order-details-rows">
+                      <td className="name-column">
+                        { ticket.eventId.name } <br />
+                        { ticket.type }
+                      </td>
+                      <td></td>
+                      <td className="price"><Price price={ticket.price} /></td>
+                    </tr>
+                  )})}
                 <tr className="service-fee"><td className="name-column">Service Fee</td><td></td><td><Price price={serviceFee} /></td></tr>
                 <tr className="card-fee"><td className="name-column">Credit Card Processing</td><td></td><td><Price price={cardFee} /></td></tr>
-                <tr className="total"><td className="name-column">Total:</td><td></td><td><Price price={total} /></td></tr>
+                <tr className="total"><td className="name-column">Total:</td><td></td><td><Price price={this.calculateTotal()} /></td></tr>
               </tbody>
             </table>
           </div>

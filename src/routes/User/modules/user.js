@@ -33,9 +33,15 @@ export const getUserEvents = () => {
   };
 };
 
-export const transferTicket = (ticketAddress, recipientAddress) => {
+export const transferTicket = (ticketId, recipientEmail) => {
   return async (dispatch, getState) => {
-    console.log('transfer');
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/tickets/${ticketId}/transfer`,
+      method: 'post',
+      data: {email: recipientEmail},
+      withCredentials: true
+    });
+    return res.data
   };
 };
 
@@ -46,6 +52,29 @@ export const toggleForSale = (ticket, index) => {
       url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/sell`,
       method: 'post',
       data: {isForSale},
+      withCredentials: true
+    });
+
+    let tickets = getState().user.tickets;
+    tickets[index] = res.data.ticket;
+
+    dispatch({
+      type: SET_USER_TICKETS,
+      payload: tickets
+    });
+  };
+};
+
+export const sellTicket = (ticket, index) => {
+  return async (dispatch, getState) => {
+    let { isForSale, price } = ticket;
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/sell`,
+      method: 'post',
+      data: {
+        isForSale,
+        price
+      },
       withCredentials: true
     });
 

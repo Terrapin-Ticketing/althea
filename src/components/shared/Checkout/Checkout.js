@@ -27,26 +27,17 @@ class Checkout extends Component {
   }
 
   render() {
-    let { serviceFee, cardFee, total } = this.state;
-    let { order, event, user, buyTicketsWithStripe } = this.props;
+    let { order, user, buyTicketsWithStripe, isLoading } = this.props;
 
     return (
       <div className="row card checkout-information">
-        <Order
-          serviceFee={serviceFee}
-          cardFee={cardFee}
-          total={total}
-          order={order}
-          event={event}
-          user={user}
-          buyTicketsWithStripe={buyTicketsWithStripe}
-        />
+        <Order order={order} />
 
         <Payment
           order={order}
-          event={event}
           user={user}
           buyTicketsWithStripe={buyTicketsWithStripe}
+          isLoading={isLoading}
         />
       </div>
     );

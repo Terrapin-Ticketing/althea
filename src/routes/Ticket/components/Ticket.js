@@ -4,8 +4,8 @@ import Loading from '../../../components/shared/Loading';
 import Price from '../../../components/shared/Price';
 import EventInfo from '../../../components/shared/EventInfo/EventInfo';
 
-import TicketViewModal from './TicketViewModal';
-import TicketTransferModal from './TicketTransferModal';
+import TicketTransferModal from '../../../components/shared/TicketTransferModal';
+import TicketSellModal from '../../../components/shared/TicketTransferModal';
 
 import Order from '../../../components/shared/Checkout/Order';
 import Payment from '../../../components/shared/Checkout/Payment';
@@ -20,7 +20,6 @@ class Ticket extends Component {
       serviceFee: 1,
       cardFee: 2
     };
-    this.openTicketViewModal = this.openTicketViewModal.bind(this);
     this.openTicketTransferModal = this.openTicketTransferModal.bind(this);
   }
 
@@ -69,7 +68,6 @@ class Ticket extends Component {
 
   render() {
     let { ticket, user, event } = this.props;
-    let order = { _id: this.props.params.ticketId, ticketQty: 1 };
     if (!this.props.ticket._id) {
       return (
         <Loading />
@@ -147,19 +145,10 @@ class Ticket extends Component {
         {this.isOwner() || !ticket.isForSale ? (null) : (
           <div className="row card checkout-information">
             <div className="card-content">
-              <Order
-                serviceFee={this.state.serviceFee}
-                cardFee={this.state.cardFee}
-                total={this.state.total}
-                order={order}
-                event={event}
-                user={user}
-                buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
-              />
+              <Order order={[ticket]} />
 
               <Payment
-                order={order}
-                event={event}
+                order={[ticket]}
                 user={user}
                 isLoading={this.state.isLoading}
                 buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
@@ -182,12 +171,6 @@ class Ticket extends Component {
               {ticket.eventId.venue.city}, {ticket.eventId.venue.state} {ticket.eventId.venue.zip}
           </div>
         </div>
-        <TicketViewModal
-          ticket={this.state.selectedTicket}
-          closeModal={() => this.setState({viewTicketModalOpen: false, selectedTicket: null })}
-          isOpen={this.state.viewTicketModalOpen}
-          user={user}
-          />
 
         <TicketTransferModal
           ticket={this.state.selectedTicket}

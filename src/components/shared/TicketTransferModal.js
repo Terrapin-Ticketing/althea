@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import ReactModal from 'react-modal';
-import './Ticket.scss'
-import modalStyles from '../../../layouts/modal-styles'
 
 class TicketTransferModal extends Component {
   constructor(props) {
@@ -13,6 +11,7 @@ class TicketTransferModal extends Component {
   }
 
   transferTicket(ticketId, recipient) {
+    console.log('TicketTransferModal ticketId: ', ticketId, 'recipient: ', recipient);
     this.props.transferTicket(ticketId, recipient);
     this.props.closeModal();
   }
@@ -24,17 +23,17 @@ class TicketTransferModal extends Component {
         isOpen={isOpen}
         contentLabel="View Ticket Modal"
         onRequestClose={() => closeModal()}
-        onAfterOpen={() => {
-          // const { ticket } = this.props;
-          // this.props.transferTicket(ticket.id, this.state.recipient);
-        }}
-        style={require('./../../../layouts/modal-styles').default}
+        style={require('../../layouts/modal-styles').default}
         >
           <div className="ticket-action-modal">
             <h3>Transfer Ticket:</h3>
-            <span className="ticket-address">{(ticket) ? ticket.id : null}</span>
-            <input type="text" onChange={(e) => this.setState({recipient: e.target.value})} placeholder="paste ticket recipient address here" />
-            <button onClick={() => this.transferTicket(ticket.id, this.state.recipient)}>Transfer Ticket</button>
+            <div className="input-field col s6">
+              <label htmlFor="email">Recipient's Email</label>
+              <input id="email" type="text" className="validate" value={this.state.email} onChange={(e) => {
+                this.setState({email: e.target.value});
+              }} />
+            </div>
+            <button className="btn waves-effect" onClick={() => this.transferTicket(ticket._id, this.state.email)}>Transfer Ticket</button>
           </div>
         </ReactModal>
     )

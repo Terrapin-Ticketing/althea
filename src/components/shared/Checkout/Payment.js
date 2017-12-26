@@ -12,19 +12,8 @@ class Payment extends React.Component {
     super(props);
   }
 
-  renderTickets() {
-    let { order, event } = this.props;
-    return (
-      <tr key={event.id} className="order-details-rows">
-        <td>{event._id.substring(0, 8)}...</td>
-        <td>{order.ticketQty}</td>
-        <td className="price"><Price price={event.price} /></td>
-      </tr>
-    );
-  }
-
   render() {
-    let { event, order, buyTicketsWithStripe, user, isLoading } = this.props;
+    let { order, buyTicketsWithStripe, user, isLoading } = this.props;
 
     return (
       <div className="payment-details col s12 l6">
@@ -33,7 +22,6 @@ class Payment extends React.Component {
           <Elements>
             <USDPayment
               buyTicketsStripe={buyTicketsWithStripe}
-              event={event}
               order={order}
               isLoading={isLoading}
               classname="payment-info"
