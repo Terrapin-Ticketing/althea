@@ -1,0 +1,66 @@
+.ReactModal__Content {
+  justify-content: flex-start;
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .ReactModal__Content {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+.top-navigation-non-mobile {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 20px 20px 0px 20px;
+}
+
+.top-navigation-mobile {
+  background: #147d29;
+  color: #ffffff;
+  padding: 15px;
+
+  .nav-control {
+    padding: 0px;
+    font-size: 14px;
+  }
+
+  .nav-title {
+    font-size: 20px;
+  }
+}
+
+button.active {
+ background: #090;
+ color: #ffffff;
+}
+
+button.active:hover {
+ background: #090;
+ color: #ffffff;
+}
+
+button.inactive {
+  background: #ffffff;
+  color: #090;
+  border: 1px solid #090;
+}
+
+button.inactive:hover {
+  background: #ffffff;
+  color: #090;
+}
+
+.modal-content {
+  padding: 20px;
+  border: '3px solid #e6e7e5';
+}
+
+.modal-actions {
+  // border-top: 1px solid hsla(0,0%,63%,.2);
+  padding: 15px 15px 0 15px;
+
+  .modal-action {
+    padding: 0 0 0 25px;
+  }
+}

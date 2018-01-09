@@ -96,6 +96,7 @@ class TicketRow extends Component {
           </div>
         </div>
         <TicketSellModal
+          user={this.props.user}
           ticket={this.props.ticket}
           index={this.props.key}
           closeModal={() => this.setState({ sellTicketModalOpen: false })}

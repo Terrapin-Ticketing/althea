@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import ReactModal from 'react-modal';
 
+import './ModalStyles.scss';
+
 class TicketTransferModal extends Component {
   constructor(props) {
     super(props);
@@ -26,14 +28,34 @@ class TicketTransferModal extends Component {
         style={require('../../layouts/modal-styles').default}
         >
           <div className="ticket-action-modal">
-            <h3>Transfer Ticket:</h3>
+            <div className="top-navigation-mobile hide-on-med-and-up">
+              <div className="row valign-wrapper" style={{padding: 0, marginBottom: 0}}>
+                <div className="nav-control col s1 left-align">
+                  <i className="material-icons" style={{cursor: 'pointer' }} onClick={() => closeModal()}>close</i>
+                </div>
+                <div className="nav-title col s9 ">
+                  Transfer Ticket
+                </div>
+                <div className="nav-control col s2 right-align">
+                  <div style={{cursor: 'pointer' }} onClick={() => this.transferTicket(ticket._id, this.state.email)}>Transfer</div>
+                </div>
+              </div>
+            </div>
+            <div className="top-navigation-non-mobile hide-on-small-only">
+              Transfer Ticket
+            </div>
+            <div className="modal-content">
             <div className="input-field col s6">
               <label htmlFor="email">Recipient's Email</label>
               <input id="email" type="text" className="validate" value={this.state.email} onChange={(e) => {
                 this.setState({email: e.target.value});
               }} />
             </div>
-            <button className="btn waves-effect" onClick={() => this.transferTicket(ticket._id, this.state.email)}>Transfer Ticket</button>
+            <div className="modal-actions right-align hide-on-small-only">
+              <a className="close modal-action" style={{cursor: 'pointer'}} onClick={() => closeModal()}>Cancel</a>
+              <a className="save modal-action" style={{cursor: 'pointer'}} onClick={() => this.transferTicket(ticket._id, this.state.email)}>Transfer</a>
+            </div>
+          </div>
           </div>
         </ReactModal>
     )

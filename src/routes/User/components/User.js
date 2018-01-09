@@ -57,6 +57,7 @@ class User extends Component {
         this.props.tickets.map((ticket, index) => {
           return <TicketCard
             key={index}
+            user={this.props.user}
             ticket={ticket}
             transferTicket={this.transferTicket}
             sellTicket={this.props.sellTicket} />

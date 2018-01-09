@@ -1,11 +1,9 @@
 import pasync from 'pasync';
 import axios from 'axios';
 
-export const GET_USER_INFO = 'GET_USER_INFO';
 export const SET_USER_EVENTS = 'SET_USER_EVENTS';
 export const SET_USER_TICKETS = 'SET_USER_TICKETS';
-export const GET_USER_TICKETS = 'GET_USER_TICKETS';
-export const GET_USER_EVENTS = 'GET_USER_EVENTS';
+export const SET_USER_INFO = 'SET_USER_INFO';
 export const LOGOUT = 'LOGOUT';
 
 export const getUserTickets = () => {
@@ -65,26 +63,44 @@ export const toggleForSale = (ticket, index) => {
   };
 };
 
-export const sellTicket = (ticket, index) => {
+export const sellTicket = (ticket, payoutMethod, payoutValue, index) => {
   return async (dispatch, getState) => {
     let { isForSale, price } = ticket;
-    let res = await axios({
+    let ticketRes = await axios({
       url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/sell`,
       method: 'post',
       data: {
         isForSale,
-        price
+        price,
+      },
+      withCredentials: true
+    });
+
+    let { user } = getState().auth;
+    let userRes = await axios({
+      url: `${SHAKEDOWN_URL}/user/${user._id}/payout`,
+      method: 'post',
+      data: {
+        payoutMethod,
+        payoutValue
       },
       withCredentials: true
     });
 
     let tickets = getState().user.tickets;
-    tickets[index] = res.data.ticket;
+    tickets[index] = ticketRes.data.ticket;
+    user = userRes.data.user
 
     dispatch({
       type: SET_USER_TICKETS,
       payload: tickets
     });
+
+    dispatch({
+      type: SET_USER_INFO,
+      payload: user
+    });
+
   };
 };
 
@@ -99,11 +115,6 @@ export const sellTicket = (ticket, index) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [GET_USER_INFO]: (state, action) => {
-    return {
-      ...state
-    };
-  },
   [SET_USER_TICKETS]: (state, action) => {
     return {
       ...state,

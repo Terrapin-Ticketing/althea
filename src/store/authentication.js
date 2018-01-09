@@ -8,6 +8,7 @@ import setAuthorizationToken from '../utils/setAuthorizationToken';
 // Constants
 // ------------------------------------
 export const LOGIN = 'LOGIN';
+export const SET_USER_INFO = 'SET_USER_INFO';
 export const LOGOUT = 'LOGOUT';
 
 function deleteCookie(name) {
@@ -75,6 +76,13 @@ export const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [LOGIN]: (state, action) => {
+    console.log('user: ', action);
+    return {
+      ...state,
+      user: action.payload
+    };
+  },
+  [SET_USER_INFO]: (state, action) => {
     return {
       ...state,
       user: action.payload

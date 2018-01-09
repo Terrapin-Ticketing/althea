@@ -13,12 +13,13 @@ export default {
     left                       : null,
     right                      : null,
     bottom                     : null,
-    border                     : '3px solid #e6e7e5',
+    // border                     : '3px solid #e6e7e5',
+    border                     : 'none',
     background                 : '#ffffff',
     overflow                   : 'auto',
     WebkitOverflowScrolling    : 'touch',
     borderRadius               : '4px',
     outline                    : 'none',
-    padding                    : '20px'
+    padding                    : '0px'
   }
 };

@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
 import ReactModal from 'react-modal';
 import Order from './Checkout/Order';
+import classNames from 'classNames';
+
+import './ModalStyles.scss';
 
 class TicketSellModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ticket: this.props.ticket
+      ticket: props.ticket,
+      payoutMethod: props.user.payout.default || 'paypal',
+      venmo: props.user.payout.venmo || null,
+      paypal: props.user.payout.paypal || null
     };
     this.sellTicket = this.sellTicket.bind(this);
   }
@@ -20,7 +26,7 @@ class TicketSellModal extends Component {
   async sellTicket() {
     let { ticket } = this.state;
     this.setState({ isLoading: true });
-    await this.props.sellTicket(ticket, this.props.index);
+    await this.props.sellTicket(ticket, this.state.payoutMethod, this.state.payoutValue, this.props.index);
     this.setState({ isLoading: false })
     this.props.closeModal();
   }
@@ -32,56 +38,107 @@ class TicketSellModal extends Component {
         isOpen={isOpen}
         contentLabel="Sell Ticket Modal"
         onRequestClose={() => closeModal()}
-        onAfterOpen={() => {
-          // const { ticket } = this.props;
-          // this.props.sellTicket(ticket.id, this.state.recipient);
-        }}
         style={require('../../layouts/modal-styles').default}
-        >
+      >
           <div className="ticket-action-modal">
-            <h3>Sell Ticket:</h3>
-            {/* Price: $ */}
-            <Order order={[this.state.ticket]} />
-            <div className="row valign-wrapper">
-              <div className="input-field col s12 m6">
-                <i className="material-icons prefix">attach_money</i>
-                {/* <label htmlFor="price">Price</label> */}
-                <input id="price" type="text"
-                  placeholder={ticket.price}
-                  className="validate icon_prefix"
-                  value={this.state.ticket.price}
-                  onChange={(e) => {
-                    let ticket = this.state.ticket;
-                    ticket.price = e.target.value
-                    this.setState({ticket});
-                  }}
-                />
-              </div>
-              <div className="col s12 m6">
-                <div className="switch">
-                  <label>
-                    Not For Sale
-                    <input
-                      type="checkbox"
-                      checked={this.state.ticket.isForSale}
-                      onChange={() => {
-                        let ticket = this.state.ticket;
-                        ticket.isForSale = !ticket.isForSale;
-                        this.setState({ ticket });
-                      }}
-                    />
-                    <span className="lever"></span>
-                    For Sale
-                  </label>
+            <div className="top-navigation-mobile hide-on-med-and-up">
+              <div className="row valign-wrapper" style={{padding: 0, marginBottom: 0}}>
+                <div className="nav-control col s1 left-align">
+                  <i className="material-icons" style={{cursor: 'pointer' }} onClick={() => closeModal()}>close</i>
+                </div>
+                <div className="nav-title col s9 ">
+                  Sell Ticket
+                </div>
+                <div className="nav-control col s2 right-align">
+                  <div style={{cursor: 'pointer' }} onClick={() => this.sellTicket()}>Save</div>
                 </div>
               </div>
             </div>
-            {/* <input type="text" onChange={(e) => this.setState({recipient: e.target.value})} placeholder="paste ticket recipient address here" /> */}
-            <div className="col s12 center-align">
-              <button className="btn waves-effect center-align" onClick={() => this.sellTicket()}>Save Changes</button>
+            <div className="top-navigation-non-mobile hide-on-small-only">
+              Sell Ticket
             </div>
+            <div className="modal-content">
+              <div>
+                <div className='row'>
+                  <button
+                    className={classNames('col s6 btn-flat btn-large',
+                    {'active': (this.state.payoutMethod === 'paypal')},
+                    {'inactive': (this.state.payoutMethod === 'venmo')}
+                  )}
+                  onClick={() => this.setState({ payoutMethod: 'paypal' })}>
+                  PayPal
+                </button>
+                <button
+                  className={classNames('col s6 btn-flat btn-large',
+                  {'active': (this.state.payoutMethod === 'venmo')},
+                  {'inactive': (this.state.payoutMethod === 'paypal')}
+                )}
+                onClick={() => this.setState({ payoutMethod: 'venmo' })}>
+                Venmo
+              </button>
+              <div className="input-field col s12">
+                <input id="price" type="text"
+                  placeholder={
+                    (this.state.payoutMethod === 'paypal') ? 'Enter PayPal Email Address'
+                    : 'Enter Venmo Username'
+                  }
+                  value={(this.state.payoutMethod === 'paypal') ? this.state.paypal : this.state.venmo}
+                  onChange={(e) => {
+                    let payoutMethod = this.state.payoutMethod;
+                    let payoutValue = e.target.value;
+                    console.log('this.state: ', this.state);
+                    console.log('payoutMethod: ', payoutMethod);
+                    console.log('payoutValue: ', payoutValue);
+                    this.setState({[payoutMethod]: payoutValue});
+                  }}
+                />
+              </div>
             </div>
-        </ReactModal>
+
+            <div className="row">
+              <div className="input-field col s12">
+                <label htmlFor="price">Price</label>
+                  <input id="price" type="text"
+                    // placeholder="Price"
+                    value={this.state.ticket.price}
+                    onChange={(e) => {
+                      let ticket = this.state.ticket;
+                      ticket.price = e.target.value
+                      this.setState({ticket});
+                    }}
+                  />
+              </div>
+            </div>
+
+            <div className="row">
+              <ul className="col s12">
+                <li><div>For Sale
+                  <div className="switch secondary-content">
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={this.state.ticket.isForSale}
+                        onChange={() => {
+                          let ticket = this.state.ticket;
+                          ticket.isForSale = !ticket.isForSale;
+                          this.setState({ ticket });
+                        }}
+                      />
+                      <span className="lever"></span>
+                    </label>
+                  </div>
+                </div>
+                </li>
+              </ul>
+            </div>
+            <div className="modal-actions right-align hide-on-small-only">
+              <a className="close modal-action" style={{cursor: 'pointer'}} onClick={() => closeModal()}>Cancel</a>
+              <a className="save modal-action" style={{cursor: 'pointer'}} onClick={() => this.sellTicket()}>Save</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ReactModal>
     )
   }
 }
