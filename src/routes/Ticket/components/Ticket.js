@@ -83,6 +83,7 @@ class Ticket extends Component {
           </div>
           { ticket.barcode && (
             <div className="barcode-container center" style={{display: 'block'}}>
+              {/* CINCI TICKET CODE (needs to be abstracted) */}
               <img src={`https://terrapin.cincyregister.com/images/barcode.php?c=${ticket.barcode}&p=520a67c3&f=0&x=2&h=60&q=3&t=code128`} /> <br />
               <span>This is the barcode that will be scanned to get you into the event. (This is only visible to you)</span>
             </div>

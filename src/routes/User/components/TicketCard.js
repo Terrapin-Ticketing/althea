@@ -67,7 +67,7 @@ class TicketRow extends Component {
                 <Link className="btn-flat waves-effect" to={`event/${ticket.eventId._id}/ticket/${ticket._id}`}>View</Link>
                 <Link className="btn-flat waves-effect" onClick={() => this.openTicketSellModal()}>Sell</Link>
                 <Link className="btn-flat waves-effect" onClick={() => this.openTicketTransferModal()}>Transfer</Link>
-                <Link className="btn-flat waves-effect">History</Link>
+                {/* <Link className="btn-flat waves-effect">History</Link> */}
               </div>
             </div>
           </div>
@@ -92,7 +92,7 @@ class TicketRow extends Component {
               <Link className="btn-flat waves-effect" to={`event/${ticket.eventId._id}/ticket/${ticket._id}`}>View</Link>
               <Link className="btn-flat waves-effect" onClick={() => this.openTicketSellModal()}>Sell</Link>
               <Link className="btn-flat waves-effect" onClick={(e) => this.openTicketTransferModal(ticket)}>Transfer</Link>
-              <Link className="btn-flat waves-effect">History</Link>
+              {/* <Link className="btn-flat waves-effect">History</Link> */}
             </div>
           </div>
         </div>
