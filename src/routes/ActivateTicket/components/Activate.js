@@ -38,7 +38,7 @@ class Activate extends Component {
 
   render() {
     let user = this.props.user;
-    if (!this.props.event._id) {
+    if (!this.props.event || !this.props.event._id) {
       return (
         <Loading />
       );

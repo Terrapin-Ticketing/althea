@@ -47,6 +47,7 @@ class USDPayment extends React.Component {
       <form onSubmit={this.handleSubmit(user).bind(this)} className={`checkout-form ${classname}`}>
           {(!user) ? (
             <div className="col s12">
+              <label style={{color: 'red'}}>(Ticket will be sent to this email address)</label>
               {/* <label htmlFor="email">Email</label> */}
               <input id="email" placeholder="Email" type="text" className="" value={this.state.email || ''} onChange={(e) => {
                 this.setState({email: e.target.value});

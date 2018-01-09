@@ -81,10 +81,13 @@ class Ticket extends Component {
             {/* <span className="card-title">{ticket.eventId.name}</span> */}
             <a className="btn-floating halfway-fab waves-effect waves-light terrapin-green"><i className="material-icons">share</i></a>
           </div>
-          <div className="barcode-container center" style={{display: 'block'}}>
-            <img src={require('../../../layouts/assets/img/barcode.png')} /> <br />
-            <span>This is the barcode that will be scanned to get you into the event.</span>
-          </div>
+          { ticket.barcode && (
+            <div className="barcode-container center" style={{display: 'block'}}>
+              {/* CINCI TICKET CODE (needs to be abstracted) */}
+              <img src={`https://terrapin.cincyregister.com/images/barcode.php?c=${ticket.barcode}&p=520a67c3&f=0&x=2&h=60&q=3&t=code128`} /> <br />
+              <span>This is the barcode that will be scanned to get you into the event. (This is only visible to you)</span>
+            </div>
+          ) }
           <div className="card-content card" style={{margin: 0, borderRadius: 0, boxShadow: 'none'}}>
             {/* <span className="card-title">Ticket Details</span> */}
             <table className="responsive-table">
