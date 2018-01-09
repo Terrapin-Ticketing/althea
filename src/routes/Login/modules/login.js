@@ -13,13 +13,17 @@ const locationModules = require('../../../store/location').actions;
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
 export const login = (email, password) => {
+  console.log('logging in herr');
   return async (dispatch, getState) => {
     // if the password doesn't match the local token use axios to get a new one
     let res = await axios({
       url: `${SHAKEDOWN_URL}/login`,
       method: 'post',
       data: {email, password},
-      withCredentials: true
+      withCredentials: true,
+      headers: {
+        'Access-Control-Allow-Credentials': 'true'
+      }
     });
 
     let { token } = res.data;
@@ -42,7 +46,8 @@ export const signup = (email, password, privateKey) => {
       url: `${SHAKEDOWN_URL}/signup`,
       method: 'post',
       data: {email, password, privateKey},
-      withCredentials: true
+      withCredentials: true,
+
     });
 
     let { token } = res.data;
