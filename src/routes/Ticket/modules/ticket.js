@@ -19,7 +19,11 @@ export function getEventInfo() {
 
 export function getTicketInfo(ticketId) {
   return async (dispatch, getState) => {
-    let { data: { ticket } } = await axios(`${SHAKEDOWN_URL}/tickets/${ticketId}`);
+    let { data: { ticket } } = await axios({
+      url: `${SHAKEDOWN_URL}/tickets/${ticketId}`,
+      method: 'get',
+      withCredentials: true
+    });
 
     dispatch({
       type: SET_TICKET_DETAILS,

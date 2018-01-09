@@ -15,7 +15,8 @@ class TicketRow extends Component {
       isForSale: props.ticket.isForSale,
       ticketTransfered: false,
       sellTicketModalOpen: false,
-      transferTicketModalOpen: false
+      transferTicketModalOpen: false,
+      initTransfer: false
     };
     this.transferTicket = this.transferTicket.bind(this);
   }
@@ -39,7 +40,7 @@ class TicketRow extends Component {
 
   async transferTicket(ticketId, recipientEmail) {
     let res = await this.props.transferTicket(ticketId, recipientEmail);
-    this.setState({ ticketTransfered: true })
+    this.setState({ ticketTransfered: true });
     setTimeout(function() { this.setState({hidden: true}); }.bind(this), 500);
   }
 
