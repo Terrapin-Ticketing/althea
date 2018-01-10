@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactModal from 'react-modal';
 import Order from './Checkout/Order';
-import classNames from 'classNames';
+import classNames from 'classnames';
 
 import './ModalStyles.scss';
 
