@@ -84,8 +84,9 @@ class Event extends Component {
   }
 
   renderActivateButton() {
+    console.log(this.props.event.urlSafe);
     return (
-      <button onClick={()=> browserHistory.push(`${this.props.urlSafe}/activate`)} className="waves-effect waves-light btn-large terrapin-green">Activate Tickets</button>
+      <button onClick={()=> browserHistory.push(`${this.props.event.urlSafe}/activate`)} className="waves-effect waves-light btn-large terrapin-green">Activate Tickets</button>
     );
   }
 
