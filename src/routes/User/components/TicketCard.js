@@ -30,6 +30,7 @@ class TicketRow extends Component {
 
   openTicketSellModal() {
     this.setState({ sellTicketModalOpen: true });
+    window.setTimeout(() => { Materialize.updateTextFields(); }, 500);
   }
 
   ticketClick(ticket) {
@@ -50,6 +51,7 @@ class TicketRow extends Component {
       <div className={classNames('scale-transition', { 'scale-out': this.state.ticketTransfered, hide: this.state.hidden })}>
         <div className="card medium show-on-small hide-on-med-and-up" style={{height: 450}}>
           <div className="card-image col s12 m6">
+            {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
             <img src={ticket.eventId.imageUrl} />
             <span className="card-title">{ticket.eventId.name}</span>
             {/* <a className="btn-floating halfway-fab waves-effect waves-light terrapin-green"><i className="material-icons">share</i></a> */}
@@ -74,6 +76,7 @@ class TicketRow extends Component {
         </div>
         <div className="card horizontal sticky-action small hide-on-small-only">
           <div className="card-image col s12 m6">
+            {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
             <img src={ticket.eventId.imageUrl} />
             <span className="card-title">{ticket.eventId.name}</span>
             {/* <a className="btn-floating halfway-fab waves-effect waves-light terrapin-green"><i className="material-icons">share</i></a> */}
@@ -100,6 +103,11 @@ class TicketRow extends Component {
           user={this.props.user}
           ticket={this.props.ticket}
           index={this.props.key}
+          onAfterOpen={() => {
+            window.setTimeout(() => {
+              Materialize.updateTextFields();
+             }, 1500);
+          }}
           closeModal={() => this.setState({ sellTicketModalOpen: false })}
           isOpen={this.state.sellTicketModalOpen}
           sellTicket={this.props.sellTicket} />

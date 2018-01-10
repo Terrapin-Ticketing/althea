@@ -9,6 +9,12 @@
   }
 }
 
+.disabled {
+  color: #dfdfdf;
+  pointer-events: none;
+  cursor: default;
+}
+
 .top-navigation-non-mobile {
   font-size: 20px;
   font-weight: bold;
@@ -62,5 +68,12 @@ button.inactive:hover {
 
   .modal-action {
     padding: 0 0 0 25px;
+    cursor: pointer;
   }
+}
+
+.modal-section {
+  display: block;
+  height: 1px;
+  background-color: rgba(0,0,0,.12);
 }

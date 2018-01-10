@@ -76,7 +76,6 @@ export const actions = {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [LOGIN]: (state, action) => {
-    console.log('user: ', action);
     return {
       ...state,
       user: action.payload

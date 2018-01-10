@@ -5,6 +5,8 @@ import {CardNumberElement, CardExpiryElement, CardCVCElement} from 'react-stripe
 import { browserHistory } from 'react-router';
 import classames from 'classnames';
 
+import './Payment.scss';
+
 class USDPayment extends React.Component {
 
   constructor(props) {
@@ -19,6 +21,7 @@ class USDPayment extends React.Component {
     return async(ev) => {
       // We don't want to let default form submission happen here, which would refresh the page.
       ev.preventDefault();
+      if (user._id === this.props.order[0].ownerId) return;
 
       let email = (user && user.email) || this.state.email;
 
@@ -42,34 +45,35 @@ class USDPayment extends React.Component {
   }
 
   render() {
-    let { classname, user, isLoading } = this.props;
+    let { classname, user, isLoading, order } = this.props;
     return (
       <form onSubmit={this.handleSubmit(user).bind(this)} className={`checkout-form ${classname}`}>
-          {(!user) ? (
-            <div className="col s12">
-              <label style={{color: 'red'}}>(Ticket will be sent to this email address)</label>
-              {/* <label htmlFor="email">Email</label> */}
-              <input id="email" placeholder="Email" type="text" className="" value={this.state.email || ''} onChange={(e) => {
-                this.setState({email: e.target.value});
-              }} />
-            </div>
-          ): null}
-          <div className="input-field col s12">
-            <CardNumberElement style={{base: {fontSize: '18px'}}} />
+          <div className="col s12">
+            {/* <label htmlFor="email">Email</label> */}
+            <input id="email" placeholder="Email" type="text" style={{borderBottom: '1px solid rgba(0,0,0,.12)'}} value={this.state.email || ''} onChange={(e) => {
+              this.setState({email: e.target.value});
+            }} />
           </div>
-          <div className="input-field col s12">
+          <div className="input-field payment-field col s12">
+            <CardNumberElement style={{base: {fontSize: '18px', background: '1px solid #149739'}}} />
+          </div>
+          <div className="input-field col s12 m6">
             <CardExpiryElement style={{base: {fontSize: '18px'}}} />
           </div>
-          <div className="input-field col s12">
+          <div className="input-field col s12 m6">
             <CardCVCElement style={{base: {fontSize: '18px'}}} />
           </div>
         <div className='error'>
           {this.renderError()}
         </div>
-
-        <button className={classames('wave-effect waves-light btn btn-large terrapin-green', { disabled: isLoading })} type="submit">
-          Confirm order
-        </button>
+        <div className="center-align">
+          <button
+            disabled={(!this.props.order[0].isForSale || (user && user._id === order[0].ownerId))}
+            className={classames('wave-effect waves-light btn btn-large terrapin-green', { disabled: isLoading })}
+            type="submit">
+            Buy Ticket
+          </button>
+        </div>
         { isLoading ? (
           <div className="spinner-container">
             <div className="preloader-wrapper small active">

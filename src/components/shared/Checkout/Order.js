@@ -21,8 +21,8 @@ class Order extends React.Component {
   calculateTotal() {
     let { order } = this.props;
     let { cardFee, serviceFee } = this.state;
-    let total = order.map((ticket) => ticket.price);
-    return total + (cardFee + serviceFee);
+    let total = order.reduce((total, ticket) => total + ticket.price);
+    return total.price + (cardFee + serviceFee);
   }
 
   calculateCardFee(fees) {
@@ -50,14 +50,14 @@ class Order extends React.Component {
     let { order } = this.props;
     let { serviceFee, cardFee, total } = this.state;
     return (
-        <div className="order-details col s12 l6">
+        <div className="order-details card-content col s12 l6">
           <h2>Order Details</h2>
           <div className="order-box">
             <table className="order-table bordered">
               <thead>
                 <tr className="order-details-header">
                   <th className="name-column">Event</th>
-                  <th>Quantity</th>
+                  {/* <th>Quantity</th> */}
                   <th>Price</th>
                 </tr>
               </thead>
@@ -69,13 +69,13 @@ class Order extends React.Component {
                         { ticket.eventId.name } <br />
                         { ticket.type }
                       </td>
-                      <td></td>
+                      {/* <td></td> */}
                       <td className="price"><Price price={ticket.price} /></td>
                     </tr>
                   )})}
-                <tr className="service-fee"><td className="name-column">Service Fee</td><td></td><td><Price price={serviceFee} /></td></tr>
-                <tr className="card-fee"><td className="name-column">Credit Card Processing</td><td></td><td><Price price={cardFee} /></td></tr>
-                <tr className="total"><td className="name-column">Total:</td><td></td><td><Price price={this.calculateTotal()} /></td></tr>
+                <tr className="service-fee"><td className="name-column">Service Fee</td><td><Price price={serviceFee} /></td></tr>
+                <tr className="card-fee"><td className="name-column">Credit Card Processing</td><td><Price price={cardFee} /></td></tr>
+                <tr className="total"><td className="name-column">Total:</td><td><Price price={this.calculateTotal()} /></td></tr>
               </tbody>
             </table>
           </div>

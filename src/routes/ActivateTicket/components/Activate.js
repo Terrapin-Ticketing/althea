@@ -10,7 +10,7 @@ class Activate extends Component {
     super(props);
     this.state = {
       email: '',
-      barcode: '',
+      barcode: this.props.location.query.ticketId || '',
       orderNumber: '',
       activateError: null
     };
@@ -21,6 +21,7 @@ class Activate extends Component {
     this.props.getEventInfo(this.props.params.urlSafeName);
     let user = this.props.user;
     if (user) this.setState({ email: user.email });
+    window.setTimeout(() => { Materialize.updateTextFields() }, 500);
   }
 
   async activateTicket(e) {
@@ -51,7 +52,7 @@ class Activate extends Component {
             <form className='col s12 login-form' onSubmit={this.activateTicket}>
               <div className="input-field col s6">
                 <label htmlFor="barcode">Ticket Number</label>
-                <input id="barcode" type="text" className="validate" value={this.state.barcode} onChange={(e) => {
+                <input id="barcode" type="text" data-error="wrong" className="validate" value={this.state.barcode} onChange={(e) => {
                   this.setState({barcode: e.target.value});
                 }} />
               </div>
@@ -64,7 +65,7 @@ class Activate extends Component {
               <div className="submit-row">
                 <span className='error'>{(this.state.activateError) ? this.state.activateError : null}</span>
                 {/* <span className='user'>{(this.props.user) ? JSON.stringify(this.props.user) : ''}</span> */}
-                <button type="submit" className="btn-large terrapin-green center-align">
+                <button type="submit" className="btn-large terrapin-green center-align wave-effect waves-light">
                   Activate Ticket
                 </button>
               </div>

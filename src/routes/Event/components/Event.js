@@ -83,6 +83,12 @@ class Event extends Component {
     );
   }
 
+  renderActivateButton() {
+    return (
+      <button onClick={()=> browserHistory.push(`${this.props.urlSafe}/activate`)} className="waves-effect waves-light btn-large terrapin-green">Activate Tickets</button>
+    );
+  }
+
   render() {
     let { backgroundColor, textColor, description, website, venue } = this.props.event;
     let { isLoading } = this.state;
@@ -114,11 +120,12 @@ class Event extends Component {
                 <div className='middle-bar'>
                   <div className='spacing'></div>
                   <div className='order-container'>
-                    <QtyCounter
+                    {/* <QtyCounter
                       count={this.state.ticketQty}
                       onChange={(count) => this.updateOrder(count) }
-                      ticketsRemaining={this.props.event.ticketsRemaining} />
-                      {this.renderBuyButton()}
+                      ticketsRemaining={this.props.event.ticketsRemaining} /> */}
+                      {/* {this.renderBuyButton()} */}
+                      {this.renderActivateButton()}
                   </div>
                 </div>
               )}

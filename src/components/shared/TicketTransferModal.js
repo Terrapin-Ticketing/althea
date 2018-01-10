@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactModal from 'react-modal';
+import classNames from 'classNames';
 
 import './ModalStyles.scss';
 
@@ -7,13 +8,12 @@ class TicketTransferModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      email: null
     };
     this.transferTicket = this.transferTicket.bind(this);
   }
 
   transferTicket(ticketId, recipient) {
-    console.log('TicketTransferModal ticketId: ', ticketId, 'recipient: ', recipient);
     this.props.transferTicket(ticketId, recipient);
     this.props.closeModal();
   }
@@ -36,8 +36,8 @@ class TicketTransferModal extends Component {
                 <div className="nav-title col s9 ">
                   Transfer Ticket
                 </div>
-                <div className="nav-control col s2 right-align">
-                  <div style={{cursor: 'pointer' }} onClick={() => this.transferTicket(ticket._id, this.state.email)}>Transfer</div>
+                <div className={classNames('nav-control col s2 right-align', {'disabled': !this.state.email })}
+                  onClick={() => this.transferTicket(ticket._id, this.state.email)}>Transfer</div>
                 </div>
               </div>
             </div>
@@ -45,17 +45,21 @@ class TicketTransferModal extends Component {
               Transfer Ticket
             </div>
             <div className="modal-content">
+            <div className="terrapin-red lighten-1 card-panel">
+              <i className="material-icons tiny">warning</i> Transfering your ticket will void the current barcode and generate a new one for the person receiving the ticket. This process cannot be undone.
+            </div>
             <div className="input-field col s6">
               <label htmlFor="email">Recipient's Email</label>
               <input id="email" type="text" className="validate" value={this.state.email} onChange={(e) => {
                 this.setState({email: e.target.value});
               }} />
             </div>
+
             <div className="modal-actions right-align hide-on-small-only">
-              <a className="close modal-action" style={{cursor: 'pointer'}} onClick={() => closeModal()}>Cancel</a>
-              <a className="save modal-action" style={{cursor: 'pointer'}} onClick={() => this.transferTicket(ticket._id, this.state.email)}>Transfer</a>
+              <a className="close modal-action" onClick={() => closeModal()}>Cancel</a>
+              <a className={classNames('save modal-action', {'disabled': !this.state.email })}
+                onClick={() => this.transferTicket(ticket._id, this.state.email)}>Transfer</a>
             </div>
-          </div>
           </div>
         </ReactModal>
     )

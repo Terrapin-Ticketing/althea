@@ -16,7 +16,7 @@ class Payment extends React.Component {
     let { order, buyTicketsWithStripe, user, isLoading } = this.props;
 
     return (
-      <div className="payment-details col s12 l6">
+      <div className="payment-details card-content col s12 l6">
         <h2>Payment Information</h2>
         <div className="payment-method">
           <Elements>

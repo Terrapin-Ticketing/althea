@@ -18,6 +18,7 @@ class TicketSellModal extends Component {
   }
 
   async componentDidMount() {
+    window.setTimeout(() => { Materialize.updateTextFields() }, 500);
     // let order = this.state.order;
     // order.push(this.props.ticket);
     // this.setState({ ticket: this.props.ticket })
@@ -49,8 +50,8 @@ class TicketSellModal extends Component {
                 <div className="nav-title col s9 ">
                   Sell Ticket
                 </div>
-                <div className="nav-control col s2 right-align">
-                  <div style={{cursor: 'pointer' }} onClick={() => this.sellTicket()}>Save</div>
+                <div className={classNames('nav-control col s2 right-align', {'disabled': (!(!!this.state.venmo || !!this.state.paypal) || (!this.state.ticket.price === '') && this.state.ticket.isForSale)} )}
+                  onClick={() => this.sellTicket()}>Save</div>
                 </div>
               </div>
             </div>
@@ -86,15 +87,11 @@ class TicketSellModal extends Component {
                   onChange={(e) => {
                     let payoutMethod = this.state.payoutMethod;
                     let payoutValue = e.target.value;
-                    console.log('this.state: ', this.state);
-                    console.log('payoutMethod: ', payoutMethod);
-                    console.log('payoutValue: ', payoutValue);
                     this.setState({[payoutMethod]: payoutValue});
                   }}
                 />
               </div>
             </div>
-
             <div className="row">
               <div className="input-field col s12">
                 <label htmlFor="price">Price</label>
@@ -109,7 +106,6 @@ class TicketSellModal extends Component {
                   />
               </div>
             </div>
-
             <div className="row">
               <ul className="col s12">
                 <li><div>For Sale
@@ -133,11 +129,11 @@ class TicketSellModal extends Component {
             </div>
             <div className="modal-actions right-align hide-on-small-only">
               <a className="close modal-action" style={{cursor: 'pointer'}} onClick={() => closeModal()}>Cancel</a>
-              <a className="save modal-action" style={{cursor: 'pointer'}} onClick={() => this.sellTicket()}>Save</a>
+              <a className={classNames('save modal-action', {'disabled': (!(!!this.state.venmo || !!this.state.paypal) || (!this.state.ticket.price === '') && this.state.ticket.isForSale)} )}
+                onClick={() => this.sellTicket()}>Save</a>
             </div>
           </div>
         </div>
-      </div>
     </ReactModal>
     )
   }

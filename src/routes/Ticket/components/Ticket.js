@@ -77,6 +77,7 @@ class Ticket extends Component {
       <div className='route-container container'>
         <div className="card sticky-action">
           <div className="card-image">
+            {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
             <img src={ticket.eventId.imageUrl} />
             {/* <span className="card-title">{ticket.eventId.name}</span> */}
             <a className="btn-floating halfway-fab waves-effect waves-light terrapin-green"><i className="material-icons">share</i></a>
@@ -88,7 +89,7 @@ class Ticket extends Component {
               <span>This is the barcode that will be scanned to get you into the event. (This is only visible to you)</span>
             </div>
           ) }
-          <div className="card-content card" style={{margin: 0, borderRadius: 0, boxShadow: 'none'}}>
+          <div className="card-content" style={{margin: 0, borderRadius: 0, boxShadow: 'none'}}>
             {/* <span className="card-title">Ticket Details</span> */}
             <table className="responsive-table">
               <thead>
@@ -97,7 +98,6 @@ class Ticket extends Component {
                   <th>Type</th>
                   <th>Price</th>
                   <th className="hide-on-med-and-down">For Sale</th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -115,50 +115,23 @@ class Ticket extends Component {
                     </label>
                   </div>
                 </td>
-                  {this.isOwner() ? (
-                    <td>
-                      <button className="activator terrapin-green white-text btn hide-on-large-only">Actions</button>
-                      <i className="material-icons activator hide-on-med-and-down" style={{cursor: 'pointer'}}>more_vert</i>
-                    </td>
-                  ) : (
-                    <td>
-                      <button className="activator terrapin-green white-text btn hide-on-large-only">Buy Now</button>
-                    </td>
-                  )}
                 </tr>
               </tbody>
             </table>
-            <div className="card-reveal center" style={{paddingBottom: 0}}>
-              <span className="card-title close"><i className="material-icons right">close</i></span>
-              <ul className="collection">
-                <a className="collection-item card-title" style={{fontSize: 16, marginBottom: 0, lineHeight: '24px'}} onClick={() => this.toggleForSale()}>
-                  <i className="material-icons">attach_money</i>{(ticket.isForSale) ? 'Unmark as For Sale' : 'Mark as For Sale'}
-                </a>
-                <a className="collection-item card-title" style={{fontSize: 16, marginBottom: 0, lineHeight: '24px'}}>
-                  <i className="material-icons">email</i><span>Transfer via Email</span>
-                </a>
-                <a className="collection-item card-title" style={{fontSize: 16, marginBottom: 0, lineHeight: '24px'}}>
-                  <i className="material-icons">history</i><span>View History</span>
-                </a>
-              </ul>
-            </div>
           </div>
         </div>
 
-        {this.isOwner() || !ticket.isForSale ? (null) : (
-          <div className="row card checkout-information">
-            <div className="card-content">
-              <Order order={[ticket]} />
 
-              <Payment
-                order={[ticket]}
-                user={user}
-                isLoading={this.state.isLoading}
-                buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
-              />
-            </div>
-          </div>
-        )}
+        <div className="row card checkout-information">
+          <Order order={[ticket]} />
+
+          <Payment
+            order={[ticket]}
+            user={user}
+            isLoading={this.state.isLoading}
+            buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
+          />
+        </div>
 
         { this.state.error ? (
           <div className="terrapin-red lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>{this.state.error}</div>
