@@ -8,7 +8,7 @@ class TicketTransferModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: null
+      email: ''
     };
     this.transferTicket = this.transferTicket.bind(this);
   }
