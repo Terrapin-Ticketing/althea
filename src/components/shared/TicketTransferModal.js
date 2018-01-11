@@ -25,7 +25,7 @@ class TicketTransferModal extends Component {
         isOpen={isOpen}
         contentLabel="View Ticket Modal"
         onRequestClose={() => closeModal()}
-        style={require('../../layouts/modal-styles').default}
+        style={{ ...require('../../layouts/modal-styles').default, maxWidth: '100vw', color: 'red' }}
         >
           <div className="ticket-action-modal">
             <div className="top-navigation-mobile hide-on-med-and-up">
