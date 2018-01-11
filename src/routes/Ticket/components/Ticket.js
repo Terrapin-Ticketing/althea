@@ -82,7 +82,7 @@ class Ticket extends Component {
             {/* <span className="card-title">{ticket.eventId.name}</span> */}
             <a className="btn-floating halfway-fab waves-effect waves-light terrapin-green"><i className="material-icons">share</i></a>
           </div>
-          { ticket.barcode && (
+          { ticket.barcode && !ticket.isForSale && (
             <div className="barcode-container center" style={{display: 'block'}}>
               {/* CINCI TICKET CODE (needs to be abstracted) */}
               <img src={`https://terrapin.cincyregister.com/images/barcode.php?c=${ticket.barcode}&p=520a67c3&f=0&x=2&h=60&q=3&t=code128`} /> <br />
@@ -121,20 +121,25 @@ class Ticket extends Component {
           </div>
         </div>
 
+        { ticket.isForSale && (
+          <div className="row card checkout-information">
+            <Order order={[ticket]} />
 
-        <div className="row card checkout-information">
-          <Order order={[ticket]} />
-
-          <Payment
-            order={[ticket]}
-            user={user}
-            isLoading={this.state.isLoading}
-            buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
-          />
-        </div>
+            <Payment
+              order={[ticket]}
+              user={user}
+              isLoading={this.state.isLoading}
+              buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
+            />
+          </div>
+        ) }
 
         { this.state.error ? (
           <div className="terrapin-red lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>{this.state.error}</div>
+        ) : null }
+
+        { this.props.error ? (
+          <div className="terrapin-red lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>{this.props.error}</div>
         ) : null }
 
         <div className="card">
