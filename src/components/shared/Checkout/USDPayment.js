@@ -21,7 +21,7 @@ class USDPayment extends React.Component {
     return async(ev) => {
       // We don't want to let default form submission happen here, which would refresh the page.
       ev.preventDefault();
-      if (user._id === this.props.order[0].ownerId) return;
+      if ((user && user._id) === this.props.order[0].ownerId) return;
 
       let email = (user && user.email) || this.state.email;
 
@@ -46,6 +46,7 @@ class USDPayment extends React.Component {
 
   render() {
     let { classname, user, isLoading, order } = this.props;
+    let isOwnerAndIsForSale = (!this.props.order[0].isForSale || (user && user._id === order[0].ownerId));
     return (
       <form onSubmit={this.handleSubmit(user).bind(this)} className={`checkout-form ${classname}`}>
           <div className="col s12">
@@ -68,10 +69,10 @@ class USDPayment extends React.Component {
         </div>
         <div className="center-align">
           <button
-            disabled={(!this.props.order[0].isForSale || (user && user._id === order[0].ownerId))}
+            disabled={isOwnerAndIsForSale}
             className={classames('wave-effect waves-light btn btn-large terrapin-green', { disabled: isLoading })}
             type="submit">
-            Buy Ticket
+            { isOwnerAndIsForSale ? 'Ticket owned by you' : 'Buy Ticket' }
           </button>
         </div>
         { isLoading ? (

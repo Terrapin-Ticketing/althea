@@ -8,7 +8,26 @@ const locationModules = require('../../../store/location').actions;
 // Constants
 // ------------------------------------
 
+function setCookie(name, value, days) {
+  let expires = '';
+  if (days) {
+    let date = new Date();
+    date.setTime(date.getTime() + (days*24*60*60*1000));
+    expires = '; expires=' + date.toUTCString();
+  }
+  document.cookie = name + '=' + (value || '') + expires + '; path=/';
+}
 
+function getCookie(name) {
+  let nameEQ = name + '=';
+  let ca = document.cookie.split(';');
+  for (let i=0;i < ca.length;i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
@@ -24,6 +43,12 @@ export const login = (email, password) => {
 
     let { token } = res.data;
     setAuthorizationToken(token);
+
+    // set cookie
+    let cookieToken = getCookie('cookieToken');
+    if (!cookieToken) {
+      setCookie('cookieToken', token, 2);
+    }
 
     let user = jwt.decode(token);
 

@@ -53,7 +53,7 @@ class TicketRow extends Component {
           <div className="card-image col s12 m6">
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
             <img src={ticket.eventId.imageUrl} />
-            <span className="card-title">{ticket.eventId.name}</span>
+            {/* <span className="card-title">{ticket.eventId.name}</span> */}
             {/* <a className="btn-floating halfway-fab waves-effect waves-light terrapin-green"><i className="material-icons">share</i></a> */}
           </div>
           <div className="col s12 m6">
@@ -78,7 +78,7 @@ class TicketRow extends Component {
           <div className="card-image col s12 m6">
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
             <img src={ticket.eventId.imageUrl} />
-            <span className="card-title">{ticket.eventId.name}</span>
+            {/* <span className="card-title">{ticket.eventId.name}</span> */}
             {/* <a className="btn-floating halfway-fab waves-effect waves-light terrapin-green"><i className="material-icons">share</i></a> */}
           </div>
           <div className="card-stacked col s12 m6">
