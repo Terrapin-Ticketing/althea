@@ -20,6 +20,7 @@ export default {
     WebkitOverflowScrolling    : 'touch',
     borderRadius               : '4px',
     outline                    : 'none',
-    padding                    : '0px'
+    padding                    : '0px',
+    maxWidth                   : '100vw'
   }
 };
