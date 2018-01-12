@@ -5,7 +5,7 @@ import Price from '../../../components/shared/Price';
 import EventInfo from '../../../components/shared/EventInfo/EventInfo';
 
 import TicketTransferModal from '../../../components/shared/TicketTransferModal';
-import TicketSellModal from '../../../components/shared/TicketTransferModal';
+import TicketSellModal from '../../../components/shared/TicketSellModal';
 
 import Order from '../../../components/shared/Checkout/Order';
 import Payment from '../../../components/shared/Checkout/Payment';
@@ -34,8 +34,8 @@ class Ticket extends Component {
     return (event.price * 1) + fees;
   }
 
-  openTicketViewModal(ticket) {
-    this.setState({viewTicketModalOpen: true, selectedTicket: ticket});
+  openTicketSellModal(ticket) {
+    this.setState({sellTicketModalOpen: true, selectedTicket: ticket});
   }
 
   openTicketTransferModal(ticket) {
@@ -119,6 +119,13 @@ class Ticket extends Component {
               </tbody>
             </table>
           </div>
+          {(this.isOwner()) ? (
+            <div className="card-action">
+              <Link className="btn-flat waves-effect" onClick={() => this.openTicketSellModal()}>Sell</Link>
+              <Link style={{marginLeft: 15 }} className="btn-flat waves-effect" onClick={() => this.openTicketTransferModal()}>Transfer</Link>
+              {/* <Link className="btn-flat waves-effect">History</Link> */}
+            </div>
+          ) : null}
         </div>
 
         { ticket.isForSale && (
@@ -153,11 +160,21 @@ class Ticket extends Component {
           </div>
         </div>
 
-        <TicketTransferModal
-          ticket={this.state.selectedTicket}
-          closeModal={() => this.setState({transferTicketModalOpen: false, selectedTicket: null })}
-          isOpen={this.state.transferTicketModalOpen}
-          transferTicket={this.props.transferTicket} />
+        {(this.isOwner()) ? (
+          <TicketTransferModal
+            ticket={this.props.ticket}
+            closeModal={() => this.setState({transferTicketModalOpen: false, selectedTicket: null })}
+            isOpen={this.state.transferTicketModalOpen}
+            transferTicket={this.props.transferTicket} />
+          ) : null }
+        {(this.isOwner()) ? (
+          <TicketSellModal
+            ticket={this.props.ticket}
+            user={this.props.user}
+            closeModal={() => this.setState({sellTicketModalOpen: false, selectedTicket: null })}
+            isOpen={this.state.sellTicketModalOpen}
+            sellTicket={this.props.sellTicket} />
+          ) : null }
       </div>
     );
   }

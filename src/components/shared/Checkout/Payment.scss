@@ -1,6 +1,7 @@
 .spinner-container {
-  padding: 10px;
-  float: right;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .payment-details {

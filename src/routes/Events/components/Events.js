@@ -43,7 +43,6 @@ class Events extends Component {
   }
 
   addResonance(events) {
-    console.log('events', events);
     events.push({
       _id: Date.now(),
       name: 'resonance',

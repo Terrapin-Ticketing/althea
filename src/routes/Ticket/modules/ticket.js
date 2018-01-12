@@ -55,6 +55,39 @@ export const transferTicket = (ticketId, recipientAddress) => {
   };
 };
 
+export const sellTicket = (ticket, payoutMethod, payoutValue, index) => {
+  return async (dispatch, getState) => {
+    let { isForSale, price } = ticket;
+    let ticketRes = await axios({
+      url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/sell`,
+      method: 'post',
+      data: {
+        isForSale,
+        price,
+      },
+      withCredentials: true
+    });
+
+    // let { user } = getState().auth;
+    // let userRes = await axios({
+    //   url: `${SHAKEDOWN_URL}/user/${user._id}/payout`,
+    //   method: 'post',
+    //   data: {
+    //     payoutMethod,
+    //     payoutValue
+    //   },
+    //   withCredentials: true
+    // });
+    //
+    // user = userRes.data.user
+
+    dispatch({
+      type: SET_TICKET_DETAILS,
+      payload: ticketRes.data.ticket
+    });
+  };
+};
+
 export const buyTicketsStripe = (token, ticketId) => {
   return async (dispatch, getState) => {
     let options = {
