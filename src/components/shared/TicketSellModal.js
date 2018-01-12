@@ -92,7 +92,7 @@ class TicketSellModal extends Component {
                 />
               </div>
             </div>
-            <hr/>
+            <p>&nbsp;</p>
             <div className="row">
               <div className="input-field col s12">
                 <label htmlFor="price">Price</label>

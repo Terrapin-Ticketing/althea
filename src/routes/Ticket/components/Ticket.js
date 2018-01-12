@@ -57,12 +57,12 @@ class Ticket extends Component {
   }
 
   async buyTicketsWithStripe(token, order) {
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, error: null });
 
     let { buyTicketsStripe } = this.props;
     await buyTicketsStripe(token, order);
     let { error, redirect } = this.props;
-    if (error) return this.setState({ error });
+    if (error) return this.setState({ error, isLoading: false });
     browserHistory.push(redirect);
   }
 
@@ -145,9 +145,9 @@ class Ticket extends Component {
           <div className="terrapin-red lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>{this.state.error}</div>
         ) : null }
 
-        { this.props.error ? (
+        {/* { this.props.error ? (
           <div className="terrapin-red lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>{this.props.error}</div>
-        ) : null }
+        ) : null } */}
 
         <div className="card">
           <div className="card-content">

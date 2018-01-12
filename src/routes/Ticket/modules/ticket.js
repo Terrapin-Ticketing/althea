@@ -103,16 +103,16 @@ export const buyTicketsStripe = (token, ticketId) => {
 
     let { data } = await axios(options);
     if (data.error) {
-      dispatch({
+      return dispatch({
         type: ERROR,
         payload: data.error
       });
-    } else {
-      dispatch({
-        type: ERROR,
-        payload: null
-      });
     }
+
+    dispatch({
+      type: ERROR,
+      payload: null
+    });
 
     if (data.passwordChangeUrl) {
       let passwordChangeUrl = url.parse(data.passwordChangeUrl).pathname;
