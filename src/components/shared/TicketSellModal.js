@@ -92,6 +92,7 @@ class TicketSellModal extends Component {
                 />
               </div>
             </div>
+            <hr/>
             <div className="row">
               <div className="input-field col s12">
                 <label htmlFor="price">Price</label>
@@ -100,7 +101,7 @@ class TicketSellModal extends Component {
                     value={this.state.ticket.price}
                     onChange={(e) => {
                       let ticket = this.state.ticket;
-                      ticket.price = e.target.value
+                      ticket.price = e.target.value;
                       this.setState({ticket});
                     }}
                   />
