@@ -67,14 +67,6 @@ class USDPayment extends React.Component {
         <div className='error'>
           {this.renderError()}
         </div>
-        <div className="center-align">
-          <button
-            disabled={isOwnerAndIsForSale}
-            className={classames('wave-effect waves-light btn btn-large terrapin-green', { disabled: isLoading })}
-            type="submit">
-            { isOwnerAndIsForSale ? 'Ticket owned by you' : 'Buy Ticket' }
-          </button>
-        </div>
         { isLoading ? (
           <div className="spinner-container">
             <div className="preloader-wrapper small active">
@@ -89,7 +81,14 @@ class USDPayment extends React.Component {
               </div>
             </div>
           </div>
-        ): null}
+        ): (<div className="center-align">
+          <button
+            disabled={isOwnerAndIsForSale}
+            className={classames('wave-effect waves-light btn btn-large terrapin-green', { disabled: isLoading })}
+            type="submit">
+            { isOwnerAndIsForSale ? 'Ticket owned by you' : 'Buy Ticket' }
+          </button>
+        </div>)}
       </form>
     );
   }
