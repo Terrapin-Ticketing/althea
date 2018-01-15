@@ -5,6 +5,40 @@ import classNames from 'classnames';
 
 import './ModalStyles.scss';
 
+
+const getDigitsFromValue = (value = '') => value.replace(/(-(?!\d))|[^0-9|-]/g, '') || '';
+
+const padDigits = digits => {
+  const desiredLength = 3;
+  const actualLength = digits.length;
+
+  if (actualLength >= desiredLength) {
+    return digits;
+  }
+
+  const amountToAdd = desiredLength - actualLength;
+  const padding = '0'.repeat(amountToAdd);
+
+  return padding + digits;
+};
+
+const removeLeadingZeros = number => number.replace(/^0+([0-9]+)/, '$1');
+
+const addDecimalToNumber = number => {
+  const centsStartingPosition = number.length - 2;
+  const dollars = removeLeadingZeros(
+    number.substring(0, centsStartingPosition)
+  );
+  const cents = number.substring(centsStartingPosition);
+  return `$${dollars}.${cents}`;
+};
+
+  export const toCurrency = value => {
+  const digits = getDigitsFromValue(value.toString());
+  const digitsWithPadding = padDigits(digits);
+  return addDecimalToNumber(digitsWithPadding);
+};
+
 class TicketSellModal extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +61,7 @@ class TicketSellModal extends Component {
   async sellTicket() {
     let { ticket } = this.state;
     this.setState({ isLoading: true });
-    await this.props.sellTicket(ticket, this.state.payoutMethod, this.state.payoutValue, this.props.index);
+    await this.props.sellTicket(ticket, this.state.payoutMethod, this.state[this.state.payoutMethod], this.props.index);
     this.setState({ isLoading: false })
     this.props.closeModal();
   }
@@ -60,7 +94,7 @@ class TicketSellModal extends Component {
             </div>
             <div className="modal-content">
               <div>
-                <div className='row'>
+                <div className='row z-depth-1'>
                   <button
                     className={classNames('col s6 btn-flat btn-large',
                     {'active': (this.state.payoutMethod === 'paypal')},
@@ -92,21 +126,22 @@ class TicketSellModal extends Component {
                 />
               </div>
             </div>
-            <div className="row">
+            <div className="row z-depth-1">
               <div className="input-field col s12">
-                <label htmlFor="price">Price</label>
+                <h3 style={{margin: 0}}>Price</h3>
+                {/* <label htmlFor="price">Price</label> */}
                   <input id="price" type="text"
                     // placeholder="Price"
-                    value={this.state.ticket.price}
+                    value={toCurrency(this.state.ticket.price)}
                     onChange={(e) => {
                       let ticket = this.state.ticket;
-                      ticket.price = e.target.value
+                      ticket.price = getDigitsFromValue(e.target.value);
                       this.setState({ticket});
                     }}
                   />
               </div>
             </div>
-            <div className="row">
+            <div className="row z-depth-1">
               <ul className="col s12">
                 <li><div>For Sale
                   <div className="switch secondary-content">

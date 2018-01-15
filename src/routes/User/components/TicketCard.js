@@ -40,9 +40,9 @@ class TicketRow extends Component {
   }
 
   async transferTicket(ticketId, recipientEmail) {
-    let res = await this.props.transferTicket(ticketId, recipientEmail);
     this.setState({ ticketTransfered: true });
-    setTimeout(function() { this.setState({hidden: true}); }.bind(this), 500);
+    let res = await this.props.transferTicket(ticketId, recipientEmail);
+    setTimeout(function() { this.setState({hidden: true}); }.bind(this), 1);
   }
 
   render() {

@@ -120,7 +120,7 @@ class Ticket extends Component {
             </table>
           </div>
           {(this.isOwner()) ? (
-            <div className="card-action">
+            <div className="card-action-ticket">
               <Link className="btn-flat waves-effect" onClick={() => this.openTicketSellModal()}>Sell</Link>
               <Link style={{marginLeft: 15 }} className="btn-flat waves-effect" onClick={() => this.openTicketTransferModal()}>Transfer</Link>
               {/* <Link className="btn-flat waves-effect">History</Link> */}

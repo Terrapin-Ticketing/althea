@@ -75,7 +75,6 @@ export const sellTicket = (ticket, payoutMethod, payoutValue, index) => {
       },
       withCredentials: true
     });
-
     let { user } = getState().auth;
     let userRes = await axios({
       url: `${SHAKEDOWN_URL}/user/${user._id}/payout`,
@@ -86,10 +85,9 @@ export const sellTicket = (ticket, payoutMethod, payoutValue, index) => {
       },
       withCredentials: true
     });
-
     let tickets = getState().user.tickets;
     tickets[index] = ticketRes.data.ticket;
-    user = userRes.data.user
+    user = userRes.data.user;
 
     dispatch({
       type: SET_USER_TICKETS,

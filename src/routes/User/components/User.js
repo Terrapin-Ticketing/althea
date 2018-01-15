@@ -46,8 +46,8 @@ class User extends Component {
   }
 
   async transferTicket(ticketId, recipientEmail) {
-    let {ticket: transferedTicket} = await this.props.transferTicket(ticketId, recipientEmail);
-    this.setState({ ticketTransfered: true, transferedTicket: transferedTicket, recipientEmail: recipientEmail });
+    this.setState({ ticketTransfered: true, recipientEmail: recipientEmail });
+    let transferedTicket = await this.props.transferTicket(ticketId, recipientEmail);
     await this.props.getUserTickets();
   }
 
@@ -109,7 +109,7 @@ class User extends Component {
           <div className="card-content">
             {(this.state.ticketTransfered) ? (
               <div className="terrapin-green lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>
-                Transfered <Link to={`/event/${this.state.transferedTicket.eventId}/ticket/${this.state.transferedTicket._id}`} >{this.state.transferedTicket._id}</Link> to {this.state.recipientEmail}
+                Transfered ticket to {this.state.recipientEmail}
               </div>
             ): null }
             {(this.props.location.query.ticketId) ? (
