@@ -67,7 +67,6 @@ class Ticket extends Component {
 
   async buyTicketsWithStripe(token, order) {
     this.setState({ isLoading: true, error: null });
-
     let { buyTicketsStripe } = this.props;
     await buyTicketsStripe(token, order);
     let { error, redirect } = this.props;
