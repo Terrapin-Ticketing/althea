@@ -62,7 +62,7 @@ class TicketTransferModal extends Component {
             </div>
           </div>
         </ReactModal>
-    )
+    );
   }
 }
 

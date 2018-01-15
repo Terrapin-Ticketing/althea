@@ -29,7 +29,7 @@ class Login extends Component {
     e.preventDefault();
     try {
       await this.props.login(email, password);
-      (redirectUrl) ? browserHistory.push(redirectUrl) : browserHistory.push('/events');
+      (redirectUrl) ? browserHistory.push(redirectUrl) : browserHistory.push('/my-profile');
     } catch (e) {
       this.setState({loginError: 'You entered the wrong login information. Please try again.'});
     }
@@ -42,7 +42,7 @@ class Login extends Component {
     if (password === confirmPassword) {
       try {
         await this.props.signup(email, password, privateKey);
-        (redirectUrl) ? browserHistory.push(redirectUrl) : browserHistory.push('/events');
+        (redirectUrl) ? browserHistory.push(redirectUrl) : browserHistory.push('/my-profile');
       } catch (err) { // email already taken
         console.log(err);
         this.setState({loginError: 'That email is already in use. Please try again.'});

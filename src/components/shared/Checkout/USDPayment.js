@@ -19,18 +19,19 @@ class USDPayment extends React.Component {
 
   handleSubmit = (user) => {
     return async(ev) => {
+      this.setState({ error: null });
       // We don't want to let default form submission happen here, which would refresh the page.
       ev.preventDefault();
       if ((user && user._id) === this.props.order[0].ownerId) return;
 
       let email = (user && user.email) || this.state.email;
 
-      // Within the context of `Elements`, this call to createToken knows which Element to
-      // tokenize, since there's only one in this group.
-      // get name of user
-      let { token } = await this.props.stripe.createToken({ type: 'card', email });
-      let { buyTicketsStripe, order } = this.props;
       try {
+        // Within the context of `Elements`, this call to createToken knows which Element to
+        // tokenize, since there's only one in this group.
+        let { token, error } = await this.props.stripe.createToken({ type: 'card', email });
+        if (error) throw error.message;
+        let { buyTicketsStripe, order } = this.props;
         // let transactionsList = await buyTicketsStripe(JSON.stringify(token), ticket);
         await buyTicketsStripe(token, order[0]._id);
         if (this.props.error) return this.setState({ activateError: this.props.error });
@@ -41,7 +42,7 @@ class USDPayment extends React.Component {
   }
 
   renderError() {
-    if (this.state.error) return (<div className='dank'>{this.state.error}</div>);
+    if (this.state.error) return (<div className='dank'><span className="terrapin-red">{this.state.error}</span></div>);
   }
 
   render() {

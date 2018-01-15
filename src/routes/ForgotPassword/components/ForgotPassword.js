@@ -19,9 +19,9 @@ class SetPassword extends Component {
     try {
       this.setState({ isLoading: true });
       await this.props.sendForgotPasswordEmail(this.state.email);
-      this.setState({isLoading: false, message: 'A link to change your password has been sent to your email address', success: true});
+      this.setState({ message: 'A link to change your password has been sent to your email address', success: true});
     } catch (err) {
-      this.setState({isLoading: false, message: err, success: false });
+      this.setState({ message: err, success: false });
     }
   }
 
@@ -41,7 +41,9 @@ class SetPassword extends Component {
               <div className="submit-row">
                 <span className='error'>{(this.state.forgotPasswordError) ? this.state.forgotPasswordError : null}</span>
                 {/* <span className='user'>{(this.props.user) ? JSON.stringify(this.props.user) : ''}</span> */}
-                <button type="submit" className="btn-large terrapin-green center-align" onClick={this.handleSubmit}>
+                <button type="submit" className={classNames('btn-large terrapin-green center-align', {
+                  disabled: this.state.isLoading
+                })} onClick={this.handleSubmit}>
                   Submit
                 </button>
               </div>
