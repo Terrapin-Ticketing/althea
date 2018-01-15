@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
+import classNames from 'classnames';
 import Loading from '../../../components/shared/Loading';
 import Price from '../../../components/shared/Price';
 import EventInfo from '../../../components/shared/EventInfo/EventInfo';
@@ -21,6 +22,7 @@ class Ticket extends Component {
       cardFee: 2
     };
     this.openTicketTransferModal = this.openTicketTransferModal.bind(this);
+    this.transferTicket = this.transferTicket.bind(this);
   }
 
   componentDidMount() {
@@ -54,6 +56,13 @@ class Ticket extends Component {
 
   async onRegister(userData) {
     this.setState({ userData });
+  }
+
+  async transferTicket(ticketId, recipientEmail) {
+    this.setState({ isLoading: true, ticketTransfered: true, recipientEmail: recipientEmail });
+    let res = await this.props.transferTicket(ticketId, recipientEmail);
+    // await this.props.getTicketInfo(res.ticket._id);
+    this.setState({ isLoading: false })
   }
 
   async buyTicketsWithStripe(token, order) {
@@ -121,8 +130,8 @@ class Ticket extends Component {
           </div>
           {(this.isOwner()) ? (
             <div className="card-action-ticket">
-              <Link className="btn-flat waves-effect" onClick={() => this.openTicketSellModal()}>Sell</Link>
-              <Link style={{marginLeft: 15 }} className="btn-flat waves-effect" onClick={() => this.openTicketTransferModal()}>Transfer</Link>
+              <Link className={classNames('btn-flat waves-effect', {disabled: this.state.isLoading})} onClick={() => this.openTicketSellModal()}>Sell</Link>
+              <Link style={{marginLeft: 15 }} className={classNames('btn-flat waves-effect', {disabled: this.state.isLoading})} onClick={() => this.openTicketTransferModal()}>Transfer</Link>
               {/* <Link className="btn-flat waves-effect">History</Link> */}
             </div>
           ) : null}
@@ -149,6 +158,12 @@ class Ticket extends Component {
           <div className="terrapin-red lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>{this.props.error}</div>
         ) : null }
 
+        {(this.state.ticketTransfered) ? (
+          <div className="terrapin-green lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>
+            Transfered ticket to {this.state.recipientEmail}
+          </div>
+        ): null }
+
         <div className="card">
           <div className="card-content">
             <span className="card-title">
@@ -165,7 +180,7 @@ class Ticket extends Component {
             ticket={this.props.ticket}
             closeModal={() => this.setState({transferTicketModalOpen: false, selectedTicket: null })}
             isOpen={this.state.transferTicketModalOpen}
-            transferTicket={this.props.transferTicket} />
+            transferTicket={this.transferTicket} />
           ) : null }
         {(this.isOwner()) ? (
           <TicketSellModal

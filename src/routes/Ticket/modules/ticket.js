@@ -7,6 +7,7 @@ import url from 'url';
 // ------------------------------------
 export const SET_TICKET_DETAILS = 'SET_TICKET_DETAILS';
 export const SET_EVENT_DETAILS = 'SET_EVENT_DETAILS';
+export const SET_USER_INFO = 'SET_USER_INFO';
 export const UPDATE_ORDER = 'UPDATE_ORDER';
 export const REDIRECT = 'REDIRECT';
 export const ERROR = 'ERROR';
@@ -49,9 +50,15 @@ export const toggleForSale = (ticket) => {
   };
 };
 
-export const transferTicket = (ticketId, recipientAddress) => {
+export const transferTicket = (ticketId, recipientEmail) => {
   return async (dispatch, getState) => {
-
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/tickets/${ticketId}/transfer`,
+      method: 'post',
+      data: {email: recipientEmail},
+      withCredentials: true
+    });
+    return res.data
   };
 };
 
@@ -67,24 +74,27 @@ export const sellTicket = (ticket, payoutMethod, payoutValue, index) => {
       },
       withCredentials: true
     });
-
-    // let { user } = getState().auth;
-    // let userRes = await axios({
-    //   url: `${SHAKEDOWN_URL}/user/${user._id}/payout`,
-    //   method: 'post',
-    //   data: {
-    //     payoutMethod,
-    //     payoutValue
-    //   },
-    //   withCredentials: true
-    // });
-    //
-    // user = userRes.data.user
+    let { user } = getState().auth;
+    let userRes = await axios({
+      url: `${SHAKEDOWN_URL}/user/${user._id}/payout`,
+      method: 'post',
+      data: {
+        payoutMethod,
+        payoutValue
+      },
+      withCredentials: true
+    });
 
     dispatch({
       type: SET_TICKET_DETAILS,
       payload: ticketRes.data.ticket
     });
+
+    dispatch({
+      type: SET_USER_INFO,
+      payload: userRes.data.user
+    });
+
   };
 };
 
