@@ -12,10 +12,18 @@
 .submit-row {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .login-selector {
   margin-top: 0px;
+}
+
+.error {
+  color: #CC3333;
+  padding: 15px;
+  text-align: center;
 }
 
 .login-form {

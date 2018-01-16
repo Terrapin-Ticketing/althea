@@ -49,7 +49,7 @@ class TicketRow extends Component {
     const { ticket, key } = this.props;
     return (
       <div className={classNames('scale-transition', { 'scale-out': this.state.ticketTransfered, hide: this.state.hidden })}>
-        <div className="card show-on-small hide-on-med-and-up" style={{height: 450}}>
+        <div className="card show-on-small hide-on-med-and-up">
           <div className="card-image col s12 m6">
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
             <img src={ticket.eventId.imageUrl} />

@@ -12,9 +12,14 @@ class Activate extends Component {
       email: '',
       barcode: this.props.location.query.ticketId || '',
       orderNumber: '',
-      activateError: null
+      activateError: null,
+      isLoading: false
     };
     this.activateTicket = this.activateTicket.bind(this);
+  }
+
+  componentWillMount() {
+    document.title = 'Activate Ticket'
   }
 
   componentDidMount() {
@@ -26,14 +31,16 @@ class Activate extends Component {
 
   async activateTicket(e) {
     e.preventDefault();
+    this.setState({isLoading: true});
     let { params: { urlSafeName } } = this.props;
     let { email, barcode } = this.state;
     try {
       await this.props.activateTicket(urlSafeName, email, barcode);
       if (this.props.error) return this.setState({ activateError: this.props.error });
+      this.setState({isLoading: false});
       browserHistory.push(this.props.redirect);
     } catch (err) {
-      this.setState({ activateError: err });
+      this.setState({ activateError: err, isLoading: false });
     }
   }
 
@@ -63,9 +70,24 @@ class Activate extends Component {
                 }} />
               </div>
               <div className="submit-row">
+                { this.state.isLoading ? (
+                  <div className="spinner-container">
+                    <div className="preloader-wrapper small active">
+                      <div className="spinner-layer spinner-green-only">
+                        <div className="circle-clipper left">
+                          <div className="circle"></div>
+                        </div><div className="gap-patch">
+                          <div className="circle"></div>
+                        </div><div className="circle-clipper right">
+                          <div className="circle"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ): null}
                 <span className='error'>{(this.state.activateError) ? this.state.activateError : null}</span>
                 {/* <span className='user'>{(this.props.user) ? JSON.stringify(this.props.user) : ''}</span> */}
-                <button type="submit" className="btn-large terrapin-green center-align wave-effect waves-light">
+                <button type="submit" className={classNames('btn-large terrapin-green center-align wave-effect waves-light', { disabled: this.state.isLoading })}>
                   Activate Ticket
                 </button>
               </div>
