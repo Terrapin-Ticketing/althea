@@ -45,8 +45,8 @@ class TicketSellModal extends Component {
     this.state = {
       ticket: props.ticket,
       payoutMethod: props.user.payout.default || 'paypal',
-      venmo: props.user.payout.venmo || null,
-      paypal: props.user.payout.paypal || null
+      venmo: props.user.payout.venmo || '',
+      paypal: props.user.payout.paypal || ''
     };
     this.sellTicket = this.sellTicket.bind(this);
   }

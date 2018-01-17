@@ -50,7 +50,7 @@ class TicketRow extends Component {
     return (
       <div className={classNames('scale-transition', { 'scale-out': this.state.ticketTransfered, hide: this.state.hidden })}>
         <div className="card show-on-small hide-on-med-and-up">
-          <div className="card-image col s12 m6">
+          <div className="card-image s12 m6">
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
             <img src={ticket.eventId.imageUrl} />
             {/* <span className="card-title">{ticket.eventId.name}</span> */}
@@ -58,11 +58,13 @@ class TicketRow extends Component {
           </div>
           <div className="card-content flow-text">
             <a className="card-title">{ticket.eventId.name}</a>
-            <small>{moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}</small>
+            <small>Date: <br />{moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}</small>
             <div className="venue-info">
-              {ticket.eventId.venue.name} <br />
-              {ticket.eventId.venue.address} <br />
-              {ticket.eventId.venue.city}, {ticket.eventId.venue.state} {ticket.eventId.venue.zip}
+              <small>
+                {ticket.eventId.venue.name} <br />
+                {ticket.eventId.venue.address} <br />
+                {ticket.eventId.venue.city}, {ticket.eventId.venue.state} {ticket.eventId.venue.zip}
+              </small>
             </div>
           </div>
             <div className="card-action">
@@ -73,7 +75,7 @@ class TicketRow extends Component {
             </div>
           </div>
         <div className="card horizontal sticky-action small hide-on-small-only">
-          <div className="card-image col s12 m6">
+          <div className="card-image s12 m6">
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
             <img src={ticket.eventId.imageUrl} />
             {/* <span className="card-title">{ticket.eventId.name}</span> */}
@@ -82,11 +84,13 @@ class TicketRow extends Component {
           <div className="card-stacked col s12 m6">
             <div className="card-content">
               <a className="card-title">{ticket.eventId.name}</a>
-              <small>{moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}</small>
+              <small>Date: <br />{moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}</small>
               <div className="venue-info">
-                {ticket.eventId.venue.name} <br />
-                {ticket.eventId.venue.address} <br />
-                {ticket.eventId.venue.city}, {ticket.eventId.venue.state} {ticket.eventId.venue.zip}
+                <small>
+                  {ticket.eventId.venue.name} <br />
+                  {ticket.eventId.venue.address} <br />
+                  {ticket.eventId.venue.city}, {ticket.eventId.venue.state} {ticket.eventId.venue.zip}
+                </small>
               </div>
             </div>
             <div className="card-action">

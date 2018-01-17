@@ -1,10 +1,32 @@
 import pasync from 'pasync';
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 
 export const SET_USER_EVENTS = 'SET_USER_EVENTS';
 export const SET_USER_TICKETS = 'SET_USER_TICKETS';
 export const SET_USER_INFO = 'SET_USER_INFO';
 export const LOGOUT = 'LOGOUT';
+
+function setCookie(name, value, days) {
+  let expires = '';
+  if (days) {
+    let date = new Date();
+    date.setTime(date.getTime() + (days*24*60*60*1000));
+    expires = '; expires=' + date.toUTCString();
+  }
+  document.cookie = name + '=' + (value || '') + expires + '; path=/';
+}
+
+function getCookie(name) {
+  let nameEQ = name + '=';
+  let ca = document.cookie.split(';');
+  for (let i=0;i < ca.length;i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
 
 export const getUserTickets = () => {
   return async (dispatch, getState) => {
@@ -88,6 +110,17 @@ export const sellTicket = (ticket, payoutMethod, payoutValue, index) => {
     let tickets = getState().user.tickets;
     tickets[index] = ticketRes.data.ticket;
     user = userRes.data.user;
+
+
+    let { token } = userRes.data;
+
+    // set cookie
+    let cookieToken = getCookie('cookieToken');
+    if (!cookieToken) {
+      setCookie('cookieToken', token, 2);
+    }
+
+    user = jwt.decode(token);
 
     dispatch({
       type: SET_USER_TICKETS,

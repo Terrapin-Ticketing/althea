@@ -136,19 +136,6 @@ class Ticket extends Component {
           ) : null}
         </div>
 
-        { ticket.isForSale && (
-          <div className="row card checkout-information">
-            <Order order={[ticket]} />
-
-            <Payment
-              order={[ticket]}
-              user={user}
-              isLoading={this.state.isLoading}
-              buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
-            />
-          </div>
-        ) }
-
         { this.state.error ? (
           <div className="terrapin-red lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>{this.state.error}</div>
         ) : null }
@@ -162,6 +149,19 @@ class Ticket extends Component {
             Transfered ticket to {this.state.recipientEmail}
           </div>
         ): null }
+
+        { ticket.isForSale && (
+          <div className="row card checkout-information">
+            <Order order={[ticket]} />
+
+            <Payment
+              order={[ticket]}
+              user={user}
+              isLoading={this.state.isLoading}
+              buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
+            />
+          </div>
+        ) }
 
         <div className="card">
           <div className="card-content">

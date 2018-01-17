@@ -12,7 +12,7 @@ class USDPayment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: props.user.email || null,
+      email: props.user && props.user.email || null,
       error: null
     };
   }

@@ -19,7 +19,7 @@ class Activate extends Component {
   }
 
   componentWillMount() {
-    document.title = 'Activate Ticket'
+
   }
 
   componentDidMount() {
@@ -36,7 +36,7 @@ class Activate extends Component {
     let { email, barcode } = this.state;
     try {
       await this.props.activateTicket(urlSafeName, email, barcode);
-      if (this.props.error) return this.setState({ activateError: this.props.error });
+      if (this.props.error) return this.setState({ activateError: this.props.error, isLoading: false });
       this.setState({isLoading: false});
       browserHistory.push(this.props.redirect);
     } catch (err) {
@@ -56,6 +56,7 @@ class Activate extends Component {
         <EventInfoContainer event={this.props.event} />
         <div className="card activate-card">
           <div className="card-content">
+            <h2>Ticket Information</h2>
             <form className='col s12 login-form' onSubmit={this.activateTicket}>
               <div className="input-field col s6">
                 <label htmlFor="barcode">Ticket Number</label>
@@ -84,12 +85,11 @@ class Activate extends Component {
                       </div>
                     </div>
                   </div>
-                ): null}
+                ): <button type="submit" className={classNames('btn-large terrapin-green center-align wave-effect waves-light', { disabled: this.state.isLoading })}>
+                  Activate Ticket
+                </button>}
                 <span className='error'>{(this.state.activateError) ? this.state.activateError : null}</span>
                 {/* <span className='user'>{(this.props.user) ? JSON.stringify(this.props.user) : ''}</span> */}
-                <button type="submit" className={classNames('btn-large terrapin-green center-align wave-effect waves-light', { disabled: this.state.isLoading })}>
-                  Activate Ticket
-                </button>
               </div>
             </form>
           </div>
