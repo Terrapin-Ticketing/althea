@@ -24,6 +24,7 @@ class Activate extends Component {
 
   componentDidMount() {
     this.props.getEventInfo(this.props.params.urlSafeName);
+    document.title = `${this.props.event.name} Ticket Activation on Terrapin Ticketing`;
     let user = this.props.user;
     if (user) this.setState({ email: user.email });
     window.setTimeout(() => { Materialize.updateTextFields() }, 500);
@@ -71,6 +72,7 @@ class Activate extends Component {
                 }} />
               </div>
               <div className="submit-row">
+                <span className='error'>{(this.state.activateError) ? this.state.activateError : null}</span>
                 { this.state.isLoading ? (
                   <div className="spinner-container">
                     <div className="preloader-wrapper small active">
@@ -88,8 +90,6 @@ class Activate extends Component {
                 ): <button type="submit" className={classNames('btn-large terrapin-green center-align wave-effect waves-light', { disabled: this.state.isLoading })}>
                   Activate Ticket
                 </button>}
-                <span className='error'>{(this.state.activateError) ? this.state.activateError : null}</span>
-                {/* <span className='user'>{(this.props.user) ? JSON.stringify(this.props.user) : ''}</span> */}
               </div>
             </form>
           </div>

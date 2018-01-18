@@ -26,6 +26,7 @@ class Event extends Component {
   componentDidMount() {
     let { id, ticketId } = this.props.params;
     this.props.getEventInfo(id);
+    document.title = `${this.props.event.name} - Terrapin Ticketing`
     $('.dropdown-button').dropdown({
       inDuration: 300,
       outDuration: 225,

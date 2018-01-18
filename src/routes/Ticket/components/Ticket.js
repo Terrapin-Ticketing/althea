@@ -5,6 +5,7 @@ import Loading from '../../../components/shared/Loading';
 import Price from '../../../components/shared/Price';
 import EventInfo from '../../../components/shared/EventInfo/EventInfo';
 
+import ShareModal from '../../../components/shared/ShareModal';
 import TicketTransferModal from '../../../components/shared/TicketTransferModal';
 import TicketSellModal from '../../../components/shared/TicketSellModal';
 
@@ -29,11 +30,17 @@ class Ticket extends Component {
     let { serviceFee, cardFee } = this.state;
     this.props.getTicketInfo(this.props.params.ticketId);
     this.setState({ total: this.calculateTotal(serviceFee + cardFee)});
+    // TODO: This is broken. Fix.
+    // document.title = `${this.props.ticket.eventId.name} Ticket - Terrapin Ticketing`;
   }
 
   calculateTotal(fees) {
     let { event, order } = this.props;
     return (event.price * 1) + fees;
+  }
+
+  openTicketShareModal(ticket) {
+    this.setState({shareTicketModalOpen: true});
   }
 
   openTicketSellModal(ticket) {
@@ -88,7 +95,6 @@ class Ticket extends Component {
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
             <img src={ticket.eventId.imageUrl} />
             {/* <span className="card-title">{ticket.eventId.name}</span> */}
-            <a className="btn-floating halfway-fab waves-effect waves-light terrapin-green"><i className="material-icons">share</i></a>
           </div>
           { ticket.barcode && !ticket.isForSale && (
             <div className="barcode-container center" style={{display: 'block'}}>
@@ -128,10 +134,12 @@ class Ticket extends Component {
             </table>
           </div>
           {(this.isOwner()) ? (
-            <div className="card-action-ticket">
-              <Link className={classNames('btn-flat waves-effect', {disabled: this.state.isLoading})} onClick={() => this.openTicketSellModal()}>Sell</Link>
-              <Link style={{marginLeft: 15 }} className={classNames('btn-flat waves-effect', {disabled: this.state.isLoading})} onClick={() => this.openTicketTransferModal()}>Transfer</Link>
-              {/* <Link className="btn-flat waves-effect">History</Link> */}
+            <div className="card-action valign-wrapper">
+              <i onClick={() => this.openTicketShareModal()} className="material-icons share-icon">share</i>
+              <div className="action-buttons">
+                <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketSellModal()}>Sell</Link>
+                <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketTransferModal()}>Transfer</Link>
+              </div>
             </div>
           ) : null}
         </div>
@@ -173,7 +181,10 @@ class Ticket extends Component {
               {ticket.eventId.venue.city}, {ticket.eventId.venue.state} {ticket.eventId.venue.zip}
           </div>
         </div>
-
+        <ShareModal
+          ticket={this.props.ticket}
+          closeModal={() => this.setState({shareTicketModalOpen: false})}
+          isOpen={this.state.shareTicketModalOpen} />
         {(this.isOwner()) ? (
           <TicketTransferModal
             ticket={this.props.ticket}

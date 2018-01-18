@@ -24,6 +24,7 @@ class Event extends Component {
   }
 
   componentDidMount() {
+    document.title = `${this.props.event.name} - Terrapin Ticketing`;
   }
 
   componentWillUnmount() {

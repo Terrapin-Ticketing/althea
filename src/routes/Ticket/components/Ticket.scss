@@ -6,6 +6,28 @@
   padding: 15px;
 }
 
+.card-action {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  color: #737373;
+}
+
+.share-icon {
+  cursor: pointer;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  .action-button {
+    padding: 0px 25px;
+  }
+  :last-child {
+    padding-right: 0px;
+  }
+}
+
 .card-action-ticket {
   display: flex;
   justify-content: flex-end;

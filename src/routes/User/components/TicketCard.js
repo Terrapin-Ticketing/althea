@@ -5,6 +5,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import './User.scss';
 import Price from '../../../components/shared/Price';
+import ShareModal from '../../../components/shared/ShareModal';
 import TicketTransferModal from '../../../components/shared/TicketTransferModal';
 import TicketSellModal from '../../../components/shared/TicketSellModal';
 
@@ -14,6 +15,7 @@ class TicketRow extends Component {
     this.state = {
       isForSale: props.ticket.isForSale,
       ticketTransfered: false,
+      shareTicketModalOpen: false,
       sellTicketModalOpen: false,
       transferTicketModalOpen: false,
       initTransfer: false
@@ -22,6 +24,10 @@ class TicketRow extends Component {
   }
 
   componentDidMount() {
+  }
+
+  openTicketShareModal() {
+    this.setState({ shareTicketModalOpen: true });
   }
 
   openTicketTransferModal() {
@@ -34,9 +40,7 @@ class TicketRow extends Component {
   }
 
   ticketClick(ticket) {
-    return (e) => {
-      browserHistory.push(`event/${ticket.eventId._id}/ticket/${ticket._id}`);
-    };
+    browserHistory.push(`event/${ticket.eventId._id}/ticket/${ticket._id}`);
   }
 
   async transferTicket(ticketId, recipientEmail) {
@@ -49,14 +53,14 @@ class TicketRow extends Component {
     const { ticket, key } = this.props;
     return (
       <div className={classNames('scale-transition', { 'scale-out': this.state.ticketTransfered, hide: this.state.hidden })}>
-        <div className="card show-on-small hide-on-med-and-up">
-          <div className="card-image s12 m6">
+        <div className="ticket-card card show-on-small hide-on-med-and-up">
+          <div className="card-image ticket-image s12 m6" onClick={() => this.ticketClick(ticket)}>
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
             <img src={ticket.eventId.imageUrl} />
             {/* <span className="card-title">{ticket.eventId.name}</span> */}
-            {/* <a className="btn-floating halfway-fab waves-effect waves-light terrapin-green"><i className="material-icons">share</i></a> */}
+            {/* <a className="btn-floating halfway-fab waves-effect waves-light terrapin-green"><i className="material-icons share-icon">share</i></a> */}
           </div>
-          <div className="card-content flow-text">
+          <div className="card-content ticket-content flow-text" onClick={() => this.ticketClick(ticket)}>
             <a className="card-title">{ticket.eventId.name}</a>
             <small>Date: <br />{moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}</small>
             <div className="venue-info">
@@ -67,22 +71,21 @@ class TicketRow extends Component {
               </small>
             </div>
           </div>
-            <div className="card-action">
-              <Link className="btn-flat waves-effect" to={`event/${ticket.eventId._id}/ticket/${ticket._id}`}>View</Link>
-              <Link className="btn-flat waves-effect" onClick={() => this.openTicketSellModal()}>Sell</Link>
-              <Link className="btn-flat waves-effect" onClick={() => this.openTicketTransferModal()}>Transfer</Link>
-              {/* <Link className="btn-flat waves-effect">History</Link> */}
+            <div className="card-action valign-wrapper">
+              <i onClick={() => this.openTicketShareModal()} className="material-icons share-icon">share</i>
+              <div className="action-buttons">
+                <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketSellModal()}>Sell</Link>
+                <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketTransferModal()}>Transfer</Link>
+              </div>
             </div>
           </div>
-        <div className="card horizontal sticky-action small hide-on-small-only">
-          <div className="card-image s12 m6">
+        <div className="ticket-card card horizontal sticky-action small hide-on-small-only">
+          <div className="ticket-image card-image s12 m6" onClick={() => this.ticketClick(ticket)}>
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
             <img src={ticket.eventId.imageUrl} />
-            {/* <span className="card-title">{ticket.eventId.name}</span> */}
-            {/* <a className="btn-floating halfway-fab waves-effect waves-light terrapin-green"><i className="material-icons">share</i></a> */}
           </div>
           <div className="card-stacked col s12 m6">
-            <div className="card-content">
+            <div className="card-content ticket-content" onClick={() => this.ticketClick(ticket)}>
               <a className="card-title">{ticket.eventId.name}</a>
               <small>Date: <br />{moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}</small>
               <div className="venue-info">
@@ -93,14 +96,19 @@ class TicketRow extends Component {
                 </small>
               </div>
             </div>
-            <div className="card-action">
-              <Link className="btn-flat waves-effect" to={`event/${ticket.eventId._id}/ticket/${ticket._id}`}>View</Link>
-              <Link className="btn-flat waves-effect" onClick={() => this.openTicketSellModal()}>Sell</Link>
-              <Link className="btn-flat waves-effect" onClick={(e) => this.openTicketTransferModal(ticket)}>Transfer</Link>
-              {/* <Link className="btn-flat waves-effect">History</Link> */}
+            <div className="card-action valign-wrapper">
+              <i onClick={() => this.openTicketShareModal()} className="material-icons share-icon">share</i>
+              <div className="action-buttons">
+                <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketSellModal()}>Sell</Link>
+                <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketTransferModal(ticket)}>Transfer</Link>
+              </div>
             </div>
           </div>
         </div>
+        <ShareModal
+          ticket={this.props.ticket}
+          closeModal={() => this.setState({shareTicketModalOpen: false})}
+          isOpen={this.state.shareTicketModalOpen} />
         <TicketSellModal
           user={this.props.user}
           ticket={this.props.ticket}

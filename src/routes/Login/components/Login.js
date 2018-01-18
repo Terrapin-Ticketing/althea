@@ -19,6 +19,10 @@ class Login extends Component {
     this.register = this.register.bind(this);
   }
 
+  componentDidMount() {
+    document.title = 'Login - Terrapin Ticketing';
+  }
+
   async handleSubmit(e) {
     (this.state.loginType === 'login') ? this.login(e) : this.register(e);
   }

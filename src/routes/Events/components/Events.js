@@ -17,6 +17,7 @@ class Events extends Component {
 
   componentDidMount() {
     this.props.getEvents();
+    document.title = 'Events - Terrapin Ticketing'
   }
 
   renderListItem(item, index) {
