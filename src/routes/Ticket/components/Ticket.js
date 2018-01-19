@@ -67,9 +67,9 @@ class Ticket extends Component {
 
   async transferTicket(ticketId, recipientEmail) {
     this.setState({ isLoading: true, ticketTransfered: true, recipientEmail: recipientEmail });
-    let res = await this.props.transferTicket(ticketId, recipientEmail);
-    // await this.props.getTicketInfo(res.ticket._id);
-    this.setState({ isLoading: false })
+    await this.props.transferTicket(ticketId, recipientEmail);
+    // rerender
+    this.setState({ isLoading: false });
   }
 
   async buyTicketsWithStripe(token, order) {

@@ -48,8 +48,7 @@ class User extends Component {
 
   async transferTicket(ticketId, recipientEmail) {
     this.setState({ ticketTransfered: true, recipientEmail: recipientEmail });
-    let transferedTicket = await this.props.transferTicket(ticketId, recipientEmail);
-    await this.props.getUserTickets();
+    await this.props.transferTicket(ticketId, recipientEmail);
   }
 
   renderTickets(tickets) {
