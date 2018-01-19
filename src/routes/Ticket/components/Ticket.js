@@ -105,7 +105,7 @@ class Ticket extends Component {
               </small></span>
             </div>
           ) }
-          <div className="card-content" style={{margin: 0, borderRadius: 0, boxShadow: 'none'}}>
+          <div style={{margin: 0, borderRadius: 0, boxShadow: 'none'}}>
             {/* <span className="card-title">Ticket Details</span> */}
             <table className="responsive-table">
               <thead>
@@ -144,24 +144,18 @@ class Ticket extends Component {
               </div>
             </div>
           ) : null}
-        </div>
-
+        {/* </div> */}
         { this.state.error ? (
           <div className="terrapin-red lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>{this.state.error}</div>
         ) : null }
-
-        {/* { this.props.error ? (
-          <div className="terrapin-red lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>{this.props.error}</div>
-        ) : null } */}
 
         {(this.state.ticketTransfered) ? (
           <div className="terrapin-green lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>
             Transfered ticket to {this.state.recipientEmail}
           </div>
         ): null }
-
         { ticket.isForSale && (
-          <div className="row card checkout-information">
+          <div className="row checkout-information">
             <Order order={[ticket]} />
 
             <Payment
@@ -173,7 +167,7 @@ class Ticket extends Component {
           </div>
         ) }
 
-        <div className="card">
+        <div className="card" style={{marginTop: 0}}>
           <div className="card-content">
             <span className="card-title">
               <h2>Venue Information</h2>
@@ -203,6 +197,7 @@ class Ticket extends Component {
             sellTicket={this.props.sellTicket} />
           ) : null }
       </div>
+    </div>
     );
   }
 }
