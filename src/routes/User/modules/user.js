@@ -157,14 +157,7 @@ const ACTION_HANDLERS = {
       ...state,
       events: action.payload
     };
-  },
-  [LOGOUT]: (state, action) => {
-    return {
-      ...state,
-      tickets: null,
-      events: null
-    };
-  },
+  }
 };
 
 // ------------------------------------

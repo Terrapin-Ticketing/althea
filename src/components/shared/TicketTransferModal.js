@@ -41,18 +41,18 @@ class TicketTransferModal extends Component {
                 </div>
               </div>
             </div>
-            <div className="top-navigation-non-mobile hide-on-small-only">
+            {/* <div className="top-navigation-non-mobile hide-on-small-only">
               Transfer Ticket
-            </div>
+            </div> */}
             <div className="modal-content">
-            <div className="terrapin-red lighten-1 card-panel">
-              <i className="material-icons tiny">warning</i> Transfering your ticket will void the current barcode and generate a new one for the person receiving the ticket. This process cannot be undone.
-            </div>
             <div className="input-field col s6">
               <label htmlFor="email">Recipient's Email</label>
               <input id="email" type="text" className="validate" value={this.state.email} onChange={(e) => {
                 this.setState({email: e.target.value});
               }} />
+              <div className="terrapin-red lighten-1" style={{padding: 15}}>
+                <small><i className="material-icons tiny">warning</i> Transfering your ticket will void the current barcode and generate a unique one for the new owner. This process cannot be undone.</small>
+              </div>
             </div>
 
             <div className="modal-actions right-align hide-on-small-only">

@@ -89,9 +89,9 @@ class TicketSellModal extends Component {
                 </div>
               </div>
             </div>
-            <div className="top-navigation-non-mobile hide-on-small-only">
+            {/* <div className="top-navigation-non-mobile hide-on-small-only">
               Sell Ticket
-            </div>
+            </div> */}
             <div className="modal-content">
               <div>
                 <div className='row z-depth-1'>

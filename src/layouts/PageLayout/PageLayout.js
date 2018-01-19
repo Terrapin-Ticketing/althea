@@ -58,6 +58,7 @@ export default (store) => {
               <li><Link to="/events" onClick={() => this.setState({topNavOpen: false })}>Events</Link></li>
               {(!user) ? (<li><Link to='/login' onClick={() => this.setState({topNavOpen: false })} className="nav-item" activeClassName='active'>Login</Link></li>) : null}
                {(user) ? (<li><Link to='/my-profile' onClick={() => this.setState({topNavOpen: false })} className='nav-item' activeClassName='page-layout__nav-item--active'>My Tickets</Link></li>) : null}
+               <li><Link to='/help' onClick={() => this.setState({topNavOpen: false })} className='nav-item' activeClassName='page-layout__nav-item--active'>Help</Link></li>
                {(user) ? (<li><Link onClick={() => logout()} className='nav-item' activeClassName='page-layout__nav-item--active'>Logout</Link></li>) : null}
             </ul>
           </header>

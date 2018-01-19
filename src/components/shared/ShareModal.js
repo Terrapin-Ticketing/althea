@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactModal from 'react-modal';
 import classNames from 'classnames';
+import FacebookProvider, { Share } from 'react-facebook';
 
 import './ModalStyles.scss';
 
@@ -16,6 +17,7 @@ class ShareModal extends Component {
     this.ticketUrl.select();
     document.execCommand('copy');
     this.setState({copied: true});
+    this.ticketUrl.blur();
   }
 
   render() {
@@ -37,25 +39,33 @@ class ShareModal extends Component {
                   Share Ticket
                 </div>
                 <div className='nav-control col s2 right-align'
-                  onClick={() => this.copyTicketLink(ticket._id)}>Copy Link</div>
+                  onClick={() => this.copyTicketLink(ticket._id)}>{(this.state.copied) ? 'Copied' : 'Copy Link'}</div>
                 </div>
               </div>
             </div>
-            <div className="top-navigation-non-mobile hide-on-small-only">
+            {/* <div className="top-navigation-non-mobile hide-on-small-only">
               Share Ticket
-            </div>
+            </div> */}
             <div className="modal-content">
-              <h3 style={{marginBottom: 0}}>Ticket Url</h3>
+              <h3 style={{margin: 0}}>Ticket Url</h3>
             <div className="input-field col s6" style={{marginTop: 0}}>
               <input ref={(input) => { this.ticketUrl = input; }} id="ticketUrl" type="text" className="validate" value={`${ALTHEA_URL}/event/${ticket.eventId._id}/ticket/${ticket._id}`} />
             </div>
 
-            <div className="modal-actions right-align hide-on-small-only">
-              <a className="close modal-action" onClick={() => closeModal()}>Close</a>
-              <a className={classNames('copy modal-action', {'disabled': this.state.copied })}
-                onClick={() => this.copyTicketLink(ticket._id)}>{(this.state.copied) ? 'Copied' : 'Copy Link'}</a>
+
+            <div className="card-action valign-wrapper">
+              <FacebookProvider appId="644007869280535">
+                <Share href={`${ALTHEA_URL}/event/${ticket.eventId._id}/ticket/${ticket._id}`}>
+                  <img width={20} className="action-button" src={require('../../layouts/assets/img/facebook-logo.svg')} />
+                </Share>
+              </FacebookProvider>
+              <div className="action-buttons hide-on-small-only">
+                <a className="action-button close" onClick={() => closeModal()}>Close</a>
+                <a className={classNames('action-button copy', {'disabled': this.state.copied })}
+                  onClick={() => this.copyTicketLink(ticket._id)}>{(this.state.copied) ? 'Copied' : 'Copy Link'}</a>
+              </div>
+              </div>
             </div>
-          </div>
         </ReactModal>
     );
   }

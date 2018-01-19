@@ -18,7 +18,8 @@ class TicketRow extends Component {
       shareTicketModalOpen: false,
       sellTicketModalOpen: false,
       transferTicketModalOpen: false,
-      initTransfer: false
+      initTransfer: false,
+      isHover: false
     };
     this.transferTicket = this.transferTicket.bind(this);
   }
@@ -52,7 +53,10 @@ class TicketRow extends Component {
   render() {
     const { ticket, key } = this.props;
     return (
-      <div className={classNames('scale-transition', { 'scale-out': this.state.ticketTransfered, hide: this.state.hidden })}>
+      <div
+        className={classNames('scale-transition', { 'scale-out': this.state.ticketTransfered, hide: this.state.hidden, 'z-depth-2': this.state.isHover })}
+        onMouseEnter={() => this.setState({isHover: true})}
+        onMouseLeave={() => this.setState({isHover: false})}>
         <div className="ticket-card card show-on-small hide-on-med-and-up">
           <div className="card-image ticket-image s12 m6" onClick={() => this.ticketClick(ticket)}>
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }

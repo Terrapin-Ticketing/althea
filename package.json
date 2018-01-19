@@ -44,6 +44,7 @@
     "react": "^15.5.4",
     "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^15.5.4",
+    "react-facebook": "^4.2.1",
     "react-helmet": "^5.2.0",
     "react-modal": "^2.2.4",
     "react-qr-reader": "^1.2.1",
