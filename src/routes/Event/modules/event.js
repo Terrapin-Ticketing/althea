@@ -12,12 +12,20 @@ export const UPDATE_ORDER = 'UPDATE_ORDER';
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
-export function getEventInfo(eventId) {
+export function getEventInfo(urlSafeName) {
   return async (dispatch, getState) => {
-    let { data: { event } } = await axios.get(`${SHAKEDOWN_URL}/events/${eventId}`);
+    let options = {
+      url: `${SHAKEDOWN_URL}/events/find`,
+      method: 'post',
+      json: true,
+      data: { query: { urlSafe: urlSafeName } },
+      withCredentials: true
+    };
+
+    let { data: { events } } = await axios(options);
     dispatch({
       type: SET_EVENT_DETAILS,
-      payload: event
+      payload: events[0]
     });
   };
 }

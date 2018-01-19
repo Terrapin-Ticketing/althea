@@ -2,7 +2,7 @@ import { injectReducer } from '../../store/reducers';
 import TicketRoute from '../Ticket';
 
 export default (store, wrappers = []) => ({
-  path: 'event/:id',
+  path: 'event/:urlSafe',
   /*  Async getComponent is only invoked when route matches   */
   getComponent(nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point

@@ -61,8 +61,6 @@ class TicketRow extends Component {
           <div className="card-image ticket-image s12 m6" onClick={() => this.ticketClick(ticket)}>
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
             <img src={ticket.eventId.imageUrl} />
-            {/* <span className="card-title">{ticket.eventId.name}</span> */}
-            {/* <a className="btn-floating halfway-fab waves-effect waves-light terrapin-green"><i className="material-icons share-icon">share</i></a> */}
           </div>
           <div className="card-content ticket-content flow-text" onClick={() => this.ticketClick(ticket)}>
             <a className="card-title">{ticket.eventId.name}</a>
@@ -75,14 +73,14 @@ class TicketRow extends Component {
               </small>
             </div>
           </div>
-            <div className="card-action valign-wrapper">
-              <i onClick={() => this.openTicketShareModal()} className="material-icons share-icon">share</i>
-              <div className="action-buttons">
-                <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketSellModal()}>Sell</Link>
-                <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketTransferModal()}>Transfer</Link>
-              </div>
+          <div className="card-action valign-wrapper">
+            <i onClick={() => this.openTicketShareModal()} className="material-icons share-icon">share</i>
+            <div className="action-buttons">
+              <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketSellModal()}>Sell</Link>
+              <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketTransferModal()}>Transfer</Link>
             </div>
           </div>
+        </div>
         <div className="ticket-card card horizontal sticky-action small hide-on-small-only">
           <div className="ticket-image card-image s12 m6" onClick={() => this.ticketClick(ticket)}>
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }

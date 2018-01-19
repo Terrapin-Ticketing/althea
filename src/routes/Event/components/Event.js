@@ -24,8 +24,8 @@ class Event extends Component {
   }
 
   componentDidMount() {
-    let { id, ticketId } = this.props.params;
-    this.props.getEventInfo(id);
+    let { urlSafe } = this.props.params;
+    this.props.getEventInfo(urlSafe);
     document.title = `${this.props.event.name} - Terrapin Ticketing`
     $('.dropdown-button').dropdown({
       inDuration: 300,
@@ -86,7 +86,7 @@ class Event extends Component {
 
   renderActivateButton() {
     return (
-      <button onClick={()=> browserHistory.push(`${this.props.event.urlSafe}/activate`)} className="waves-effect waves-light btn-large terrapin-green">Activate Tickets</button>
+      <button onClick={()=> browserHistory.push(`/event/${this.props.event.urlSafe}/activate`)} className="waves-effect waves-light btn-large terrapin-green">Activate Tickets</button>
     );
   }
 
