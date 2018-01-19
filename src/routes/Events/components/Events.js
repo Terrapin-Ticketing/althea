@@ -25,6 +25,10 @@ class Events extends Component {
     browserHistory.push(`event/${event.urlSafe}`)
   }
 
+  goToActivate(event) {
+    browserHistory.push(`event/${event.urlSafe}/activate`);
+  }
+
   renderEvent(event, index) {
     return (
       <div key={index}>
@@ -43,10 +47,10 @@ class Events extends Component {
               </small>
             </div>
           </div>
-          <div className="card-action valign-wrapper" style={{justifyContent: 'flex-end'}}>
+          <div className="card-action valign-wrapper" style={{justifyContent: 'center'}}>
             <div className="action-buttons">
-              <Link className="action-button btn-flat waves-effect" onClick={() => this.eventClick(event)}>More Info</Link>
-              {/* <Link className="action-button btn-flat waves-effect" onClick={() => this.goToActivate(event)}>Activate Ticket</Link> */}
+              {/* <Link className="action-button btn-flat waves-effect" onClick={() => this.eventClick(event)}>More Info</Link> */}
+              <Link className="action-button btn-flat center-align waves-effect" onClick={() => this.goToActivate(event)}>Activate Ticket</Link>
             </div>
           </div>
         </div>
@@ -66,10 +70,10 @@ class Events extends Component {
                 </small>
               </div>
             </div>
-            <div className="card-action valign-wrapper" style={{justifyContent: 'flex-end'}}>
+            <div className="card-action valign-wrapper" style={{justifyContent: 'center'}}>
               <div className="action-buttons">
-                <Link className="action-button btn-flat waves-effect" onClick={() => this.eventClick(event)}>More Info</Link>
-                {/* <Link className="action-button btn-flat waves-effect" onClick={() => this.goToActivate(eventevent)}>Activate Ticket</Link> */}
+                <Link className="action-button btn-flat center-align waves-effect" onClick={() => this.goToActivate(event)}>Activate Ticket</Link>
+                {/* <Link className="action-button btn-flat waves-effect" onClick={() => this.eventClick(event)}>More Info</Link> */}
               </div>
             </div>
           </div>
