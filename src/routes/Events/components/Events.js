@@ -31,7 +31,7 @@ class Events extends Component {
 
   renderEvent(event, index) {
     return (
-      <div key={index}>
+      <div key={index} className={classNames({disabled: event.isDisabled})}>
         <div className="ticket-card card show-on-small hide-on-med-and-up">
           <div className="card-image ticket-image s12 m6" onClick={() => this.eventClick(event)}>
             <img src={event.imageUrl} />
@@ -72,7 +72,7 @@ class Events extends Component {
             </div>
             <div className="card-action valign-wrapper" style={{justifyContent: 'center'}}>
               <div className="action-buttons">
-                <Link className="action-button btn-flat center-align waves-effect" onClick={() => this.goToActivate(event)}>Activate Ticket</Link>
+                <Link className={classNames('action-button btn-flat center-align waves-effect', {disabled: event.isDisabled})} onClick={() => this.goToActivate(event)}>Activate Ticket</Link>
                 {/* <Link className="action-button btn-flat waves-effect" onClick={() => this.eventClick(event)}>More Info</Link> */}
               </div>
             </div>
@@ -86,13 +86,21 @@ class Events extends Component {
     events.push({
       _id: Date.now(),
       name: 'Resonance Music Festival',
-      isDisabled: true
+      isDisabled: true,
+      imageUrl: 'https://terrapinticketing.com/img/resonance.jpg',
+      venue: {
+        name: 'Legend Valley',
+        address: '7585 Kindle Rd',
+        city: 'Thornville',
+        state: 'OH',
+        zip: '43076'
+      }
     });
   }
 
   render() {
     let { events } = this.props;
-    // events = this.addResonance(events);
+    events = this.addResonance(events);
     return (
       <div className='container'>
         {this.props.children}
