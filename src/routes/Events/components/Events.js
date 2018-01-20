@@ -29,7 +29,7 @@ class Events extends Component {
     browserHistory.push(`event/${event.urlSafe}/activate`);
   }
 
-  renderEvent(event, index) {
+  renderEvent(event, index, img) {
     return (
       <div key={index} className={classNames({disabled: event.isDisabled})}>
         <div className="ticket-card card show-on-small hide-on-med-and-up">
@@ -56,7 +56,7 @@ class Events extends Component {
         </div>
         <div className="ticket-card card horizontal sticky-action small hide-on-small-only">
           <div className="ticket-image card-image s12 m6" onClick={() => this.eventClick(event)}>
-            <img src={event.imageUrl} />
+            { img || <img src={event.imageUrl} /> }
           </div>
           <div className="card-stacked col s12 m6">
             <div className="card-content ticket-content" onClick={() => this.eventClick(event)}>
@@ -82,25 +82,7 @@ class Events extends Component {
     );
   }
 
-  addResonance(events) {
-    events.push({
-      _id: Date.now(),
-      name: 'Resonance Music Festival',
-      isDisabled: true,
-      imageUrl: 'https://terrapinticketing.com/img/resonance.jpg',
-      venue: {
-        name: 'Legend Valley',
-        address: '7585 Kindle Rd',
-        city: 'Thornville',
-        state: 'OH',
-        zip: '43076'
-      }
-    });
-  }
-
   render() {
-    let { events } = this.props;
-    events = this.addResonance(events);
     return (
       <div className='container'>
         {this.props.children}
@@ -108,6 +90,20 @@ class Events extends Component {
         {this.props.events.map((event, index) => {
           return this.renderEvent(event, index);
         })}
+        {/* add resonance */}
+        {this.renderEvent({
+          _id: Date.now(),
+          name: 'Resonance Music Festival',
+          isDisabled: true,
+          imageUrl: 'https://terrapinticketing.com/img/resonance.jpg',
+          venue: {
+            name: 'Legend Valley',
+            address: '7585 Kindle Rd',
+            city: 'Thornville',
+            state: 'OH',
+            zip: '43076'
+          }
+        }, this.props.events.length, <img src={require('../../../layouts/assets/img/resonance.jpg')} />)}
       </div>
     );
   }
