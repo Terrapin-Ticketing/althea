@@ -55,7 +55,7 @@ class TicketTransferModal extends Component {
               </div>
             </div>
 
-            <div className="modal-actions right-align hide-on-small-only">
+            <div className="modal-actions right-align">
               <a className="close modal-action" onClick={() => closeModal()}>Cancel</a>
               <a className={classNames('save modal-action', {'disabled': !this.state.email })}
                 onClick={() => this.transferTicket(ticket._id, this.state.email)}>Transfer</a>
