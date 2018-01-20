@@ -93,7 +93,7 @@ class Ticket extends Component {
         <div className="card sticky-action">
           <div className="card-image">
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
-            <img src={ticket.eventId.imageUrl} />
+            <img className="ticket-card-image" src={ticket.eventId.imageUrl} />
             {/* <span className="card-title">{ticket.eventId.name}</span> */}
           </div>
           { ticket.barcode && (

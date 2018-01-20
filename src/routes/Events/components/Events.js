@@ -34,7 +34,7 @@ class Events extends Component {
       <div key={index} className={classNames({disabled: event.isDisabled})}>
         <div className="ticket-card card show-on-small hide-on-med-and-up">
           <div className="card-image ticket-image s12 m6" onClick={() => this.eventClick(event)}>
-            <img src={event.imageUrl} />
+            { img || <img className="card-image-test" width="50" src={event.imageUrl} /> }
           </div>
           <div className="card-content ticket-content flow-text" onClick={() => this.eventClick(event)}>
             <a className="card-title">{event.name}</a>
@@ -56,7 +56,7 @@ class Events extends Component {
         </div>
         <div className="ticket-card card horizontal sticky-action small hide-on-small-only">
           <div className="ticket-image card-image s12 m6" onClick={() => this.eventClick(event)}>
-            { img || <img src={event.imageUrl} /> }
+            { img || <img className="card-image-test" width="50" src={event.imageUrl} /> }
           </div>
           <div className="card-stacked col s12 m6">
             <div className="card-content ticket-content" onClick={() => this.eventClick(event)}>
@@ -103,7 +103,7 @@ class Events extends Component {
             state: 'OH',
             zip: '43076'
           }
-        }, this.props.events.length, <img src={require('../../../layouts/assets/img/resonance.jpg')} />)}
+        }, this.props.events.length, <img className="card-image-test" src={require('../../../layouts/assets/img/resonance.jpg')} />)}
       </div>
     );
   }
