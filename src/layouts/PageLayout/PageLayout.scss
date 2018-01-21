@@ -1,14 +1,14 @@
 .page-content {
-  position: relative;
-  top: 75px;
+  // position: relative;
+  // top: 75px;
 }
 
 
 /* header */
 .header {
   background-color: #fff;
-  position: absolute;
-  top: 0;
+  // position: absolute;
+  // top: 0;
   width: 100%;
   z-index: 3;
   a {
@@ -123,6 +123,11 @@
 /* 48em = 768px */
 
 @media (min-width: 48em) {
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .header li {
     float: left;
   }

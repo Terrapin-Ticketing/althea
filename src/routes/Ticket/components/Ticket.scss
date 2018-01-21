@@ -17,6 +17,19 @@
   cursor: pointer;
 }
 
+.venue-information {
+  border-top: 1px solid hsla(0,0%,63%,.2);
+  padding: 24px;
+}
+
+.alert {
+  padding: 24px;
+
+  small {
+    font-size: .7rem;
+  }
+}
+
 .action-buttons {
   display: flex;
   flex-wrap: nowrap;

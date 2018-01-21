@@ -54,7 +54,7 @@ class Activate extends Component {
     }
     return (
       <div className='container activate-container'>
-        <EventInfoContainer event={this.props.event} />
+        {/* <EventInfoContainer event={this.props.event} /> */}
         <div className="card activate-card">
           <div className="card-content">
             <h2>Ticket Information</h2>

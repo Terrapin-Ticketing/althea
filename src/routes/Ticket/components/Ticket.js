@@ -113,7 +113,6 @@ class Ticket extends Component {
                   <th>Date</th>
                   <th>Type</th>
                   <th>Price</th>
-                  <th className="hide-on-med-and-down">For Sale</th>
                 </tr>
               </thead>
               <tbody>
@@ -122,19 +121,15 @@ class Ticket extends Component {
                   <td>{ticket.type} <br />
                       <small className="caption"><i>{ticket._id}</i></small></td>
                   <td><Price price={ticket.price} /></td>
-                  <td className="valign-wrapper hide-on-med-and-down"><div className="switch">
-                    <label>
-                    <input type="checkbox"
-                      checked={ticket.isForSale}
-                      onChange={() => this.toggleForSale()}
-                    /><span className="lever"></span>
-                    </label>
-                  </div>
-                </td>
                 </tr>
               </tbody>
             </table>
           </div>
+          {(this.state.ticketTransfered) ? (
+            <div className="terrapin-green lighten-1 scale-transition alert scale-in" style={{color: '155724' }}>
+              Transfered ticket to {this.state.recipientEmail}
+            </div>
+          ): null }
           {(this.isOwner()) ? (
             <div className="card-action valign-wrapper">
               <i onClick={() => this.openTicketShareModal()} className="material-icons share-icon">share</i>
@@ -145,15 +140,23 @@ class Ticket extends Component {
             </div>
           ) : null}
         {/* </div> */}
-        { this.state.error ? (
-          <div className="terrapin-red lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>{this.state.error}</div>
-        ) : null }
-
-        {(this.state.ticketTransfered) ? (
-          <div className="terrapin-green lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>
-            Transfered ticket to {this.state.recipientEmail}
+        { this.state.error && (
+          <div className="terrapin-red alert lighten-1 scale-transition scale-in" style={{color: '155724' }}>{this.state.error}</div>
+        )}
+        { ((ticket.isForSale) && (ticket.ownerId != (user && user._id))) && (
+          <div className="terrapin-green alert scale-transition scale-in valign-wrapper" style={{color: '#f8f8f8'}}>
+              <i className='material-icons' style={{padding: '5px 10px'}}>attach_money</i> <span>This ticket is for sale <br />
+              <small><i>Fill out your payment informaiton below to purchase it</i></small>
+            </span>
           </div>
-        ): null }
+        )}
+        { ((ticket.isForSale) && (ticket.ownerId === (user && user._id))) && (
+            <div className="terrapin-orange alert scale-transition scale-in valign-wrapper" style={{color: '#f8f8f8'}}>
+                <i className='material-icons' style={{padding: '5px 10px'}}>attach_money</i> <span>Your ticket is for sale <br />
+                <small><i>Someone may purchase it, preventing you from attending the event</i></small>
+              </span>
+            </div>
+        )}
         { ticket.isForSale && (
           <div className="row checkout-information">
             <Order order={[ticket]} />
@@ -167,16 +170,12 @@ class Ticket extends Component {
           </div>
         ) }
 
-        <div className="card" style={{marginTop: 0}}>
-          <div className="card-content">
-            <span className="card-title">
-              <h2>Venue Information</h2>
-            </span>
-              {ticket.eventId.venue.name} <br />
-              {ticket.eventId.venue.address} <br />
-              {ticket.eventId.venue.city}, {ticket.eventId.venue.state} {ticket.eventId.venue.zip}
-          </div>
-        </div>
+      <div className="venue-information">
+        <h2>Venue Information</h2>
+        {ticket.eventId.venue.name} <br />
+        {ticket.eventId.venue.address} <br />
+        {ticket.eventId.venue.city}, {ticket.eventId.venue.state} {ticket.eventId.venue.zip}
+      </div>
         <ShareModal
           ticket={this.props.ticket}
           closeModal={() => this.setState({shareTicketModalOpen: false})}
