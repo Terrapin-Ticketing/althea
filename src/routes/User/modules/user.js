@@ -55,13 +55,31 @@ export const getUserEvents = () => {
 
 export const transferTicket = (ticketId, recipientEmail) => {
   return async (dispatch, getState) => {
-    let res = await axios({
+
+    // no await since it doesn't matter when this returns
+    axios({
       url: `${SHAKEDOWN_URL}/tickets/${ticketId}/transfer`,
       method: 'post',
       data: {email: recipientEmail},
       withCredentials: true
     });
-    return res.data
+
+    let { data } = await axios({
+      url: `${SHAKEDOWN_URL}/tickets/find`,
+      method: 'post',
+      data: {
+        query: {
+          ownerId: getState().auth.user._id
+        }
+      },
+      withCredentials: true
+    });
+    let { tickets } = data;
+
+    dispatch({
+      type: SET_USER_TICKETS,
+      payload: tickets
+    });
   };
 };
 
