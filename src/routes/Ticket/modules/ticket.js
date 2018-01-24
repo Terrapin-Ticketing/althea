@@ -33,71 +33,6 @@ export function getTicketInfo(ticketId) {
   };
 }
 
-export const toggleForSale = (ticket) => {
-  return async (dispatch, getState) => {
-    let isForSale = !ticket.isForSale; // invert isForSale
-    let res = await axios({
-      url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/sell`,
-      method: 'post',
-      data: {isForSale},
-      withCredentials: true
-    });
-    let ticketObj = res.data.ticket;
-    dispatch({
-      type: SET_TICKET_DETAILS,
-      payload: ticketObj
-    });
-  };
-};
-
-export const transferTicket = (ticketId, recipientEmail) => {
-  return async (dispatch, getState) => {
-    let res = await axios({
-      url: `${SHAKEDOWN_URL}/tickets/${ticketId}/transfer`,
-      method: 'post',
-      data: {email: recipientEmail},
-      withCredentials: true
-    });
-    return res.data
-  };
-};
-
-export const sellTicket = (ticket, payoutMethod, payoutValue, index) => {
-  return async (dispatch, getState) => {
-    let { isForSale, price } = ticket;
-    let ticketRes = await axios({
-      url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/sell`,
-      method: 'post',
-      data: {
-        isForSale,
-        price,
-      },
-      withCredentials: true
-    });
-    let { user } = getState().auth;
-    let userRes = await axios({
-      url: `${SHAKEDOWN_URL}/user/${user._id}/payout`,
-      method: 'post',
-      data: {
-        payoutMethod,
-        payoutValue
-      },
-      withCredentials: true
-    });
-
-    dispatch({
-      type: SET_TICKET_DETAILS,
-      payload: ticketRes.data.ticket
-    });
-
-    dispatch({
-      type: SET_USER_INFO,
-      payload: userRes.data.user
-    });
-
-  };
-};
-
 export const buyTicketsStripe = (token, ticketId, transferToUser) => {
   return async (dispatch, getState) => {
     let options = {
@@ -143,8 +78,6 @@ export const buyTicketsStripe = (token, ticketId, transferToUser) => {
 export const actions = {
   getTicketInfo,
   getEventInfo,
-  toggleForSale,
-  transferTicket,
   buyTicketsStripe
 };
 

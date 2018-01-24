@@ -49,10 +49,16 @@ class TicketSellModal extends Component {
       paypal: props.user.payout.paypal || ''
     };
     this.sellTicket = this.sellTicket.bind(this);
+    console.log('TicketSellModal constructor', props);
+  }
+
+  componentWillMount() {
+    console.log('TicketSellModal componentWillMount');
   }
 
   async componentDidMount() {
     window.setTimeout(() => { Materialize.updateTextFields() }, 500);
+    console.log('TicketSellModal componentDidMount');
     // let order = this.state.order;
     // order.push(this.props.ticket);
     // this.setState({ ticket: this.props.ticket })
@@ -151,7 +157,7 @@ class TicketSellModal extends Component {
                         checked={this.state.ticket.isForSale}
                         onChange={() => {
                           let ticket = this.state.ticket;
-                          ticket.isForSale = !ticket.isForSale;
+                          ticket.isForSale = !this.state.ticket.isForSale;
                           this.setState({ ticket });
                         }}
                       />

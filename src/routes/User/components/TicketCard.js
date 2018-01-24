@@ -52,6 +52,7 @@ class TicketCard extends Component {
 
   render() {
     const { ticket } = this.props;
+    console.log('ticket render: ', ticket);
     return (
       <div key={this.props.key}
         className={classNames('scale-transition', { 'scale-out': this.state.ticketTransfered, hide: this.state.hidden, 'z-depth-2': this.state.isHover })}

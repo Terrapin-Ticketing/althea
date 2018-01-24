@@ -1,12 +1,14 @@
 import { connect } from 'react-redux';
 const modules = require('../modules/ticket');
 const authModules = require('../../../store/authentication').actions;
+const userModules = require('../../User/modules/user');
 
 import Ticket from '../components/Ticket';
 
 let mapDispatchToProps = {
   ...modules,
-  ...authModules
+  ...authModules,
+  ...userModules
 };
 
 const mapStateToProps = (state) => {

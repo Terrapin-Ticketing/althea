@@ -84,26 +84,6 @@ export const transferTicket = (ticketId, transferToUser) => {
   };
 };
 
-export const toggleForSale = (ticket, index) => {
-  return async (dispatch, getState) => {
-    let isForSale = !ticket.isForSale; // invert isForSale
-    let res = await axios({
-      url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/sell`,
-      method: 'post',
-      data: {isForSale},
-      withCredentials: true
-    });
-
-    let tickets = getState().user.tickets;
-    tickets[index] = res.data.ticket;
-
-    dispatch({
-      type: SET_USER_TICKETS,
-      payload: tickets
-    });
-  };
-};
-
 export const sellTicket = (ticket, payoutMethod, payoutValue, index) => {
   return async (dispatch, getState) => {
     let { isForSale, price } = ticket;
