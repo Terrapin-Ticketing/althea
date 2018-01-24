@@ -1,5 +1,8 @@
 import { connect } from 'react-redux';
-const mapDispatchToProps = require('../modules/setPassword');
+const mapDispatchToProps = {
+  ...require('../modules/setPassword'),
+  ...require('../../../store/authentication')
+};
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for

@@ -36,20 +36,53 @@ function getCookie(name) {
   return null;
 }
 
+function setCookieFromToken(token) {
+  setAuthorizationToken(token);
+
+  // set cookie
+  let cookieToken = getCookie('cookieToken');
+  if (!cookieToken) {
+    setCookie('cookieToken', token, 2);
+  }
+}
+
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const signup = (email, password, privateKey) => {
-  return async(dispatch) => {
+export const setPassword = (passwordToken, password) => {
+  return async (dispatch, getState) => {
+    // if the password doesn't match the local token use axios to get a new one
     let res = await axios({
-      url: `${SHAKEDOWN_URL}/signup`,
+      url: `${SHAKEDOWN_URL}/set-password/${passwordToken}`,
       method: 'post',
-      data: {email, password, privateKey},
+      data: {password},
       withCredentials: true
     });
 
     let { token } = res.data;
-    setAuthorizationToken(token);
+    setCookieFromToken(token);
+
+    let user = jwt.decode(token);
+
+    dispatch({
+      type: 'LOGIN',
+      payload: user
+    });
+  };
+};
+
+export const signup = (email, password) => {
+  return async(dispatch) => {
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/signup`,
+      method: 'post',
+      data: {email, password},
+      withCredentials: true
+    });
+
+    let { token } = res.data;
+    setCookieFromToken(token);
+
     let user = jwt.decode(token);
 
     dispatch({
@@ -72,13 +105,7 @@ export const login = (email, password) => {
     // locationModules.clearRedirectUrl();
 
     let { token } = res.data;
-    setAuthorizationToken(token);
-
-    // set cookie
-    let cookieToken = getCookie('cookieToken');
-    if (!cookieToken) {
-      setCookie('cookieToken', token, 2);
-    }
+    setCookieFromToken(token);
 
     let user = jwt.decode(token);
 
