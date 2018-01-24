@@ -25,15 +25,21 @@ class USDPayment extends React.Component {
       if ((user && user._id) === this.props.order[0].ownerId) return;
 
       let email = (user && user.email) || this.state.email;
+      let firstName = (user && user.firstName) || this.state.firstName;
+      let lastName = (user && user.lastName) || this.state.lastName;
 
       try {
         // Within the context of `Elements`, this call to createToken knows which Element to
         // tokenize, since there's only one in this group.
-        let { token, error } = await this.props.stripe.createToken({ type: 'card', email });
+        let { token, error } = await this.props.stripe.createToken({ type: 'card', email, firstName, lastName});
+        let transferToUser = {
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          email: this.state.email
+        }
         if (error) throw error.message;
         let { buyTicketsStripe, order } = this.props;
-        // let transactionsList = await buyTicketsStripe(JSON.stringify(token), ticket);
-        await buyTicketsStripe(token, order[0]._id);
+        await buyTicketsStripe(token, order[0]._id, transferToUser);
         if (this.props.error) return this.setState({ activateError: this.props.error });
       } catch (err) {
         this.setState({error: err});
@@ -50,9 +56,23 @@ class USDPayment extends React.Component {
     let isOwnerAndIsForSale = (!this.props.order[0].isForSale || (user && user._id === order[0].ownerId));
     return (
       <form onSubmit={this.handleSubmit(user).bind(this)} className={`checkout-form ${classname}`}>
-          <div className="col s12">
-            {/* <label htmlFor="email">Email</label> */}
-            <input id="email" placeholder="Email" type="text" style={{borderBottom: '1px solid rgba(0,0,0,.12)'}} value={this.state.email || ''} onChange={(e) => {
+          <div className="input-field col s6">
+            <label htmlFor="firstName">First Name</label>
+            <input id="firstName" type="text" className="validate" value={this.state.firstName} style={{borderBottom: '1px solid rgba(0,0,0,.12)'}}
+              onChange={(e) => {
+                this.setState({firstName: e.target.value});
+            }} />
+          </div>
+          <div className="input-field col s6">
+            <label htmlFor="lastName">Last Name</label>
+            <input id="lastName" type="text" className="validate" value={this.state.lastName} style={{borderBottom: '1px solid rgba(0,0,0,.12)'}}
+              onChange={(e) => {
+                this.setState({lastName: e.target.value});
+            }} />
+          </div>
+          <div className="input-field col s12">
+            <label htmlFor="email">Email</label>
+            <input id="email" type="text" style={{borderBottom: '1px solid rgba(0,0,0,.12)'}} value={this.state.email || ''} onChange={(e) => {
               this.setState({email: e.target.value});
             }} />
           </div>

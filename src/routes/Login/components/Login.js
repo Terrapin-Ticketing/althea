@@ -61,12 +61,13 @@ class Login extends Component {
     return (
       <div className='container login-container'>
         <div className="card login-card">
-          <div className='row card login-selector'>
+          <div className='row login-selector'>
             <button
               className={classNames('col s6 btn-flat btn-large',
               {'active': (this.state.loginType === 'login')},
               {'inactive': (this.state.loginType === 'register')}
             )}
+            style={{borderRadius: 0}}
             onClick={() => this.setState({ loginType: 'login' })}>
             Login
           </button>
@@ -75,6 +76,7 @@ class Login extends Component {
             {'active': (this.state.loginType === 'register')},
             {'inactive': (this.state.loginType === 'login')}
           )}
+          style={{borderRadius: 0}}
           onClick={() => this.setState({ loginType: 'register' })}>
           Register
         </button>

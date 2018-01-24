@@ -46,21 +46,21 @@ class User extends Component {
     this.props.toggleForSale(ticket, index);
   }
 
-  async transferTicket(ticketId, recipientEmail) {
-    this.setState({ ticketTransfered: true, recipientEmail: recipientEmail });
-    await this.props.transferTicket(ticketId, recipientEmail);
+  async transferTicket(ticketId, recipient) {
+    this.setState({ ticketTransfered: true, recipientEmail: recipient.email });
+    await this.props.transferTicket(ticketId, recipient);
   }
 
   renderTickets(tickets) {
     if (tickets) {
       return (
         this.props.tickets.map((ticket, index) => {
-          return <TicketCard
+          return (<TicketCard
             key={index}
             user={this.props.user}
             ticket={ticket}
             transferTicket={this.transferTicket}
-            sellTicket={this.props.sellTicket} />
+            sellTicket={this.props.sellTicket} />)
         })
       );
     } else {
@@ -96,12 +96,12 @@ class User extends Component {
         <div className="col s12">
           <div className="card-content">
             {(this.state.ticketTransfered) ? (
-              <div className="terrapin-green lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>
+              <div className="terrapin-green lighten-1 scale-transition scale-in card-panel" style={{color: '#155724' }}>
                 Transfered ticket to {this.state.recipientEmail}
               </div>
             ): null }
             {(this.props.location.query.ticketId) ? (
-              <div className="terrapin-green lighten-1 scale-transition scale-in card-panel" style={{color: '155724' }}>
+              <div className="terrapin-green lighten-1 scale-transition scale-in card-panel" style={{color: '#155724' }}>
                 Purchase Successful (
                   <Link to={`/event/${this.props.location.query.eventId}/ticket/${this.props.location.query.ticketId}`} >
                    View Ticket

@@ -55,9 +55,13 @@ class Activate extends Component {
     return (
       <div className='container activate-container'>
         {/* <EventInfoContainer event={this.props.event} /> */}
+        <h1 style={{marginBottom: 0}}>Activate Ticket</h1>
+        <h4 style={{marginTop: 10}}>{this.props.event.name}</h4>
         <div className="card activate-card">
           <div className="card-content">
-            <h2>Ticket Information</h2>
+            <div className="alert valign-wrapper">
+              <i className='material-icons' style={{padding: 10}}>info_outline</i><small>Activating your ticket adds it to your Terrapin wallet where you can store it, mark it for sale, or securely transfer it to other fans via email. Your original barcode will remain valid until your ticket is bought or transfered.</small>
+            </div>
             <form className='col s12 login-form' onSubmit={this.activateTicket}>
               <div className="input-field col s6">
                 <label htmlFor="barcode">Ticket Number</label>
@@ -66,13 +70,13 @@ class Activate extends Component {
                 }} />
               </div>
               <div className="input-field col s6">
-                { user ? null : (<label htmlFor="email">Email Address</label>) }
+                <label htmlFor="email">Email Address</label>
                 <input id="email" type="text" value={this.state.email} onChange={(e) => {
                   this.setState({email: e.target.value});
                 }} />
               </div>
               <div className="submit-row">
-                <span className='error'>{(this.state.activateError) ? this.state.activateError : null}</span>
+                <span className={classNames('error', {hide: !this.state.activateError })}>{(this.state.activateError) ? this.state.activateError : null}</span>
                 { this.state.isLoading ? (
                   <div className="spinner-container">
                     <div className="preloader-wrapper small active">

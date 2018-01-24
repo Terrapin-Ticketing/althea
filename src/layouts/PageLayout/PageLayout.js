@@ -44,6 +44,8 @@ export default (store) => {
       let children = (this.state.mounted) ? this.props.children : null;
       return (
         <ReactCSSTransitionGroup
+          component="div"
+          className="transition-content"
           transitionAppear={true}
           transitionAppearTimeout={600}
           transitionEnterTimeout={600}

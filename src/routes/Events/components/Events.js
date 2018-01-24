@@ -86,7 +86,8 @@ class Events extends Component {
     return (
       <div className='container'>
         {this.props.children}
-        <h1>Upcoming Events</h1>
+        <h3 style={{marginBottom: 0, marginLeft: 15}}>Events Live Now</h3>
+        <h1 style={{marginTop: 0, marginLeft: 15}}>Activate Tickets</h1>
         {this.props.events.map((event, index) => {
           return this.renderEvent(event, index);
         })}

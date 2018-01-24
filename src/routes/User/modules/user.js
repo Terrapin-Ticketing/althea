@@ -53,14 +53,15 @@ export const getUserEvents = () => {
   };
 };
 
-export const transferTicket = (ticketId, recipientEmail) => {
+export const transferTicket = (ticketId, transferToUser) => {
   return async (dispatch, getState) => {
-
     // no await since it doesn't matter when this returns
     axios({
       url: `${SHAKEDOWN_URL}/tickets/${ticketId}/transfer`,
       method: 'post',
-      data: {email: recipientEmail},
+      data: {
+        transferToUser: transferToUser
+      },
       withCredentials: true
     });
 

@@ -9,7 +9,7 @@ import ShareModal from '../../../components/shared/ShareModal';
 import TicketTransferModal from '../../../components/shared/TicketTransferModal';
 import TicketSellModal from '../../../components/shared/TicketSellModal';
 
-class TicketRow extends Component {
+class TicketCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,9 +51,9 @@ class TicketRow extends Component {
   }
 
   render() {
-    const { ticket, key } = this.props;
+    const { ticket } = this.props;
     return (
-      <div
+      <div key={this.props.key}
         className={classNames('scale-transition', { 'scale-out': this.state.ticketTransfered, hide: this.state.hidden, 'z-depth-2': this.state.isHover })}
         onMouseEnter={() => this.setState({isHover: true})}
         onMouseLeave={() => this.setState({isHover: false})}>
@@ -64,7 +64,7 @@ class TicketRow extends Component {
           </div>
           <div className="card-content ticket-content flow-text" onClick={() => this.ticketClick(ticket)}>
             <a className="card-title">{ticket.eventId.name}</a>
-            <small>Date: <br />{moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}</small>
+            <small>Date: <br />{moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}</small><br /><br />
             <div className="venue-info">
               <small>
                 {ticket.eventId.venue.name} <br />
@@ -89,7 +89,7 @@ class TicketRow extends Component {
           <div className="card-stacked col s12 m6">
             <div className="card-content ticket-content" onClick={() => this.ticketClick(ticket)}>
               <a className="card-title">{ticket.eventId.name}</a>
-              <small>Date: <br />{moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}</small>
+              <small>Date: <br />{moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}</small><br /><br />
               <div className="venue-info">
                 <small>
                   {ticket.eventId.venue.name} <br />
@@ -133,4 +133,4 @@ class TicketRow extends Component {
   }
 }
 
-export default TicketRow;
+export default TicketCard;
