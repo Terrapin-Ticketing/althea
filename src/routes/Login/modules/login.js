@@ -31,7 +31,7 @@ function getCookie(name) {
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
-export const login = (email, password) => {
+export const login2 = (email, password) => {
   return async (dispatch, getState) => {
     // if the password doesn't match the local token use axios to get a new one
     let res = await axios({
@@ -80,10 +80,10 @@ export const signup = (email, password, privateKey) => {
   };
 };
 
-export const actions = {
-  login,
-  signup
-};
+// export const actions = {
+//   login,
+//   signup
+// };
 
 // ------------------------------------
 // Action Handlers

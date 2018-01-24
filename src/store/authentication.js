@@ -3,7 +3,6 @@ import cookie from 'cookie';
 import jwt from 'jsonwebtoken';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
-
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -15,30 +14,6 @@ function deleteCookie(name) {
   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   // document.cookie = name + '=; expires=' + new Date();
 }
-
-// ------------------------------------
-// Actions
-// ------------------------------------
-
-export const signup = (email, password, privateKey) => {
-  return async(dispatch) => {
-    let res = await axios({
-      url: `${SHAKEDOWN_URL}/signup`,
-      method: 'post',
-      data: {email, password, privateKey},
-      withCredentials: true
-    });
-
-    let { token } = res.data;
-    setAuthorizationToken(token);
-    let user = jwt.decode(token);
-
-    dispatch({
-      type: 'LOGIN',
-      payload: user
-    });
-  };
-};
 
 function setCookie(name, value, days) {
   let expires = '';
@@ -61,6 +36,29 @@ function getCookie(name) {
   return null;
 }
 
+// ------------------------------------
+// Actions
+// ------------------------------------
+export const signup = (email, password, privateKey) => {
+  return async(dispatch) => {
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/signup`,
+      method: 'post',
+      data: {email, password, privateKey},
+      withCredentials: true
+    });
+
+    let { token } = res.data;
+    setAuthorizationToken(token);
+    let user = jwt.decode(token);
+
+    dispatch({
+      type: 'LOGIN',
+      payload: user
+    });
+  };
+};
+
 export const login = (email, password) => {
   return async (dispatch) => {
     // if the password doesn't match the local token use axios to get a new one
@@ -70,6 +68,8 @@ export const login = (email, password) => {
       data: {email, password},
       withCredentials: true
     });
+
+    // locationModules.clearRedirectUrl();
 
     let { token } = res.data;
     setAuthorizationToken(token);
@@ -94,9 +94,9 @@ export const login = (email, password) => {
   };
 };
 
-export const actions = {
-  signup, login
-};
+// export const actions = {
+//   signup, login
+// };
 
 // ------------------------------------
 // Specialized Action Creator
