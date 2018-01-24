@@ -96,7 +96,7 @@ class Ticket extends Component {
             <img className="ticket-card-image" src={ticket.eventId.imageUrl} />
             {/* <span className="card-title">{ticket.eventId.name}</span> */}
           </div>
-          { ticket.barcode && (
+          { ticket.barcode && !ticket.isForSale && (
             <div className="barcode-container center" style={{display: 'block'}}>
               {/* CINCI TICKET CODE (needs to be abstracted) */}
               <img src={`https://terrapin.cincyregister.com/images/barcode.php?c=${ticket.barcode}&p=520a67c3&f=0&x=2&h=60&q=3&t=code128`} /> <br />
@@ -130,7 +130,7 @@ class Ticket extends Component {
               Transfered ticket to {this.state.recipientEmail}
             </div>
           ): null }
-          {(this.isOwner()) ? (
+            {(this.isOwner()) ? (
             <div className="card-action valign-wrapper">
               <i onClick={() => this.openTicketShareModal()} className="material-icons share-icon">share</i>
               <div className="action-buttons">
@@ -143,7 +143,7 @@ class Ticket extends Component {
         { this.state.error && (
           <div className="terrapin-red alert lighten-1 scale-transition scale-in" style={{color: '155724' }}>{this.state.error}</div>
         )}
-        { ((ticket.isForSale) && (ticket.ownerId != (user && user._id))) && (
+        { ((ticket.isForSale) && (ticket.ownerId !== (user && user._id))) && (
           <div className="terrapin-green alert scale-transition scale-in valign-wrapper" style={{color: '#f8f8f8'}}>
               <i className='material-icons' style={{padding: '5px 10px'}}>attach_money</i> <span>This ticket is for sale <br />
               <small><i>Fill out your payment informaiton below to purchase it</i></small>

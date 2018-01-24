@@ -59,7 +59,7 @@ class Activate extends Component {
         <h4 style={{marginTop: 10}}>{this.props.event.name}</h4>
         <div className="card activate-card">
           <div className="card-content">
-            <div className="alert valign-wrapper">
+            <div className="activate-info valign-wrapper">
               <i className='material-icons' style={{padding: 10}}>info_outline</i><small>Activating your ticket adds it to your Terrapin wallet where you can store it, mark it for sale, or securely transfer it to other fans via email. Your original barcode will remain valid until your ticket is bought or transfered.</small>
             </div>
             <form className='col s12 login-form' onSubmit={this.activateTicket}>
