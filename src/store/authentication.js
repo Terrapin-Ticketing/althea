@@ -40,10 +40,10 @@ function setCookieFromToken(token) {
   setAuthorizationToken(token);
 
   // set cookie
-  let cookieToken = getCookie('cookieToken');
-  if (!cookieToken) {
-    setCookie('cookieToken', token, 2);
-  }
+  setCookie('cookieToken', token, 2);
+  // let cookieToken = getCookie('cookieToken');
+  // if (!cookieToken) {
+  // }
 }
 
 // ------------------------------------

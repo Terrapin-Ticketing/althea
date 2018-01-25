@@ -110,7 +110,6 @@ export const sellTicket = (ticket, payoutMethod, payoutValue, index) => {
     tickets[index] = ticketRes.data.ticket;
     user = userRes.data.user;
 
-
     let { token } = userRes.data;
 
     // set cookie
@@ -120,6 +119,8 @@ export const sellTicket = (ticket, payoutMethod, payoutValue, index) => {
     }
 
     user = jwt.decode(token);
+
+    console.log('BOUT TO DISPATCH', tickets[index]);
 
     dispatch({
       type: SET_USER_TICKETS,

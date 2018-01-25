@@ -43,7 +43,7 @@ class TicketSellModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ticket: props.ticket,
+      // ticket: props.ticket,
       payoutMethod: props.user.payout.default || 'paypal',
       venmo: props.user.payout.venmo || '',
       paypal: props.user.payout.paypal || ''
@@ -66,6 +66,10 @@ class TicketSellModal extends Component {
 
   render() {
     const { ticket, isOpen, closeModal } = this.props;
+    if (!this.state.ticket) return null;
+    console.log('props:', ticket.isForSale);
+    console.log('state:', this.state.ticket.isForSale);
+    console.log(' ');
     return (
       <ReactModal
         isOpen={isOpen}
