@@ -14,6 +14,7 @@ let mapDispatchToProps = {
 const mapStateToProps = (state) => {
   return {
     ticket: state.ticket.ticket,
+    // tickets: state.user.tickets,
     event: state.ticket.currentEvent,
     user: state.auth.user,
     order: state.ticket.order,

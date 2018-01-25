@@ -7,14 +7,24 @@ import url from 'url';
 // ------------------------------------
 export const SET_TICKET_DETAILS = 'SET_TICKET_DETAILS';
 export const SET_EVENT_DETAILS = 'SET_EVENT_DETAILS';
+export const SET_EVENT_INFO = 'SET_EVENT_INFO';
 export const SET_USER_INFO = 'SET_USER_INFO';
 export const UPDATE_ORDER = 'UPDATE_ORDER';
 export const REDIRECT = 'REDIRECT';
 export const ERROR = 'ERROR';
 
-export function getEventInfo() {
+export function getEventInfo(id) {
   return async (dispatch, getState) => {
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/events/${id}`,
+      method: 'get',
+      withCredentials: true
+    });
 
+    dispatch({
+      type: SET_EVENT_INFO,
+      payload: res.data.event
+    });
   };
 }
 
@@ -89,6 +99,12 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       ticket: action.payload
+    };
+  },
+  [SET_EVENT_INFO]: (state, action) => {
+    return {
+      ...state,
+      currentEvent: action.payload
     };
   },
   [SET_EVENT_DETAILS]: (state, action) => {

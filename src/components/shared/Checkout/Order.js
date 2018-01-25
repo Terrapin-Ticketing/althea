@@ -8,19 +8,14 @@ class Order extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      serviceFee: 100,
       cardFee: 100,
       total: undefined
     };
   }
 
-  async componentDidMount() {
-
-  }
-
-  calculateTotal() {
+  calculateTotal(serviceFee) {
     let { order } = this.props;
-    let { cardFee, serviceFee } = this.state;
+    let { cardFee } = this.state;
     let total = order.reduce((total, ticket) => total + ticket.price);
     return total.price + (cardFee + serviceFee);
   }
@@ -42,13 +37,15 @@ class Order extends React.Component {
           <td></td>
           <td className="price"><Price price={ticket.price} /></td>
         </tr>
-      )
-    })
+      );
+    });
   }
 
   render() {
-    let { order } = this.props;
-    let { serviceFee, cardFee, total } = this.state;
+    let { order, serviceFee } = this.props;
+    let totalTicketPrice = order.reduce((total, ticket) => total + ticket.price).price;
+    let totalBasePrice = totalTicketPrice + serviceFee;
+    let cardFee = (totalBasePrice * 0.029) + 30;
     return (
         <div className="order-details card-content col s12 l6">
           <h2>Order Details</h2>
@@ -75,7 +72,7 @@ class Order extends React.Component {
                   )})}
                 <tr className="service-fee"><td className="name-column">Service Fee</td><td><Price price={serviceFee} /></td></tr>
                 <tr className="card-fee"><td className="name-column">Credit Card Processing</td><td><Price price={cardFee} /></td></tr>
-                <tr className="total"><td className="name-column">Total:</td><td><Price price={this.calculateTotal()} /></td></tr>
+                <tr className="total"><td className="name-column">Total:</td><td><Price price={totalBasePrice + cardFee} /></td></tr>
               </tbody>
             </table>
           </div>

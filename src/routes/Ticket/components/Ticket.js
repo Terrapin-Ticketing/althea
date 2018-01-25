@@ -19,24 +19,25 @@ class Ticket extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      serviceFee: 1,
-      cardFee: 2
+      // serviceFee: 1,
+      // cardFee: 2
     };
     this.openTicketTransferModal = this.openTicketTransferModal.bind(this);
     this.transferTicket = this.transferTicket.bind(this);
   }
 
-  componentDidMount() {
-    let { serviceFee, cardFee } = this.state;
-    this.props.getTicketInfo(this.props.params.ticketId);
-    this.setState({ total: this.calculateTotal(serviceFee + cardFee)});
+  async componentDidMount() {
+    // let { serviceFee, cardFee } = this.state;
+    await this.props.getTicketInfo(this.props.params.ticketId);
+    await this.props.getEventInfo(this.props.params.eventId);
+    // this.setState({ total: this.calculateTotal(serviceFee + cardFee)});
     // TODO: This is broken. Fix.
     // document.title = `${this.props.ticket.eventId.name} Ticket - Terrapin Ticketing`;
   }
 
   calculateTotal(fees) {
-    let { event, order } = this.props;
-    return (event.price * 1) + fees;
+    // let { event, order } = this.props;
+    // return (event.price * 1) + fees;
   }
 
   openTicketShareModal(ticket) {
@@ -159,7 +160,10 @@ class Ticket extends Component {
         )}
         { ticket.isForSale && (
           <div className="row checkout-information">
-            <Order order={[ticket]} />
+            <Order
+              order={[ticket]}
+              serviceFee={event.totalMarkupPercent * ticket.price}
+            />
 
             <Payment
               order={[ticket]}
