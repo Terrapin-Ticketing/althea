@@ -10,7 +10,6 @@ class Login extends Component {
       email: '',
       password: '',
       confirmPassword: '',
-      privateKey: '',
       loginError: null,
       loginType: 'login'
     };
@@ -40,12 +39,12 @@ class Login extends Component {
   }
 
   async register(e) {
-    let { password, confirmPassword, email, privateKey } = this.state;
+    let { password, confirmPassword, email } = this.state;
     let { redirectUrl } = this.props;
     e.preventDefault();
     if (password === confirmPassword) {
       try {
-        await this.props.signup(email, password, privateKey);
+        await this.props.signup(email, password);
         (redirectUrl) ? browserHistory.push(redirectUrl) : browserHistory.push('/my-profile');
       } catch (err) { // email already taken
         console.log(err);

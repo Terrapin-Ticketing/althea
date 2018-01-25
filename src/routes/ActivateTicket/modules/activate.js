@@ -6,6 +6,7 @@ import url from 'url';
 // ------------------------------------
 
 export const SET_EVENT_DETAILS = 'SET_EVENT_DETAILS';
+export const SET_TICKET_DETAILS = 'SET_TICKET_DETAILS';
 export const REDIRECT = 'REDIRECT';
 export const ERROR = 'ERROR';
 
@@ -30,6 +31,35 @@ export function getEventInfo(urlSafeName) {
   };
 }
 
+export function validateTicketNumber(urlSafeName, barcode) {
+  return async(dispatch, getState) => {
+    let options = {
+      url: `${SHAKEDOWN_URL}/${urlSafeName}/validate`,
+      method: 'post',
+      json: true,
+      data: {
+        barcode
+      },
+      withCredentials: true
+    };
+
+    let { data } = await axios(options);
+
+    if (!data.isValidTicket) {
+      dispatch({
+        type: ERROR,
+        payload: 'Invalid Ticket Number'
+      });
+    } else {
+      dispatch({
+        type: ERROR,
+        payload: null
+      });
+    }
+
+  };
+}
+
 export function activateTicket(urlSafeName, email, barcode) {
   return async(dispatch, getState) => {
     let options = {
@@ -44,7 +74,16 @@ export function activateTicket(urlSafeName, email, barcode) {
     };
 
     let { data } = await axios(options);
-
+    if (data.ticket) {
+      dispatch({
+        type: SET_TICKET_DETAILS,
+        payload: data.ticket
+      });
+      dispatch({
+        type: ERROR,
+        payload: null
+      });
+    }
     if (data.error) {
       dispatch({
         type: ERROR,
@@ -85,6 +124,12 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       event: action.payload
+    };
+  },
+  [SET_TICKET_DETAILS]: (state, action) => {
+    return {
+      ...state,
+      ticket: action.payload
     };
   },
   [REDIRECT]: (state, action) => {

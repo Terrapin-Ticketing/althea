@@ -1,5 +1,8 @@
 import { connect } from 'react-redux';
-const mapDispatchToProps = require('../modules/activate');
+const mapDispatchToProps = {
+  ...require('../modules/activate'),
+  ...require('../../../store/authentication')
+};
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -17,7 +20,8 @@ const mapStateToProps = (state) => {
     event: state.activate.event,
     redirect: state.activate.redirect,
     user: state.auth.user,
-    error: state.activate.error
+    error: state.activate.error,
+    ticket: state.activate.ticket
   };
 };
 

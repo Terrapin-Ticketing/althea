@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 
 class SuccessPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      ticketNumber: ''
-    };
+    this.state = { };
   }
 
   render() {
-    let { activateAnotherTicket, goToProfilePage } = this.props;
+    let { ticket } = this.props;
     return (
-      <div className="input-field col s6">
-        Success!
-      <div onClick={activateAnotherTicket}>Activate Another Ticket</div>
-      <div onClick={goToProfilePage}>Go To Profile Page</div>
+      <div className="col s12 m8 offset-m2 l6 offset-l3">
+        <div className="card activate-card">
+          <div className="card-content">
+            <h1>Finished!</h1>
+            <div>
+              <button className="btn-large" onClick={() => browserHistory.push(`/event/${ticket.eventId}/ticket/${ticket._id}`)}>View Ticket</button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

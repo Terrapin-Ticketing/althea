@@ -90,6 +90,20 @@ class Ticket extends Component {
     }
     return (
       <div className='route-container container'>
+        { ((ticket.isForSale) && (ticket.ownerId !== (user && user._id))) && (
+          <div className="card terrapin-green alert scale-transition scale-in valign-wrapper" style={{color: '#f8f8f8'}}>
+              <i className='material-icons' style={{padding: '5px 10px'}}>attach_money</i> <span>This ticket is for sale <br />
+              <small><i>Fill out your payment informaiton below to purchase it</i></small>
+            </span>
+          </div>
+        )}
+        { ((ticket.isForSale) && (ticket.ownerId === (user && user._id))) && (
+            <div className="card terrapin-orange alert scale-transition scale-in valign-wrapper" style={{color: '#f8f8f8'}}>
+                <i className='material-icons' style={{padding: '5px 10px'}}>attach_money</i> <span>Your ticket is for sale <br />
+                <small><i>Someone may purchase it, preventing you from attending the event</i></small>
+              </span>
+            </div>
+        )}
         <div className="card sticky-action">
           <div className="card-image">
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
@@ -118,8 +132,7 @@ class Ticket extends Component {
               <tbody>
                 <tr style={{borderBottom: 0}}>
                   <td>{ticket.eventId.date}</td>
-                  <td>{ticket.type} <br />
-                      <small className="caption"><i>{ticket._id}</i></small></td>
+                  <td>{ticket.type}</td>
                   <td><Price price={ticket.price} /></td>
                 </tr>
               </tbody>
@@ -142,20 +155,6 @@ class Ticket extends Component {
         {/* </div> */}
         { this.state.error && (
           <div className="terrapin-red alert lighten-1 scale-transition scale-in" style={{color: '155724' }}>{this.state.error}</div>
-        )}
-        { ((ticket.isForSale) && (ticket.ownerId !== (user && user._id))) && (
-          <div className="terrapin-green alert scale-transition scale-in valign-wrapper" style={{color: '#f8f8f8'}}>
-              <i className='material-icons' style={{padding: '5px 10px'}}>attach_money</i> <span>This ticket is for sale <br />
-              <small><i>Fill out your payment informaiton below to purchase it</i></small>
-            </span>
-          </div>
-        )}
-        { ((ticket.isForSale) && (ticket.ownerId === (user && user._id))) && (
-            <div className="terrapin-orange alert scale-transition scale-in valign-wrapper" style={{color: '#f8f8f8'}}>
-                <i className='material-icons' style={{padding: '5px 10px'}}>attach_money</i> <span>Your ticket is for sale <br />
-                <small><i>Someone may purchase it, preventing you from attending the event</i></small>
-              </span>
-            </div>
         )}
         { ticket.isForSale && (
           <div className="row checkout-information">

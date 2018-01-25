@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import './Activate.scss';
+import classNames from 'classnames';
 import { browserHistory } from 'react-router';
-import classNames from 'classnames'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import EventInfoContainer from './../../../components/shared/EventInfo/EventInfo';
 import Loading from '../../../components/shared/Loading.js';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+import Welcome from './Welcome';
+import TicketNumber from './TicketNumber';
+import SuccessPage from './SuccessPage';
+import SelectLogin from './SelectLogin';
 
 class Activate extends Component {
   constructor(props) {
@@ -13,90 +20,117 @@ class Activate extends Component {
       barcode: this.props.location.query.ticketId || '',
       orderNumber: '',
       activateError: null,
-      isLoading: false
+      isLoading: false,
+      step: 'welcome'
     };
     this.activateTicket = this.activateTicket.bind(this);
-  }
-
-  componentWillMount() {
-
+    this.renderComponent = this.renderComponent.bind(this);
+    this.nextStep = this.nextStep.bind(this);
   }
 
   componentDidMount() {
     this.props.getEventInfo(this.props.params.urlSafeName);
     document.title = `${this.props.event.name} Ticket Activation on Terrapin Ticketing`;
-    let user = this.props.user;
-    if (user) this.setState({ email: user.email });
     window.setTimeout(() => { Materialize.updateTextFields() }, 500);
   }
 
-  async activateTicket(e) {
-    e.preventDefault();
-    this.setState({isLoading: true});
+  nextStep(step) {
+    this.setState({step});
+  }
+
+  async activateTicket(ticketNumber) {
     let { params: { urlSafeName } } = this.props;
-    let { email, barcode } = this.state;
     try {
-      await this.props.activateTicket(urlSafeName, email, barcode);
-      if (this.props.error) return this.setState({ activateError: this.props.error, isLoading: false });
-      this.setState({isLoading: false});
-      browserHistory.push(this.props.redirect);
+      let resp = await this.props.activateTicket(urlSafeName, this.props.user.email, ticketNumber);
+      if (this.props.ticket) this.setState({ticket: this.props.ticket});
     } catch (err) {
-      this.setState({ activateError: err, isLoading: false });
+      this.setState({ activateError: err});
+    }
+  }
+
+  renderComponent() {
+    switch (this.state.step) {
+      case 'welcome':
+        return (
+          <Welcome
+            nextStep={this.nextStep}
+            event={this.props.event}
+            user={this.props.user}
+          />
+        );
+      case 'select_login':
+        return (
+          <SelectLogin
+            nextStep={this.nextStep}
+            event={this.props.event}
+            user={this.props.user}
+          />
+        );
+      case 'sign_in':
+        return (
+          <SignIn
+            nextStep={this.nextStep}
+            login={this.props.login}
+          />
+        );
+      case 'sign_up':
+        return (
+          <SignUp
+            nextStep={this.nextStep}
+            signup={this.props.signup}
+          />
+        );
+      case 'ticket_number':
+        return (
+          <TicketNumber
+            nextStep={this.nextStep}
+            // validateTicketNumber={(ticketNumber) => this.props.validateTicketNumber(this.props.params.urlSafeName, ticketNumber)}
+            activateTicket={this.activateTicket}
+            error={this.props.error}
+          />
+        );
+      case 'finish':
+        return (
+          <SuccessPage
+            ticket={this.state.ticket}
+          />
+        )
     }
   }
 
   render() {
     let user = this.props.user;
+    let progressWidth = (this.state.step === 'welcome') ? '0%' :
+      (this.state.step === 'select_login') ? '25%' :
+      (this.state.step === 'sign_in') ? '50%' :
+      (this.state.step === 'sign_up') ? '50%' :
+      (this.state.step === 'ticket_number') ? '75%' : '100%';
     if (!this.props.event || !this.props.event._id) {
       return (
         <Loading />
       );
     }
     return (
-      <div className='container activate-container'>
-        {/* <EventInfoContainer event={this.props.event} /> */}
-        <h1 style={{marginBottom: 0}}>Activate Ticket</h1>
-        <h4 style={{marginTop: 10}}>{this.props.event.name}</h4>
-        <div className="card activate-card">
-          <div className="card-content">
-            <div className="activate-info valign-wrapper">
-              <i className='material-icons' style={{padding: 10}}>info_outline</i><small>Activating your ticket adds it to your Terrapin wallet where you can store it, mark it for sale, or securely transfer it to other fans via email. Your original barcode will remain valid until your ticket is bought or transfered.</small>
-            </div>
-            <form className='col s12 login-form' onSubmit={this.activateTicket}>
-              <div className="input-field col s6">
-                <label htmlFor="barcode">Ticket Number</label>
-                <input id="barcode" type="text" data-error="wrong" className="validate" value={this.state.barcode} onChange={(e) => {
-                  this.setState({barcode: e.target.value});
-                }} />
-              </div>
-              <div className="input-field col s6">
-                <label htmlFor="email">Email Address</label>
-                <input id="email" type="text" value={this.state.email} onChange={(e) => {
-                  this.setState({email: e.target.value});
-                }} />
-              </div>
-              <div className="submit-row">
-                <span className={classNames('error', {hide: !this.state.activateError })}>{(this.state.activateError) ? this.state.activateError : null}</span>
-                { this.state.isLoading ? (
-                  <div className="spinner-container">
-                    <div className="preloader-wrapper small active">
-                      <div className="spinner-layer spinner-green-only">
-                        <div className="circle-clipper left">
-                          <div className="circle"></div>
-                        </div><div className="gap-patch">
-                          <div className="circle"></div>
-                        </div><div className="circle-clipper right">
-                          <div className="circle"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ): <button type="submit" className={classNames('btn-large terrapin-green center-align wave-effect waves-light', { disabled: this.state.isLoading })}>
-                  Activate Ticket
-                </button>}
-              </div>
-            </form>
-          </div>
+      <div className='activate-container'>
+        <div className="progress">
+          <div className="determinate" style={{width: progressWidth}}></div>
+        </div>
+        {/* <div className='valign-wrapper' style={{fontSize: '80%', padding: 10}} onClick={() => browserHistory.push('/')}><i className="material-icons">close</i>Cancel</div> */}
+        <div className="row" style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%'}}>
+          <img
+            onClick={() => browserHistory.push('/events')}
+            style={{margin: '0 auto', width: '75%', padding: 25, cursor: 'pointer'}}
+            src={require('../../../layouts/assets/img/tt-logo-text-bottom-grn.svg')} />
+          <ReactCSSTransitionGroup
+            component="div"
+            className="transition-content"
+            transitionAppear={true}
+            transitionAppearTimeout={600}
+            transitionEnterTimeout={600}
+            transitionLeaveTimeout={200}
+            transitionName="Appear" >
+              {this.renderComponent()}
+            </ReactCSSTransitionGroup>
         </div>
       </div>
     );

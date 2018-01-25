@@ -12,4 +12,51 @@
 
 .activate-info {
   color: #737373;
+  margin: .67em 0;
+}
+
+.activate-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+}
+
+.progress {
+  margin: 0;
+}
+
+.welcome-features {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  color: #737373;
+  padding: 0 10%;
+
+  .material-icons {
+    margin-right: 25px;
+  }
+
+}
+
+.login-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.activate-login-form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.activate-card {
+  .card-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    color: #000000;
+  }
 }
