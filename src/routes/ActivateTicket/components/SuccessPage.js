@@ -8,12 +8,13 @@ class SuccessPage extends Component {
   }
 
   render() {
-    let { ticket } = this.props;
+    let { ticket, event } = this.props;
     return (
       <div className="col s12 m8 offset-m2 l6 offset-l3">
         <div className="card activate-card">
           <div className="card-content">
-            <h1>Finished!</h1>
+            <h1 className="activate-header">Finished!</h1>
+            <div className="info-text">You just registered a {ticket.type} ticket for {event.name}.</div>
             <div>
               <button className="btn-large" onClick={() => browserHistory.push(`/event/${ticket.eventId}/ticket/${ticket._id}`)}>View Ticket</button>
             </div>

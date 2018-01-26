@@ -31,19 +31,19 @@ class PasswordInput extends Component {
       <div className="col s12 m8 offset-m2 l6 offset-l3">
         <div className="card">
           <div className="card-content">
-            <h1 style={{color: '#737373', textAlign: 'center'}}>Add tickets to your wallet so you can...</h1>
+            <h1 className="activate-header" style={{textAlign: 'center'}}>Add tickets to your wallet so you can...</h1>
             <div className="welcome-features">
               <div className="row valign-wrapper">
                 <i className='material-icons medium'>account_balance_wallet</i>
-                <h1>Store Tickets</h1>
+                <h1 className="activate-header">Store Tickets</h1>
               </div>
               <div className="row valign-wrapper">
                 <i className='material-icons medium'>attach_money</i>
-                <h1>Sell Tickets</h1>
+                <h1 className="activate-header">Sell Tickets</h1>
               </div>
               <div className="row valign-wrapper">
                 <i className='material-icons medium'>send</i>
-                <h1>Transfer Tickets</h1>
+                <h1 className="activate-header">Transfer Tickets</h1>
               </div>
             </div>
             {(this.props.user) ? (

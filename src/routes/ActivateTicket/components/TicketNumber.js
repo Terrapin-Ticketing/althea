@@ -45,7 +45,7 @@ class TicketNumberInput extends Component {
       <div className="col s12 m8 offset-m2 l6 offset-l3">
         <div className="card activate-card">
           <form className="card-content" onSubmit={(e) => this.activateTicket(e)}>
-            <h2 style={{color: '#737373'}}>Input Ticket Number</h2>
+            <h2 className="activate-header">Input Ticket Number</h2>
             {this.state.error}
             <div className="input-field">
               <label htmlFor="barcode" data-error={true}>Ticket Number</label>

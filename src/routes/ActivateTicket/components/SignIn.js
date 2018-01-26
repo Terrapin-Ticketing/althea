@@ -34,7 +34,7 @@ class SignIn extends Component {
           <form className="card-content" onSubmit={(e) => {
             this.login(e);
           }}>
-            <h1 style={{color: '#737373', textAlign: 'center'}}>Sign In</h1>
+            <h1 className="activate-header" style={{textAlign: 'center'}}>Sign In</h1>
             {this.state.error}
             <div className="activate-login-form">
               <div className="input-field">

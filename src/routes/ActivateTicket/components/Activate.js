@@ -93,6 +93,7 @@ class Activate extends Component {
         return (
           <SuccessPage
             ticket={this.state.ticket}
+            event={this.props.event}
           />
         )
     }
@@ -123,7 +124,7 @@ class Activate extends Component {
             src={require('../../../layouts/assets/img/tt-logo-text-bottom-grn.svg')} />
           <ReactCSSTransitionGroup
             component="div"
-            className="transition-content"
+            className="activate-transition"
             transitionAppear={true}
             transitionAppearTimeout={600}
             transitionEnterTimeout={600}
