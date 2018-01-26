@@ -84,7 +84,7 @@ class Ticket extends Component {
 
   render() {
     let { ticket, user, event } = this.props;
-    if (!this.props.ticket._id) {
+    if (!this.props.ticket._id || !this.props.ticket.eventId.venue) {
       return (
         <Loading />
       );
