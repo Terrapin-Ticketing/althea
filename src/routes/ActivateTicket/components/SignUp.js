@@ -31,7 +31,7 @@ class PasswordInput extends Component {
     return (
       <div className="col s12 m8 offset-m2 l6 offset-l3">
         <div className="card activate-card">
-          <form className="card-content" onSubmit={() => { this.signup(); }}>
+          <form className="card-content" onSubmit={(e) => { this.signup(e); }}>
             <h1 className="activate-header" style={{textAlign: 'center'}}>Hey stranger, can we shake your hand?</h1>
             {this.state.error}
             <div className="activate-login-form">
