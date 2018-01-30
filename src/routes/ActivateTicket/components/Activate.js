@@ -86,6 +86,7 @@ class Activate extends Component {
             nextStep={this.nextStep}
             // validateTicketNumber={(ticketNumber) => this.props.validateTicketNumber(this.props.params.urlSafeName, ticketNumber)}
             activateTicket={this.activateTicket}
+            barcode={this.state.barcode}
             error={this.props.error}
           />
         );

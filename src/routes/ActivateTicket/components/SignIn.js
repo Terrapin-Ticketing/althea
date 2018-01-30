@@ -34,7 +34,7 @@ class SignIn extends Component {
           <form className="card-content" onSubmit={(e) => {
             this.login(e);
           }}>
-            <h1 className="activate-header" style={{textAlign: 'center'}}>Sign In</h1>
+            <h1 className="activate-header" style={{textAlign: 'center'}}>Welcome Back!</h1>
             {this.state.error}
             <div className="activate-login-form">
               <div className="input-field">
@@ -60,7 +60,7 @@ class SignIn extends Component {
             </div>
           </form>
         </div>
-        <i className='material-icons' style={{color: '#093', cursor: 'pointer'}} onClick={() => this.props.nextStep('welcome')}>arrow_back</i>
+        <i className='material-icons' style={{color: '#093', cursor: 'pointer'}} onClick={() => this.props.nextStep('select_login')}>arrow_back</i>
       </div>
     );
   }

@@ -24,9 +24,6 @@ class SignIn extends Component {
             this.props.nextStep('select_login')}}>
             <img src={this.props.event.imageUrl} style={{margin: '0 auto', maxHeight: '25vh'}} />
             <h1 className="activate-header">{this.props.event.name}</h1>
-            <div className="info-text">
-              <small>Activating your ticket adds it to your Terrapin wallet where you can store it, mark it for sale, or securely transfer it to other fans via email. Your original barcode will remain valid until your ticket is bought or transfered.</small>
-            </div>
             <button className='btn-large terrapin-green'
               type="submit"
               style={{margin: '0 auto'}}>Get Started</button>

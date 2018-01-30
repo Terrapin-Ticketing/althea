@@ -64,7 +64,9 @@ class TicketCard extends Component {
           </div>
           <div className="card-content ticket-content flow-text" onClick={() => this.ticketClick(ticket)}>
             <a className="card-title">{ticket.eventId.name}</a>
-            <small>Date: <br />{moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}</small>
+            {moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}<br /><br />
+            {ticket.type} <br />
+            <small>Ticket Number: {ticket.barcode}</small>
             {/* <div className="venue-info">
               <small>
                 {ticket.eventId.venue.name} <br />
@@ -89,14 +91,16 @@ class TicketCard extends Component {
           <div className="card-stacked col s12 m6">
             <div className="card-content ticket-content" onClick={() => this.ticketClick(ticket)}>
               <a className="card-title">{ticket.eventId.name}</a>
-              <small>Date: <br />{moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}</small><br /><br />
-              <div className="venue-info">
+              {moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}<br /><br />
+              {ticket.type} <br />
+              <small>Ticket Number: {ticket.barcode}</small>
+              {/* <div className="venue-info">
                 <small>
                   {ticket.eventId.venue.name} <br />
                   {ticket.eventId.venue.address} <br />
                   {ticket.eventId.venue.city}, {ticket.eventId.venue.state} {ticket.eventId.venue.zip}
                 </small>
-              </div>
+              </div> */}
             </div>
             <div className="card-action valign-wrapper">
               <i onClick={() => this.openTicketShareModal()} className="material-icons share-icon">share</i>

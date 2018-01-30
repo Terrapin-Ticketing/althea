@@ -101,7 +101,7 @@ class Ticket extends Component {
         { ((ticket.isForSale) && (ticket.ownerId === (user && user._id))) && (
             <div className="card terrapin-orange alert scale-transition scale-in valign-wrapper" style={{color: '#f8f8f8'}}>
                 <i className='material-icons' style={{padding: '5px 10px'}}>attach_money</i> <span>Your ticket is for sale <br />
-                <small><i>Someone may purchase it, preventing you from attending the event</i></small>
+                <small><i>Someone may purchase it, preventing it's usage to gain entry to the event</i></small>
               </span>
             </div>
         )}

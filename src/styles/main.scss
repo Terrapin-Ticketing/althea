@@ -16,6 +16,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f8f8f8;
+  // font-family: 'Montserrat',sans-serif;
   font-family: 'Open Sans', sans-serif;
 }
 
@@ -36,4 +37,8 @@ small.super-small {
 
 thead {
   background: #e1e2e1;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Montserrat', sans-serif;
 }

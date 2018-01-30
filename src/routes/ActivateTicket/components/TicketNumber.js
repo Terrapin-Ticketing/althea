@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
+import TicketNumberInfoModal from './TicketNumberInfoModal';
 
 class TicketNumberInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ticketNumber: '',
-      error: null
+      ticketNumber: props.barcode || '',
+      error: null,
+      infoModalOpen: false
     };
     this.updateInput = this.updateInput.bind(this);
     this.activateTicket = this.activateTicket.bind(this);
+  }
+
+  componentDidMount() {
+    window.setTimeout(() => { Materialize.updateTextFields() }, 100);
   }
 
   updateInput(key, value) {
@@ -45,8 +51,10 @@ class TicketNumberInput extends Component {
       <div className="col s12 m8 offset-m2 l6 offset-l3">
         <div className="card activate-card">
           <form className="card-content" onSubmit={(e) => this.activateTicket(e)}>
-            <h2 className="activate-header">Input Ticket Number</h2>
-            {this.state.error}
+            <h2 className="activate-header" style={{marginBottom: 0}}>Input Ticket Number</h2>
+            <div className="info-text">
+              <small><a onClick={() => this.setState({infoModalOpen: true})} style={{cursor: 'pointer'}}>Where do I find this?</a></small>
+            </div>
             <div className="input-field">
               <label htmlFor="barcode" data-error={true}>Ticket Number</label>
               <input id="barcode" type="text" className="validate"
@@ -54,7 +62,8 @@ class TicketNumberInput extends Component {
                 onChange={(e) => {
                   this.updateInput('ticketNumber', e.target.value);
                 }} />
-              <div>
+              <div style={{display: 'flex', flexDirection: 'column'}}>
+                <span style={{color: '#CC3333'}}>{this.state.error}</span>
                 { this.state.isLoading ? (
                   <div className="spinner-container">
                     <div className="preloader-wrapper small active">
@@ -75,6 +84,9 @@ class TicketNumberInput extends Component {
           </form>
         </div>
         <i className='material-icons' style={{color: '#093', cursor: 'pointer'}} onClick={() => this.props.nextStep('select_login')}>arrow_back</i>
+        <TicketNumberInfoModal
+          closeModal={() => this.setState({infoModalOpen: false})}
+          isOpen={this.state.infoModalOpen} />
       </div>
     );
   }

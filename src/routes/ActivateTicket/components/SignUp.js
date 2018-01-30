@@ -54,7 +54,7 @@ class PasswordInput extends Component {
               <button className="btn-large align-right" type="submit">Create an Account</button></div>
           </form>
         </div>
-        <i className='material-icons' style={{color: '#093'}} onClick={() => this.props.nextStep('welcome')}>arrow_back</i>
+        <i className='material-icons' style={{color: '#093', cursor: 'pointer'}} onClick={() => this.props.nextStep('select_login')}>arrow_back</i>
       </div>
     );
   }

@@ -49,11 +49,17 @@ class PasswordInput extends Component {
             {(this.props.user) ? (
               <div className="login-info">
                 <h3 style={{color: '#093'}}>Welcome, <br />{this.props.user.email}</h3>
+                <div className="info-text">
+                  <small>Your original barcode will remain valid until your ticket is bought or transfered.</small>
+                </div>
                 <button className='btn-large terrapin-green col s12 m6' style={{margin: '0 auto'}} onClick={() => this.props.nextStep('ticket_number')}>Got It</button>
                 <small style={{alignSelf: 'center', margin: 15}}><a style={{cursor: 'pointer'}} onClick={() => this.props.nextStep('sign_in')}>Use another account</a></small>
               </div>
             ) : (
               <div className="login-info">
+                <div className="info-text">
+                  <small>Your original barcode will remain valid until your ticket is bought or transfered.</small>
+                </div>
                 <button className='btn-large terrapin-green'
                   style={{width: '50%', margin: '0 auto'}}
                   onClick={() => this.props.nextStep('sign_up')}>Sign Up</button>
@@ -62,7 +68,7 @@ class PasswordInput extends Component {
               )}
           </div>
         </div>
-        <i className='material-icons' style={{color: '#093', cusror: 'pointer'}} onClick={() => this.props.nextStep('welcome')}>arrow_back</i> Welcome
+        <i className='material-icons' style={{color: '#093', cursor: 'pointer'}} onClick={() => this.props.nextStep('welcome')}>arrow_back</i>
       </div>
     );
   }
