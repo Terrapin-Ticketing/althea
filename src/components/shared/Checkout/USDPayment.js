@@ -36,7 +36,7 @@ class USDPayment extends React.Component {
           firstName: this.state.firstName,
           lastName: this.state.lastName,
           email: this.state.email
-        }
+        };
         if (error) throw error.message;
         let { buyTicketsStripe, order } = this.props;
         await buyTicketsStripe(token, order[0]._id, transferToUser);

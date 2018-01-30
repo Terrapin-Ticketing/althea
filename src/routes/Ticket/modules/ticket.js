@@ -44,6 +44,7 @@ export function getTicketInfo(ticketId) {
 }
 
 export const buyTicketsStripe = (token, ticketId, transferToUser) => {
+  console.log('transferToUser', transferToUser);
   return async (dispatch, getState) => {
     let options = {
       url: `${SHAKEDOWN_URL}/payment/${ticketId}`,
@@ -51,8 +52,7 @@ export const buyTicketsStripe = (token, ticketId, transferToUser) => {
       json: true,
       data: {
         token,
-        transferToUser,
-        fees: 150, // should be calculated later,
+        transferToUser
       },
       withCredentials: true
     };
