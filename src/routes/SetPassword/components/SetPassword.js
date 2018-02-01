@@ -21,11 +21,7 @@ class SetPassword extends Component {
 
   async handleSubmit(e) {
     e.preventDefault();
-    if (this.state.password !== this.state.confirmPassword) {
-      this.setState({setPasswordError: 'Passwords don\'t match'});
-    } else {
-      await this.setPassword(this.state.password);
-    }
+    await this.setPassword(this.state.password);
   }
 
   async setPassword(password) {
@@ -35,22 +31,20 @@ class SetPassword extends Component {
 
   render() {
     return (
-      <div className='container login-container'>
+      <div className='container login-container' style={{display: 'flex', flexDirection: 'column'}}>
+        <img
+          onClick={() => browserHistory.push('/events')}
+          style={{margin: '0 auto', width: '75%', padding: 25, cursor: 'pointer'}}
+          src={require('../../../layouts/assets/img/tt-logo-text-bottom-grn.svg')} />
         <div className="card login-card">
           <div className="card-content">
-            <div className="card-title">Set Password</div>
+            <div className="card-title">Almost there...</div>
             <div className="card-subtitle">Please enter a password to view your ticket.</div>
             <form className='col s12 login-form' onSubmit={this.handleSubmit}>
               <div className="input-field col s6">
                 <label htmlFor="password">Password</label>
                 <input id="password" type="password" value={this.state.password} onChange={(e) => {
                   this.setState({password: e.target.value});
-                }} />
-              </div>
-              <div className="input-field col s6">
-                <label htmlFor="confirmPassword">Confirm Password</label>
-                <input id="confirmPassword" type="password" value={this.state.confirmPassword} onChange={(e) => {
-                  this.setState({confirmPassword: e.target.value});
                 }} />
               </div>
               <div className="submit-row">

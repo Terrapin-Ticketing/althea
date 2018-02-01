@@ -23,12 +23,6 @@ class EventInfo extends Component {
             <div className='right-column'>
               <div className="basic-info">
                 <h2>{name}</h2>
-                <h4>{(date) ? date : 'September 20-22, 2018'}</h4>
-              </div>
-              <div className="venueInfo">
-                <h3 className="venue-info">{venue.name}</h3>
-                <h4 className="venue-info">{venue.address}</h4>
-                <h4 className="venue-info">{venue.city}, {venue.state} {venue.zip}</h4>
               </div>
             </div>
           </div>

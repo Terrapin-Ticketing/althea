@@ -149,8 +149,7 @@ const ACTION_HANDLERS = {
     }
     return {
       ...state,
-      user: null,
-      balance: null
+      user: null
     };
   },
 };

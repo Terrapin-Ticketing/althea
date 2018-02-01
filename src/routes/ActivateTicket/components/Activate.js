@@ -49,6 +49,7 @@ class Activate extends Component {
   }
 
   renderComponent() {
+    console.log('this.props: ', this.props);
     switch (this.state.step) {
       case 'welcome':
         return (
@@ -64,6 +65,7 @@ class Activate extends Component {
             nextStep={this.nextStep}
             event={this.props.event}
             user={this.props.user}
+            logout={this.props.logout}
           />
         );
       case 'sign_in':

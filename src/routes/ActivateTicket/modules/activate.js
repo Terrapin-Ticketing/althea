@@ -111,9 +111,17 @@ export function activateTicket(urlSafeName, email, barcode) {
   };
 }
 
+export function logout() {
+  return {
+    type: 'LOGOUT',
+    payload: {}
+  };
+}
+
 export const actions = {
   getEventInfo,
-  activateTicket
+  activateTicket,
+  logout
 };
 
 // ------------------------------------

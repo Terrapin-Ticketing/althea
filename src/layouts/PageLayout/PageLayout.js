@@ -40,8 +40,11 @@ export default (store) => {
 
     renderHeader() {
       let { user } = this.props;
-      let activePage = this.props.location.pathname.split('/').pop();
-      return (activePage !== 'activate') ? (
+      let activePage = this.props.location.pathname.split('/');
+      let renderHeader = activePage.includes('activate') || activePage.includes('set-password');
+      console.log('activePage: ', activePage.includes('set-password'));
+      console.log('activePage: ', activePage);
+      return (!renderHeader) ? (
         <header className="header terrapin-green" >
           <img src={require('../assets/img/tt-logo-white.svg')} className="logo img-responsive" style={{height: 55}} />
           <input className="menu-btn" checked={this.state.topNavOpen} type="checkbox" id="menu-btn" />
@@ -63,16 +66,17 @@ export default (store) => {
       return (activePage !== 'activate') ? (
         <footer className="page-footer" style={{paddingTop: 0}}>
           <div className="footer-copyright">
-            <div className="container valign-container" style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap'}}>
-              <div className='footer-text'>
-                Terrapin Ticketing <br />
-                1311 Vine St, Cincinnati, OH 45202
+              <div className="footer-text">
+                Copyright 2018 © Terrapin Ticketing, LLC
               </div>
-              <div className='footer-text'>
-                Copyright © 2018 Terrapin Ticketing, LLC. <br /> All Rights Reserved.
+              <div className="social-icons valign-wrapper">
+                <a href="mailto:info@terrapinticketing.com" target="_blank"><img src={require("../assets/img/social-icons/email.png")} /></a>
+                <a href="http://facebook.com/terrapinticketing" target="_blank"><img src={require("../assets/img/social-icons/facebook.png")} /></a>
+                <a href="http://instagram.com/terrapinticketing" target="_blank"><img src={require("../assets/img/social-icons/instagram.png")} /></a>
+                <a href="http://www.twitter.com/terrapintickets" target="_blank"><img src={require("../assets/img/social-icons/twitter.png")} /></a>
+                <a href="https://www.linkedin.com/company/18278533/" target="_blank"><img src={require("../assets/img/social-icons/linkedin.png")} /></a>
               </div>
             </div>
-          </div>
         </footer>
       ) : null;
     }

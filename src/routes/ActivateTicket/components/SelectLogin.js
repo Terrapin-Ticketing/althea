@@ -52,8 +52,8 @@ class PasswordInput extends Component {
                 <div className="info-text">
                   <small>Your original barcode will remain valid until your ticket is bought or transfered.</small>
                 </div>
-                <button className='btn-large terrapin-green col s12 m6' style={{margin: '0 auto'}} onClick={() => this.props.nextStep('ticket_number')}>Got It</button>
-                <small style={{alignSelf: 'center', margin: 15}}><a style={{cursor: 'pointer'}} onClick={() => this.props.nextStep('sign_in')}>Use another account</a></small>
+                <button className='btn-large terrapin-green col s12 m6' style={{margin: '0 auto'}} onClick={() => this.props.nextStep('ticket_number')}>Continue</button>
+                <small style={{alignSelf: 'center', margin: 15}}><a style={{cursor: 'pointer'}} onClick={() => this.props.logout()}>Use another account</a></small>
               </div>
             ) : (
               <div className="login-info">

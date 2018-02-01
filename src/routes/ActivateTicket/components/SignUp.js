@@ -23,7 +23,8 @@ class PasswordInput extends Component {
       await this.props.signup(email, password);
       this.props.nextStep('ticket_number');
     } catch (e) {
-      this.setState({error: 'There was an error creating your account. Please try again.'});
+      console.log('e: ', e);
+      this.setState({error: 'Error: Have you already made an account? If so, try logging in. If not, please contact us.'});
     }
   }
 
@@ -33,7 +34,7 @@ class PasswordInput extends Component {
         <div className="card activate-card">
           <form className="card-content" onSubmit={(e) => { this.signup(e); }}>
             <h1 className="activate-header" style={{textAlign: 'center'}}>Hey stranger, can we shake your hand?</h1>
-            {this.state.error}
+            <span className='error'>{this.state.error}</span>
             <div className="activate-login-form">
               <div className="input-field">
                 <label htmlFor="email">Email Address</label>
