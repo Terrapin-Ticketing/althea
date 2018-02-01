@@ -15,6 +15,10 @@ class SetPassword extends Component {
     this.setPassword = this.setPassword.bind(this);
   }
 
+  componentDidMount() {
+    document.title = 'Set Password - Terrapin Ticketing';
+  }
+
   async handleSubmit(e) {
     e.preventDefault();
     if (this.state.password !== this.state.confirmPassword) {

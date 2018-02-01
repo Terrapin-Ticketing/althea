@@ -41,7 +41,6 @@ export default (store) => {
     renderHeader() {
       let { user } = this.props;
       let activePage = this.props.location.pathname.split('/').pop();
-      console.log('activePage: ', activePage);
       return (activePage !== 'activate') ? (
         <header className="header terrapin-green" >
           <img src={require('../assets/img/tt-logo-white.svg')} className="logo img-responsive" style={{height: 55}} />

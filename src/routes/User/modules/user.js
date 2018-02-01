@@ -106,8 +106,8 @@ export const sellTicket = (ticket, payoutMethod, payoutValue, index) => {
       },
       withCredentials: true
     });
-    let tickets = getState().user.tickets;
-    tickets[index] = ticketRes.data.ticket;
+    // let tickets = getState().user.tickets;
+    // tickets[index] = ticketRes.data.ticket;
     user = userRes.data.user;
 
     let { token } = userRes.data;
@@ -120,12 +120,12 @@ export const sellTicket = (ticket, payoutMethod, payoutValue, index) => {
 
     user = jwt.decode(token);
 
-    console.log('BOUT TO DISPATCH', tickets[index]);
+    // console.log('BOUT TO DISPATCH', tickets[index]);
 
-    dispatch({
-      type: SET_USER_TICKETS,
-      payload: tickets
-    });
+    // dispatch({
+    //   type: SET_USER_TICKETS,
+    //   payload: tickets
+    // });
 
     dispatch({
       type: SET_USER_INFO,

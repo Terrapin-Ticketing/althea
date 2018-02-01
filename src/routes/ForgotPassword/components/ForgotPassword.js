@@ -14,6 +14,10 @@ class SetPassword extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    document.title = 'Forgot Password - Terrapin Ticketing';
+  }
+
   async handleSubmit(e) {
     e.preventDefault();
     try {
