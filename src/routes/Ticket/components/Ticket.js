@@ -32,7 +32,7 @@ class Ticket extends Component {
     await this.props.getEventInfo(this.props.params.eventId);
     // this.setState({ total: this.calculateTotal(serviceFee + cardFee)});
     // TODO: This is broken. Fix.
-    // document.title = `${this.props.ticket.eventId.name} Ticket - Terrapin Ticketing`;
+    document.title = `${this.props.ticket.eventId.name} Ticket - Terrapin Ticketing`;
   }
 
   calculateTotal(fees) {

@@ -28,8 +28,8 @@ class Activate extends Component {
     this.nextStep = this.nextStep.bind(this);
   }
 
-  componentDidMount() {
-    this.props.getEventInfo(this.props.params.urlSafeName);
+  async componentDidMount() {
+    await this.props.getEventInfo(this.props.params.urlSafeName);
     document.title = `${this.props.event.name} Ticket Activation on Terrapin Ticketing`;
     window.setTimeout(() => { Materialize.updateTextFields() }, 500);
   }
