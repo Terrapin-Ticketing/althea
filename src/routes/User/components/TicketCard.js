@@ -13,15 +13,6 @@ class TicketCard extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    // this.state = {
-    //   isForSale: props.ticket.isForSale,
-    //   ticketTransfered: false,
-    //   shareTicketModalOpen: false,
-    //   sellTicketModalOpen: false,
-    //   transferTicketModalOpen: false,
-    //   initTransfer: false,
-    //   isHover: false
-    // };
     this.transferTicket = this.transferTicket.bind(this);
   }
 
@@ -55,17 +46,14 @@ class TicketCard extends Component {
   }
 
   async transferTicket(ticketId, recipientEmail) {
-    this.setState({ ticketTransfered: true });
     await this.props.transferTicket(ticketId, recipientEmail);
-    // setTimeout(function() { this.setState({hidden: true}); }.bind(this), 1);
   }
 
   render() {
     const { ticket } = this.props;
-    if (this.state.ticketTransfered) return (<div className="">ticket tranfered</div>);
     return (
-      <div key={this.props.key}
-        className={classNames('scale-transition', { 'scale-out': this.state.ticketTransfered, hide: this.state.hidden, 'z-depth-2': this.state.isHover })}
+      <div key={this.props.index}
+        // className={classNames('scale-transition', { 'scale-out': this.state.ticketTransfered, hide: this.state.hidden, 'z-depth-2': this.state.isHover })}
         onMouseEnter={() => this.setState({isHover: true})}
         onMouseLeave={() => this.setState({isHover: false})}>
         <div className="ticket-card card show-on-small hide-on-med-and-up">

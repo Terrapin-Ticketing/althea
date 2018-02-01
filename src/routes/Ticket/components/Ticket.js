@@ -30,6 +30,7 @@ class Ticket extends Component {
     // let { serviceFee, cardFee } = this.state;
     await this.props.getTicketInfo(this.props.params.ticketId);
     await this.props.getEventInfo(this.props.params.eventId);
+    this.setState({ ticket: this.props.ticket });
     // this.setState({ total: this.calculateTotal(serviceFee + cardFee)});
     // TODO: This is broken. Fix.
     document.title = `${this.props.ticket.eventId.name} Ticket - Terrapin Ticketing`;
@@ -69,8 +70,8 @@ class Ticket extends Component {
   async transferTicket(ticketId, recipientEmail) {
     this.setState({ isLoading: true, ticketTransfered: true, recipientEmail: recipientEmail });
     await this.props.transferTicket(ticketId, recipientEmail);
-    // rerender
-    this.setState({ isLoading: false });
+    let ticket = await this.props.getTicketInfo(ticketId);
+    this.setState({ ticket, isLoading: false });
   }
 
   async buyTicketsWithStripe(token, order, transferToUser) {
@@ -83,8 +84,9 @@ class Ticket extends Component {
   }
 
   render() {
-    let { ticket, user, event } = this.props;
-    if (!this.props.ticket._id || !this.props.ticket.eventId.venue) {
+    let { user, event } = this.props;
+    let ticket = this.state.ticket;
+    if (!ticket || !ticket._id || !ticket.eventId.venue) {
       return (
         <Loading />
       );
@@ -113,7 +115,6 @@ class Ticket extends Component {
           </div>
           { ticket.barcode && !ticket.isForSale && (
             <div className="barcode-container center" style={{display: 'block'}}>
-              {/* CINCI TICKET CODE (needs to be abstracted) */}
               <img src={`https://terrapin.cincyregister.com/images/barcode.php?c=${ticket.barcode}&p=520a67c3&f=0&x=2&h=60&q=3&t=code128`} /> <br />
               <span><small className="caption">
                 This barcode is only visible to the ticket's owner when logged in
@@ -121,7 +122,6 @@ class Ticket extends Component {
             </div>
           ) }
           <div style={{margin: 0, borderRadius: 0, boxShadow: 'none'}}>
-            {/* <span className="card-title">Ticket Details</span> */}
             <table className="responsive-table">
               <thead>
                 <tr>
@@ -141,7 +141,7 @@ class Ticket extends Component {
           </div>
           {(this.state.ticketTransfered) ? (
             <div className="terrapin-green lighten-1 scale-transition alert scale-in" style={{color: '155724' }}>
-              Transfered ticket to {this.state.recipientEmail}
+              Transfered ticket to {this.state.recipientEmail.email}
             </div>
           ): null }
             {(this.isOwner()) ? (
