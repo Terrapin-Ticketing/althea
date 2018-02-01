@@ -52,7 +52,7 @@ class User extends Component {
   }
 
   renderTickets(tickets) {
-    if (tickets) {
+    if (tickets && tickets.length > 0) {
       return (
         this.props.tickets.map((ticket, index) => {
           return (<TicketCard
@@ -64,7 +64,11 @@ class User extends Component {
         })
       );
     } else {
-      null;
+      return (
+        <div className='no-tickets'>
+          <h1>Bummer, you don't have any tickets!</h1><br />
+        </div>
+      );
     }
   }
 
@@ -108,7 +112,7 @@ class User extends Component {
                 </Link>)
               </div>
             ): null }
-            <h1>My Tickets</h1>
+            <h1>My Tickets <small style={{color: '#737373', marginTop: 0, fontSize: '50%'}}>{this.props.user.email}</small></h1>
             <div className="row">
               {this.renderTickets(this.props.tickets)}
             </div>
