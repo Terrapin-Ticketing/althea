@@ -33,7 +33,7 @@ const addDecimalToNumber = number => {
   return `$${dollars}.${cents}`;
 };
 
-  export const toCurrency = value => {
+export const toCurrency = value => {
   const digits = getDigitsFromValue(value.toString());
   const digitsWithPadding = padDigits(digits);
   return addDecimalToNumber(digitsWithPadding);
@@ -43,30 +43,39 @@ class TicketSellModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // ticket: props.ticket,
-      payoutMethod: props.user.payout.default || 'paypal',
-      venmo: props.user.payout.venmo || '',
-      paypal: props.user.payout.paypal || ''
+      hasLoaded: false
     };
     this.sellTicket = this.sellTicket.bind(this);
   }
 
   async componentDidMount() {
     window.setTimeout(() => { Materialize.updateTextFields() }, 500);
-    this.setState({ ticket: this.props.ticket })
+    let { ticket, user } = this.props;
+
+    this.setState({
+      price: ticket.price,
+      isForSale: ticket.isForSale,
+      hasLoaded: true,
+      payoutMethod: user.payout.default || 'paypal',
+      venmo: user.payout.venmo,
+      paypal: user.payout.paypal
+    });
   }
 
   async sellTicket() {
-    let { ticket } = this.state;
+    let { ticket } = this.props;
+    let { price, isForSale } = this.state;
     this.setState({ isLoading: true });
-    await this.props.sellTicket(ticket, this.state.payoutMethod, this.state[this.state.payoutMethod], this.props.index);
-    this.setState({ isLoading: false })
+    ticket.price = price;
+    ticket.isForSale = isForSale;
+    await this.props.sellTicket(ticket, this.state.payoutMethod, this.state[this.state.payoutMethod]);
+    this.setState({ isLoading: false });
     this.props.closeModal();
   }
 
   render() {
     const { ticket, isOpen, closeModal } = this.props;
-    if (!this.state.ticket) return null;
+    if (!ticket || !this.state.hasLoaded) return null;
     return (
       <ReactModal
         isOpen={isOpen}
@@ -83,7 +92,7 @@ class TicketSellModal extends Component {
                 <div className="nav-title col s9 ">
                   Sell Ticket
                 </div>
-                <div className={classNames('nav-control col s2 right-align', {'disabled': (!(!!this.state.venmo || !!this.state.paypal) || (!this.state.ticket.price === '') && this.state.ticket.isForSale)} )}
+                <div className={classNames('nav-control col s2 right-align', {'disabled': (!(!!this.state.venmo || !!this.state.paypal) || (!this.state.price === '') && this.state.isForSale)} )}
                   onClick={() => this.sellTicket()}>Save</div>
                 </div>
               </div>
@@ -131,11 +140,10 @@ class TicketSellModal extends Component {
                 {/* <label htmlFor="price">Price</label> */}
                   <input id="price" type="text"
                     // placeholder="Price"
-                    value={toCurrency(this.state.ticket.price)}
+                    value={toCurrency(this.state.price)}
                     onChange={(e) => {
-                      let ticket = this.state.ticket;
-                      ticket.price = getDigitsFromValue(e.target.value);
-                      this.setState({ticket});
+                      let price = getDigitsFromValue(e.target.value);
+                      this.setState({ price });
                     }}
                   />
               </div>
@@ -147,11 +155,10 @@ class TicketSellModal extends Component {
                     <label>
                       <input
                         type="checkbox"
-                        checked={this.state.ticket.isForSale}
+                        checked={this.state.isForSale}
                         onChange={() => {
-                          let ticket = this.state.ticket;
-                          ticket.isForSale = !this.state.ticket.isForSale;
-                          this.setState({ ticket });
+                          let { isForSale } = this.state;
+                          this.setState({ isForSale: !isForSale });
                         }}
                       />
                       <span className="lever"></span>
@@ -163,13 +170,13 @@ class TicketSellModal extends Component {
             </div>
             <div className="modal-actions right-align hide-on-small-only">
               <a className="close modal-action" style={{cursor: 'pointer'}} onClick={() => closeModal()}>Cancel</a>
-              <a className={classNames('save modal-action', {'disabled': (!(!!this.state.venmo || !!this.state.paypal) || (!this.state.ticket.price === '') && this.state.ticket.isForSale)} )}
+              <a className={classNames('save modal-action', {'disabled': (!(!!this.state.venmo || !!this.state.paypal) || (!this.state.price === '') && this.state.isForSale)} )}
                 onClick={() => this.sellTicket()}>Save</a>
             </div>
           </div>
         </div>
     </ReactModal>
-    )
+  );
   }
 }
 

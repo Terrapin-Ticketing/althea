@@ -28,6 +28,27 @@ function getCookie(name) {
   return null;
 }
 
+export const getTicketById = (id) => {
+  return async (dispatch, getState) => {
+    let options = {
+      url: `${SHAKEDOWN_URL}/tickets/find`,
+      method: 'post',
+      data: {
+        query: {
+          _id: id
+        }
+      },
+      withCredentials: true
+    };
+    let { data } = await axios(options);
+    console.log('data', data);
+    // dispatch({
+    //   type: SET_USER_TICKETS,
+    //   payload: tickets
+    // });
+  };
+};
+
 export const getUserTickets = () => {
   return async (dispatch, getState) => {
     let options = {
@@ -55,8 +76,7 @@ export const getUserEvents = () => {
 
 export const transferTicket = (ticketId, transferToUser) => {
   return async (dispatch, getState) => {
-    // no await since it doesn't matter when this returns
-    axios({
+    await axios({
       url: `${SHAKEDOWN_URL}/tickets/${ticketId}/transfer`,
       method: 'post',
       data: {
@@ -65,7 +85,7 @@ export const transferTicket = (ticketId, transferToUser) => {
       withCredentials: true
     });
 
-    let { data } = await axios({
+    let { tickets } = (await axios({
       url: `${SHAKEDOWN_URL}/tickets/find`,
       method: 'post',
       data: {
@@ -74,8 +94,7 @@ export const transferTicket = (ticketId, transferToUser) => {
         }
       },
       withCredentials: true
-    });
-    let { tickets } = data;
+    })).data;
 
     dispatch({
       type: SET_USER_TICKETS,
@@ -106,9 +125,22 @@ export const sellTicket = (ticket, payoutMethod, payoutValue, index) => {
       },
       withCredentials: true
     });
+
+    let { data } = await axios({
+      url: `${SHAKEDOWN_URL}/tickets/find`,
+      method: 'post',
+      data: {
+        query: {
+          ownerId: getState().auth.user._id
+        }
+      },
+      withCredentials: true
+    });
+    let tickets = data.tickets;
+
     // let tickets = getState().user.tickets;
     // tickets[index] = ticketRes.data.ticket;
-    user = userRes.data.user;
+    // user = userRes.data.user;
 
     let { token } = userRes.data;
 
@@ -120,12 +152,10 @@ export const sellTicket = (ticket, payoutMethod, payoutValue, index) => {
 
     user = jwt.decode(token);
 
-    // console.log('BOUT TO DISPATCH', tickets[index]);
-
-    // dispatch({
-    //   type: SET_USER_TICKETS,
-    //   payload: tickets
-    // });
+    dispatch({
+      type: SET_USER_TICKETS,
+      payload: tickets
+    });
 
     dispatch({
       type: SET_USER_INFO,

@@ -12,19 +12,29 @@ import TicketSellModal from '../../../components/shared/TicketSellModal';
 class TicketCard extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isForSale: props.ticket.isForSale,
+    this.state = {};
+    // this.state = {
+    //   isForSale: props.ticket.isForSale,
+    //   ticketTransfered: false,
+    //   shareTicketModalOpen: false,
+    //   sellTicketModalOpen: false,
+    //   transferTicketModalOpen: false,
+    //   initTransfer: false,
+    //   isHover: false
+    // };
+    this.transferTicket = this.transferTicket.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      isForSale: this.props.ticket.isForSale,
       ticketTransfered: false,
       shareTicketModalOpen: false,
       sellTicketModalOpen: false,
       transferTicketModalOpen: false,
       initTransfer: false,
       isHover: false
-    };
-    this.transferTicket = this.transferTicket.bind(this);
-  }
-
-  componentDidMount() {
+    });
   }
 
   openTicketShareModal() {
@@ -46,12 +56,13 @@ class TicketCard extends Component {
 
   async transferTicket(ticketId, recipientEmail) {
     this.setState({ ticketTransfered: true });
-    let res = await this.props.transferTicket(ticketId, recipientEmail);
-    setTimeout(function() { this.setState({hidden: true}); }.bind(this), 1);
+    await this.props.transferTicket(ticketId, recipientEmail);
+    // setTimeout(function() { this.setState({hidden: true}); }.bind(this), 1);
   }
 
   render() {
     const { ticket } = this.props;
+    if (this.state.ticketTransfered) return (<div className="">ticket tranfered</div>);
     return (
       <div key={this.props.key}
         className={classNames('scale-transition', { 'scale-out': this.state.ticketTransfered, hide: this.state.hidden, 'z-depth-2': this.state.isHover })}
