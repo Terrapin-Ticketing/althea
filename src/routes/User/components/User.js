@@ -47,7 +47,11 @@ class User extends Component {
   }
 
   async transferTicket(ticketId, recipient) {
-    this.setState({ ticketTransfered: true, recipientEmail: recipient.email });
+    this.setState({
+      ticketTransfered: true,
+      recipientEmail: recipient.email,
+      pendingTranferTicketId: ticketId
+    });
     await this.props.transferTicket(ticketId, recipient);
   }
 
@@ -55,12 +59,16 @@ class User extends Component {
     if (tickets) {
       return (
         this.props.tickets.map((ticket, index) => {
+          // ignore any pending tranfer tickets
+          if (ticket._id === this.state.pendingTranferTicketId) {
+            return null;
+          }
           return (<TicketCard
-            key={index}
+            key={Math.random(index)}
             user={this.props.user}
             ticket={ticket}
             transferTicket={this.transferTicket}
-            sellTicket={this.props.sellTicket} />)
+            sellTicket={this.props.sellTicket} />);
         })
       );
     } else {
@@ -89,7 +97,6 @@ class User extends Component {
   }
 
   render() {
-    console.log('props tickets:', this.props.tickets);
     if (!this.props.user) return null;
     return (
       <div className="route-container container">

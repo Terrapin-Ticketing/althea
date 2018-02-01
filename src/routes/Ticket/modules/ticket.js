@@ -40,6 +40,8 @@ export function getTicketInfo(ticketId) {
       type: SET_TICKET_DETAILS,
       payload: ticket
     });
+
+    return ticket;
   };
 }
 
