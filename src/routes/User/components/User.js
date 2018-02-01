@@ -25,7 +25,7 @@ class User extends Component {
   componentDidMount() {
     this.props.getUserEvents();
     this.props.getUserTickets();
-    document.title = 'My Tickets - Terrapin Ticketing'
+    document.title = 'My Tickets - Terrapin Ticketing';
   }
 
   componentWillUnmount() {
@@ -89,8 +89,8 @@ class User extends Component {
   }
 
   render() {
+    console.log('props tickets:', this.props.tickets);
     if (!this.props.user) return null;
-    const { email } = this.props.user;
     return (
       <div className="route-container container">
         <div className="col s12">
