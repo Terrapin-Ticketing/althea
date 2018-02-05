@@ -13,9 +13,10 @@ let STRIPE_PUBLIC_KEY = JSON.stringify('pk_test_GvYM7xVYxIO8vE41geXObIYD');
 
 switch (NODE_ENV) {
   case 'demo': {
+    console.log(process.env.STRIPE_PK);
     SHAKEDOWN_URL = JSON.stringify('https://shakedown.terrapintickets.io');
     ALTHEA_URL = JSON.stringify('https://terrapintickets.io');
-    STRIPE_PUBLIC_KEY = process.env.STRIPE_PK;
+    STRIPE_PUBLIC_KEY = JSON.stringify(process.env.STRIPE_PK);
     break;
   }
   // case 'testrpc':

@@ -34,7 +34,7 @@ const locationModules = require('../../../store/location').actions;
 //   };
 // };
 
-export const isValidToken = (token) => {
+export const isValidToken = async(token) => {
   return async (dispatch) => {
     let res = await axios({
       url: `${SHAKEDOWN_URL}/check-token`,
