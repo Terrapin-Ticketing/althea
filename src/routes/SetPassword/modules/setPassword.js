@@ -34,6 +34,23 @@ const locationModules = require('../../../store/location').actions;
 //   };
 // };
 
+export const isValidToken = (token) => {
+  return async (dispatch) => {
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/check-token`,
+      method: 'post',
+      data: {token},
+      withCredentials: true
+    });
+
+    // dispatch({
+    //   type: '',
+    //   payload: 's'
+    // });
+    return res.data.isValidToken;
+  };
+};
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------

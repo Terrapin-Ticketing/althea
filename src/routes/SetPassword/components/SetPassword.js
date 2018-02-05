@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './SetPassword.scss';
 import { browserHistory } from 'react-router';
-import classNames from 'classnames'
+import classNames from 'classnames';
 
 class SetPassword extends Component {
   constructor(props) {
@@ -16,9 +16,9 @@ class SetPassword extends Component {
   }
 
   async componentDidMount() {
-    // let isValidToken = await this.props.isValidToken(this.props.params.token);
-    // if (!isValidToken) return browserHistory.push('/my-profile');
-
+    let isValidToken = await this.props.isValidToken(this.props.params.token);
+    // console.log('isValidToken', isValidToken);
+    if (!isValidToken) browserHistory.push('/my-profile');
     document.title = 'Set Password - Terrapin Ticketing';
   }
 
@@ -29,39 +29,38 @@ class SetPassword extends Component {
 
   async setPassword(password) {
     await this.props.setPassword(this.props.params.token, password);
+    // console.log('password was set');
     browserHistory.push('/my-profile');
   }
 
   render() {
-    console.log('this.props: ', this.props);
     return (
       <div className='container login-container' style={{display: 'flex', flexDirection: 'column'}}>
         <img
           onClick={() => browserHistory.push('/events')}
           style={{margin: '0 auto', width: '75%', padding: 25, cursor: 'pointer'}}
           src={require('../../../layouts/assets/img/tt-logo-text-bottom-grn.svg')} />
-        <div className="card login-card">
-          <div className="card-content">
-            <div className="card-title">Almost there...</div>
-            <div className="card-subtitle">Please enter a password to view your ticket.</div>
-            <form className='col s12 login-form' onSubmit={this.handleSubmit}>
-              <div className="input-field col s6">
-                <label htmlFor="password">Password</label>
-                <input id="password" type="password" value={this.state.password} onChange={(e) => {
-                  this.setState({password: e.target.value});
-                }} />
-              </div>
-              <div className="submit-row">
-                <span className='error'>{(this.state.setPasswordError) ? this.state.setPasswordError : null}</span>
-                {/* <span className='user'>{(this.props.user) ? JSON.stringify(this.props.user) : ''}</span> */}
-                <button type="submit" className="btn-large terrapin-green center-align" onClick={this.handleSubmit}>
-                  View Ticket
-                </button>
-              </div>
-            </form>
+          <div className="card login-card">
+            <div className="card-content">
+              <div className="card-title">Almost there...</div>
+              <div className="card-subtitle">Please enter a password to view your ticket.</div>
+              <form className='col s12 login-form' onSubmit={this.handleSubmit}>
+                <div className="input-field col s6">
+                  <label htmlFor="password">Password</label>
+                  <input id="password" type="password" value={this.state.password} onChange={(e) => {
+                    this.setState({password: e.target.value});
+                  }} />
+                </div>
+                <div className="submit-row">
+                  <span className='error'>{(this.state.setPasswordError) ? this.state.setPasswordError : null}</span>
+                  <button type="submit" className="btn-large terrapin-green center-align" onClick={this.handleSubmit}>
+                    View Ticket
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
     );
   }
 }

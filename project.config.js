@@ -15,6 +15,7 @@ switch (NODE_ENV) {
   case 'demo': {
     SHAKEDOWN_URL = JSON.stringify('https://shakedown.terrapintickets.io');
     ALTHEA_URL = JSON.stringify('https://terrapintickets.io');
+    STRIPE_PUBLIC_KEY = process.env.STRIPE_PK;
     break;
   }
   // case 'testrpc':
