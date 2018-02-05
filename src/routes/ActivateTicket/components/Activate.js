@@ -49,7 +49,6 @@ class Activate extends Component {
   }
 
   renderComponent() {
-    console.log('this.props: ', this.props);
     switch (this.state.step) {
       case 'welcome':
         return (

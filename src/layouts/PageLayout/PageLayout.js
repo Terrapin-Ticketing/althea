@@ -16,6 +16,7 @@ const mapStateToProps = (state) => {
 
 export default (store) => {
   const logout = () => {
+    console.log('dispatching from here');
     store.dispatch({
       type: 'LOGOUT',
       payload: {}

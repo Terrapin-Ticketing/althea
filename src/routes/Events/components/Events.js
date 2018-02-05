@@ -18,11 +18,11 @@ class Events extends Component {
 
   componentDidMount() {
     this.props.getEvents();
-    document.title = 'Events - Terrapin Ticketing'
+    document.title = 'Events - Terrapin Ticketing';
   }
 
   eventClick(event) {
-    browserHistory.push(`event/${event.urlSafe}`)
+    browserHistory.push(`event/${event.urlSafe}`);
   }
 
   goToActivate(event) {

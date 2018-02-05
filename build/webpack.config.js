@@ -45,7 +45,7 @@ const config = {
       __PROD__,
     }, project.globals))
   ],
-}
+};
 
 // JavaScript
 // ------------------------------------
@@ -113,7 +113,7 @@ config.module.rules.push({
               browsers: ['last 2 versions'],
             },
             discardComments: {
-              removeAll : true,
+              removeAll: true,
             },
             discardUnused: false,
             mergeIdents: false,
@@ -208,6 +208,7 @@ if (!__TEST__) {
 // Production Optimizations
 // ------------------------------------
 if (__PROD__) {
+  console.log('production optimizations');
   config.plugins.push(
     new webpack.LoaderOptionsPlugin({
       minimize: true,
@@ -229,7 +230,7 @@ if (__PROD__) {
         join_vars: true,
       },
     })
-  )
+  );
 }
 
 module.exports = config

@@ -59,7 +59,8 @@ class Ticket extends Component {
 
   isOwner() {
     let { user, ticket } = this.props;
-    if (!user || user._id !== ticket.ownerId) return false;
+    let { ticketTransfered } = this.state;
+    if (!user || user._id !== ticket.ownerId || ticketTransfered) return false;
     return true;
   }
 
@@ -81,6 +82,10 @@ class Ticket extends Component {
     let { error, redirect } = this.props;
     if (error) return this.setState({ error, isLoading: false });
     browserHistory.push(redirect);
+  }
+
+  renderError(error) {
+    return error && <div className="terrapin-red alert lighten-1 scale-transition scale-in" style={{color: '155724' }}>{error}</div>;
   }
 
   render() {
@@ -111,7 +116,6 @@ class Ticket extends Component {
           <div className="card-image">
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
             <img className="ticket-card-image" src={ticket.eventId.imageUrl} />
-            {/* <span className="card-title">{ticket.eventId.name}</span> */}
           </div>
           { ticket.barcode && !ticket.isForSale && (
             <div className="barcode-container center" style={{display: 'block'}}>
@@ -152,17 +156,15 @@ class Ticket extends Component {
                 <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketTransferModal()}>Transfer</Link>
               </div>
             </div>
-          ) : null}
-        {/* </div> */}
-        { this.state.error && (
-          <div className="terrapin-red alert lighten-1 scale-transition scale-in" style={{color: '155724' }}>{this.state.error}</div>
-        )}
-        { ticket.isForSale && (
+          ) : null }
+        { ticket.isForSale ? (
           <div className="row checkout-information">
             <Order
               order={[ticket]}
               serviceFee={event.totalMarkupPercent * ticket.price}
             />
+
+            { this.renderError(this.state.error) }
 
             <Payment
               order={[ticket]}
@@ -171,7 +173,7 @@ class Ticket extends Component {
               buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
             />
           </div>
-        ) }
+        ) : this.renderError(this.state.error) }
 
       <div className="venue-information">
         <h2>Venue Information</h2>
