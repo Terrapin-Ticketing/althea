@@ -114,7 +114,7 @@ export function activateTicket(urlSafeName, email, barcode) {
 export function logout() {
   return {
     type: 'LOGOUT',
-    payload: {}
+    payload: 'activate'
   };
 }
 

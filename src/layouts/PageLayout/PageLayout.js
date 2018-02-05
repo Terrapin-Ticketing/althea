@@ -16,10 +16,9 @@ const mapStateToProps = (state) => {
 
 export default (store) => {
   const logout = () => {
-    console.log('dispatching from here');
     store.dispatch({
       type: 'LOGOUT',
-      payload: {}
+      payload: 'PageLayout'
     });
     browserHistory.push('/login');
   };
@@ -43,8 +42,8 @@ export default (store) => {
       let { user } = this.props;
       let activePage = this.props.location.pathname.split('/');
       let renderHeader = activePage.includes('activate') || activePage.includes('set-password');
-      console.log('activePage: ', activePage.includes('set-password'));
-      console.log('activePage: ', activePage);
+      // console.log('activePage: ', activePage.includes('set-password'));
+      // console.log('activePage: ', activePage);
       return (!renderHeader) ? (
         <header className="header terrapin-green" >
           <img src={require('../assets/img/tt-logo-white.svg')} className="logo img-responsive" style={{height: 55}} />

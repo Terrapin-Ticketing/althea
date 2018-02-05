@@ -17,8 +17,11 @@ class PasswordInput extends Component {
   }
 
   async signup(e) {
-    let { email, password } = this.state;
     e.preventDefault();
+    let { email, password, confirmPassword } = this.state;
+
+    if (password !== confirmPassword) return this.setState({ error: 'Passwords don\'t match' });
+
     try {
       await this.props.signup(email, password);
       this.props.nextStep('ticket_number');
@@ -48,6 +51,13 @@ class PasswordInput extends Component {
                 <input id="password" type="password" value={this.state.password}
                   onChange={(e) => {
                     this.updateInput('password', e.target.value);
+                  }} />
+              </div>
+              <div className="input-field">
+                <label htmlFor="password">Confirm Password</label>
+                <input id="confirmPassword" type="password" value={this.state.confirmPassword}
+                  onChange={(e) => {
+                    this.updateInput('confirmPassword', e.target.value);
                   }} />
               </div>
             </div>

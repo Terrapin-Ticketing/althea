@@ -115,7 +115,8 @@ class Ticket extends Component {
         <div className="card sticky-action">
           <div className="card-image">
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
-            <img className="ticket-card-image" src={ticket.eventId.imageUrl} />
+            <img className="ticket-card-image" src={ticket.eventId.thumbnail_image_url} />
+            {/* <span className="card-title">{ticket.eventId.name}</span> */}
           </div>
           { ticket.barcode && !ticket.isForSale && (
             <div className="barcode-container center" style={{display: 'block'}}>

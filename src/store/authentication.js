@@ -141,8 +141,7 @@ const ACTION_HANDLERS = {
       user: action.payload
     };
   },
-  [LOGOUT]: (state) => {
-    console.log('logging out');
+  [LOGOUT]: (state, action) => {
     const parsedCookie = cookie.parse(document.cookie);
     if (parsedCookie.cookieToken) {
       deleteCookie('cookieToken');
