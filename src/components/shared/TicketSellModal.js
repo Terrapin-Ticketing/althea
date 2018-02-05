@@ -122,8 +122,8 @@ class TicketSellModal extends Component {
               <div className="input-field col s12">
                 <input id="price" type="text"
                   placeholder={
-                    (this.state.payoutMethod === 'paypal') ? 'Enter PayPal Email Address'
-                    : 'Enter Venmo Username'
+                    (this.state.payoutMethod === 'paypal') ? 'Enter Your PayPal Email Address'
+                    : 'Enter Your Venmo Username'
                   }
                   value={(this.state.payoutMethod === 'paypal') ? this.state.paypal : this.state.venmo}
                   onChange={(e) => {

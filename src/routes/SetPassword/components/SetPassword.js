@@ -30,6 +30,7 @@ class SetPassword extends Component {
   }
 
   render() {
+    console.log('this.props: ', this.props);
     return (
       <div className='container login-container' style={{display: 'flex', flexDirection: 'column'}}>
         <img
@@ -51,7 +52,7 @@ class SetPassword extends Component {
                 <span className='error'>{(this.state.setPasswordError) ? this.state.setPasswordError : null}</span>
                 {/* <span className='user'>{(this.props.user) ? JSON.stringify(this.props.user) : ''}</span> */}
                 <button type="submit" className="btn-large terrapin-green center-align" onClick={this.handleSubmit}>
-                  Submit
+                  View Ticket
                 </button>
               </div>
             </form>

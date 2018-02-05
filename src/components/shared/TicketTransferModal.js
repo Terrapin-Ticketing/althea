@@ -52,13 +52,13 @@ class TicketTransferModal extends Component {
               </div>
               <div className="row">
                 <div className="input-field col s6">
-                  <label htmlFor="firstName">First Name</label>
+                  <label htmlFor="firstName">Recipient's First Name</label>
                   <input id="firstName" type="text" className="validate" value={this.state.firstName} onChange={(e) => {
                     this.setState({firstName: e.target.value});
                   }} />
                 </div>
                 <div className="input-field col s6">
-                  <label htmlFor="lastName">Last Name</label>
+                  <label htmlFor="lastName">Recipient's Last Name</label>
                   <input id="lastName" type="text" className="validate" value={this.state.lastName} onChange={(e) => {
                     this.setState({lastName: e.target.value});
                   }} />
