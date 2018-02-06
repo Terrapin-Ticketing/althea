@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import ReactModal from 'react-modal';
-import Order from './Checkout/Order';
 import classNames from 'classnames';
+import FacebookProvider, { Share } from 'react-facebook';
 
+import Order from './Checkout/Order';
 import './ModalStyles.scss';
 
 
@@ -53,6 +54,7 @@ class TicketSellModal extends Component {
     let { ticket, user } = this.props;
 
     this.setState({
+      step: 1,
       price: ticket.price,
       isForSale: ticket.isForSale,
       hasLoaded: true,
@@ -69,39 +71,34 @@ class TicketSellModal extends Component {
     ticket.price = price;
     ticket.isForSale = isForSale;
     await this.props.sellTicket(ticket, this.state.payoutMethod, this.state[this.state.payoutMethod]);
-    this.setState({ isLoading: false });
-    this.props.closeModal();
+    if (isForSale) {
+      this.setState({ isLoading: false, step: 2 })
+    } else {
+      this.setState({ isLoading: false});
+      this.closeModal()
+    }
   }
 
-  render() {
-    const { ticket, isOpen, closeModal } = this.props;
-    if (!ticket || !this.state.hasLoaded) return null;
-    return (
-      <ReactModal
-        isOpen={isOpen}
-        contentLabel="Sell Ticket Modal"
-        onRequestClose={() => closeModal()}
-        style={require('../../layouts/modal-styles').default}
-      >
-          <div className="ticket-action-modal">
-            <div className="top-navigation-mobile hide-on-med-and-up">
-              <div className="row valign-wrapper" style={{padding: 0, marginBottom: 0}}>
-                <div className="nav-control col s1 left-align">
-                  <i className="material-icons" style={{cursor: 'pointer' }} onClick={() => closeModal()}>close</i>
-                </div>
-                <div className="nav-title col s9 ">
-                  Sell Ticket
-                </div>
-                <div className={classNames('nav-control col s2 right-align', {'disabled': (!(!!this.state.venmo || !!this.state.paypal) || (!this.state.price === '') && this.state.isForSale)} )}
-                  onClick={() => this.sellTicket()}>Save</div>
-                </div>
-              </div>
-            </div>
-            {/* <div className="top-navigation-non-mobile hide-on-small-only">
-              Sell Ticket
-            </div> */}
-            <div className="modal-content">
+  closeModal() {
+    let { closeModal } = this.props;
+    this.setState({ step: 1 });
+    closeModal();
+  }
+
+  copyTicketLink() {
+    this.ticketUrl.select();
+    document.execCommand('copy');
+    this.setState({copied: true});
+    this.ticketUrl.blur();
+  }
+
+  renderComponent() {
+    let { ticket } = this.props;
+    switch (this.state.step) {
+      case 1:
+        return (
               <div>
+                <h3 style={{marginBottom: 10}}>Your Payment Information</h3>
                 <div className='row z-depth-1'>
                   <button
                     className={classNames('col s6 btn-flat btn-large',
@@ -132,6 +129,7 @@ class TicketSellModal extends Component {
                     this.setState({[payoutMethod]: payoutValue});
                   }}
                 />
+                <small className="info-text" style={{padding: 0}}>Money will be sent to this account when your ticket is sold.</small>
               </div>
             </div>
             <div className="row z-depth-1">
@@ -150,7 +148,7 @@ class TicketSellModal extends Component {
             </div>
             <div className="row z-depth-1">
               <ul className="col s12">
-                <li><div>For Sale
+                <li><div><h3 style={{display: 'inline'}}>For Sale</h3>
                   <div className="switch secondary-content">
                     <label>
                       <input
@@ -173,6 +171,67 @@ class TicketSellModal extends Component {
               <a className={classNames('save modal-action', {'disabled': (!(!!this.state.venmo || !!this.state.paypal) || (!this.state.price === '') && this.state.isForSale)} )}
                 onClick={() => this.sellTicket()}>Save</a>
             </div>
+          </div>
+      );
+      case 2:
+        return (
+          <div className="success">
+            <h1 style={{color: '#009933', marginBottom: 0, marginTop: 0}}>Success!</h1>
+            <i className="material-icons large" style={{color: '#009933'}}>check</i>
+            <div className="info-text">
+              <small>Your ticket is now for sale on Terrapin. <br />Share your link around so other people can buy it.</small>
+            </div>
+              <h3 style={{margin: 0, marginTop: 10}}>Ticket Url</h3>
+                <div className="col s12 valign-wrapper" style={{width: '100%'}}>
+                  <div className="input-field" style={{marginTop: 0, width: '100%'}}>
+                    <input ref={(input) => { this.ticketUrl = input; }}
+                      id="ticketUrl" type="text" className="validate inline"
+                      style={{marginBottom: 0}}
+                      value={`${ALTHEA_URL}/event/${ticket.eventId._id}/ticket/${ticket._id}`} />
+                    </div>
+                    {/* <a className={classNames('action-button copy', {'disabled': this.state.copied })}
+                      onClick={() => this.copyTicketLink(ticket._id)}>{(this.state.copied) ? 'Copied' : 'Copy Link'}</a> */}
+              </div>
+            <FacebookProvider appId="644007869280535">
+              <Share href={`${ALTHEA_URL}/event/${ticket.eventId._id}/ticket/${ticket._id}`}>
+              <div style={{cursor: 'pointer'}} className="valign-wrapper">
+                <img width={20} className="action-button" src={require('../../layouts/assets/img/facebook-logo.svg')} />
+                <span style={{marginLeft: 10}}>Share on Facebook</span>
+              </div>
+            </Share>
+          </FacebookProvider>
+          </div>
+        )
+    }
+  }
+
+  render() {
+    const { ticket, isOpen } = this.props;
+    if (!ticket || !this.state.hasLoaded) return null;
+    return (
+      <ReactModal
+        isOpen={isOpen}
+        contentLabel="Sell Ticket Modal"
+        onRequestClose={() => this.closeModal()}
+        style={require('../../layouts/modal-styles').default}
+      >
+        <div className="ticket-action-modal">
+          <div className="top-navigation-mobile hide-on-med-and-up">
+            <div className="row valign-wrapper" style={{padding: 0, marginBottom: 0}}>
+              <div className="nav-control col s1 left-align">
+                <i className="material-icons" style={{cursor: 'pointer' }} onClick={() => this.closeModal()}>close</i>
+              </div>
+              <div className="nav-title col s9 ">
+                Sell Ticket
+              </div>
+              <div
+                style={{cursor: 'pointer'}}
+                className={classNames('nav-control col s2 right-align', {'disabled': (!(!!this.state.venmo || !!this.state.paypal) || (!this.state.price === '') && this.state.isForSale)} )}
+                onClick={() => this.sellTicket()}>{(this.state.step === 1) ? 'Save' : null }</div>
+              </div>
+            </div>
+          <div className="modal-content">
+            {this.renderComponent()}
           </div>
         </div>
     </ReactModal>

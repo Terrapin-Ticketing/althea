@@ -47,7 +47,7 @@ class ShareModal extends Component {
               Share Ticket
             </div> */}
             <div className="modal-content">
-              <h3 style={{margin: 0}}>Ticket Url</h3>
+            <h3 style={{margin: 0}}>Ticket Url</h3>
             <div className="input-field col s6" style={{marginTop: 0}}>
               <input ref={(input) => { this.ticketUrl = input; }} id="ticketUrl" type="text" className="validate" value={`${ALTHEA_URL}/event/${ticket.eventId._id}/ticket/${ticket._id}`} />
             </div>
