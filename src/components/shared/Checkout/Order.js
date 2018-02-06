@@ -45,7 +45,7 @@ class Order extends React.Component {
     let { order, serviceFee } = this.props;
     let totalTicketPrice = order.reduce((total, ticket) => total + ticket.price).price;
     let totalBasePrice = parseInt(totalTicketPrice) + parseInt(serviceFee);
-    let cardFee = (totalBasePrice * 0.029) + 30;
+    let cardFee = (totalBasePrice * 0.029) + 50;
     return (
         <div className="order-details card-content col s12 l6">
           <h2>Order Details</h2>

@@ -80,13 +80,13 @@ class Ticket extends Component {
     let { buyTicketsStripe } = this.props;
     await buyTicketsStripe(token, order, transferToUser);
     let { error, redirect } = this.props;
-    if (error) return this.setState({ error, isLoading: false });
+    if (error) return this.setState({ isLoading: false });
     browserHistory.push(redirect);
   }
 
-  renderError(error) {
-    return error && <div className="terrapin-red alert lighten-1 scale-transition scale-in" style={{color: '155724' }}>{error}</div>;
-  }
+  // renderError(error) {
+  //   return error && <div className="terrapin-red alert lighten-1 scale-transition scale-in" style={{color: '155724' }}>{error}</div>;
+  // }
 
   render() {
     let { user, event } = this.props;
@@ -165,16 +165,15 @@ class Ticket extends Component {
               serviceFee={event.totalMarkupPercent * ticket.price}
             />
 
-            { this.renderError(this.state.error) }
-
             <Payment
               order={[ticket]}
               user={user}
+              error={this.props.error}
               isLoading={this.state.isLoading}
               buyTicketsWithStripe={this.buyTicketsWithStripe.bind(this)}
             />
           </div>
-        ) : this.renderError(this.state.error) }
+        ) : this.renderError(this.props.error) }
 
       <div className="venue-information">
         <h2>Venue Information</h2>
