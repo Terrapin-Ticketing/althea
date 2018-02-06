@@ -40,7 +40,7 @@ class USDPayment extends React.Component {
         if (error) throw error.message;
         let { buyTicketsStripe, order } = this.props;
         await buyTicketsStripe(token, order[0]._id, transferToUser);
-        if (this.props.error) return this.setState({ activateError: this.props.error });
+        if (this.props.error) return this.setState({ error: this.props.error });
       } catch (err) {
         this.setState({error: err});
       }
@@ -48,11 +48,11 @@ class USDPayment extends React.Component {
   }
 
   renderError() {
-    if (this.state.error) return (<div className='dank'><span className="terrapin-red">{this.state.error}</span></div>);
+    if (this.props.error) return (<div className='payment-error'><span className="terrapin-red">ERROR: {this.props.error}</span></div>);
   }
 
   render() {
-    let { classname, user, isLoading, order } = this.props;
+    let { classname, user, isLoading, order, error } = this.props;
     let isOwnerAndIsForSale = (!this.props.order[0].isForSale || (user && user._id === order[0].ownerId));
     return (
       <form onSubmit={this.handleSubmit(user).bind(this)} className={`checkout-form ${classname}`}>

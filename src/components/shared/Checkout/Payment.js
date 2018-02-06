@@ -13,7 +13,7 @@ class Payment extends React.Component {
   }
 
   render() {
-    let { order, buyTicketsWithStripe, user, isLoading } = this.props;
+    let { order, buyTicketsWithStripe, user, isLoading, error } = this.props;
 
     return (
       <div className="payment-details card-content col s12 l6">
@@ -24,6 +24,7 @@ class Payment extends React.Component {
               buyTicketsStripe={buyTicketsWithStripe}
               order={order}
               isLoading={isLoading}
+              error={error}
               classname="payment-info"
               user={user} />
           </Elements>

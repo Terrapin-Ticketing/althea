@@ -46,7 +46,6 @@ export function getTicketInfo(ticketId) {
 }
 
 export const buyTicketsStripe = (token, ticketId, transferToUser) => {
-  console.log('transferToUser', transferToUser);
   return async (dispatch, getState) => {
     let options = {
       url: `${SHAKEDOWN_URL}/payment/${ticketId}`,
@@ -61,6 +60,7 @@ export const buyTicketsStripe = (token, ticketId, transferToUser) => {
 
     let { data } = await axios(options);
     if (data.error) {
+      console.log('stripe error:', data.error);
       return dispatch({
         type: ERROR,
         payload: data.error
