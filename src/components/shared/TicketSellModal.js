@@ -98,7 +98,7 @@ class TicketSellModal extends Component {
       case 1:
         return (
               <div>
-                <h3 style={{marginBottom: 10}}>Your Payment Information</h3>
+                <h3 style={{marginBottom: 10}}>How would you like to get paid?</h3>
                 <div className='row z-depth-1'>
                   <button
                     className={classNames('col s6 btn-flat btn-large',
