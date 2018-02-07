@@ -46,7 +46,7 @@ export default (store) => {
       // console.log('activePage: ', activePage);
       return (!renderHeader) ? (
         <header className="header terrapin-green" >
-          <img src={require('../assets/img/tt-logo-white.svg')} className="logo img-responsive" style={{height: 55}} />
+          <a href="https://TerrapinTicketing.com"><img src={require('../assets/img/tt-logo-white.svg')} className="logo img-responsive" style={{height: 55}} /></a>
           <input className="menu-btn" checked={this.state.topNavOpen} type="checkbox" id="menu-btn" />
           <label className="menu-icon" onClick={() => this.setState({ topNavOpen: !this.state.topNavOpen })} htmlFor="menu-btn"><span className="navicon"></span></label>
           <ul className="menu">

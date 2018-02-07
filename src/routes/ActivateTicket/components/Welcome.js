@@ -23,7 +23,8 @@ class SignIn extends Component {
             e.preventDefault();
             this.props.nextStep('select_login')}}>
             <img src={this.props.event.imageUrl} style={{margin: '0 auto', maxHeight: '25vh'}} />
-            <h1 className="activate-header">{this.props.event.name}</h1>
+            <h1 className="activate-header" style={{margin: '.67em 0 0.1em 0'}}>{this.props.event.name}</h1>
+            <h3 style={{color: '#737373', marginTop: 0}}>Official Ticket Transfer and Resale Marketplace</h3>
             <button className='btn-large terrapin-green'
               type="submit"
               style={{margin: '0 auto'}}>Get Started</button>
