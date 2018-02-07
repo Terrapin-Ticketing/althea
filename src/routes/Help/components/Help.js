@@ -20,7 +20,7 @@ class Help extends Component {
         <h1>Frequently Asked Questions:</h1>
         <ul className="collapsible" data-collapsible="accordion">
           <li>
-            <div className="collapsible-header"><i className="material-icons">place</i>How do I activate my ticket?</div>
+            <div className="collapsible-header valign-wrapper"><i className="material-icons">local_activity</i>How do I activate my ticket?</div>
             <div className="collapsible-body">
               <span>
                 <b>If you have the PDF pulled up on your phone or computer:</b> <br /><br />
@@ -43,7 +43,7 @@ class Help extends Component {
             </div>
           </li>
           <li>
-            <div className="collapsible-header"><i className="material-icons">filter_drama</i>How do I sell my ticket?</div>
+            <div className="collapsible-header valign-wrapper"><i className="material-icons">attach_money</i>How do I sell my ticket?</div>
             <div className="collapsible-body">
               <span>
                 Once you have activated your ticket, you'll be able to mark it as "For Sale" on Terrapin's platform. <br /><br />
@@ -61,7 +61,7 @@ class Help extends Component {
             </div>
           </li>
           <li>
-            <div className="collapsible-header"><i className="material-icons">whatshot</i>How do I transfer my ticket to someone?</div>
+            <div className="collapsible-header valign-wrapper"><i className="material-icons">transfer_within_a_station</i>How do I transfer my ticket to someone?</div>
             <div className="collapsible-body">
               <span>
                 Once you have activated your ticket, you'll be able to transfer it to other people via email. <br /><br />
@@ -80,19 +80,19 @@ class Help extends Component {
             </div>
           </li>
           <li>
-            <div className="collapsible-header"><i className="material-icons">whatshot</i>What payment methods are accepted?</div>
+            <div className="collapsible-header valign-wrapper"><i className="material-icons">payment</i>What payment methods are accepted?</div>
             <div className="collapsible-body"><span>We currently only accept credit cards as payment. We plan on adding other payment methods soon though!</span></div>
           </li>
           <li>
-            <div className="collapsible-header"><i className="material-icons">whatshot</i>How do I get paid for the ticket I sold?</div>
+            <div className="collapsible-header valign-wrapper"><i className="material-icons">attach_money</i>How do I get paid for the ticket I sold?</div>
             <div className="collapsible-body"><span>You will receive an email notifying you when your ticket sells. We will send the amount you listed it for to the PayPal or Venmo account you provided us within 24 hours of the purchase. We apologize for the wait, sending payments is a manual process right now. This will be automated soon.</span></div>
           </li>
           <li>
-            <div className="collapsible-header"><i className="material-icons">whatshot</i>I sold my ticket on Terrapin but I haven't received any money yet, what gives?</div>
+            <div className="collapsible-header valign-wrapper"><i className="material-icons">live_help</i>I sold my ticket on Terrapin but I haven't received any money yet, what gives?</div>
             <div className="collapsible-body"><span>If you received an email saying your ticket sold and you haven't received a payment within 24 hours, please send us an email at <a href="mailto:Kevin@TerrapinTicketing.com">Kevin@TerrapinTicketing.com</a></span></div>
           </li>
           <li>
-            <div className="collapsible-header"><i className="material-icons">whatshot</i>I'm an event promotor, how can I integrate Terrapin into my ticketing system?</div>
+            <div className="collapsible-header valign-wrapper"><i className="material-icons">event_seat</i>I'm an event promotor, how can I integrate Terrapin into my ticketing system?</div>
             <div className="collapsible-body"><span>If you are an event promotor and want to integrate Terrapin for your event, shoot us an email at <a href="mailto:Kevin@TerrapinTicketing.com">Kevin@TerrapinTicketing.com</a></span></div>
           </li>
         </ul>
