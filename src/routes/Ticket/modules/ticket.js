@@ -60,7 +60,7 @@ export const buyTicketsStripe = (token, ticketId, transferToUser) => {
 
     let { data } = await axios(options);
     if (data.error) {
-      console.log('stripe error:', data.error);
+      console.log('payment error:', data.error);
       return dispatch({
         type: ERROR,
         payload: data.error

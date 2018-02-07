@@ -84,9 +84,9 @@ class Ticket extends Component {
     browserHistory.push(redirect);
   }
 
-  // renderError(error) {
-  //   return error && <div className="terrapin-red alert lighten-1 scale-transition scale-in" style={{color: '155724' }}>{error}</div>;
-  // }
+  renderError(error) {
+    return error && <div className="terrapin-red alert lighten-1 scale-transition scale-in" style={{color: '155724' }}>{error}</div>;
+  }
 
   render() {
     let { user, event } = this.props;
