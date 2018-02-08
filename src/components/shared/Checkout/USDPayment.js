@@ -72,9 +72,12 @@ class USDPayment extends React.Component {
           </div>
           <div className="input-field col s12">
             <label htmlFor="email">Email</label>
-            <input id="email" type="text" style={{borderBottom: '1px solid rgba(0,0,0,.12)'}} value={this.state.email || ''} onChange={(e) => {
-              this.setState({email: e.target.value});
-            }} />
+            <input id="email" type="text" style={{borderBottom: '1px solid rgba(0,0,0,.12)'}} value={this.state.email || ''}
+              readOnly={!!this.props.user}
+              onChange={(e) => {
+                this.setState({email: e.target.value});
+              }
+            } />
           </div>
           <div className="input-field payment-field col s12">
             <CardNumberElement style={{base: {fontSize: '18px', background: '1px solid #149739'}}} />

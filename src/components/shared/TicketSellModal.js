@@ -49,10 +49,7 @@ class TicketSellModal extends Component {
     this.sellTicket = this.sellTicket.bind(this);
   }
 
-  async componentDidMount() {
-    window.setTimeout(() => { Materialize.updateTextFields() }, 500);
-    let { ticket, user } = this.props;
-
+  setInitState(ticket, user) {
     this.setState({
       step: 1,
       price: ticket.price,
@@ -64,6 +61,12 @@ class TicketSellModal extends Component {
     });
   }
 
+  async componentDidMount() {
+    window.setTimeout(() => { Materialize.updateTextFields() }, 500);
+    let { ticket, user } = this.props;
+    this.setInitState(ticket, user);
+  }
+
   async sellTicket() {
     let { ticket } = this.props;
     let { price, isForSale } = this.state;
@@ -72,10 +75,10 @@ class TicketSellModal extends Component {
     ticket.isForSale = isForSale;
     await this.props.sellTicket(ticket, this.state.payoutMethod, this.state[this.state.payoutMethod]);
     if (isForSale) {
-      this.setState({ isLoading: false, step: 2 })
+      this.setState({ isLoading: false, step: 2 });
     } else {
       this.setState({ isLoading: false});
-      this.closeModal()
+      this.closeModal();
     }
   }
 
@@ -122,7 +125,7 @@ class TicketSellModal extends Component {
                     (this.state.payoutMethod === 'paypal') ? 'Enter Your PayPal Email Address'
                     : 'Enter Your Venmo Username'
                   }
-                  value={(this.state.payoutMethod === 'paypal') ? this.state.paypal : this.state.venmo}
+                  value={((this.state.payoutMethod === 'paypal') ? this.state.paypal : this.state.venmo) || ''}
                   onChange={(e) => {
                     let payoutMethod = this.state.payoutMethod;
                     let payoutValue = e.target.value;
@@ -167,7 +170,7 @@ class TicketSellModal extends Component {
               </ul>
             </div>
             <div className="modal-actions right-align hide-on-small-only">
-              <a className="close modal-action" style={{cursor: 'pointer'}} onClick={() => closeModal()}>Cancel</a>
+              <a className="close modal-action" style={{cursor: 'pointer'}} onClick={() => this.closeModal()}>Cancel</a>
               <a className={classNames('save modal-action', {'disabled': (!(!!this.state.venmo || !!this.state.paypal) || (!this.state.price === '') && this.state.isForSale)} )}
                 onClick={() => this.sellTicket()}>Save</a>
             </div>
@@ -206,13 +209,16 @@ class TicketSellModal extends Component {
   }
 
   render() {
-    const { ticket, isOpen } = this.props;
+    const { ticket, isOpen, user } = this.props;
     if (!ticket || !this.state.hasLoaded) return null;
     return (
       <ReactModal
         isOpen={isOpen}
         contentLabel="Sell Ticket Modal"
-        onRequestClose={() => this.closeModal()}
+        onRequestClose={() => {
+          this.closeModal();
+          this.setInitState(ticket, user);
+        }}
         style={require('../../layouts/modal-styles').default}
       >
         <div className="ticket-action-modal">
