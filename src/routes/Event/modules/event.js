@@ -9,9 +9,33 @@ import moment from 'moment';
 export const SET_EVENT_DETAILS = 'SET_EVENT_DETAILS';
 export const UPDATE_ORDER = 'UPDATE_ORDER';
 
+export const SET_AVAILABLE_TICKETS = 'SET_AVAILABLE_TICKETS';
+
 /*  This is a thunk, meaning it is a function that immediately
     returns a function for lazy evaluation. It is incredibly useful for
     creating async actions, especially when combined with redux-thunk! */
+
+export function getAvailableTickets(event) {
+  return async (dispatch, getState) => {
+    let options = {
+      url: `${SHAKEDOWN_URL}/tickets/find`,
+      method: 'post',
+      json: true,
+      data: { query: {
+        isForSale: true,
+        eventId: event._id
+      } },
+      withCredentials: true
+    };
+
+    let { data } = await axios(options);
+    dispatch({
+      type: SET_AVAILABLE_TICKETS,
+      payload: data.tickets
+    });
+  };
+}
+
 export function getEventInfo(urlSafeName) {
   return async (dispatch, getState) => {
     let options = {
@@ -48,7 +72,8 @@ export const buyTicket = (event, qty) => {
 export const actions = {
   getEventInfo,
   updateOrder,
-  buyTicket
+  buyTicket,
+  getAvailableTickets
 };
 
 // ------------------------------------
@@ -65,6 +90,12 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       order: action.payload
+    };
+  },
+  [SET_AVAILABLE_TICKETS]: (state, action) => {
+    return {
+      ...state,
+      availableTickets: action.payload
     };
   }
 };
