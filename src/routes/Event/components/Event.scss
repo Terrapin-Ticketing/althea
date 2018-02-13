@@ -26,6 +26,27 @@
   background: #fff;
 }
 
+.ticket-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f1f2;
+  padding: 15px 0;
+  cursor: pointer;
+
+  .ticket-type {
+    font-weight: bold;
+    // font-size: 1.1em;
+  }
+
+
+  .price {
+    color: rgba(0,0,0,0.71);
+  }
+}
+
+
+
 .middle-bar {
   border-top: 1px solid #f0f1f2;
   display: flex;

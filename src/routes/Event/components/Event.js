@@ -83,9 +83,13 @@ class Event extends Component {
     let { availableTickets } = this.props;
     if (availableTickets) {
       return this.props.availableTickets.map((ticket) => {
-        return (<div key={ticket._id} className="">
-          <Link to={`/event/${ticket.eventId._id}/ticket/${ticket._id}`}>{ticket.type}, <Price price={ticket.price}/></Link>
-        </div>);
+        return (
+          <div key={ticket._id} className="ticket-item col s12 valign-wrapper" onClick={() => browserHistory.push(`/event/${ticket.eventId._id}/ticket/${ticket._id}`)}>
+            <span className="ticket-type">{ticket.type}</span>
+              <span className="price"><Price price={ticket.price}/></span>
+            {/* <span><i className="material-icons">info</i></span> */}
+          </div>
+        );
       });
     }
   }
@@ -148,8 +152,11 @@ class Event extends Component {
               </div>
             </div>
           </div>
-          <div className="">
-            {this.renderAvailableTickets(this.props.availableTickets)}
+          <div className="card">
+            <div className="card-content">
+              <h2>Available Tickets for Sale</h2>
+              {this.renderAvailableTickets(this.props.availableTickets)}
+            </div>
           </div>
         </div>
     );
