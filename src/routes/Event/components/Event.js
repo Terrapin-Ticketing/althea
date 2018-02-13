@@ -23,9 +23,10 @@ class Event extends Component {
     this.renderTicketTable = this.renderTicketTable.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     let { urlSafe } = this.props.params;
-    this.props.getEventInfo(urlSafe);
+    await this.props.getEventInfo(urlSafe);
+    this.props.getAvailableTickets(this.props.event);
     document.title = `${this.props.event.name} - Terrapin Ticketing`;
   }
 
@@ -66,14 +67,27 @@ class Event extends Component {
 
   renderBuyButton() {
     return (
-      <button onClick={()=> browserHistory.push('checkout')} className="waves-effect waves-light btn-large terrapin-green">Buy Tickets</button>
+      <button onClick={()=> browserHistory.push('checkout')}
+        className="waves-effect waves-light btn-large terrapin-green">Buy Tickets</button>
     );
   }
 
   renderActivateButton() {
     return (
-      <button onClick={()=> browserHistory.push(`/event/${this.props.event.urlSafe}/activate`)} className="waves-effect waves-light btn-large terrapin-green">Activate Ticket</button>
+      <button onClick={()=> browserHistory.push(`/event/${this.props.event.urlSafe}/activate`)}
+        className="waves-effect waves-light btn-large terrapin-green">Activate Ticket</button>
     );
+  }
+
+  renderAvailableTickets() {
+    let { availableTickets } = this.props;
+    if (availableTickets) {
+      return this.props.availableTickets.map((ticket) => {
+        return (<div key={ticket._id} className="">
+          <Link to={`/event/${ticket.eventId._id}/ticket/${ticket._id}`}>{ticket.type}, <Price price={ticket.price}/></Link>
+        </div>);
+      });
+    }
   }
 
   render() {
@@ -133,6 +147,9 @@ class Event extends Component {
                 <h3>{website}</h3>
               </div>
             </div>
+          </div>
+          <div className="">
+            {this.renderAvailableTickets(this.props.availableTickets)}
           </div>
         </div>
     );
