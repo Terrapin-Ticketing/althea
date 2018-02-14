@@ -56,6 +56,7 @@ class Activate extends Component {
             nextStep={this.nextStep}
             event={this.props.event}
             user={this.props.user}
+            key={1}
           />
         );
       case 'select_login':
@@ -65,6 +66,7 @@ class Activate extends Component {
             event={this.props.event}
             user={this.props.user}
             logout={this.props.logout}
+            key={2}
           />
         );
       case 'sign_in':
@@ -72,6 +74,7 @@ class Activate extends Component {
           <SignIn
             nextStep={this.nextStep}
             login={this.props.login}
+            key={3}
           />
         );
       case 'sign_up':
@@ -79,6 +82,7 @@ class Activate extends Component {
           <SignUp
             nextStep={this.nextStep}
             signup={this.props.signup}
+            key={4}
           />
         );
       case 'ticket_number':
@@ -89,6 +93,7 @@ class Activate extends Component {
             activateTicket={this.activateTicket}
             barcode={this.state.barcode}
             error={this.props.error}
+            key={5}
           />
         );
       case 'finish':
@@ -96,6 +101,7 @@ class Activate extends Component {
           <SuccessPage
             ticket={this.state.ticket}
             event={this.props.event}
+            key={6}
           />
         )
     }

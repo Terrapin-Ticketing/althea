@@ -1,0 +1,31 @@
+.image-container {
+  // display: flex;
+  max-height: 400px;
+  img {
+    width: 100%
+
+  }
+}
+
+.ticket-bar {
+  background: #fff;
+}
+
+.ticket-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f1f2;
+  padding: 15px 0;
+  cursor: pointer;
+
+  .ticket-type {
+    font-weight: bold;
+    // font-size: 1.1em;
+  }
+
+
+  .price {
+    color: rgba(0,0,0,0.71);
+  }
+}

@@ -17,7 +17,7 @@ class SignIn extends Component {
 
   render() {
     return (
-      <div className="col s12 m8 offset-m2 l6 offset-l3" style={{textAlign: 'center'}}>
+      <div className="col s12 m8 offset-m2 l6 offset-l3" style={{textAlign: 'center'}} key={this.props.key}>
         <div className='card'>
           <form className='card-content' onSubmit={(e) => {
             e.preventDefault();

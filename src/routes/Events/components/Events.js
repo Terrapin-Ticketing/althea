@@ -29,6 +29,10 @@ class Events extends Component {
     browserHistory.push(`event/${event.urlSafe}/activate`);
   }
 
+  goToTickets(event) {
+    browserHistory.push(`event/${event.urlSafe}/tickets`);
+  }
+
   renderEvent(event, index, img) {
     return (
       <div key={index} className={classNames({disabled: event.isDisabled})}>
@@ -49,7 +53,7 @@ class Events extends Component {
           </div>
           <div className="card-action valign-wrapper" style={{justifyContent: 'center'}}>
             <div className="action-buttons">
-              <Link className="action-button btn-flat waves-effect" onClick={() => this.eventClick(event)}>View Tickets</Link>
+              <Link className="action-button btn-flat waves-effect" onClick={() => this.goToTickets(event)}>View Tickets</Link>
               <Link className="action-button btn-flat center-align waves-effect" onClick={() => this.goToActivate(event)}>Activate Ticket</Link>
             </div>
           </div>
@@ -72,7 +76,7 @@ class Events extends Component {
             </div>
             <div className="card-action valign-wrapper" style={{justifyContent: 'center'}}>
               <div className="action-buttons">
-                <Link className="action-button btn-flat waves-effect" onClick={() => this.eventClick(event)}>View Tickets</Link>
+                <Link className="action-button btn-flat waves-effect" onClick={() => this.goToTickets(event)}>View Tickets</Link>
                 <Link className={classNames('action-button btn-flat center-align waves-effect', {disabled: event.isDisabled})} onClick={() => this.goToActivate(event)}>Activate Ticket</Link>
               </div>
             </div>

@@ -69,21 +69,21 @@
     color: #000000;
   }
 }
-
-.activate-transition-enter {
-  transform: translate(100%);
-}
-.activate-transition-enter.activate-transition-enter-active {
-  transform: translate(0%);
-  transition: transform 1000ms ease-in-out;
-}
-.activate-transition-leave {
-  transform: translate(0%);
-}
-.activate-transition-leave.activate-transition-leave-active {
-  transform: translate(-100%);
-  transition: transform 1000ms ease-in-out;
-}
+// 
+// .activate-transition-enter {
+//   transform: translate(100%);
+// }
+// .activate-transition-enter.activate-transition-enter-active {
+//   transform: translate(0%);
+//   // transition: transform 1000ms ease-in-out;
+// }
+// .activate-transition-leave {
+//   transform: translate(0%);
+// }
+// .activate-transition-leave.activate-transition-leave-active {
+//   transform: translate(-100%);
+//   transition: transform 1000ms ease-in-out;
+// }
 
 .ReactModalPortal > * {
     // When the modal is closed, overlay div has no css class

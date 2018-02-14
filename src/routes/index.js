@@ -4,6 +4,7 @@ import Home from './Home';
 import LoginRoute from './Login';
 import EventsRoute from './Events';
 import EventRoute from './Event';
+import AvailableTicketsRoute from './AvailableTickets';
 // import CreateEventRoute from './CreateEvent';
 import UserRoute from './User';
 import CheckoutRoute from './Checkout';
@@ -28,6 +29,7 @@ export const createRoutes = (store) => ({
     LoginRoute(store, [ Transition ]),
     EventRoute(store, [ Transition ]),
     EventsRoute(store, [ Transition ]),
+    AvailableTicketsRoute(store, [ Transition ]),
     CheckoutRoute(store, [ ]),
     UserRoute(store, [ requireAuth, Transition ]),
     TicketRoute(store, [ Transition ]),

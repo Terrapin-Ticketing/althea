@@ -79,6 +79,13 @@ class Event extends Component {
     );
   }
 
+  renderViewTicketsButton() {
+    return (
+      <button onClick={()=> browserHistory.push(`/event/${this.props.event.urlSafe}/tickets`)}
+        className="waves-effect waves-light btn-flat">View Available Tickets</button>
+    );
+  }
+
   renderAvailableTickets() {
     let { availableTickets } = this.props;
     if (availableTickets) {
@@ -131,6 +138,7 @@ class Event extends Component {
                       ticketsRemaining={this.props.event.ticketsRemaining} /> */}
                       {/* {this.renderBuyButton()} */}
                       {this.renderActivateButton()}
+                      {this.renderViewTicketsButton()}
                   </div>
                 </div>
               )}

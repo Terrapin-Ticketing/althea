@@ -19,7 +19,10 @@ class EventInfo extends Component {
         </div> */}
         <div className='event-inner-container'>
           <div className='event-top-info'>
-            <div className='event-image-container' style={{background: `url(${thumbnail_image_url})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+            {/* <div className='event-image-container' style={{background: `url(${thumbnail_image_url})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div> */}
+            <div className='event-image-container'>
+              <img src={thumbnail_image_url} />
+            </div>
             <div className='right-column'>
               <div className="basic-info">
                 <h2>{name}</h2>

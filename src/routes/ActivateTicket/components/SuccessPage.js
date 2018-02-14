@@ -10,7 +10,7 @@ class SuccessPage extends Component {
   render() {
     let { ticket, event } = this.props;
     return (
-      <div className="col s12 m8 offset-m2 l6 offset-l3">
+      <div className="col s12 m8 offset-m2 l6 offset-l3" key={this.props.key}>
         <div className="card activate-card">
           <div className="card-content">
             <h1 className="activate-header">Finished!</h1>
