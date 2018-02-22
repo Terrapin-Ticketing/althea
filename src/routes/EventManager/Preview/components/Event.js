@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 import ReactModal from 'react-modal';
+import moment from 'moment';
 import QtyCounter from '../../../Event/components/QtyCounter.js';
 import EventInfoContainer from '../../../../components/shared/EventInfo/EventInfo';
 import Price from '../../../../components/shared/Price';
@@ -86,7 +87,7 @@ class Event extends Component {
   }
 
   render() {
-    let { backgroundColor, primaryColor, imageUrl, textColor, description, website,
+    let { date, backgroundColor, primaryColor, imageUrl, textColor, description, website,
       venueName, venueAddress, venueState, venueCity, venueZip } = this.props.event;
     let { isLoading } = this.state;
     if (!this.props.event.name) {
@@ -127,7 +128,8 @@ class Event extends Component {
               </div>
               <div className="right-column">
                 <h3>Date</h3>
-
+                March 2nd - March 3rd, 2018
+                {/* {moment(date).format('dddd MMMM Do, YYYY')} */}
                 <h3>Location</h3>
                   {venueName} <br />
                   {venueAddress} <br />
