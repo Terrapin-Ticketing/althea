@@ -46,16 +46,21 @@ export default (store) => {
       // console.log('activePage: ', activePage);
       return (!renderHeader) ? (
         <header className="header terrapin-green" >
-          <a href="https://TerrapinTicketing.com"><img src={require('../assets/img/tt-logo-white.svg')} className="logo img-responsive" style={{height: 55}} /></a>
-          <input className="menu-btn" checked={this.state.topNavOpen} type="checkbox" id="menu-btn" />
-          <label className="menu-icon" onClick={() => this.setState({ topNavOpen: !this.state.topNavOpen })} htmlFor="menu-btn"><span className="navicon"></span></label>
-          <ul className="menu">
-            <li><Link to="/events" onClick={() => this.setState({topNavOpen: false })}>Events</Link></li>
-            {(!user) ? (<li><Link to='/login' onClick={() => this.setState({topNavOpen: false })} className="nav-item" activeClassName='active'>Login</Link></li>) : null}
-             {(user) ? (<li><Link to='/my-profile' onClick={() => this.setState({topNavOpen: false })} className='nav-item' activeClassName='page-layout__nav-item--active'>My Tickets</Link></li>) : null}
-             <li><Link to='/help' onClick={() => this.setState({topNavOpen: false })} className='nav-item' activeClassName='page-layout__nav-item--active'>Help</Link></li>
-             {(user) ? (<li><Link onClick={() => logout()} className='nav-item' activeClassName='page-layout__nav-item--active'>Logout</Link></li>) : null}
-          </ul>
+          <div className="header-container">
+            <a href="https://TerrapinTicketing.com"><img src={require('../assets/img/tt-logo-white.svg')} className="logo img-responsive" style={{height: 38}} /></a>
+            <div className="menu-container">
+              <input className="menu-btn" checked={this.state.topNavOpen} type="checkbox" id="menu-btn" />
+              <label className="menu-icon" onClick={() => this.setState({ topNavOpen: !this.state.topNavOpen })} htmlFor="menu-btn"><span className="navicon"></span></label>
+              <ul className="menu">
+                <li className='nav-item'><Link to="/events" onClick={() => this.setState({topNavOpen: false })}>Events</Link></li>
+                <li className='nav-item'><Link to='/help' onClick={() => this.setState({topNavOpen: false })} activeClassName='page-layout__nav-item--active'>Help</Link></li>
+                {(user) ? (<li className='nav-item'><Link to='/my-profile' onClick={() => this.setState({topNavOpen: false })} activeClassName='page-layout__nav-item--active'>My Tickets</Link></li>) : null}
+                {(!user) ? (<li className='nav-item'><Link to='/login' onClick={() => this.setState({topNavOpen: false })} activeClassName='active'>Login</Link></li>) : null}
+                {(!user) ? (<li className='nav-item login'><Link to='/login' onClick={() => this.setState({topNavOpen: false })} className="login" activeClassName='active'>Sign Up</Link></li>) : null}
+                {(user) ? (<li className='nav-item'><Link onClick={() => logout()} activeClassName='page-layout__nav-item--active'>Logout</Link></li>) : null}
+              </ul>
+            </div>
+          </div>
         </header>
       ) : null;
     }
