@@ -130,14 +130,14 @@ class Ticket extends Component {
             <table className="responsive-table">
               <thead>
                 <tr>
-                  <th>Date</th>
+                  {/* <th>Date</th> */}
                   <th>Type</th>
                   <th>Price</th>
                 </tr>
               </thead>
               <tbody>
                 <tr style={{borderBottom: 0}}>
-                  <td>{ticket.eventId.date}</td>
+                  {/* <td>{ticket.eventId.date}</td> */}
                   <td>{ticket.type}</td>
                   <td><Price price={ticket.price} /></td>
                 </tr>
