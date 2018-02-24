@@ -14,7 +14,7 @@ export const SET_AVAILABLE_TICKETS = 'SET_AVAILABLE_TICKETS';
 export function getAvailableTickets(event) {
   return async (dispatch, getState) => {
     let options = {
-      url: `${SHAKEDOWN_URL}/tickets/find`,
+      url: `${SHAKEDOWN_URL}/tickets/findAll`,
       method: 'post',
       json: true,
       data: { query: {
