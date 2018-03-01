@@ -53,9 +53,9 @@ class Events extends Component {
             </div>
           </div>
           <div className="card-action valign-wrapper" style={{justifyContent: 'center'}}>
-            <div className="action-buttons">
+            <div className="action-buttons" style={{display: 'flex', flexDirection: 'column', textAlign: 'center'}}>
               <Link className="action-button btn-flat waves-effect" onClick={() => this.goToTickets(event)}>Available Tickets</Link>
-              <Link className="action-button btn-flat center-align waves-effect" onClick={() => this.goToActivate(event)}>Activate Ticket</Link>
+              <Link className="action-button btn-flat center-align waves-effect" onClick={() => this.goToActivate(event)}>Activate your Ticket</Link>
             </div>
           </div>
         </div>
@@ -78,7 +78,7 @@ class Events extends Component {
             <div className="card-action valign-wrapper" style={{justifyContent: 'center'}}>
               <div className="action-buttons">
                 <Link className="action-button btn-flat waves-effect" onClick={() => this.goToTickets(event)}>Available Tickets</Link>
-                <Link className={classNames('action-button btn-flat center-align waves-effect', {disabled: event.isDisabled})} onClick={() => this.goToActivate(event)}>Activate Ticket</Link>
+                <Link className={classNames('action-button btn-flat center-align waves-effect', {disabled: event.isDisabled})} onClick={() => this.goToActivate(event)}>Activate your Ticket</Link>
               </div>
             </div>
           </div>
