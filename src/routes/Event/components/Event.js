@@ -150,7 +150,7 @@ class Event extends Component {
               </div>
               <div className="right-column">
                 <h3>Date</h3>
-                September 20-22, 2018
+                March 2nd - 3rd, 2018
 
                 <h3>Location</h3>
                   {venue.name} <br />
