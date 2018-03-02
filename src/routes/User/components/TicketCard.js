@@ -63,7 +63,7 @@ class TicketCard extends Component {
           </div>
           <div className="card-content ticket-content flow-text" onClick={() => this.ticketClick(ticket)}>
             <a className="card-title">{ticket.eventId.name}</a>
-            {moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}<br /><br />
+            {/* {moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}<br /><br /> */}
             {ticket.type} <br />
             <small>Ticket Number: {ticket.barcode}</small>
             {/* <div className="venue-info">
@@ -90,7 +90,7 @@ class TicketCard extends Component {
           <div className="card-stacked col s12 m6">
             <div className="card-content ticket-content" onClick={() => this.ticketClick(ticket)}>
               <a className="card-title">{ticket.eventId.name}</a>
-              {moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}<br /><br />
+              {/* {moment(ticket.eventId.date).format('dddd MMMM Do, YYYY')}<br /><br /> */}
               {ticket.type} <br />
               <small>Ticket Number: {ticket.barcode}</small>
               {/* <div className="venue-info">
