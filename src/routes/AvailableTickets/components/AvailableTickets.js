@@ -26,7 +26,8 @@ class AvailableTickets extends Component {
 
   renderAvailableTickets() {
     let { availableTickets } = this.props;
-    if (availableTickets) {
+    console.log('availableTickets: ', availableTickets);
+    if (availableTickets.length > 0) {
       return this.props.availableTickets.map((ticket) => {
         return (
           <div key={ticket._id} className="ticket-item col s12 valign-wrapper" onClick={() => browserHistory.push(`/event/${ticket.eventId._id}/ticket/${ticket._id}`)}>
@@ -36,6 +37,13 @@ class AvailableTickets extends Component {
           </div>
         );
       });
+    } else {
+      return (
+        <div style={{textAlign: 'center'}} className="no-tickets-container">
+          <h2 style={{marginBottom: 0}}>There are no second hand tickets for sale.</h2>
+          <h4 style={{marginTop: 0, color: 'rgba(0, 0, 0, 0.71)'}}>Check back later to see if anyone has listed theirs.</h4>
+        </div>
+    )
     }
   }
 
