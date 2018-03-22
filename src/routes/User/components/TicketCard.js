@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import './User.scss';
 import Price from '../../../components/shared/Price';
 import ShareModal from '../../../components/shared/ShareModal';
-import TicketTransferModal from '../../../components/shared/TicketTransferModal';
+import TransferTicketModal from '../../../components/shared/TransferTicketModal';
 import TicketSellModal from '../../../components/shared/TicketSellModal';
 
 class TicketCard extends Component {
@@ -32,7 +32,7 @@ class TicketCard extends Component {
     this.setState({ shareTicketModalOpen: true });
   }
 
-  openTicketTransferModal() {
+  openTransferTicketModal() {
     this.setState({ transferTicketModalOpen: true });
   }
 
@@ -78,7 +78,7 @@ class TicketCard extends Component {
             <i onClick={() => this.openTicketShareModal()} className="material-icons share-icon">share</i>
             <div className="action-buttons">
               <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketSellModal()}>Sell</Link>
-              <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketTransferModal()}>Transfer</Link>
+              <Link className="action-button btn-flat waves-effect" onClick={() => this.openTransferTicketModal()}>Transfer</Link>
             </div>
           </div>
         </div>
@@ -105,7 +105,7 @@ class TicketCard extends Component {
               <i onClick={() => this.openTicketShareModal()} className="material-icons share-icon">share</i>
               <div className="action-buttons">
                 <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketSellModal()}>Sell</Link>
-                <Link className="action-button btn-flat waves-effect" onClick={() => this.openTicketTransferModal(ticket)}>Transfer</Link>
+                <Link className="action-button btn-flat waves-effect" onClick={() => this.openTransferTicketModal(ticket)}>Transfer</Link>
               </div>
             </div>
           </div>
@@ -126,7 +126,7 @@ class TicketCard extends Component {
           closeModal={() => this.setState({ sellTicketModalOpen: false })}
           isOpen={this.state.sellTicketModalOpen}
           sellTicket={this.props.sellTicket} />
-        <TicketTransferModal
+        <TransferTicketModal
           ticket={this.props.ticket}
           closeModal={() => this.setState({transferTicketModalOpen: false})}
           isOpen={this.state.transferTicketModalOpen}

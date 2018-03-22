@@ -19,7 +19,8 @@ const mapStateToProps = (state) => {
     user: state.auth.user,
     order: state.ticket.order,
     redirect: state.ticket.redirect,
-    error: state.ticket.error
+    error: state.ticket.error,
+    transferTicketModalOpen: state.transferTicketModal.isOpen
   };
 };
 
