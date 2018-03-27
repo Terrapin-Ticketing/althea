@@ -1,7 +1,13 @@
 import { connect } from 'react-redux';
+
+var transferTicketModalReducer = require('../../../components/shared/TransferTicketModal/reducer');
+var sellTicketModalReducer = require('../../../components/shared/SellTicketModal/reducer');
+
 const mapDispatchToProps = {
   ...require('../modules/activate'),
-  ...require('../../../store/authentication')
+  ...require('../../../store/authentication'),
+  ...transferTicketModalReducer,
+  ...sellTicketModalReducer
 };
 
 /*  This is a container component. Notice it does not contain any JSX,

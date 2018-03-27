@@ -18,7 +18,6 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => {
-  console.log('state: ', state);
   return {
     event: state.availableTickets.event,
     availableTickets: state.availableTickets.availableTickets

@@ -31,7 +31,6 @@ class Activate extends Component {
   async componentDidMount() {
     await this.props.getEventInfo(this.props.params.urlSafeName);
     document.title = `${this.props.event.name} Ticket Activation on Terrapin Ticketing`;
-    window.setTimeout(() => { Materialize.updateTextFields() }, 500);
   }
 
   nextStep(step) {
@@ -101,6 +100,8 @@ class Activate extends Component {
           <SuccessPage
             ticket={this.state.ticket}
             event={this.props.event}
+            openSellTicketModal={this.props.openSellTicketModal}
+            openTransferTicketModal={this.props.openTransferTicketModal}
             key={6}
           />
         )

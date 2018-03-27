@@ -7,7 +7,6 @@ import EventRoute from './Event';
 import AvailableTicketsRoute from './AvailableTickets';
 // import CreateEventRoute from './CreateEvent';
 import UserRoute from './User';
-import CheckoutRoute from './Checkout';
 // import CheckoutConfirmationRoute from './CheckoutConfirmation';
 // import EventManager from './EventManager';
 import TicketRoute from './Ticket';
@@ -30,7 +29,6 @@ export const createRoutes = (store) => ({
     EventRoute(store, [ ]),
     EventsRoute(store, [ ]),
     AvailableTicketsRoute(store, [ ]),
-    CheckoutRoute(store, [ ]),
     UserRoute(store, [ requireAuth, ]),
     TicketRoute(store, [ ]),
     ActivateTicket(store, [ ]),

@@ -14,7 +14,7 @@ class TicketNumberInput extends Component {
   }
 
   componentDidMount() {
-    window.setTimeout(() => { Materialize.updateTextFields() }, 100);
+    window.setTimeout(() => { M.updateTextFields() }, 100);
   }
 
   updateInput(key, value) {

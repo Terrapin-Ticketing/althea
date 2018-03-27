@@ -23,11 +23,6 @@ function getCookie(name) {
 }
 
 export const sellTicket = (ticket, {payoutMethod, payoutValue, isForSale, price}) => {
-  console.log('ticket: ', ticket);
-  console.log('payoutMethod: ', payoutMethod);
-  console.log('payoutValue: ', payoutValue);
-  console.log('isForSale: ', isForSale);
-  console.log('price: ', price);
   return async (dispatch, getState) => {
     let ticketRes = await axios({
       url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/sell`,

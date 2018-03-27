@@ -3,7 +3,6 @@ import { reduxForm, Field } from 'redux-form';
 
 
 const onSubmit = async (sellTicket, afterSell, ticket, sellFormData) => {
-  console.log('onSubmit: ', sellTicket);
   await sellTicket(ticket, sellFormData);
   afterSell();
 };
@@ -91,7 +90,6 @@ const RenderSwitch = ({input, meta, ...rest}) =>
 
 let SellTicketForm = ({ ticket, handleSubmit, afterSell, user, cancelSell, submitting, sellFormData, sellTicket }) =>
   <form onSubmit= {handleSubmit(() => onSubmit(sellTicket, afterSell, ticket, sellFormData))}>
-    <span>{JSON.stringify(sellFormData)}</span>
     <h3 style={{marginBottom: 10}}>How would you like to get paid?</h3>
     <Field name='payoutMethod' label='Payout Method' component={RenderSelect}>
       <option value='paypal'>PayPal</option>
