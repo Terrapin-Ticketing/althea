@@ -1,6 +1,5 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { transferTicket } from './reducer';
 
 const validate = values => {
   const errors = {};
@@ -22,13 +21,18 @@ const RenderInput = ({ input, meta, label, id }) =>
     <input {...input} type='text' className="validate" />
   </div>;
 
+const onSubmit = async (transferTicket, afterTransfer, ticket, transferToUser) => {
+  await transferTicket(ticket, transferToUser);
+  afterTransfer();
+};
 
-let TicketTransferForm = ({handleSubmit, submitting}) =>
+
+let TransferTicketForm = ({transferTicket, values, cancelTransfer, afterTransfer, ticket, transferToUser, handleSubmit, submitting}) =>
   <div>
     <div className="terrapin-red lighten-1 valign-wrapper" style={{padding: 15, marginBottom: 15}}>
       <i className="material-icons tiny" style={{marginRight: 10}}>warning</i><small>Transfering your ticket will void the current barcode and generate a unique one for the new owner. This process cannot be undone.</small>
     </div>
-    <form onSubmit={handleSubmit(transferTicket)}>
+    <form onSubmit={handleSubmit(() => onSubmit(transferTicket, afterTransfer, ticket, transferToUser))}>
       <div className="row">
         <div className="col s6">
           <Field name='firstName' label="Recipient's First Name" component={RenderInput} />
@@ -38,20 +42,21 @@ let TicketTransferForm = ({handleSubmit, submitting}) =>
         </div>
       </div>
       <div className="row">
-        <Field name='email' label="Recipient's Email" component={RenderInput} />
+        <div className="col s12">
+          <Field name='email' label="Recipient's Email" component={RenderInput} />
+        </div>
       </div>
       <div className="modal-actions right-align">
         <a className="close modal-action" onClick={() => cancelTransfer()}>Cancel</a>
-        <a className="save modal-action" disabled={submitting} type="submit">Transfer</a>
+        <button className="save modal-action" disabled={submitting} type="submit">Transfer</button>
       </div>
     </form>
   </div>;
 
 
-TicketTransferForm = reduxForm({
+TransferTicketForm = reduxForm({
   form: 'ticketTransferForm',
-  destroyOnUnmount: false,
   validate
-})(TicketTransferForm);
+})(TransferTicketForm);
 
-export default TicketTransferForm;
+export default TransferTicketForm;

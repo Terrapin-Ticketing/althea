@@ -1,23 +1,21 @@
 import React, { Component } from 'react'
 import ReactModal from 'react-modal';
-import TransferTicketForm from './TransferTicketForm';
+import TransferTicketForm from '../TransferTicketForm';
 
 import '../ModalStyles.scss';
 
 class TransferTicketModal extends Component {
   constructor(props) {
     super(props);
-    this.transferTicket = this.transferTicket.bind(this);
+    this.afterTransfer = this.afterTransfer.bind(this);
   }
 
-  transferTicket(ticketId, transferToUser) {
-    this.props.transferTicket(ticketId, transferToUser);
+  afterTransfer() {
     this.props.closeTransferTicketModal();
   }
 
   render() {
     const { ticket, isOpen, closeTransferTicketModal } = this.props;
-    console.log('this.props: ', this.props);
     return (
       <ReactModal
         isOpen={isOpen}
@@ -34,14 +32,12 @@ class TransferTicketModal extends Component {
                 <div className="nav-title col s9 ">
                   Transfer Ticket
                 </div>
-                <div className={[!this.props.email ? 'disabled' : ''].join('nav-control col s2 right-align')}
-                  onClick={() => this.transferTicket(ticket._id, {email: this.props.email, firstName: this.props.firstName, lastName: this.props.lastName})}>Transfer</div>
-                </div>
               </div>
             </div>
-            <div className="modal-content">
-              <TransferTicketForm transferTicket={this.transferTicket} cancelTransfer={this.props.closeTransferTicketModal}/>
-            </div>
+          </div>
+          <div className="modal-content">
+            <TransferTicketForm ticket={ticket} afterTransfer={this.afterTransfer} cancelTransfer={closeTransferTicketModal}/>
+          </div>
         </ReactModal>
     );
   }

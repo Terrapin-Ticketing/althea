@@ -6,8 +6,7 @@ const mapDispatchToProps = require('./reducer');
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.user,
-    isOpen: state.transferTicketModal.isOpen
+    ticket: state.transferTicketModal.ticket
   };
 };
 

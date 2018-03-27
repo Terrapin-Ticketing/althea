@@ -1,9 +1,9 @@
-const DISPLAY_TRANSFER_TICKET_MODAL = 'DISPLAY_TRANSFER_TICKET_MODAL';
+const DISPLAY_SELL_TICKET_MODAL = 'DISPLAY_SELL_TICKET_MODAL';
 
-export const openTransferTicketModal = (ticket) => {
+export const openSellTicketModal = (ticket) => {
   return (dispatch, getState) => {
     dispatch({
-      type: DISPLAY_TRANSFER_TICKET_MODAL,
+      type: DISPLAY_SELL_TICKET_MODAL,
       payload: {
         isOpen: true,
         ticket: ticket
@@ -12,10 +12,10 @@ export const openTransferTicketModal = (ticket) => {
   };
 };
 
-export const closeTransferTicketModal = () => {
+export const closeSellTicketModal = () => {
   return (dispatch, getState) => {
     dispatch({
-      type: DISPLAY_TRANSFER_TICKET_MODAL,
+      type: DISPLAY_SELL_TICKET_MODAL,
       payload: {
         isOpen: false,
         ticket: null
@@ -28,7 +28,7 @@ export const closeTransferTicketModal = () => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [DISPLAY_TRANSFER_TICKET_MODAL]: (state, action) => {
+  [DISPLAY_SELL_TICKET_MODAL]: (state, action) => {
     return {
       ...state,
       isOpen: action.payload.isOpen,
@@ -44,7 +44,7 @@ const initialState = {
   isOpen: false,
   ticket: null
 };
-export default function transferTicketModalReducer(state = initialState, action) {
+export default function sellTicketModalReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;

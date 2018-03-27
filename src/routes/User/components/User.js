@@ -1,58 +1,22 @@
 import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
 import Price from '../../../components/shared/Price';
-import TicketCard from './TicketCard';
+import TicketCard from '../../../components/shared/TicketCard';
 import './User.scss';
 
 class User extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: '',
-      qty: null, // TODO: Force to int
-      price: null, // TODO: Force to int
-      events: [],
-      selectedTicket: null,
-      transferTicketModalOpen: false,
-      viewTicketModalOpen: false,
-      redeemTicketModalOpen: false,
-      selectedEvent: null
-    };
-    this.toggleForSale = this.toggleForSale.bind(this);
-    this.transferTicket = this.transferTicket.bind(this);
+    this.state = {};
   }
 
   componentDidMount() {
-    this.props.getUserEvents();
     this.props.getUserTickets();
     document.title = 'My Tickets - Terrapin Ticketing';
   }
 
   componentWillUnmount() {
     this.setState({ dataLoaded: false });
-  }
-
-  openTicketTransferModal(ticket) {
-    this.setState({transferTicketModalOpen: true, selectedTicket: ticket});
-  }
-
-  ticketClick(ticket) {
-    return (e) => {
-      browserHistory.push(`event/${ticket.eventId._id}/ticket/${ticket._id}`);
-    };
-  }
-
-  toggleForSale(ticket, index) {
-    this.props.toggleForSale(ticket, index);
-  }
-
-  async transferTicket(ticketId, recipient) {
-    this.setState({
-      ticketTransfered: true,
-      recipientEmail: recipient.email,
-      pendingTranferTicketId: ticketId
-    });
-    await this.props.transferTicket(ticketId, recipient);
   }
 
   renderTickets(tickets) {
@@ -66,9 +30,7 @@ class User extends Component {
           return (<TicketCard
             key={Math.random(index)}
             user={this.props.user}
-            ticket={ticket}
-            transferTicket={this.transferTicket}
-            sellTicket={this.props.sellTicket} />);
+            ticket={ticket} />);
         })
       );
     } else {
@@ -77,26 +39,6 @@ class User extends Component {
           <h1>Bummer, you don't have any tickets!</h1><br />
         </div>
       );
-    }
-  }
-
-  renderEvents() {
-    if (this.props.events) {
-      return (
-        this.props.events.map((event, index) => {
-          return (
-              <tr className={`event-row ${(index%2 === 0) ? 'odd' : null}`} key={event._id}>
-                <td>{event.name}</td>
-                <td className="qty"><Price price={event.price}/></td>
-                <td>{event.qty}</td>
-                <td className="actions">
-                  <button><Link to={`/event/${event._id}/manage/preview`}>Manage Event</Link></button></td>
-              </tr>
-          );
-        })
-      );
-    } else {
-      return null;
     }
   }
 

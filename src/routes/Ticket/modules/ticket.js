@@ -45,16 +45,7 @@ export function getTicketInfo(ticketId) {
   };
 }
 
-export function openTransferTicketModal() {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: 'DISPLAY_TRANSFER_TICKET_MODAL',
-      payload: true
-    });
-  }
-}
-
-export const buyTicketsStripe = (token, ticketId, transferToUser) => {
+export function buyTicketsStripe(token, ticketId, transferToUser) {
   return async (dispatch, getState) => {
     let options = {
       url: `${SHAKEDOWN_URL}/payment/${ticketId}`,
@@ -94,12 +85,6 @@ export const buyTicketsStripe = (token, ticketId, transferToUser) => {
       });
     }
   };
-};
-
-export const actions = {
-  getTicketInfo,
-  getEventInfo,
-  buyTicketsStripe
 };
 
 // ------------------------------------

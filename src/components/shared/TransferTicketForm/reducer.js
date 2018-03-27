@@ -1,10 +1,19 @@
 import axios from 'axios';
 
-export const SET_USER_TICKETS = 'SET_USER_TICKETS';
-
-export const getUserTickets = () => {
+export const transferTicket = (ticket, transferToUser) => {
+  console.log('hits transferTicket function: ', ticket._id, transferToUser);
   return async (dispatch, getState) => {
-    let options = {
+    console.log('after return async');
+    await axios({
+      url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/transfer`,
+      method: 'post',
+      data: {
+        transferToUser: transferToUser
+      },
+      withCredentials: true
+    });
+
+    let { tickets } = (await axios({
       url: `${SHAKEDOWN_URL}/tickets/find`,
       method: 'post',
       data: {
@@ -13,10 +22,12 @@ export const getUserTickets = () => {
         }
       },
       withCredentials: true
-    };
-    let { data: { tickets } } = await axios(options);
+    })).data;
+
+    console.log('afterTransfer: ', tickets);
+
     dispatch({
-      type: SET_USER_TICKETS,
+      type: 'SET_USER_TICKETS',
       payload: tickets
     });
   };
@@ -26,19 +37,14 @@ export const getUserTickets = () => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_USER_TICKETS]: (state, action) => {
-    return {
-      ...state,
-      tickets: action.payload
-    };
-  }
+
 };
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {};
-export default function loginReducer(state = initialState, action) {
+const initialState = { };
+export default function transferTicketFormReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;

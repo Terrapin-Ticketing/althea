@@ -17,7 +17,6 @@ class AvailableTickets extends Component {
   }
 
   async componentDidMount() {
-    console.log('this.props11: ', this.props);
     let { urlSafe } = this.props.params;
     await this.props.getEventInfo(urlSafe);
     this.props.getAvailableTickets(this.props.event);
@@ -26,7 +25,6 @@ class AvailableTickets extends Component {
 
   renderAvailableTickets() {
     let { availableTickets } = this.props;
-    console.log('availableTickets: ', availableTickets);
     if (availableTickets.length > 0) {
       return this.props.availableTickets.map((ticket) => {
         return (
@@ -55,7 +53,6 @@ class AvailableTickets extends Component {
   }
 
   render() {
-    console.log('this.props: ', this.props);
     let { isLoading } = this.state;
     if (!this.props.event.name) {
       return (
