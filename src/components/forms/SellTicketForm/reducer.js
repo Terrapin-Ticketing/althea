@@ -22,10 +22,10 @@ function getCookie(name) {
   return null;
 }
 
-export const sellTicket = (ticket, {payoutMethod, payoutValue, isForSale, price}) => {
+export const sellTicket = (sentTicket, {payoutMethod, payoutValue, isForSale, price}) => {
   return async (dispatch, getState) => {
-    let ticketRes = await axios({
-      url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/sell`,
+    let { data: { ticket } } = await axios({
+      url: `${SHAKEDOWN_URL}/tickets/${sentTicket._id}/sell`,
       method: 'post',
       data: {
         isForSale,
@@ -33,8 +33,9 @@ export const sellTicket = (ticket, {payoutMethod, payoutValue, isForSale, price}
       },
       withCredentials: true
     });
+    console.log('ticket: ', ticket);
     let { user } = getState().auth;
-    let userRes = await axios({
+    let { data: { token } } = await axios({
       url: `${SHAKEDOWN_URL}/user/${user._id}/payout`,
       method: 'post',
       data: {
@@ -44,7 +45,7 @@ export const sellTicket = (ticket, {payoutMethod, payoutValue, isForSale, price}
       withCredentials: true
     });
 
-    let { data } = await axios({
+    let { data: { tickets } } = await axios({
       url: `${SHAKEDOWN_URL}/tickets/find`,
       method: 'post',
       data: {
@@ -54,9 +55,6 @@ export const sellTicket = (ticket, {payoutMethod, payoutValue, isForSale, price}
       },
       withCredentials: true
     });
-    let tickets = data.tickets;
-
-    let { token } = userRes.data;
 
     // set cookie
     let cookieToken = getCookie('cookieToken');
@@ -69,6 +67,11 @@ export const sellTicket = (ticket, {payoutMethod, payoutValue, isForSale, price}
     dispatch({
       type: 'SET_USER_TICKETS',
       payload: tickets
+    });
+
+    dispatch({
+      type: 'SET_TICKET_DETAILS',
+      payload: ticket
     });
 
     dispatch({

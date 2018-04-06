@@ -2,6 +2,7 @@
 import CoreLayout from '../layouts/PageLayout/PageLayout';
 import Home from './Home';
 import LoginRoute from './Login';
+import SignupRoute from './Signup';
 import EventsRoute from './Events';
 import EventRoute from './Event';
 import AvailableTicketsRoute from './AvailableTickets';
@@ -26,6 +27,7 @@ export const createRoutes = (store) => ({
   indexRoute: Home,
   childRoutes: [
     LoginRoute(store, [ ]),
+    SignupRoute(store, [ ]),
     EventRoute(store, [ ]),
     EventsRoute(store, [ ]),
     AvailableTicketsRoute(store, [ ]),

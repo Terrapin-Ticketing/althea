@@ -20,13 +20,11 @@ class Ticket extends Component {
       // cardFee: 2
     };
     this.openTransferTicketModal = this.openTransferTicketModal.bind(this);
-    this.transferTicket = this.transferTicket.bind(this);
   }
 
   async componentDidMount() {
     await this.props.getTicketInfo(this.props.params.ticketId);
     await this.props.getEventInfo(this.props.params.eventId);
-    this.setState({ ticket: this.props.ticket });
     document.title = `${this.props.ticket.eventId.name} Ticket - Terrapin Ticketing`;
   }
 
@@ -49,17 +47,6 @@ class Ticket extends Component {
     return true;
   }
 
-  async onRegister(userData) {
-    this.setState({ userData });
-  }
-
-  async transferTicket(ticketId, recipientEmail) {
-    this.setState({ isLoading: true, ticketTransfered: true, recipientEmail: recipientEmail });
-    await this.props.transferTicket(ticketId, recipientEmail);
-    let ticket = await this.props.getTicketInfo(ticketId);
-    this.setState({ ticket, isLoading: false });
-  }
-
   async buyTicketsWithStripe(token, order, transferToUser) {
     this.setState({ isLoading: true, error: null });
     let { buyTicketsStripe } = this.props;
@@ -74,8 +61,7 @@ class Ticket extends Component {
   }
 
   render() {
-    let { user, event } = this.props;
-    let ticket = this.state.ticket;
+    let { user, event, ticket } = this.props;
     if (!ticket || !ticket._id || !ticket.eventId.venue) {
       return (
         <Loading />

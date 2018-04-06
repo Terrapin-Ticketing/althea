@@ -56,7 +56,7 @@ export default (store) => {
                 {(user) ? (<li className='nav-item'><Link to='/my-profile' onClick={() => this.setState({topNavOpen: false })} activeClassName='page-layout__nav-item--active'>My Tickets</Link></li>) : null}
                 <li className='nav-item'><Link to='/help' onClick={() => this.setState({topNavOpen: false })} activeClassName='page-layout__nav-item--active'>Help</Link></li>
                 {(!user) ? (<li className='nav-item'><Link to='/login' onClick={() => this.setState({topNavOpen: false })} activeClassName='active'>Login</Link></li>) : null}
-                {(!user) ? (<li className='nav-item login'><Link to='/login' onClick={() => this.setState({topNavOpen: false })} className="login" activeClassName='active'>Sign Up</Link></li>) : null}
+                {(!user) ? (<li className='nav-item login'><Link to='/signup' onClick={() => this.setState({topNavOpen: false })} className="login" activeClassName='active'>Sign Up</Link></li>) : null}
                 {(user) ? (<li className='nav-item'><Link onClick={() => logout()} activeClassName='page-layout__nav-item--active'>Logout</Link></li>) : null}
               </ul>
             </div>

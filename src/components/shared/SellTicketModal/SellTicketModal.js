@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactModal from 'react-modal';
 
-import SellTicketForm from '../SellTicketForm';
+import SellTicketForm from '../../forms/SellTicketForm';
 
 import '../ModalStyles.scss';
 
@@ -29,7 +29,7 @@ class SellTicketModal extends Component {
           <div className="top-navigation-mobile hide-on-med-and-up">
             <div className="row valign-wrapper" style={{padding: 0, marginBottom: 0}}>
               <div className="nav-control col s1 left-align">
-                <i className="material-icons" style={{cursor: 'pointer' }} onClick={() => this.closeModal()}>close</i>
+                <i className="material-icons" style={{cursor: 'pointer' }} onClick={() => this.closeSellTicketModal()}>close</i>
               </div>
               <div className="nav-title col s9 ">
                 Sell Ticket

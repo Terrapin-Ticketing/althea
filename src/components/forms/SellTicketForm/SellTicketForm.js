@@ -7,6 +7,14 @@ const onSubmit = async (sellTicket, afterSell, ticket, sellFormData) => {
   afterSell();
 };
 
+const validate = (data) => {
+  let errors = {};
+  if (!data.payoutValue) {
+    errors.payoutValue = 'Required';
+  }
+  console.log('data: ', data);
+  return errors;
+};
 
 // functions for currency input
 export const toCurrency = (value = 0, name) => {
@@ -47,8 +55,8 @@ const addDecimalToNumber = number => {
 const RenderInput = ({input, meta, ...rest}) =>
   <div className="row">
     <div className="input-field col s12">
-      <label>{rest.label}</label>
-      <input {...input} type='text' />
+      <label className={(input.value !== '') && 'active'} data-error={meta.error}>{rest.label}</label>
+      <input {...input} type='text' className='validate' />
       <span className="helper-text">{rest.helperText}</span>
     </div>
   </div>
@@ -79,6 +87,7 @@ const RenderSwitch = ({input, meta, ...rest}) =>
         <label>
           <input
             {...input}
+            checked={input.value}
             type="checkbox"
           />
           <span className="lever"></span>
@@ -88,15 +97,15 @@ const RenderSwitch = ({input, meta, ...rest}) =>
   </div>
 
 
-let SellTicketForm = ({ ticket, handleSubmit, afterSell, user, cancelSell, submitting, sellFormData, sellTicket }) =>
-  <form onSubmit= {handleSubmit(() => onSubmit(sellTicket, afterSell, ticket, sellFormData))}>
+let SellTicketForm = ({ ticket, handleSubmit, afterSell, user, cancelSell, submitting, sellFormData, sellTicket, values }) =>
+  <form onSubmit= {handleSubmit((values) => onSubmit(sellTicket, afterSell, ticket, values))}>
     <h3 style={{marginBottom: 10}}>How would you like to get paid?</h3>
     <Field name='payoutMethod' label='Payout Method' component={RenderSelect}>
       <option value='paypal'>PayPal</option>
       <option value='venmo'>Venmo</option>
     </Field>
     <Field name='payoutValue' helperText='Money will be sent to this account when your ticket is sold'
-      label={`${user.payout.default.charAt(0).toUpperCase() + user.payout.default.substring(1)} Username`} component={RenderInput} />
+      label={`${sellFormData && sellFormData.payoutMethod.charAt(0).toUpperCase() + sellFormData.payoutMethod.substr(1)} Username`} component={RenderInput} />
     <Field name='price' label='Price' normalize={getDigitsFromValue} format={toCurrency} component={RenderPrice} />
     <Field name='isForSale' label='For Sale' component={RenderSwitch} />
     <div className="modal-actions right-align hide-on-small-only">
@@ -108,6 +117,7 @@ let SellTicketForm = ({ ticket, handleSubmit, afterSell, user, cancelSell, submi
 
 SellTicketForm = reduxForm({
   form: 'sellTicketForm',
+  validate
 })(SellTicketForm);
 
 export default SellTicketForm;

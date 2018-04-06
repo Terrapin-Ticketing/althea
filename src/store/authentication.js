@@ -25,25 +25,9 @@ function setCookie(name, value, days) {
   document.cookie = name + '=' + (value || '') + expires + '; path=/';
 }
 
-function getCookie(name) {
-  let nameEQ = name + '=';
-  let ca = document.cookie.split(';');
-  for (let i=0;i < ca.length;i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-  }
-  return null;
-}
-
 function setCookieFromToken(token) {
   setAuthorizationToken(token);
-
-  // set cookie
   setCookie('cookieToken', token, 2);
-  // let cookieToken = getCookie('cookieToken');
-  // if (!cookieToken) {
-  // }
 }
 
 // ------------------------------------
@@ -59,64 +43,11 @@ export const setPassword = (passwordToken, password) => {
       withCredentials: true
     });
 
-    let { token } = res.data;
-    setCookieFromToken(token);
-
-    let user = jwt.decode(token);
+    let { data: { token } } = res;
 
     dispatch({
       type: 'LOGIN',
-      payload: user
-    });
-  };
-};
-
-export const signup = (email, password) => {
-  return async(dispatch) => {
-    let res = await axios({
-      url: `${SHAKEDOWN_URL}/signup`,
-      method: 'post',
-      data: {email, password},
-      withCredentials: true
-    });
-
-    let { token } = res.data;
-    setCookieFromToken(token);
-
-    let user = jwt.decode(token);
-
-    dispatch({
-      type: 'LOGIN',
-      payload: user
-    });
-  };
-};
-
-export const login = (email, password) => {
-  return async (dispatch) => {
-    // if the password doesn't match the local token use axios to get a new one
-    let res = await axios({
-      url: `${SHAKEDOWN_URL}/login`,
-      method: 'post',
-      data: {email, password},
-      withCredentials: true
-    });
-
-    // locationModules.clearRedirectUrl();
-
-    let { token } = res.data;
-    setCookieFromToken(token);
-
-    let user = jwt.decode(token);
-
-    dispatch({
-      type: 'LOGIN',
-      payload: user
-    });
-
-    dispatch({
-      type: 'CLEAR_REDIRECT_URL',
-      payload: null
+      payload: token
     });
   };
 };
@@ -130,9 +61,12 @@ export const login = (email, password) => {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [LOGIN]: (state, action) => {
+    console.log('LOGIN: ', action);
+    setCookieFromToken(action.payload);
+    let user = jwt.decode(action.payload);
     return {
       ...state,
-      user: action.payload
+      user: user
     };
   },
   [SET_USER_INFO]: (state, action) => {

@@ -29,7 +29,7 @@ class SuccessPage extends Component {
         <div className="card activate-card">
           <div className="card-content">
             <h1 className="activate-header">Finished!</h1>
-            {/* <div className="info-text">You just registered your {ticket.type} ticket for {event.name}.</div> */}
+            <div className="info-text">You just registered your {ticket.type} ticket for {event.name}.</div>
             <div className="row">
               <button className="btn-large" onClick={() => this.viewTicket(ticket)}>View Ticket</button>
             </div>

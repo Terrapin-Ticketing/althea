@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactModal from 'react-modal';
-import TransferTicketForm from '../TransferTicketForm';
+import TransferTicketForm from '../../forms/TransferTicketForm';
 
 import '../ModalStyles.scss';
 
