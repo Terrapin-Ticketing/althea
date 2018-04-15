@@ -1,5 +1,6 @@
 // We only need to import the modules necessary for initial render
 import CoreLayout from '../layouts/PageLayout/PageLayout';
+import Sidebar from '../layouts/Sidebar';
 import Home from './Home';
 import LoginRoute from './Login';
 import SignupRoute from './Signup';
@@ -9,7 +10,7 @@ import AvailableTicketsRoute from './AvailableTickets';
 // import CreateEventRoute from './CreateEvent';
 import UserRoute from './User';
 // import CheckoutConfirmationRoute from './CheckoutConfirmation';
-// import EventManager from './EventManager';
+import EventManager from './EventManager';
 import TicketRoute from './Ticket';
 import ActivateTicket from './ActivateTicket';
 import SetPassword from './SetPassword';
@@ -37,7 +38,7 @@ export const createRoutes = (store) => ({
     SetPassword(store, [ ]),
     ForgotPassword(store, [ ]),
     Help(store, [ ]),
-    // EventManager(store, [ ]),
+    EventManager(store, [ ]),
     // CheckoutConfirmationRoute(store, [ ]),
     // CreateEventRoute(store, [ requireAuth, requirePKTimeout, requirePK ]),
   ]

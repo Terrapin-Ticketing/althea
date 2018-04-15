@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './Sidebar.scss';
 
 export const Sidebar = (props) => {
-  let { event, openTicketRedeemModal } = props;
+  let { event, title } = props;
   return (
     <div className="navigation-container">
       <div className="nav-controls">
@@ -12,14 +12,13 @@ export const Sidebar = (props) => {
         <label htmlFor="burger-check" className="burger"></label>
         <label htmlFor="burger-check" className="burger-space"></label>
         <div className='navigation'>
-          <span className='nav-item'><Link to={`/event/${event.id}/manage/preview`} className='nav-item' activeClassName='page-layout__nav-item--active'>Preview</Link></span>
-          <span className='nav-item'><Link to={`/event/${event.id}/manage/stats`} className='nav-item' activeClassName='page-layout__nav-item--active'>Stats</Link></span>
-          <span className='nav-item'><Link to={`/event/${event.id}/manage/unsoldTickets`} className='nav-item' activeClassName='page-layout__nav-item--active'>Unsold Tickets</Link></span>
-          <span className='nav-item'><Link to={`/event/${event.id}/manage/soldTickets`} className='nav-item' activeClassName='page-layout__nav-item--active'>Sold Tickets</Link></span>
-          <span className='nav-item'><Link onClick={() => openTicketRedeemModal()} className='nav-item' activeClassName='page-layout__nav-item--active'>Redeem Tickets</Link></span>
-          <span className='nav-item'><Link className='nav-item'>Edit Event</Link></span>
-          <span className='nav-item'><Link className='nav-item'>Edit Branding</Link></span>
-          <span className='nav-item'><Link className='nav-item'>Delete Event</Link></span>
+          <span className='nav-item'><Link to={`/event/${event.urlSafe}/manage/overview`} className='nav-item' activeClassName='page-layout__nav-item--active'>Overview</Link></span>
+          <span className='nav-item'><Link to={`/event/${event.urlSafe}/manage/preview`} className='nav-item' activeClassName='page-layout__nav-item--active'>Preview</Link></span>
+          <span className='nav-item'><Link to={`/event/${event.urlSafe}/manage/stats`} className='nav-item' activeClassName='page-layout__nav-item--active'>Stats</Link></span>
+          <span className='nav-item'><Link to={`/event/${event.urlSafe}/manage/transactions`} className='nav-item' activeClassName='page-layout__nav-item--active'>Transactions</Link></span>
+          <span className='nav-item'><Link to={`/event/${event.urlSafe}/manage/transfers`} className='nav-item' activeClassName='page-layout__nav-item--active'>Transfers</Link></span>
+          <span className='nav-item'><Link to={`/event/${event.urlSafe}/manage/payments`} className='nav-item' activeClassName='page-layout__nav-item--active'>Payments</Link></span>
+          <span className='nav-item'><Link className='nav-item'>Settings</Link></span>
         </div>
       </div>
     </div>

@@ -29,6 +29,7 @@ export default (store) => {
       super(props);
       this.state = { mounted: false };
       this.renderHeader = this.renderHeader.bind(this);
+      this.renderFooter = this.renderFooter.bind(this);
     }
 
     componentDidMount() {

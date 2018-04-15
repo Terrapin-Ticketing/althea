@@ -1,0 +1,127 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.manager-content {
+  display: flex;
+  flex-direction: row;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 768px) {
+  .manager-content {
+    display: flex;
+    flex-direction: column;
+  }
+  .spacing {
+    display: none;
+  }
+}
+
+.event-inner-container {
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  // max-width: 1170px;
+  margin: 0 auto;
+  z-index: 1;
+  position: relative;
+  // box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.ticket-bar {
+  background: #fff;
+}
+
+.ticket-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f1f2;
+  padding: 15px 0;
+  cursor: pointer;
+
+  .ticket-type {
+    font-weight: bold;
+    // font-size: 1.1em;
+  }
+  .price {
+    color: rgba(0,0,0,0.71);
+  }
+}
+
+
+
+.manager-header {
+  display: flex;
+  flex-direction: row;
+  background: #fff;
+  padding: 10px;
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  .spacing {
+    flex: 2;
+  }
+
+  .order-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    .ticket-qty {
+      display: flex;
+      flex: 1;
+      margin-bottom: 10px;
+
+      .qty-control {
+        flex: 1;
+        align-self: center;
+      }
+      .current-qty {
+        flex: 1;
+        text-align: center;
+        align-self: center;
+      }
+    }
+
+    button.buy-ticket-button {
+      flex: 1;
+    }
+  }
+}
+
+.event-bottom-info {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border-top: #f0f1f2 solid 1px;
+  background: #ffffff;
+  // padding: 25px;
+
+  .left-column {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+    padding: 25px;
+    border-right: 1px solid #f0f1f2;
+  }
+
+  .right-column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 25px;
+  }
+
+  @media only screen and (min-width: 320px) and (max-width: 768px) {
+    .left-column {
+      flex: 100%;
+      border-bottom: 1px solid #f0f1f2;
+      border-right: none;
+      padding-bottom: 25px;
+    }
+    .right-column {
+      flex: 100%;
+    }
+  }
+}

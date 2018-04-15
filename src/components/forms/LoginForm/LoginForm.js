@@ -26,11 +26,18 @@ const RenderInput = ({input, meta, ...rest}) =>
     <span className="helper-text">{rest.helperText}</span>
   </div>
 
+const RenderPassword = ({input, meta, ...rest}) =>
+  <div className="input-field col s12">
+    <label className={(input.value !== '') && 'active'} data-error={meta.error}>{rest.label}</label>
+    <input {...input} type='password' className='validate' />
+    <span className="helper-text">{rest.helperText}</span>
+  </div>
+
 
 let LoginForm = ({ handleSubmit, login, afterLogin, submitting }) =>
   <form className='login-form' onSubmit= {handleSubmit((values) => onSubmit(login, afterLogin, values))}>
     <Field name='email' label='Email' component={RenderInput} />
-    <Field name='password' label='Password' component={RenderInput} />
+    <Field name='password' label='Password' component={RenderPassword} />
 
     <div className='submit-row'>
       <button className='btn-large terrapin-green center-align' ype='submit' disabled={submitting}>Login</button>
