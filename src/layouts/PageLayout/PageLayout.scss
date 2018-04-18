@@ -6,3 +6,18 @@
   font-weight: bold;
   text-decoration: underline;
 }
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+}
+
+main {
+  min-height: 100%;
+}

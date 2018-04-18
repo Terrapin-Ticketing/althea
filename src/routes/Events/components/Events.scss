@@ -1,0 +1,14 @@
+.events-container {
+  display: flex;
+  flex-direction: column;
+  padding: 25px 0;
+
+  h1 {
+    padding: 15px 0;
+  }
+}
+
+.events-list {
+  display: flex;
+  flex-direction: column;
+}

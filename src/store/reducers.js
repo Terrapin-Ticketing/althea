@@ -1,9 +1,17 @@
 import { combineReducers } from 'redux'
+import { reducer as formReducer } from 'redux-form'
 import locationReducer from './location'
+import authenticationReducer from './authentication'
+// import transferTicketModalReducer from '../components/shared/TransferTicketModal/reducer'
+// import sellTicketModalReducer from '../components/shared/SellTicketModal/reducer'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
     location: locationReducer,
+    auth: authenticationReducer,
+    form: formReducer,
+    // transferTicketModal: transferTicketModalReducer,
+    // sellTicketModal: sellTicketModalReducer,
     ...asyncReducers
   })
 }
