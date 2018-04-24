@@ -18,13 +18,9 @@ export const SET_AVAILABLE_TICKETS = 'SET_AVAILABLE_TICKETS';
 export function getAvailableTickets(event) {
   return async (dispatch, getState) => {
     let options = {
-      url: `${SHAKEDOWN_URL}/tickets/find`,
-      method: 'post',
+      url: `${SHAKEDOWN_URL}/tickets?isForSale=true&eventId=${event._id}`,
+      method: 'get',
       json: true,
-      data: { query: {
-        isForSale: true,
-        eventId: event._id
-      } },
       withCredentials: true
     };
 
@@ -39,10 +35,9 @@ export function getAvailableTickets(event) {
 export function getEventInfo(urlSafeName) {
   return async (dispatch, getState) => {
     let options = {
-      url: `${SHAKEDOWN_URL}/events/find`,
-      method: 'post',
+      url: `${SHAKEDOWN_URL}/events?urlSafe=${urlSafeName}`,
+      method: 'get',
       json: true,
-      data: { query: { urlSafe: urlSafeName } },
       withCredentials: true
     };
 
@@ -54,25 +49,8 @@ export function getEventInfo(urlSafeName) {
   };
 }
 
-export const updateOrder = (order) => {
-  return async (dispatch, getState) => {
-
-    dispatch({
-      type: UPDATE_ORDER,
-      payload: order
-    });
-  };
-};
-
-export const buyTicket = (event, qty) => {
-  return async (dispatch, getState) => {
-  };
-};
-
 export const actions = {
   getEventInfo,
-  updateOrder,
-  buyTicket,
   getAvailableTickets
 };
 
@@ -84,12 +62,6 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       currentEvent: action.payload
-    };
-  },
-  [UPDATE_ORDER]: (state, action) => {
-    return {
-      ...state,
-      order: action.payload
     };
   },
   [SET_AVAILABLE_TICKETS]: (state, action) => {
@@ -105,7 +77,6 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   currentEvent: {},
-  order: { ticketQty: 1 }
 };
 
 export default function eventReducer(state = initialState, action) {

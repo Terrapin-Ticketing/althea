@@ -1,8 +1,6 @@
 import axios from 'axios';
 
 export const login = ({email, password}) => {
-  console.log('email: ', email);
-  console.log('password: ', password);
   return async (dispatch) => {
     let res = await axios({
       url: `${SHAKEDOWN_URL}/login`,
@@ -10,9 +8,7 @@ export const login = ({email, password}) => {
       data: {email, password},
       withCredentials: true
     });
-
     let { data: { token } } = res;
-
     dispatch({
       type: 'LOGIN',
       payload: token

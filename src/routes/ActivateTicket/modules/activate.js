@@ -16,10 +16,9 @@ export const ERROR = 'ERROR';
 export function getEventInfo(urlSafeName) {
   return async (dispatch, getState) => {
     let options = {
-      url: `${SHAKEDOWN_URL}/events/find`,
-      method: 'post',
+      url: `${SHAKEDOWN_URL}/events?urlSafe=${urlSafeName}`,
+      method: 'get',
       json: true,
-      data: { query: { urlSafe: urlSafeName } },
       withCredentials: true
     };
 

@@ -12,13 +12,8 @@ export const transferTicket = (ticket, transferToUser) => {
     });
 
     let { tickets } = (await axios({
-      url: `${SHAKEDOWN_URL}/tickets/find`,
-      method: 'post',
-      data: {
-        query: {
-          ownerId: getState().auth.user._id
-        }
-      },
+      url: `${SHAKEDOWN_URL}/tickets?ownerId=${getState().auth.user._id}`,
+      method: 'get',
       withCredentials: true
     })).data;
 

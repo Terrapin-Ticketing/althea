@@ -26,6 +26,7 @@ function setCookie(name, value, days) {
 }
 
 function setCookieFromToken(token) {
+  console.log('setCookieFromToken: ', token);
   setAuthorizationToken(token);
   setCookie('cookieToken', token, 2);
 }

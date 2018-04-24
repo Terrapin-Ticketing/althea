@@ -33,7 +33,6 @@ export const sellTicket = (sentTicket, {payoutMethod, payoutValue, isForSale, pr
       },
       withCredentials: true
     });
-    console.log('ticket: ', ticket);
     let { user } = getState().auth;
     let { data: { token } } = await axios({
       url: `${SHAKEDOWN_URL}/user/${user._id}/payout`,
@@ -46,13 +45,8 @@ export const sellTicket = (sentTicket, {payoutMethod, payoutValue, isForSale, pr
     });
 
     let { data: { tickets } } = await axios({
-      url: `${SHAKEDOWN_URL}/tickets/find`,
-      method: 'post',
-      data: {
-        query: {
-          ownerId: getState().auth.user._id
-        }
-      },
+      url: `${SHAKEDOWN_URL}/tickets?ownerId=${getState().auth.user._id}`,
+      method: 'get',
       withCredentials: true
     });
 

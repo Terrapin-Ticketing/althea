@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import cookie from 'cookie';
-import jwt from 'jsonwebtoken';
 
 import setAuthorizationToken from './utils/setAuthorizationToken';
 import createStore from './store/createStore';
@@ -15,12 +14,11 @@ const store = createStore(window.__INITIAL_STATE__);
 
 // decrypt jwt if cookie is set
 const { cookieToken } = cookie.parse(document.cookie);
-
 if (cookieToken) {
   setAuthorizationToken(cookieToken);
   store.dispatch({
     type: 'LOGIN',
-    payload: jwt.decode(cookieToken)
+    payload: cookieToken
   });
 }
 

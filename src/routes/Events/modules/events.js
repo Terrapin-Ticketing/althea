@@ -14,8 +14,8 @@ export const CLEAR_EVENTS = 'CLEAR_EVENTS';
 export function getEvents() {
   return async (dispatch, getState) => {
     let options = {
-      url: `${SHAKEDOWN_URL}/events/find`,
-      method: 'post',
+      url: `${SHAKEDOWN_URL}/events`,
+      method: 'get',
       json: true,
       data: {},
       withCredentials: true

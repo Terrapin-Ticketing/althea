@@ -14,13 +14,9 @@ export const SET_AVAILABLE_TICKETS = 'SET_AVAILABLE_TICKETS';
 export function getAvailableTickets(event) {
   return async (dispatch, getState) => {
     let options = {
-      url: `${SHAKEDOWN_URL}/tickets/findAll`,
-      method: 'post',
+      url: `${SHAKEDOWN_URL}/tickets?isForSale=true&eventId=${event._id}`,
+      method: 'get',
       json: true,
-      data: { query: {
-        isForSale: true,
-        eventId: event._id
-      } },
       withCredentials: true
     };
 
@@ -35,10 +31,9 @@ export function getAvailableTickets(event) {
 export function getEventInfo(urlSafeName) {
   return async (dispatch, getState) => {
     let options = {
-      url: `${SHAKEDOWN_URL}/events/find`,
-      method: 'post',
+      url: `${SHAKEDOWN_URL}/events?urlSafe=${urlSafeName}`,
+      method: 'get',
       json: true,
-      data: { query: { urlSafe: urlSafeName } },
       withCredentials: true
     };
 

@@ -40,7 +40,7 @@ let LoginForm = ({ handleSubmit, login, afterLogin, submitting }) =>
     <Field name='password' label='Password' component={RenderPassword} />
 
     <div className='submit-row'>
-      <button className='btn-large terrapin-green center-align' ype='submit' disabled={submitting}>Login</button>
+      <button className='btn-large terrapin-green center-align' type='submit' disabled={submitting}>Login</button>
     </div>
   </form>;
 

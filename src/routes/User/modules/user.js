@@ -5,13 +5,8 @@ export const SET_USER_TICKETS = 'SET_USER_TICKETS';
 export const getUserTickets = () => {
   return async (dispatch, getState) => {
     let options = {
-      url: `${SHAKEDOWN_URL}/tickets/find`,
-      method: 'post',
-      data: {
-        query: {
-          ownerId: getState().auth.user._id
-        }
-      },
+      url: `${SHAKEDOWN_URL}/tickets?ownerId=${getState().auth.user._id}`,
+      method: 'get',
       withCredentials: true
     };
     let { data: { tickets } } = await axios(options);

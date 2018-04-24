@@ -12,7 +12,6 @@ const validate = (data) => {
   if (!data.payoutValue) {
     errors.payoutValue = 'Required';
   }
-  console.log('data: ', data);
   return errors;
 };
 
