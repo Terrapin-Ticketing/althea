@@ -2,15 +2,16 @@ import React from 'React'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-let EventImage = styled.img`
-  max-width: 100%;
-`
-
-let Image = ({ src }) =>
-  <EventImage src={src} />
+let Image = ({ src, className, style }) => <img src={src} className={className} style={style} />
 
 Image.propTypes = {
-  src: PropTypes.string.isRequired
+  src: PropTypes.string.isRequired,
+  style: PropTypes.object,
+  className: PropTypes.string
 }
+
+Image = styled(Image).attrs({
+  className: 'img-fluid'
+})``
 
 export default Image

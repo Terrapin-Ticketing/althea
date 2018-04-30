@@ -41,17 +41,17 @@ const FooterText = styled.div`
 
 const Footer = (props) => {
   let activePage = props.location.pathname.split('/').pop()
-  return (activePage !== 'activate') && (
+  return (['import', 'login', 'signup'].indexOf(activePage) === -1) && (
     <FooterContainer>
       <FooterText>
         Copyright 2018 © Terrapin Ticketing, LLC
       </FooterText>
       <SocialMediaIconsContainer>
-        <SocialIcon href='mailto:info@terrapinticketing.com' icon={require('./assets/social-icons/email.png')} />
-        <SocialIcon href='http://facebook.com/terrapinticketing' icon={require('./assets/social-icons/facebook.png')} />
-        <SocialIcon href='http://instagram.com/terrapinticketing' icon={require('./assets/social-icons/instagram.png')} />
-        <SocialIcon href='http://www.twitter.com/terrapintickets' icon={require('./assets/social-icons/twitter.png')} />
-        <SocialIcon href='https://www.linkedin.com/company/18278533/' icon={require('./assets/social-icons/linkedin.png')} />
+        <SocialIcon href='mailto:info@terrapinticketing.com' icon={require('assets/social-icons/email.png')} />
+        <SocialIcon href='http://facebook.com/terrapinticketing' icon={require('assets/social-icons/facebook.png')} />
+        <SocialIcon href='http://instagram.com/terrapinticketing' icon={require('assets/social-icons/instagram.png')} />
+        <SocialIcon href='http://www.twitter.com/terrapintickets' icon={require('assets/social-icons/twitter.png')} />
+        <SocialIcon href='https://www.linkedin.com/company/18278533/' icon={require('assets/social-icons/linkedin.png')} />
       </SocialMediaIconsContainer>
     </FooterContainer>
   )

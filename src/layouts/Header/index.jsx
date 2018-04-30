@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+
 import Logo from './Logo'
 import Navigation from './Navigation'
 
@@ -23,14 +25,13 @@ const HeaderContainer = styled.div`
 
 class Header extends Component {
   render() {
-    let { user } = this.props
     let activePage = this.props.location.pathname.split('/')
-    let renderHeader = activePage.includes('activate') || activePage.includes('set-password')
+    let renderHeader = activePage.includes('import') || activePage.includes('set-password')
     return (!renderHeader) && (
       <HeaderWrapper>
         <HeaderContainer>
-          <Logo href='https://TerrapinTicketing.com' src={require('./tt-logo-horizontal-green-transparent.png')} />
-          <Navigation user={user} />
+          <Logo href='https://TerrapinTicketing.com' src={require('assets/tt-logo-horizontal-green-transparent.svg')} />
+          <Navigation user={this.props.user} logout={this.props.logout} />
         </HeaderContainer>
       </HeaderWrapper>
     )
@@ -39,7 +40,22 @@ class Header extends Component {
 
 Header.propTypes = {
   user: PropTypes.object,
+  logout: PropTypes.func,
   location: PropTypes.object
 }
 
-export default Header
+const mapStateToProps = (state) => {
+  return {
+    user: state.auth.user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return function logout(dispatch) {
+    return dispatch({
+      type: 'LOGOUT'
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

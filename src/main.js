@@ -18,7 +18,7 @@ if (cookieToken) {
   setAuthorizationToken(cookieToken)
   store.dispatch({
     type: 'LOGIN',
-    payload: jwt.decode(cookieToken)
+    payload: cookieToken
   })
 }
 
