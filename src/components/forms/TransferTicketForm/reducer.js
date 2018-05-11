@@ -6,7 +6,7 @@ export const transferTicket = (ticket, transferToUser) => {
       url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/transfer`,
       method: 'post',
       data: {
-        transferToUser: transferToUser
+        transferToEmail: transferToUser.email
       },
       withCredentials: true
     });
