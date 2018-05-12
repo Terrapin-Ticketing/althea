@@ -49,13 +49,13 @@ class ShareModal extends Component {
             <div className="modal-content">
             <h3 style={{margin: 0}}>Ticket Url</h3>
             <div className="input-field col s6" style={{marginTop: 0}}>
-              <input ref={(input) => { this.ticketUrl = input; }} id="ticketUrl" type="text" className="validate" value={`${ALTHEA_URL}/event/${ticket.eventId._id}/ticket/${ticket._id}`} />
+              <input ref={(input) => { this.ticketUrl = input; }} id="ticketUrl" type="text" className="validate" value={`${ALTHEA_URL}/event/${ticket.event._id}/ticket/${ticket._id}`} />
             </div>
 
 
             <div className="card-action valign-wrapper">
               <FacebookProvider appId="644007869280535">
-                <Share href={`${ALTHEA_URL}/event/${ticket.eventId._id}/ticket/${ticket._id}`}>
+                <Share href={`${ALTHEA_URL}/event/${ticket.event._id}/ticket/${ticket._id}`}>
                   <img width={20} className="action-button" src={require('../../layouts/assets/img/facebook-logo.svg')} />
                 </Share>
               </FacebookProvider>

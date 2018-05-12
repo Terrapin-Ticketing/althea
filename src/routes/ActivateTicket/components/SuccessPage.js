@@ -8,17 +8,17 @@ class SuccessPage extends Component {
   }
 
   viewTicket(ticket) {
-    browserHistory.push(`/event/${ticket.eventId._id}/ticket/${ticket._id}`);
+    browserHistory.push(`/event/${ticket.event._id}/ticket/${ticket._id}`);
   }
 
   sellTicket(ticket) {
     this.props.openSellTicketModal();
-    browserHistory.push(`/event/${ticket.eventId._id}/ticket/${ticket._id}`);
+    browserHistory.push(`/event/${ticket.event._id}/ticket/${ticket._id}`);
   }
 
   transferTicket(ticket) {
     this.props.openTransferTicketModal();
-    browserHistory.push(`/event/${ticket.eventId._id}/ticket/${ticket._id}`);
+    browserHistory.push(`/event/${ticket.event._id}/ticket/${ticket._id}`);
   }
 
   render() {

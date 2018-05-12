@@ -25,8 +25,8 @@ function getCookie(name) {
 export const sellTicket = (sentTicket, {payoutMethod, payoutValue, isForSale, price}) => {
   return async (dispatch, getState) => {
     let { data: { ticket } } = await axios({
-      url: `${SHAKEDOWN_URL}/tickets/${sentTicket._id}/sell`,
-      method: 'post',
+      url: `${SHAKEDOWN_URL}/tickets/${sentTicket._id}`,
+      method: 'put',
       data: {
         isForSale,
         price,

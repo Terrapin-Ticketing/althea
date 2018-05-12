@@ -31,7 +31,7 @@ class Order extends React.Component {
       return (
         <tr key={index} className="order-details-rows">
           <td className="name-column">
-            { ticket.eventId.name } <br />
+            { ticket.event.name } <br />
             { ticket.type }
           </td>
           <td></td>
@@ -63,7 +63,7 @@ class Order extends React.Component {
                   return (
                     <tr key={index} className="order-details-rows">
                       <td className="name-column">
-                        { ticket.eventId.name } <br />
+                        { ticket.event.name } <br />
                         { ticket.type }
                       </td>
                       {/* <td></td> */}

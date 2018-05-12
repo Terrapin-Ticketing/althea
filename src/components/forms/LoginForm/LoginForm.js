@@ -1,10 +1,15 @@
 import React from 'react'
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, SubmissionError } from 'redux-form';
 
 
 const onSubmit = async (login, afterLogin, values) => {
-  await login(values);
-  afterLogin();
+  try {
+    await login(values);
+    afterLogin();
+  } catch (err) {
+    console.log('err: ', err.message);
+    throw new SubmissionError({ _error: err.message });
+  }
 };
 
 const validate = (data) => {
@@ -34,11 +39,11 @@ const RenderPassword = ({input, meta, ...rest}) =>
   </div>
 
 
-let LoginForm = ({ handleSubmit, login, afterLogin, submitting }) =>
-  <form className='login-form' onSubmit= {handleSubmit((values) => onSubmit(login, afterLogin, values))}>
+let LoginForm = ({ handleSubmit, login, afterLogin, submitting, error }) =>
+  <form className='login-form' style={{display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center'}} onSubmit= {handleSubmit((values) => onSubmit(login, afterLogin, values))}>
     <Field name='email' label='Email' component={RenderInput} />
     <Field name='password' label='Password' component={RenderPassword} />
-
+    {(error) && (<div className='error'>{error}</div>)}
     <div className='submit-row'>
       <button className='btn-large terrapin-green center-align' type='submit' disabled={submitting}>Login</button>
     </div>

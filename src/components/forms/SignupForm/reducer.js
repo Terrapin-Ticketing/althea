@@ -10,7 +10,8 @@ export const signup = ({email, password}) => {
     });
 
     let { data: { token } } = res;
-
+    console.log('res: ', res.data);
+    if (!token) throw new Error('Unable to Sign Up')
     dispatch({
       type: 'LOGIN',
       payload: token

@@ -31,13 +31,13 @@ class SellTicketForm extends Component {
                 <input ref={(input) => { this.ticketUrl = input; }}
                   id="ticketUrl" type="text" className="validate inline"
                   style={{marginBottom: 0}}
-                  value={`${ALTHEA_URL}/event/${ticket.eventId._id}/ticket/${ticket._id}`} />
+                  value={`${ALTHEA_URL}/event/${ticket.event._id}/ticket/${ticket._id}`} />
                 </div>
                 {/* <a className={classNames('action-button copy', {'disabled': this.state.copied })}
                   onClick={() => this.copyTicketLink(ticket._id)}>{(this.state.copied) ? 'Copied' : 'Copy Link'}</a> */}
           </div>
         <FacebookProvider appId="644007869280535">
-          <Share href={`${ALTHEA_URL}/event/${ticket.eventId._id}/ticket/${ticket._id}`}>
+          <Share href={`${ALTHEA_URL}/event/${ticket.event._id}/ticket/${ticket._id}`}>
           <div style={{cursor: 'pointer'}} className="valign-wrapper">
             <img width={20} className="action-button" src={require('../../../layouts/assets/img/facebook-logo.svg')} />
             <span style={{marginLeft: 10}}>Share on Facebook</span>

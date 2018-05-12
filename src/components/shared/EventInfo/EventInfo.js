@@ -11,7 +11,7 @@ class EventInfo extends Component {
   }
 
   render() {
-    let { name, price, owner, date, time, imageUrl, website, venue, thumbnail_image_url } = this.props.event;
+    let { name, price, owner, date, time, imageUrl, website, venue } = this.props.event;
     return (
       <div className="event-outer-container">
         {/* <div className="blurred-contianer">
@@ -19,9 +19,9 @@ class EventInfo extends Component {
         </div> */}
         <div className='event-inner-container'>
           <div className='event-top-info'>
-            {/* <div className='event-image-container' style={{background: `url(${thumbnail_image_url})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div> */}
+            {/* <div className='event-image-container' style={{background: `url(${imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div> */}
             <div className='event-image-container'>
-              <img src={thumbnail_image_url} />
+              <img src={imageUrl} />
             </div>
             <div className='right-column'>
               <div className="basic-info">

@@ -31,7 +31,7 @@ class TicketCard extends Component {
   }
 
   ticketClick(ticket) {
-    browserHistory.push(`event/${ticket.eventId._id}/ticket/${ticket._id}`);
+    browserHistory.push(`event/${ticket.event._id}/ticket/${ticket._id}`);
   }
 
   render() {
@@ -44,10 +44,10 @@ class TicketCard extends Component {
         <div className="ticket-card card show-on-small hide-on-med-and-up">
           <div className="card-image ticket-image s12 m6" onClick={() => this.ticketClick(ticket)}>
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
-            <img src={ticket.eventId.imageUrl} />
+            <img src={ticket.event.imageUrl} />
           </div>
           <div className="card-content ticket-content flow-text" onClick={() => this.ticketClick(ticket)}>
-            <a className="card-title">{ticket.eventId.name}</a>
+            <a className="card-title">{ticket.event.name}</a>
             {ticket.type} <br />
             <small>Ticket Number: {ticket.barcode}</small>
           </div>
@@ -62,11 +62,11 @@ class TicketCard extends Component {
         <div className="ticket-card card horizontal sticky-action small hide-on-small-only">
           <div className="ticket-image card-image s12 m6" onClick={() => this.ticketClick(ticket)}>
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
-            <img src={ticket.eventId.imageUrl} />
+            <img src={ticket.event.imageUrl} />
           </div>
           <div className="card-stacked col s12 m6">
             <div className="card-content ticket-content" onClick={() => this.ticketClick(ticket)}>
-              <a className="card-title">{ticket.eventId.name}</a>
+              <a className="card-title">{ticket.event.name}</a>
               {ticket.type} <br />
               <small>Ticket Number: {ticket.barcode}</small>
             </div>

@@ -25,7 +25,7 @@ class Ticket extends Component {
   async componentDidMount() {
     await this.props.getTicketInfo(this.props.params.ticketId);
     await this.props.getEventInfo(this.props.params.eventId);
-    document.title = `${this.props.ticket.eventId.name} Ticket - Terrapin Ticketing`;
+    document.title = `${this.props.ticket.event.name} Ticket - Terrapin Ticketing`;
   }
 
   openTicketShareModal(ticket) {
@@ -62,7 +62,7 @@ class Ticket extends Component {
 
   render() {
     let { user, event, ticket } = this.props;
-    if (!ticket || !ticket._id || !ticket.eventId.venue) {
+    if (!ticket || !ticket._id || !ticket.event.venue) {
       return (
         <Loading />
       );
@@ -86,8 +86,8 @@ class Ticket extends Component {
         <div className="card sticky-action">
           <div className="card-image">
             {(ticket.isForSale) ? <div className="ribbon"><span>For Sale</span></div> : null }
-            <img src={ticket.eventId.thumbnail_image_url} />
-            {/* <span className="card-title">{ticket.eventId.name}</span> */}
+            <img src={ticket.event.imageUrl} />
+            {/* <span className="card-title">{ticket.event.name}</span> */}
           </div>
           { ticket.barcode && !ticket.isForSale && (
             <div className="barcode-container center" style={{display: 'block'}}>
@@ -108,7 +108,7 @@ class Ticket extends Component {
               </thead>
               <tbody>
                 <tr style={{borderBottom: 0}}>
-                  {/* <td>{ticket.eventId.date}</td> */}
+                  {/* <td>{ticket.event.date}</td> */}
                   <td>{ticket.type}</td>
                   <td><Price price={ticket.price} /></td>
                 </tr>
@@ -148,9 +148,9 @@ class Ticket extends Component {
 
       <div className="venue-information">
         <h2>Venue Information</h2>
-        {ticket.eventId.venue.name} <br />
-        {ticket.eventId.venue.address} <br />
-        {ticket.eventId.venue.city}, {ticket.eventId.venue.state} {ticket.eventId.venue.zip}
+        {ticket.event.venue.name} <br />
+        {ticket.event.venue.address} <br />
+        {ticket.event.venue.city}, {ticket.event.venue.state} {ticket.event.venue.zip}
       </div>
       <ShareModal
         ticket={this.props.ticket}

@@ -9,6 +9,7 @@ export const login = ({email, password}) => {
       withCredentials: true
     });
     let { data: { token } } = res;
+    if (!token) throw new Error('The username and password you entered did not match our records. Please double-check and try again.')
     dispatch({
       type: 'LOGIN',
       payload: token

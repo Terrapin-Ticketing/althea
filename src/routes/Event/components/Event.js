@@ -91,7 +91,7 @@ class Event extends Component {
     if (availableTickets) {
       return this.props.availableTickets.map((ticket) => {
         return (
-          <div key={ticket._id} className="ticket-item col s12 valign-wrapper" onClick={() => browserHistory.push(`/event/${ticket.eventId._id}/ticket/${ticket._id}`)}>
+          <div key={ticket._id} className="ticket-item col s12 valign-wrapper" onClick={() => browserHistory.push(`/event/${ticket.event._id}/ticket/${ticket._id}`)}>
             <span className="ticket-type">{ticket.type}</span>
               <span className="price"><Price price={ticket.price}/></span>
             {/* <span><i className="material-icons">info</i></span> */}
