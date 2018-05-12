@@ -35,11 +35,13 @@ export const sellTicket = (sentTicket, {payoutMethod, payoutValue, isForSale, pr
     });
     let { user } = getState().auth;
     let { data: { token } } = await axios({
-      url: `${SHAKEDOWN_URL}/user/${user._id}/payout`,
-      method: 'post',
+      url: `${SHAKEDOWN_URL}/users/${user._id}`,
+      method: 'put',
       data: {
-        payoutMethod,
-        payoutValue
+        payout: {
+          default: payoutMethod,
+          [payoutMethod]: payoutValue
+        }
       },
       withCredentials: true
     });

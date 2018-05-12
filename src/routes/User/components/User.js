@@ -27,7 +27,6 @@ class User extends Component {
           if (ticket._id === this.state.pendingTranferTicketId) {
             return null;
           }
-          console.log('ticket', ticket)
           return (<TicketCard
             key={Math.random(index)}
             user={this.props.user}

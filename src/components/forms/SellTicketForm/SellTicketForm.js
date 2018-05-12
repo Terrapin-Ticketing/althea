@@ -3,6 +3,7 @@ import { reduxForm, Field } from 'redux-form';
 
 
 const onSubmit = async (sellTicket, afterSell, ticket, values) => {
+  console.log('values: ', values);
   await sellTicket(ticket, values);
   afterSell();
 };
@@ -96,7 +97,7 @@ const RenderSwitch = ({input, meta, ...rest}) =>
   </div>
 
 
-let SellTicketForm = ({ ticket, handleSubmit, afterSell, cancelSell, submitting, sellTicket, values }) =>
+let SellTicketForm = ({ ticket, handleSubmit, afterSell, cancelSell, submitting, sellTicket, sellFormData }) =>
   <form onSubmit= {handleSubmit((values) => onSubmit(sellTicket, afterSell, ticket, values))}>
     <h3 style={{marginBottom: 10}}>How would you like to get paid?</h3>
     <Field name='payoutMethod' label='Payout Method' component={RenderSelect}>
@@ -104,7 +105,8 @@ let SellTicketForm = ({ ticket, handleSubmit, afterSell, cancelSell, submitting,
       <option value='venmo'>Venmo</option>
     </Field>
     <Field name='payoutValue' helperText='Money will be sent to this account when your ticket is sold'
-      label={`${values && values.payoutMethod.charAt(0).toUpperCase() + values.payoutMethod.substr(1)} Username`} component={RenderInput} />
+      label={`${sellFormData && sellFormData.payoutMethod.charAt(0).toUpperCase() + sellFormData.payoutMethod.substr(1)} Username`}
+      component={RenderInput} />
     <Field name='price' label='Price' normalize={getDigitsFromValue} format={toCurrency} component={RenderPrice} />
     <Field name='isForSale' label='For Sale' component={RenderSwitch} />
     <div className="modal-actions right-align hide-on-small-only">
