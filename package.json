@@ -43,6 +43,7 @@
     "promise": "^7.1.1",
     "prop-types": "^15.5.10",
     "qrcode": "^0.9.0",
+    "qrcode.react": "^0.8.0",
     "react": "^15.5.4",
     "react-addons-css-transition-group": "^15.6.2",
     "react-chartist": "^0.13.1",

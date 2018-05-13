@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
+import QRCode from 'qrcode.react'
+
 import Loading from '../../../components/shared/Loading';
 import Price from '../../../components/shared/Price';
 
@@ -67,6 +69,8 @@ class Ticket extends Component {
         <Loading />
       );
     }
+
+    console.log('method:', ticket.event.ticketRenderMethod);
     return (
       <div className='route-container container'>
         { ((ticket.isForSale) && (ticket.ownerId !== (user && user._id))) && (
@@ -91,7 +95,12 @@ class Ticket extends Component {
           </div>
           { ticket.barcode && !ticket.isForSale && (
             <div className="barcode-container center" style={{display: 'block'}}>
-              <img width="150px" src={`https://terrapin.cincyregister.com/images/barcode.php?c=${ticket.barcode}&p=520a67c3&f=0&x=2&h=60&q=3&t=qrcode`} /> <br />
+              { ticket.event.ticketRenderMethod === 'QR' ? (
+                <QRCode value={ticket.barcode} size="350"/>
+              ): (
+                <img width="150px" src={`https://terrapin.cincyregister.com/images/barcode.php?c=${ticket.barcode}&p=520a67c3&f=0&x=2&h=60&q=3&t=qrcode`} />
+              )}
+              <br />
               <span><small className="caption">
                 This barcode is only visible to the ticket's owner when logged in
               </small></span>

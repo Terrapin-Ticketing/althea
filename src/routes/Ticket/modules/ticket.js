@@ -47,13 +47,14 @@ export function getTicketInfo(ticketId) {
 
 export function buyTicketsStripe(token, ticketId, transferToUser) {
   return async (dispatch, getState) => {
+    console.log('token', token)
     let options = {
       url: `${SHAKEDOWN_URL}/payment/${ticketId}`,
       method: 'post',
       json: true,
       data: {
-        token,
-        transferToUser
+        token: token.id,
+        transferToEmail: transferToUser.email
       },
       withCredentials: true
     };
