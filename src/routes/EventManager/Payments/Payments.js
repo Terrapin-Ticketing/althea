@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loading from '../../../components/shared/Loading';
-import Price from '../../../components/shared/Price';
+import PayoutEntry from 'components/shared/PayoutEntry'
+import Loading from 'components/shared/Loading';
 
 import './Payments.scss';
 
 class Payments extends Component {
   constructor(props) {
     super(props);
-    this.state = { };
-    this.renderPayments = this.renderPayments.bind(this);
   }
 
   async componentDidMount() {
@@ -18,47 +16,7 @@ class Payments extends Component {
     document.title = `Payments - ${this.props.event.name} Event Manager - Terrapin Ticketing`;
   }
 
-  renderPayments(payments) {
-    return (
-      <table className='highlight responsive-table'>
-        <thead><tr>
-          <th>Date</th>
-          <th>Status</th>
-          <th>Price</th>
-          <th>Ticket Type</th>
-          <th>Customer</th>
-          <th>Actions</th>
-        </tr></thead>
-        <tbody>
-            {payments.map((payment, index) => {
-              return (
-                <tr key={index}>
-                  <td>
-                    {payment.date}
-                  </td>
-                  <td>
-                    {payment.status}
-                  </td>
-                  <td>
-                    <Price price={payment.price} />
-                  </td>
-                  <td>
-                    {payment.ticketType}
-                  </td>
-                  <td>
-                    {payment.recipient}
-                  </td>
-                  <td>
-                    {(!payment.isPaid) && (<button onClick={() => this.props.togglePaid(payment._id)} className="waves-effect waves-light btn terrapin-green">Mark as Paid</button>)}
-                    {(payment.isPaid) && (<button className="btn">Paid</button>)}
-                  </td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
-    );
-  }
+
 
   render() {
     let { payments} = this.props;
@@ -78,7 +36,23 @@ class Payments extends Component {
           </div>
         </div>
         <div className='event-bottom-info'>
-          {this.renderPayments(payments)}
+          <table className='highlight responsive-table'>
+            <thead><tr>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Price</th>
+              <th>Ticket Type</th>
+              <th>Customer</th>
+              <th>Actions</th>
+            </tr></thead>
+            <tbody>
+                {payments.map((payment, index) => {
+                  return (
+                    <PayoutEntry payout={payment} key={index} />
+                  );
+                })}
+            </tbody>
+          </table>
         </div>
       </div>
     );

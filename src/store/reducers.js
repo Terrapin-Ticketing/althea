@@ -4,6 +4,7 @@ import locationReducer from './location';
 import authenticationReducer from './authentication';
 import transferTicketModalReducer from '../components/shared/TransferTicketModal/reducer';
 import sellTicketModalReducer from '../components/shared/SellTicketModal/reducer';
+import payoutModalReducer from 'components/shared/PayoutModal/reducer';
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
@@ -12,6 +13,7 @@ export const makeRootReducer = (asyncReducers) => {
     form: formReducer,
     transferTicketModal: transferTicketModalReducer,
     sellTicketModal: sellTicketModalReducer,
+    payoutModal: payoutModalReducer,
     ...asyncReducers,
   });
 };
