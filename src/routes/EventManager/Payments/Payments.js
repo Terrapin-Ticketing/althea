@@ -50,7 +50,7 @@ class Payments extends Component {
                   </td>
                   <td>
                     {(!payment.isPaid) && (<button onClick={() => this.props.togglePaid(payment._id)} className="waves-effect waves-light btn terrapin-green">Mark as Paid</button>)}
-                    {(payment.isPaid) && (<button className="btn terrapin-green">Paid</button>)}
+                    {(payment.isPaid) && (<button className="btn">Paid</button>)}
                   </td>
                 </tr>
               );
