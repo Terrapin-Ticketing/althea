@@ -12,6 +12,9 @@ const validate = (data) => {
   if (!data.payoutValue) {
     errors.payoutValue = 'Required';
   }
+  if (data.price > 11000) {
+    errors.price = 'You cannot post your ticket for more than face value';
+  }
   return errors;
 };
 
@@ -73,7 +76,8 @@ const RenderSelect = ({input, meta, ...rest}) =>
 const RenderPrice = ({input, meta, ...rest}) =>
   <div className="row">
     <div className="input-field col s12">
-      <label className='active'>{rest.label}</label>
+      <span style={{color: '#CC3333', fontSize: '80%'}}>{meta.error}</span>
+      <label className='active' data-error={meta.error}>{rest.label}</label>
       <input {...input} id={rest.label} type='text' />
     </div>
   </div>
