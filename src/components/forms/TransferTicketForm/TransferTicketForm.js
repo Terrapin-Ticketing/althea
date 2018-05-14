@@ -47,8 +47,30 @@ let TransferTicketForm = ({transferTicket, values, cancelTransfer, afterTransfer
         </div>
       </div>
       <div className="modal-actions right-align">
-        <a className="close modal-action" onClick={() => cancelTransfer()}>Cancel</a>
-        <button className="save modal-action" disabled={submitting} type="submit">Transfer</button>
+        <span>{JSON.stringify(submitting)}</span>
+        {(submitting) && (
+          <div className="modal-actions right-align">
+            <div className="spinner-container">
+              <div className="preloader-wrapper small active">
+                <div className="spinner-layer spinner-green-only">
+                  <div className="circle-clipper left">
+                    <div className="circle"></div>
+                  </div><div className="gap-patch">
+                    <div className="circle"></div>
+                  </div><div className="circle-clipper right">
+                    <div className="circle"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {(!submitting) && (
+          <div className="modal-actions right-align">
+            <a className="close modal-action" onClick={() => cancelTransfer()}>Cancel</a>
+            <button className="save modal-action" disabled={submitting} type="submit">Transfer</button>
+          </div>
+        )}
       </div>
     </form>
   </div>;

@@ -47,7 +47,6 @@ export function getTicketInfo(ticketId) {
 
 export function buyTicketsStripe(token, ticketId, transferToUser) {
   return async (dispatch, getState) => {
-    console.log('token', token)
     let options = {
       url: `${SHAKEDOWN_URL}/payment/${ticketId}`,
       method: 'post',
@@ -61,7 +60,6 @@ export function buyTicketsStripe(token, ticketId, transferToUser) {
 
     let { data } = await axios(options);
     if (data.error) {
-      console.log('payment error:', data.error);
       return dispatch({
         type: ERROR,
         payload: data.error
@@ -82,7 +80,7 @@ export function buyTicketsStripe(token, ticketId, transferToUser) {
     } else {
       dispatch({
         type: REDIRECT,
-        payload: `/my-profile?ticketId=${data.ticket._id}&eventId=${data.ticket.event}`
+        payload: `/event/${data.ticket.event}/ticket/${data.ticket._id}`
       });
     }
   };

@@ -5,74 +5,18 @@ import axios from 'axios';
 // ------------------------------------
 export const SET_PAYMENTS = 'SET_PAYMENTS';
 
-export function getPayments(id) {
+export function getPayments() {
   return async (dispatch, getState) => {
-    // TODO: update route
-    // let options = {
-    //   url: `${SHAKEDOWN_URL}/events/find`,
-    //   method: 'post',
-    //   json: true,
-    //   data: { query: { urlSafe: urlSafeName } },
-    //   withCredentials: true
-    // };
-    // let { data: { events } } = await axios(options);
-    let payments = [
-      {
-        _id: 'i123',
-        date: '12/23/17',
-        price: 15000,
-        status: 'Unpaid',
-        ticketId: 't123abc',
-        ticketType: 'General Admission',
-        recipient: 'randomUser@gmail.com',
-        sender: 'randomFan1@gmail.com',
-      },
-      {
-        _id: 'i123',
-        date: '12/23/17',
-        price: 15000,
-        status: 'Unpaid',
-        ticketId: 't123abc',
-        ticketType: 'General Admission',
-        recipient: 'randomUser@gmail.com',
-        sender: 'randomFan1@gmail.com',
-      },
-      {
-        _id: 'i123',
-        date: '12/23/17',
-        price: 15000,
-        status: 'Unpaid',
-        ticketId: 't123abc',
-        ticketType: 'General Admission',
-        recipient: 'randomUser@gmail.com',
-        sender: 'randomFan1@gmail.com',
-      },
-      {
-        _id: 'i123',
-        date: '12/23/17',
-        price: 15000,
-        status: 'Unpaid',
-        ticketId: 't123abc',
-        ticketType: 'General Admission',
-        recipient: 'randomUser@gmail.com',
-        sender: 'randomFan1@gmail.com',
-      },
-      {
-        _id: 'i123',
-        date: '12/23/17',
-        price: 15000,
-        status: 'Unpaid',
-        ticketId: 't123abc',
-        ticketType: 'General Admission',
-        recipient: 'randomUser@gmail.com',
-        sender: 'randomFan1@gmail.com',
-      },
-    ];
-
-
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/payouts`,
+      method: 'get',
+      json: true,
+      withCredentials: true
+    });
+    let { data } = res
     dispatch({
       type: SET_PAYMENTS,
-      payload: payments
+      payload: data
     });
   };
 }

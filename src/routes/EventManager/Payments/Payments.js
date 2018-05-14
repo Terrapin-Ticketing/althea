@@ -60,7 +60,7 @@ class Payments extends Component {
   }
 
   render() {
-    let { event, payments} = this.props;
+    let { payments} = this.props;
     if (!payments.length) {
       return (
         <Loading />

@@ -70,7 +70,6 @@ class Ticket extends Component {
       );
     }
 
-    console.log('method:', ticket.event.ticketRenderMethod);
     return (
       <div className='route-container container'>
         { ((ticket.isForSale) && (ticket.ownerId !== (user && user._id))) && (

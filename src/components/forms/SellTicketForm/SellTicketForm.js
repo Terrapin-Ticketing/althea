@@ -3,7 +3,6 @@ import { reduxForm, Field } from 'redux-form';
 
 
 const onSubmit = async (sellTicket, afterSell, ticket, values) => {
-  console.log('values: ', values);
   await sellTicket(ticket, values);
   afterSell();
 };

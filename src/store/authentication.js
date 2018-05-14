@@ -26,7 +26,6 @@ function setCookie(name, value, days) {
 }
 
 function setCookieFromToken(token) {
-  console.log('setCookieFromToken: ', token);
   setAuthorizationToken(token);
   setCookie('cookieToken', token, 2);
 }
@@ -62,7 +61,6 @@ export const setPassword = (passwordToken, password) => {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [LOGIN]: (state, action) => {
-    console.log('LOGIN: ', action);
     setCookieFromToken(action.payload);
     let user = jwt.decode(action.payload);
     return {
