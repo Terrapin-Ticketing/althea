@@ -99,7 +99,7 @@ class Events extends Component {
         {/* add resonance */}
         {this.renderEvent({
           _id: Date.now(),
-          name: 'Resonance Music Festival',
+          name: 'Resonance Music Festival (coming soon)',
           isDisabled: true,
           imageUrl: 'https://terrapinticketing.com/img/resonance.jpg',
           venue: {
