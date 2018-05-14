@@ -95,7 +95,7 @@ class Ticket extends Component {
           { ticket.barcode && !ticket.isForSale && (
             <div className="barcode-container center" style={{display: 'block'}}>
               { ticket.event.ticketRenderMethod === 'QR' ? (
-                <QRCode value={ticket.barcode} size="350" className='img-fluid' />
+                <QRCode value={ticket.barcode} size="300" />
               ): (
                 <img width="150px" src={`https://terrapin.cincyregister.com/images/barcode.php?c=${ticket.barcode}&p=520a67c3&f=0&x=2&h=60&q=3&t=qrcode`} />
               )}
