@@ -49,7 +49,8 @@ class Payments extends Component {
                     {payment.recipient}
                   </td>
                   <td>
-                    <button onClick={() => this.props.toggleSaved(payment._id)} className="waves-effect waves-light btn terrapin-green">Mark as Paid</button>
+                    {(!payment.isPaid) && (<button onClick={() => this.props.toggleSaved(payment._id)} className="waves-effect waves-light btn terrapin-green">Mark as Paid</button>)}
+                    {(payment.isPaid) && (<button className="btn terrapin-green">Paid</button>)}
                   </td>
                 </tr>
               );
