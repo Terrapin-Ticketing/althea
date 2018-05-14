@@ -30,9 +30,9 @@ class Payments extends Component {
           <th>Actions</th>
         </tr></thead>
         <tbody>
-            {payments.map((payment) => {
+            {payments.map((payment, index) => {
               return (
-                <tr>
+                <tr key={index}>
                   <td>
                     {payment.date}
                   </td>
@@ -49,7 +49,7 @@ class Payments extends Component {
                     {payment.recipient}
                   </td>
                   <td>
-                    {(!payment.isPaid) && (<button onClick={() => this.props.toggleSaved(payment._id)} className="waves-effect waves-light btn terrapin-green">Mark as Paid</button>)}
+                    {(!payment.isPaid) && (<button onClick={() => this.props.togglePaid(payment._id)} className="waves-effect waves-light btn terrapin-green">Mark as Paid</button>)}
                     {(payment.isPaid) && (<button className="btn terrapin-green">Paid</button>)}
                   </td>
                 </tr>
