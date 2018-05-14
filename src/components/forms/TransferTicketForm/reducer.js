@@ -21,6 +21,10 @@ export const transferTicket = (ticket, transferToUser) => {
       type: 'SET_USER_TICKETS',
       payload: tickets
     });
+    dispatch({
+      type: 'REDIRECT',
+      payload: `/my-profile`
+    });
   };
 };
 
