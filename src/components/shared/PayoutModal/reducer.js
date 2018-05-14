@@ -24,6 +24,18 @@ export const closePayoutModal = () => {
   };
 };
 
+export const markAsPaid = (id) => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: DISPLAY_PAYOUT_MODAL,
+      payload: {
+        isOpen: false,
+        payout: null
+      }
+    });
+  };
+};
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------

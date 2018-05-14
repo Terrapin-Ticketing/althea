@@ -2,7 +2,10 @@ import { connect } from 'react-redux';
 
 import PayoutModal from './PayoutModal';
 
-const mapDispatchToProps = require('./reducer');
+const mapDispatchToProps = {
+  ...require('./reducer'),
+  ...require('../../../routes/EventManager/Payments/reducer.js')
+};
 
 const mapStateToProps = (state) => {
   return {

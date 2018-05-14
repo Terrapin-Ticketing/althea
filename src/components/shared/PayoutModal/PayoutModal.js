@@ -79,8 +79,9 @@ class payoutModal extends Component {
                     </tr>
                   </tbody>
                 </table>
+                {(!payout.isPaid) && <button onClick={() => this.props.togglePaid(payout)} className="waves-effect waves-light btn terrapin-green">Mark as Paid</button>}
+                {(payout.isPaid) && <button disabled className="waves-effect waves-light btn terrapin-green">Payment Sent</button>}
               </div>
-              {/* {JSON.stringify(payout)} */}
             </div>
           </ReactModal>
         )

@@ -22,17 +22,17 @@ export function getPayments(id) {
   };
 }
 
-export function togglePaid(id) {
+export function togglePaid(payout) {
   return async(dispatch, getState) => {
     await axios({
-      url: `${SHAKEDOWN_URL}/payouts/${id}/isPaid`,
+      url: `${SHAKEDOWN_URL}/payouts/${payout._id}/isPaid`,
       method: 'put',
       json: true,
       withCredentials: true
     });
 
     let res = await axios({
-      url: `${SHAKEDOWN_URL}/payouts`,
+      url: `${SHAKEDOWN_URL}/payouts?eventId=${payout.eventId._id}`,
       method: 'get',
       json: true,
       withCredentials: true
