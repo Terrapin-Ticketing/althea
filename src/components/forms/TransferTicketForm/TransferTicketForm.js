@@ -47,7 +47,6 @@ let TransferTicketForm = ({transferTicket, values, cancelTransfer, afterTransfer
         </div>
       </div>
       <div className="modal-actions right-align">
-        <span>{JSON.stringify(submitting)}</span>
         {(submitting) && (
           <div className="modal-actions right-align">
             <div className="spinner-container">

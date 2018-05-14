@@ -7,62 +7,17 @@ export const SET_TRANSFERS = 'SET_TRANSFERS';
 
 export function getTransfers(id) {
   return async (dispatch, getState) => {
-    // TODO: update route
-    // let options = {
-    //   url: `${SHAKEDOWN_URL}/events/find`,
-    //   method: 'post',
-    //   json: true,
-    //   data: { query: { urlSafe: urlSafeName } },
-    //   withCredentials: true
-    // };
-    // let { data: { events } } = await axios(options);
-    let transfers = [
-      {
-        _id: 'i123',
-        date: '12/23/17',
-        ticketId: 't123abc',
-        ticketType: 'General Admission',
-        recipient: 'jerryg@gmail.com',
-        sender: 'bobbyw@yahoo.com',
-      },
-      {
-        _id: 'i123',
-        date: '12/23/17',
-        ticketId: 't123abc',
-        ticketType: 'General Admission',
-        recipient: 'wspfan4life@gmail.com',
-        sender: 'cbrown@gmail.com',
-      },
-      {
-        _id: 'i123',
-        date: '12/23/17',
-        ticketId: 't123abc',
-        ticketType: 'General Admission',
-        recipient: 'kaybesee@gmail.com',
-        sender: 'tcoughlin@gmail.com',
-      },
-      {
-        _id: 'i123',
-        date: '12/23/17',
-        ticketId: 't123abc',
-        ticketType: 'General Admission',
-        recipient: 'icculusbooks@gmail.com',
-        sender: 'telagirl@gmail.com',
-      },
-      {
-        _id: 'i123',
-        date: '12/23/17',
-        ticketId: 't123abc',
-        ticketType: 'General Admission',
-        recipient: 'tsmith@gmail.com',
-        sender: 'johnpbarlow@gmail.com',
-      },
-    ];
-
-
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/transfers?eventId=${id}`,
+      method: 'get',
+      json: true,
+      withCredentials: true
+    });
+    let { data } = res;
+    console.log('data: ', data);
     dispatch({
       type: SET_TRANSFERS,
-      payload: transfers
+      payload: data
     });
   };
 }

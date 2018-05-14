@@ -5,7 +5,7 @@ import axios from 'axios';
 // ------------------------------------
 export const SET_PAYMENTS = 'SET_PAYMENTS';
 
-export function getPayments() {
+export function getPayments(id) {
   return async (dispatch, getState) => {
     let res = await axios({
       url: `${SHAKEDOWN_URL}/payouts`,
@@ -14,6 +14,7 @@ export function getPayments() {
       withCredentials: true
     });
     let { data } = res
+    console.log('data: ', data);
     dispatch({
       type: SET_PAYMENTS,
       payload: data

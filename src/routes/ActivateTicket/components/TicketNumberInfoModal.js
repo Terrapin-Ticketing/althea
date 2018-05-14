@@ -32,7 +32,7 @@ class TicketNumberInfoModal extends Component {
               </div>
             </div>
             <div className="modal-content" style={{display: 'flex', flexDirection: 'column'}}>
-              <img style={{width: '100%', marginBottom: '50px'}} src={require('../../../layouts/assets/img/ticket_number_example.png')} />
+              <img style={{width: '100%', marginBottom: '50px'}} src={require('../../../layouts/assets/img/ticket_number_example_domefest.png')} />
               <button className='btn-large terrapin-green' onClick={() => closeModal()}>Got It!</button>
             </div>
       </ReactModal>
