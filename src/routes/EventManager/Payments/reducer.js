@@ -22,6 +22,29 @@ export function getPayments(id) {
   };
 }
 
+export function togglePaid(id) {
+  return async(dispatch, getState) => {
+    await axios({
+      url: `${SHAKEDOWN_URL}/payouts/${id}/isPaid`,
+      method: 'put',
+      json: true,
+      withCredentials: true
+    });
+
+    let res = await axios({
+      url: `${SHAKEDOWN_URL}/payouts`,
+      method: 'get',
+      json: true,
+      withCredentials: true
+    });
+    let { data } = res
+    dispatch({
+      type: SET_PAYMENTS,
+      payload: data
+    });
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------

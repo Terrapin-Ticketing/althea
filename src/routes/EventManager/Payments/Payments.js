@@ -49,7 +49,7 @@ class Payments extends Component {
                     {payment.recipient}
                   </td>
                   <td>
-                    <button onClick={() => this.toggleSaved(payment.id)} className="waves-effect waves-light btn terrapin-green">View</button>
+                    <button onClick={() => this.props.toggleSaved(payment._id)} className="waves-effect waves-light btn terrapin-green">View</button>
                   </td>
                 </tr>
               );
