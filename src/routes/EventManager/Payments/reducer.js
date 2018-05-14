@@ -8,7 +8,7 @@ export const SET_PAYMENTS = 'SET_PAYMENTS';
 export function getPayments(id) {
   return async (dispatch, getState) => {
     let res = await axios({
-      url: `${SHAKEDOWN_URL}/payouts`,
+      url: `${SHAKEDOWN_URL}/payouts?eventId=${id}`,
       method: 'get',
       json: true,
       withCredentials: true
