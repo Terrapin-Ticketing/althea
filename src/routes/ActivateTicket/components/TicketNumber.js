@@ -78,7 +78,7 @@ class TicketNumberInput extends Component {
                       </div>
                     </div>
                   </div>
-                ): (<button className="btn-large" style={{margin: '15px 0'}}type="submit">Activate Ticket</button>)}
+                ): (<button className="btn-large" style={{margin: '15px 0'}}type="submit">Import Ticket</button>)}
               </div>
             </div>
           </form>
