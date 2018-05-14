@@ -80,7 +80,7 @@ export function buyTicketsStripe(token, ticketId, transferToUser) {
     } else {
       dispatch({
         type: REDIRECT,
-        payload: `/event/${data.ticket.event._id}/ticket/${data.ticket._id}`
+        payload: `/my-profile`
       });
     }
   };
