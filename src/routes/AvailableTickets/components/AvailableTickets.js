@@ -63,7 +63,7 @@ class AvailableTickets extends Component {
     return (
       <div className="container">
         <div className="image-container">
-          <img src={this.props.event.imageUrl} />
+          <img src={this.props.event.imageUrl} className='responsive-img' />
         </div>
         <h2 style={{marginBottom: 0}}>{this.props.event.name}</h2>
           <h4 style={{marginTop: 0, color: 'rgba(0,0,0,.71)'}}>Available Tickets for Sale</h4>
