@@ -39,10 +39,10 @@ class Payments extends Component {
           <table className='highlight responsive-table'>
             <thead><tr>
               <th>Date</th>
-              <th>Status</th>
               <th>Price</th>
               <th>Ticket Type</th>
               <th>Customer</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr></thead>
             <tbody>
