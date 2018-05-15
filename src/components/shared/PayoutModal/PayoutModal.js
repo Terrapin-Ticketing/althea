@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactModal from 'react-modal';
 import { Link } from 'react-router';
+import Price from 'components/shared/Price'
 
 import '../ModalStyles.scss';
 
@@ -30,6 +31,21 @@ class payoutModal extends Component {
             </div>
             <div className="modal-content">
               <div className="nav-title col s9">
+                <h4>Payout Info</h4>
+                <table className='responsive-table' style={{marginBottom: 25}}>
+                  <thead>
+                    <th>Price</th>
+                    <th>Payout Method</th>
+                    <th>Payout Value</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><Price price={payout.ticketId.price} /></td>
+                      <td>{payout.sellerId.payout.default}</td>
+                      <td>{payout.sellerId.payout[payout.sellerId.payout.default]}</td>
+                    </tr>
+                  </tbody>
+                </table>
                 <h4>Buyer Info</h4>
                 <table className='responsive-table' style={{marginBottom: 25}}>
                   <thead>
@@ -55,8 +71,6 @@ class payoutModal extends Component {
                     <tr>
                       <td>{payout.sellerId._id}</td>
                       <td>{payout.sellerId.email}</td>
-                      <td>{payout.sellerId.payout.default}</td>
-                      <td>{payout.sellerId.payout[payout.sellerId.payout.default]}</td>
                     </tr>
                   </tbody>
                 </table>
