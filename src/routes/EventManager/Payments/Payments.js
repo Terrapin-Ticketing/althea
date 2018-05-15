@@ -46,7 +46,7 @@ class Payments extends Component {
               <th>Actions</th>
             </tr></thead>
             <tbody>
-                {payments.map((payment, index) => {
+                {payments.slice(0).reverse().map((payment, index) => {
                   return (
                     <PayoutEntry payout={payment} key={index} />
                   );

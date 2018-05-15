@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loading from '../../../components/shared/Loading';
-import Price from '../../../components/shared/Price';
+import TransferEntry from 'components/shared/TransferEntry'
 
 import './Transfers.scss';
 
@@ -23,40 +23,21 @@ class Transfers extends Component {
       <table className='highlight responsive-table'>
         <thead><tr>
           <th>Date</th>
+          <th>Ticket ID</th>
           <th>Ticket Type</th>
+          <th>Barcode</th>
           <th>Recipient</th>
           <th>Sender</th>
-          <th>Actions</th>
         </tr></thead>
         <tbody>
-            {transfers.map((transaction) => {
-              return (
-                <tr>
-                  <td>
-                    {transaction.date}
-                  </td>
-                  <td>
-                    {transaction.ticketType}
-                  </td>
-                  <td>
-                    {transaction.recipient}
-                  </td>
-                  <td>
-                    {transaction.sender}
-                  </td>
-                  <td>
-                    <button className="waves-effect waves-light btn terrapin-green">View</button>
-                  </td>
-                </tr>
-              );
-            })}
+            {transfers.slice(0).reverse().map((transfer, index) => <TransferEntry transfer={transfer} key={index} />)}
         </tbody>
       </table>
     );
   }
 
   render() {
-    let { event, transfers} = this.props;
+    let { transfers } = this.props;
     if (!transfers.length) {
       return (
         <Loading />
