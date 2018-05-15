@@ -32,7 +32,7 @@ class Payments extends Component {
           <h2>Payments</h2>
           <div className='spacing'></div>
           <div className='order-container'>
-            <button className="waves-effect waves-light btn terrapin-green">Filter</button>
+            <h3>({payments.length})</h3>
           </div>
         </div>
         <div className='event-bottom-info'>

@@ -50,7 +50,7 @@ class Transfers extends Component {
           <h2>Transfers</h2>
           <div className='spacing'></div>
           <div className='order-container'>
-            <button className="waves-effect waves-light btn terrapin-green">Filter</button>
+            <h3>({transfers.length})</h3>
           </div>
         </div>
         <div className='event-bottom-info'>
