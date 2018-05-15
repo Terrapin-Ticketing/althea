@@ -64,8 +64,6 @@ class payoutModal extends Component {
                   <thead>
                     <th>ID</th>
                     <th>Email</th>
-                    <th>Payout Method</th>
-                    <th>Payout Value</th>
                   </thead>
                   <tbody>
                     <tr>
