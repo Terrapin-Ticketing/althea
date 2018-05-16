@@ -101,7 +101,7 @@ const RenderSwitch = ({input, meta, ...rest}) =>
 
 
 let SellTicketForm = ({ ticket, handleSubmit, afterSell, cancelSell, submitting, sellTicket, sellFormData }) =>
-  <form nSubmit= {handleSubmit((values) => onSubmit(sellTicket, afterSell, ticket, values))}>
+  <form onSubmit= {handleSubmit((values) => onSubmit(sellTicket, afterSell, ticket, values))}>
     <h3 style={{marginBottom: 10}}>How would you like to get paid?</h3>
     <Field name='payoutMethod' label='Payout Method' component={RenderSelect}>
       <option value='paypal'>PayPal</option>
