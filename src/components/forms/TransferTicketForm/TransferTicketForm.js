@@ -17,7 +17,7 @@ const validate = values => {
 
 const RenderInput = ({ input, meta, label, id }) =>
   <div className="input-field">
-    <label htmlFor={id}>{label}</label>
+    <label style={{ pointerEvents: 'none' }} htmlFor={id}>{label}</label>
     <input {...input} type='text' className="validate" />
   </div>;
 
