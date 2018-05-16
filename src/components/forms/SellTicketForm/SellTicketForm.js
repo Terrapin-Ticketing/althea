@@ -101,7 +101,7 @@ const RenderSwitch = ({input, meta, ...rest}) =>
 
 
 let SellTicketForm = ({ ticket, handleSubmit, afterSell, cancelSell, submitting, sellTicket, sellFormData }) =>
-  <form onSubmit= {handleSubmit((values) => onSubmit(sellTicket, afterSell, ticket, values))}>
+  <form nSubmit= {handleSubmit((values) => onSubmit(sellTicket, afterSell, ticket, values))}>
     <h3 style={{marginBottom: 10}}>How would you like to get paid?</h3>
     <Field name='payoutMethod' label='Payout Method' component={RenderSelect}>
       <option value='paypal'>PayPal</option>
@@ -112,7 +112,7 @@ let SellTicketForm = ({ ticket, handleSubmit, afterSell, cancelSell, submitting,
       component={RenderInput} />
     <Field name='price' label='Price' normalize={getDigitsFromValue} format={toCurrency} component={RenderPrice} />
     <Field name='isForSale' label='For Sale' component={RenderSwitch} />
-    <div className="modal-actions right-align hide-on-small-only">
+    <div className="modal-actions right-align">
       <a className="close modal-action" style={{cursor: 'pointer'}}
          onClick={() => cancelSell()}>Cancel</a>
       <button className="save modal-action" disabled={submitting} type="submit">Mark for Sale</button>
