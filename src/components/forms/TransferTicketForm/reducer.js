@@ -6,7 +6,7 @@ export const transferTicket = (ticket, transferToUser) => {
       url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/transfer`,
       method: 'post',
       data: {
-        transferToEmail: transferToUser.email
+        transferToUser
       },
       withCredentials: true
     });
@@ -23,7 +23,7 @@ export const transferTicket = (ticket, transferToUser) => {
     });
     dispatch({
       type: 'REDIRECT',
-      payload: `/my-profile`
+      payload: '/my-profile'
     });
   };
 };

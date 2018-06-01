@@ -12,6 +12,43 @@ export const SET_USER_INFO = 'SET_USER_INFO';
 export const UPDATE_ORDER = 'UPDATE_ORDER';
 export const REDIRECT = 'REDIRECT';
 export const ERROR = 'ERROR';
+export const SET_RESERVE_TOKEN = 'SET_RESERVE_TOKEN';
+
+export function getReserveToken(ticketId) {
+  return async(dispatch) => {
+    let options = {
+      url: `${SHAKEDOWN_URL}/tickets/${ticketId}/reserve`,
+      method: 'get',
+      json: true,
+      withCredentials: true
+    }
+
+    let { data } = await axios(options);
+    dispatch({
+      type: SET_RESERVE_TOKEN,
+      payload: data.reserveToken
+    })
+  }
+}
+
+export function deleteReserveToken(ticketId) {
+  return async(dispatch, getState) => {
+
+    const reserveToken = getState().ticket.reserveToken
+
+    let options = {
+      url: `${SHAKEDOWN_URL}/tickets/${ticketId}/reserve?reserveToken=${reserveToken}`,
+      method: 'delete',
+      json: true,
+      withCredentials: true
+    };
+    await axios(options);
+    dispatch({
+      type: SET_RESERVE_TOKEN,
+      payload: null
+    });
+  };
+}
 
 export function getEventInfo(id) {
   return async (dispatch, getState) => {
@@ -31,6 +68,7 @@ export function getEventInfo(id) {
 export function getTicketInfo(ticketId) {
   return async (dispatch, getState) => {
     let { data: { ticket } } = await axios({
+      // url: `${SHAKEDOWN_URL}/tickets/available/${ticketId}?reserveToken=${reserveToken}`,
       url: `${SHAKEDOWN_URL}/tickets/${ticketId}`,
       method: 'get',
       withCredentials: true
@@ -53,7 +91,7 @@ export function buyTicketsStripe(token, ticketId, transferToUser) {
       json: true,
       data: {
         token: token.id,
-        transferToEmail: transferToUser.email
+        transferToUser
       },
       withCredentials: true
     };
@@ -80,7 +118,7 @@ export function buyTicketsStripe(token, ticketId, transferToUser) {
     } else {
       dispatch({
         type: REDIRECT,
-        payload: `/my-profile`
+        payload: '/my-profile'
       });
     }
   };
@@ -90,6 +128,12 @@ export function buyTicketsStripe(token, ticketId, transferToUser) {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [SET_RESERVE_TOKEN]: (state, action) => {
+    return {
+      ...state,
+      reserveToken: action.payload
+    };
+  },
   [SET_TICKET_DETAILS]: (state, action) => {
     return {
       ...state,
@@ -136,7 +180,8 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   ticket: {},
-  currentEvent: {}
+  currentEvent: {},
+  reserveToken: null,
 };
 
 export default function eventReducer(state = initialState, action) {

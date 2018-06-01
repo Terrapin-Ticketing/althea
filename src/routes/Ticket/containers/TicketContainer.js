@@ -24,7 +24,8 @@ const mapStateToProps = (state) => {
     redirect: state.ticket.redirect,
     error: state.ticket.error,
     transferTicketModalOpen: state.transferTicketModal.isOpen,
-    sellTicketModalOpen: state.sellTicketModal.isOpen
+    sellTicketModalOpen: state.sellTicketModal.isOpen,
+    reserveToken: state.ticket.reserveToken
   };
 };
 

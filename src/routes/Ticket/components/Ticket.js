@@ -22,12 +22,40 @@ class Ticket extends Component {
       // cardFee: 2
     };
     this.openTransferTicketModal = this.openTransferTicketModal.bind(this);
+    this._beforeUnload = this._beforeUnload.bind(this);
+  }
+
+  _beforeUnload(ev) {
+    ev.preventDefault();
+    const { ticketId } = this.props.params;
+    // remove reserve token from backend
+    this.props.deleteReserveToken(ticketId);
+    // return ev.returnValue = 'If you leave you will loose your claim to this ticket';
+    return null;
   }
 
   async componentDidMount() {
-    await this.props.getTicketInfo(this.props.params.ticketId);
-    await this.props.getEventInfo(this.props.params.eventId);
+    const { ticketId, eventId } = this.props.params;
+    await this.props.getReserveToken(ticketId);
+    await this.props.getTicketInfo(ticketId);
+    await this.props.getEventInfo(eventId);
     document.title = `${this.props.ticket.event.name} Ticket - Terrapin Ticketing`;
+
+    if (this.props.reserveToken) {
+      let remove = this.props.router.setRouteLeaveHook(this.props.route, () => {
+        remove();
+        return 'If you leave you will loose your claim to this ticket';
+      });
+    }
+
+    window.addEventListener('beforeunload', this._beforeUnload);
+  }
+
+  componentWillUnmount() {
+    const { ticketId } = this.props.params;
+    // remove reserve token from backend
+    this.props.deleteReserveToken(ticketId);
+    window.removeEventListener('beforeunload', this._beforeUnload);
   }
 
   openTicketShareModal(ticket) {
@@ -63,10 +91,26 @@ class Ticket extends Component {
   }
 
   render() {
-    let { user, event, ticket } = this.props;
+    let { user, event, ticket, reserveToken } = this.props;
     if (!ticket || !ticket._id || !ticket.event.venue) {
       return (
         <Loading />
+      );
+    }
+
+    if (!ticket.isForSale) {
+      return (
+        <div className="">
+          this ticket is not for sale
+        </div>
+      );
+    }
+
+    if (!reserveToken) {
+      return (
+        <div className="">
+          ticket is currently being viewed by another user
+        </div>
       );
     }
 
