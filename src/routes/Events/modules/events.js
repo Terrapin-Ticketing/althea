@@ -1,5 +1,6 @@
 import axios from 'axios';
 import pasync from 'pasync';
+import moment from 'moment';
 
 // ------------------------------------
 // Constants
@@ -22,6 +23,12 @@ export function getEvents() {
     };
 
     let { data: { events } } = await axios(options);
+
+    events = events.filter((event) => {
+      const endDate = new Date(event.endDate);
+      const difference = endDate - Date.now();
+      return difference > 0;
+    })
 
     dispatch({
       type: SET_EVENTS,

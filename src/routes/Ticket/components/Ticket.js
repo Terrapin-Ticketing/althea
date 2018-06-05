@@ -98,7 +98,9 @@ class Ticket extends Component {
       );
     }
 
-    if (!ticket.isForSale) {
+    const isOwner = (ticket.ownerId === (user && user._id));
+
+    if (!ticket.isForSale && !isOwner) {
       return (
         <div className="">
           this ticket is not for sale
@@ -106,7 +108,7 @@ class Ticket extends Component {
       );
     }
 
-    if (!reserveToken) {
+    if (!reserveToken && !isOwner) {
       return (
         <div className="">
           ticket is currently being viewed by another user
@@ -141,7 +143,7 @@ class Ticket extends Component {
               { ticket.event.ticketRenderMethod === 'QR' ? (
                 <QRCode value={ticket.barcode} size="300" />
               ): (
-                <img width="150px" src={`https://terrapin.cincyregister.com/images/barcode.php?c=${ticket.barcode}&p=520a67c3&f=0&x=2&h=60&q=3&t=qrcode`} />
+                <img width="170px" src={`https://terrapin.cincyregister.com/images/barcode.php?c=${ticket.barcode}&p=520a67c3&f=0&x=2&h=60&q=3&t=qrcode`} />
               )}
               <br />
               <span><small className="caption">
@@ -185,7 +187,7 @@ class Ticket extends Component {
           <div className="row checkout-information">
             <Order
               order={[ticket]}
-              serviceFee={event.totalMarkupPercent * ticket.price}
+              serviceFee={event.totalMarkupPercent * ticket.price + event.totalStaticMarkup}
             />
 
             <Payment

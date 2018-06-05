@@ -96,20 +96,6 @@ class Events extends Component {
         {this.props.events.map((event, index) => {
           return this.renderEvent(event, index);
         })}
-        {/* add resonance */}
-        {this.renderEvent({
-          _id: Date.now(),
-          name: 'Resonance Music Festival (coming soon)',
-          isDisabled: true,
-          imageUrl: 'https://terrapinticketing.com/img/resonance.jpg',
-          venue: {
-            name: 'Legend Valley',
-            address: '7585 Kindle Rd',
-            city: 'Thornville',
-            state: 'OH',
-            zip: '43076'
-          }
-        }, this.props.events.length, <img className="card-image-test" src={require('../../../layouts/assets/img/resonance.jpg')} />)}
       </div>
     );
   }
