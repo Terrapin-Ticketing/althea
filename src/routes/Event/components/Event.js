@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
+import moment from 'moment';
 import classNames from 'classnames';
 import ReactModal from 'react-modal';
 import QtyCounter from './QtyCounter';
@@ -102,7 +103,7 @@ class Event extends Component {
   }
 
   render() {
-    let { backgroundColor, textColor, description, website, venue } = this.props.event;
+    let { backgroundColor, textColor, description, website, venue, startDate, endDate } = this.props.event;
     let { isLoading } = this.state;
     if (!this.props.event.name) {
       return (
@@ -150,7 +151,7 @@ class Event extends Component {
               </div>
               <div className="right-column">
                 <h3>Date</h3>
-                May 17th - 19th, 2018
+                {`${moment(startDate).format('MMMM D')} - ${moment(endDate).format('D, YYYY')}`}
 
                 <h3>Location</h3>
                   {venue.name} <br />
