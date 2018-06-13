@@ -34,6 +34,7 @@ class Events extends Component {
   }
 
   renderEvent(event, index, img) {
+    console.log('event: ', event)
     if (event.name === 'Demo Fest') return null;
     return (
       <div key={index} className={classNames({disabled: event.isDisabled})}>
@@ -43,7 +44,7 @@ class Events extends Component {
           </div>
           <div className="card-content ticket-content flow-text" onClick={() => this.eventClick(event)}>
             <a className="card-title">{event.name}</a>
-            <small>Date: <br />{moment(event.date).format('dddd MMMM Do, YYYY')}</small><br />
+            <small>Date: <br />{moment(event.startDate).format('dddd MMMM Do, YYYY')}</small><br />
             <div className="venue-info">
               <small>
                 {event.venue.name} <br />
@@ -66,7 +67,7 @@ class Events extends Component {
           <div className="card-stacked col s12 m6">
             <div className="card-content ticket-content" onClick={() => this.eventClick(event)}>
               <a className="card-title">{event.name}</a>
-              <small>Date: <br />{moment(event.date).format('dddd MMMM Do, YYYY')}</small><br />
+              <small>Date: <br />{moment(event.startDate).format('dddd MMMM Do, YYYY')}</small><br />
               <div className="venue-info">
                 <small>
                   {event.venue.name} <br />
