@@ -12,9 +12,9 @@ const validate = (data) => {
   if (!data.payoutValue) {
     errors.payoutValue = 'Required';
   }
-  if (data.price > 11000) {
-    errors.price = 'You cannot post your ticket for more than face value';
-  }
+  // if (data.price > 11000) {
+  //   errors.price = 'You cannot post your ticket for more than face value';
+  // }
   return errors;
 };
 
