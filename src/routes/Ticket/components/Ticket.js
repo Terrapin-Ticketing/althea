@@ -102,16 +102,21 @@ class Ticket extends Component {
 
     if (!ticket.isForSale && !isOwner) {
       return (
-        <div className="">
-          this ticket is not for sale
+        <div className="card">
+          <div className="card-content" style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', alignSelf: 'center'}}>
+            The ticket you are attempting to view is not for sale.
+          </div>
         </div>
       );
     }
 
     if (!reserveToken && !isOwner) {
       return (
-        <div className="">
-          ticket is currently being viewed by another user
+        <div className="card">
+          <div className="card-content" style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', alignSelf: 'center'}}>
+            The ticket you are attempting to view is currently being purchased by another fan. <br />
+            <Link to={`/event/${ticket.event.urlSafe}/tickets`}> <button class="waves-effect waves-light btn-large terrapin-green">View Other Available Tickets</button></Link>
+          </div>
         </div>
       );
     }
