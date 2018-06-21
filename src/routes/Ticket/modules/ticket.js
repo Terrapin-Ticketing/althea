@@ -24,6 +24,7 @@ export function getReserveToken(ticketId) {
     }
 
     let { data } = await axios(options);
+    console.log('data:', data.reserveToken)
     dispatch({
       type: SET_RESERVE_TOKEN,
       payload: data.reserveToken
@@ -67,9 +68,9 @@ export function getEventInfo(id) {
 
 export function getTicketInfo(ticketId) {
   return async (dispatch, getState) => {
+    const reserveToken = getState().ticket.reserveToken
     let { data: { ticket } } = await axios({
-      // url: `${SHAKEDOWN_URL}/tickets/available/${ticketId}?reserveToken=${reserveToken}`,
-      url: `${SHAKEDOWN_URL}/tickets/${ticketId}`,
+      url: `${SHAKEDOWN_URL}/tickets/${ticketId}?reserveToken=${reserveToken}`,
       method: 'get',
       withCredentials: true
     });
@@ -85,11 +86,13 @@ export function getTicketInfo(ticketId) {
 
 export function buyTicketsStripe(token, ticketId, transferToUser) {
   return async (dispatch, getState) => {
+    const reserveToken = getState().ticket.reserveToken
     let options = {
       url: `${SHAKEDOWN_URL}/payment/${ticketId}`,
       method: 'post',
       json: true,
       data: {
+        reserveToken,
         token: token.id,
         transferToUser
       },

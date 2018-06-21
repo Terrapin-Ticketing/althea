@@ -14,7 +14,6 @@ export function getPayments(id) {
       withCredentials: true
     });
     let { data } = res
-    console.log('data: ', data);
     dispatch({
       type: SET_PAYMENTS,
       payload: data

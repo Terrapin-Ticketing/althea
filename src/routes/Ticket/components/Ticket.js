@@ -44,6 +44,7 @@ class Ticket extends Component {
     if (this.props.reserveToken) {
       let remove = this.props.router.setRouteLeaveHook(this.props.route, () => {
         remove();
+        if (this.state.isBuying) return;
         return 'If you leave you will loose your claim to this ticket';
       });
     }
@@ -83,6 +84,7 @@ class Ticket extends Component {
     await buyTicketsStripe(token, order, transferToUser);
     let { error, redirect } = this.props;
     if (error) return this.setState({ isLoading: false });
+    this.setState({ isBuying: true });
     browserHistory.push(redirect);
   }
 

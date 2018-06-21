@@ -48,7 +48,7 @@ class USDPayment extends React.Component {
   }
 
   renderError() {
-    if (this.props.error) return (<div className='payment-error'><span className="terrapin-red">ERROR: {this.props.error}</span></div>);
+    if (this.props.error) return (<div className='payment-error'><span className="terrapin-red" style={{ color: 'white' }}>ERROR: {this.props.error}</span></div>);
   }
 
   render() {
