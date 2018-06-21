@@ -48,7 +48,8 @@ class USDPayment extends React.Component {
   }
 
   renderError() {
-    if (this.props.error) return (<div className='payment-error'><span className="terrapin-red" style={{ color: 'white' }}>ERROR: {this.props.error}</span></div>);
+    if (this.props.error) return (<span style={{
+      backgroundColor: '#f2dede', borderColor: '#ebcccc', color: '#a94442', padding: .75rem 1.25rem; marginBottom: '1rem', border: '1px solid transparent', borderRadius: '.25rem'}}>{this.props.error}</span>);
   }
 
   render() {
@@ -61,14 +62,14 @@ class USDPayment extends React.Component {
             <input id="firstName" type="text" className="validate" value={this.state.firstName} style={{borderBottom: '1px solid rgba(0,0,0,.12)'}}
               onChange={(e) => {
                 this.setState({firstName: e.target.value});
-            }} />
+              }} />
           </div>
           <div className="input-field col s6">
             <label htmlFor="lastName">Last Name</label>
             <input id="lastName" type="text" className="validate" value={this.state.lastName} style={{borderBottom: '1px solid rgba(0,0,0,.12)'}}
               onChange={(e) => {
                 this.setState({lastName: e.target.value});
-            }} />
+              }} />
           </div>
           <div className="input-field col s12">
             <label htmlFor="email">Email</label>
