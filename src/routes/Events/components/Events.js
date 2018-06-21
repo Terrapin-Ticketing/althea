@@ -34,7 +34,6 @@ class Events extends Component {
   }
 
   renderEvent(event, index, img) {
-    console.log('event: ', event)
     if (event.name === 'Demo Fest') return null;
     return (
       <div key={index} className={classNames({disabled: event.isDisabled})}>
