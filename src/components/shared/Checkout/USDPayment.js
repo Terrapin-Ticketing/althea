@@ -49,7 +49,7 @@ class USDPayment extends React.Component {
 
   renderError() {
     if (this.props.error) return (<span style={{
-      backgroundColor: '#f2dede', borderColor: '#ebcccc', color: '#a94442', padding: .75rem 1.25rem; marginBottom: '1rem', border: '1px solid transparent', borderRadius: '.25rem'}}>{this.props.error}</span>);
+      backgroundColor: '#f2dede', borderColor: '#ebcccc', color: '#a94442', padding: '.75rem 1.25rem', marginBottom: '1rem', border: '1px solid transparent', borderRadius: '.25rem'}}>{this.props.error}</span>);
   }
 
   render() {
