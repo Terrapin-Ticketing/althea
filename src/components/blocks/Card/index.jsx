@@ -1,15 +1,15 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import Image from 'components/blocks/Card/Image'
 import Actions from 'components/blocks/Card/Actions'
 import Text from 'components/blocks/Card/Text'
 
 const Card = styled.div.attrs({
-  className: 'col-lg-4 col-md-6 col-sm-12'
-})`
+  // className: 'col-lg-4 col-md-6 col-sm-12'
+  })`
+  flex-direction: column;
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
   border: 1px solid #e4e4e4;
   font-family: Montserrat,sans-serif;
   color: #787878;
@@ -20,6 +20,9 @@ const Card = styled.div.attrs({
   }
   @media screen and (min-width: 60em) {
   }
+  ${p => p.flexRow && css`
+  flex-direction: row;
+  `}
 `
 
 const Information = styled.div`

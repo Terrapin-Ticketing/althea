@@ -1,4 +1,4 @@
-// EVENTS
+// Events
 export const setEvents = (events) => ({
   type: 'SET_EVENTS',
   payload: events
@@ -9,8 +9,12 @@ export const setCurrentEvent = (event) => ({
   payload: event
 })
 
-// USERS
-export const login = (token) => ({
-  type: 'LOGIN',
-  payload: token
-})
+// Tickets
+export const validateTicketSuccess = (ticket) => {
+  return {
+    type: 'VALIDATE_TICKET_SUCCESS',
+    payload: {
+      ticket
+    }
+  }
+}

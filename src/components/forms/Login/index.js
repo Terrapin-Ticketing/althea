@@ -5,44 +5,37 @@ import { connect } from 'react-redux'
 
 import { FormWrapper, TextInput, PasswordInput } from 'components/elements/form'
 import { Button } from 'components/elements'
+import { Alert } from 'components/blocks'
 
-const onSubmit = async (login, values, afterLogin) => {
-  await login(values)
-  afterLogin()
+let LoginForm = ({ handleSubmit, login, submitting, afterLogin, error }) => {
+  return (
+    <FormWrapper onSubmit={handleSubmit((values) => login(values, afterLogin))}>
+      {error && <Alert danger>{error}</Alert>}
+      <Field name='email' label='Email' component={TextInput} />
+      <Field name='password' label='Password' component={PasswordInput}/>
+      <Button type='submit' className='btn-primary' disabled={submitting}>Login</Button>
+    </FormWrapper>
+  )
 }
-
-const validate = (data) => {
-  let errors = {}
-  if (!data.email) {
-    errors.email = 'Required'
-  }
-  if (!data.password) {
-    errors.email = 'Required'
-  }
-
-  return errors
-}
-
-let LoginForm = ({ handleSubmit, login, submitting, values, afterLogin }) =>
-  <FormWrapper onSubmit={handleSubmit((values) => onSubmit(login, values, afterLogin))}>
-    <Field name='email' label='Email' component={TextInput} />
-    <Field name='password' label='Password' component={PasswordInput} />
-    <Button type='submit' className='btn-primary' disabled={submitting}>Login</Button>
-  </FormWrapper>
 
 LoginForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
-  submitting: PropTypes.bool.isRequired,
-  values: PropTypes.object.isRequired,
-  afterLogin: PropTypes.func.isRequired
+  afterLogin: PropTypes.func.isRequired,
+  submitting: PropTypes.bool,
+  error: PropTypes.object
 }
 
-LoginForm = connect(() => { return { } }, require('./modules'))(LoginForm)
+const mapStateToProps = (state) => {
+  return {
+    user: state.auth.user
+  }
+}
+
+LoginForm = connect(mapStateToProps, require('./modules'))(LoginForm)
 
 LoginForm = reduxForm({
-  form: 'loginForm',
-  validate
+  form: 'loginForm'
 })(LoginForm)
 
 export default LoginForm

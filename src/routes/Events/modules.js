@@ -1,25 +1,61 @@
 import { EventsApi } from 'api'
-import * as actions from 'actions'
 
-export const SET_EVENTS = 'SET_EVENTS'
-export const SET_ERROR = 'SET_ERROR'
+export const GET_EVENTS_REQUEST = 'GET_EVENTS_REQUEST'
+export const GET_EVENTS_SUCCESS = 'GET_EVENTS_SUCCESS'
+export const GET_EVENTS_FAILURE = 'GET_EVENTS_FAILURE'
 
-export function getAllEvents() {
-  return async(dispatch) => {
-    let { data: { events } } = await EventsApi.getEvents()
-    dispatch(actions.setEvents(events))
+
+// Actions
+const requestEvents = () => {
+  return {
+    type: GET_EVENTS_REQUEST
   }
 }
 
+const setEvents = (events) => {
+  return {
+    type: GET_EVENTS_SUCCESS,
+    payload: events
+  }
+}
+
+const setFailure = (error) => {
+  return {
+    type: GET_EVENTS_FAILURE,
+    payload: error
+  }
+}
+
+// Action Creators
+export function getEvents() {
+  return async(dispatch) => {
+    dispatch(requestEvents())
+    try {
+      let { data: { events } } = await EventsApi.getEvents()
+      dispatch(setEvents(events))
+    } catch (e) {
+      dispatch(setFailure(e.response.data))
+    }
+  }
+}
+
+// Reducer
 const ACTION_HANDLERS = {
-  [SET_EVENTS]: (state, action) => {
+  [GET_EVENTS_REQUEST]: (state) => {
+    return {
+      ...state,
+      loading: true
+    }
+  },
+  [GET_EVENTS_SUCCESS]: (state, action) => {
     return {
       ...state,
       events: action.payload,
+      error: null,
       loading: false
     }
   },
-  [SET_ERROR]: (state, action) => {
+  [GET_EVENTS_FAILURE]: (state, action) => {
     return {
       ...state,
       error: action.payload,
@@ -30,12 +66,11 @@ const ACTION_HANDLERS = {
 
 const initialState = {
   events: [],
-  error: false,
+  error: null,
   loading: true
 }
 
 export default function eventsReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
-
   return handler ? handler(state, action) : state
 }

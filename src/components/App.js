@@ -17,7 +17,7 @@ class App extends React.Component {
     return (
       <Provider store={this.props.store}>
         <div style={{ flex: 1, display: 'flex' }}>
-          <Router history={browserHistory} children={this.props.routes} />
+          <Router history={browserHistory} children={this.props.routes} /> {/* eslint react/no-children-prop: 1 */}
         </div>
       </Provider>
     )

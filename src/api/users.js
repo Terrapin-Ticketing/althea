@@ -3,7 +3,7 @@ import axios from 'axios'
 class UsersApi {
   async login(email, password) {
     return axios({
-      url: `${SHAKEDOWN_URL}/login`,
+      url: `${SHAKEDOWN_URL}/login`, //eslint-disable-line no-undef
       method: 'post',
       data: {
         email,
@@ -16,7 +16,7 @@ class UsersApi {
 
   async signup(email, password) {
     return axios({
-      url: `${SHAKEDOWN_URL}/signup`,
+      url: `${SHAKEDOWN_URL}/signup`, //eslint-disable-line no-undef
       method: 'post',
       data: {
         email,

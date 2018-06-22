@@ -5,31 +5,13 @@ import { connect } from 'react-redux'
 import ImportTicket from './Component'
 
 class ImportTicketContainer extends Component {
-  constructor(props) {
-    super(props)
-    this.nextStep = this.nextStep.bind(this)
-    this.previousStep = this.previousStep.bind(this)
-    this.afterLogin = this.afterLogin.bind(this)
-    this.state = {
-      step: 1
-    }
-  }
-
   async componentDidMount() {
     await this.props.getEventInfo(this.props.params.urlSafeName)
-    document.title = 'Events - Terrapin Ticketing'
+    document.title = `Import Ticket - ${this.props.event.name} - Terrapin Ticketing`
   }
 
-  afterLogin() {
-    this.nextStep()
-  }
-
-  nextStep() {
-    this.setState({ step: this.state.step + 1 })
-  }
-
-  previousStep() {
-    this.setState({ step: this.state.step - 1 })
+  componentWillUnmount() {
+    this.props.goToStep('welcome')
   }
 
   render() {
@@ -37,10 +19,10 @@ class ImportTicketContainer extends Component {
       event={this.props.event}
       loading={this.props.loading}
       error={this.props.error}
-      step={this.state.step}
-      nextStep={this.nextStep}
-      previousStep={this.previousStep}
+      step={this.props.step}
       afterLogin={this.afterLogin}
+      goToStep={this.props.goToStep}
+      ticket={this.props.ticket}
     />
   }
 }
@@ -50,7 +32,10 @@ ImportTicketContainer.propTypes = {
   getEventInfo: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   error: PropTypes.bool,
-  params: PropTypes.object
+  params: PropTypes.object,
+  step: PropTypes.string.isRequired,
+  goToStep: PropTypes.func.isRequired,
+  ticket: PropTypes.object
 }
 
 const mapDispatchToProps = {
@@ -59,7 +44,9 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => {
   return {
-    event: state.importTicket.currentEvent
+    event: state.importTicket.currentEvent,
+    step: state.importTicket.step,
+    ticket: state.importTicket.ticket
   }
 }
 

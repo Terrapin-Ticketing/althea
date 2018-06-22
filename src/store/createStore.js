@@ -38,8 +38,8 @@ const createStore = (initialState = {}) => {
   // To unsubscribe, invoke `store.unsubscribeHistory()` anytime
   store.unsubscribeHistory = browserHistory.listen(updateLocation(store))
 
-  if (module.hot) {
-    module.hot.accept('./reducers', () => {
+  if (module.hot) { // eslint-disable-line no-undef
+    module.hot.accept('./reducers', () => { // eslint-disable-line no-undef
       const reducers = require('./reducers').default
       store.replaceReducer(reducers(store.asyncReducers))
     })

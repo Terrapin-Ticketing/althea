@@ -6,7 +6,7 @@ import Event from './Component'
 
 class EventContainer extends Component {
   async componentDidMount() {
-    this.props.getEventInfo(this.props.params.urlSafeName)
+    await this.props.getEventInfo(this.props.params.urlSafeName)
     document.title = 'Events - Terrapin Ticketing'
   }
 

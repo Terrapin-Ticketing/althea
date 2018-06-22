@@ -136,6 +136,12 @@ config.module.rules.push({
 })
 config.plugins.push(extractStyles)
 
+config.module.rules.push({
+  test: /\.js$/,
+  exclude: /node_modules/,
+  use: ['eslint-loader']
+})
+
 // Images
 // ------------------------------------
 config.module.rules.push({

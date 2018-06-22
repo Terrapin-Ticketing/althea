@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const ImageContainer = styled.div`
   flex: 0;
   @media (min-width: 48em) {
-    flex: 0 1;
+    flex: 1 1;
   }
 `
 

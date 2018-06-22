@@ -2,13 +2,15 @@ import React from 'React'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-let ProgressBar = ({ progress }) =>
-  <div className='progress'>
-    <div className='progress-bar' role='progressbar' style={{ width: `${progress}%` }} aria-valuenow={`${progress}`} aria-valuemin='0' aria-valuemax='100' />
+let ProgressBar = ({ progress, style }) =>
+  <div className='progress' style={Object.assign({ width: '100%' }, style)}>
+    <div className='progress-bar' role='progressbar' style={{ width: `${progress}%` }} 
+    aria-valuenow={`${progress}`} aria-valuemin='0' aria-valuemax='100' />
   </div>
 
 ProgressBar.propTypes = {
-  progress: PropTypes.number
+  progress: PropTypes.number,
+  style: PropTypes.object
 }
 
 ProgressBar = styled(ProgressBar)`

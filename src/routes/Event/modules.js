@@ -4,7 +4,7 @@ import * as actions from 'actions'
 const SET_CURRENT_EVENT = 'SET_CURRENT_EVENT'
 
 export function getEventInfo(urlSafe) {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     let { data: { events } } = await EventsApi.getEventByUrlSafe(urlSafe)
     dispatch(actions.setCurrentEvent(events[0]))
   }

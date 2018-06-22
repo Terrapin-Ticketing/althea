@@ -12,9 +12,13 @@ Wrapper.propTypes = {
 
 Wrapper = styled(Wrapper)`
   ${p => p.flexColumn && css`
+    flex: 1;
+    display: flex;
     flex-direction: column;
    `}
   ${p => p.flexRow && css`
+    flex: 1;
+    display: flex;
     flex-direction: row;
   `}
   ${p => p.fullScreen && css`
@@ -48,7 +52,6 @@ Wrapper = styled(Wrapper)`
     margin: 25px;
   `}
   ${p => p.centered && css`
-    display: flex;
     align-items: center;
     justify-content: center;
    `}

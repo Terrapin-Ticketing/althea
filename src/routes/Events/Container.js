@@ -5,7 +5,7 @@ import Events from './Component'
 
 class EventsContainer extends Component {
   componentDidMount() {
-    this.props.getAllEvents()
+    this.props.getEvents()
     document.title = 'Events - Terrapin Ticketing'
   }
 
@@ -16,9 +16,9 @@ class EventsContainer extends Component {
 
 EventsContainer.propTypes = {
   events: PropTypes.array.isRequired,
-  getAllEvents: PropTypes.func.isRequired,
+  getEvents: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-  error: PropTypes.bool
+  error: PropTypes.string
 }
 
 const mapDispatchToProps = {

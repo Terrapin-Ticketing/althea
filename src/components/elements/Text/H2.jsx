@@ -1,6 +1,16 @@
+import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const H2 = styled.h2`
+let H2 = ({ className, style, children }) => <h2 className={className} style={style}>{children}</h2>
+
+H2.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.object,
+  children: PropTypes.node
+}
+
+H2 = styled(H2)`
   text-align: ${p => p.center ? 'center' : p.right ? 'right' : 'left'}
 `
 

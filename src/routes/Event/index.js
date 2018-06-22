@@ -1,6 +1,6 @@
 import { injectReducer } from 'store/reducers'
 
-export default (store, wrappers = []) => ({
+export default (store) => ({
   path: 'event/:urlSafeName',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {

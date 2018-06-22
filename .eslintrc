@@ -1,8 +1,8 @@
 {
   "parser"  : "babel-eslint",
   "extends" : [
-    "standard",
-    "standard-react"
+    "eslint:recommended", 
+    "plugin:react/recommended"
   ],
   "plugins" : [
     "babel",
@@ -22,9 +22,10 @@
   "rules" : {
     "key-spacing"                 : "off",
     "jsx-quotes"                  : [2, "prefer-single"],
-    # "max-len"                     : [2, 120, 2],
+    "max-len"                     : [2, 220, 2],
     "object-curly-spacing"        : [2, "always"],
     "comma-dangle"                : "off",
-    "space-before-function-paren" : ["error", "never"]
+    "space-before-function-paren" : ["error", "never"],
+    "no-console"                  : "warn"
   }
 }
