@@ -12,6 +12,7 @@ H1.propTypes = {
 
 H1 = styled(H1)`
   text-align: ${p => p.center ? 'center' : p.right ? 'right' : 'left'}
+  color: ${p => p.green ? '#149739' : p.grey ? '#737373' : p.subtle ? '#bbb' : '#484848'}
 `
 
 export default H1

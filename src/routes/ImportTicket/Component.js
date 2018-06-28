@@ -1,53 +1,46 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-// import { Link } from 'react-router'
+import { Link } from 'react-router'
 
-import { Wrapper } from 'components/blocks'
-import { Loading, Error, Image, ProgressBar, Text, Icon } from 'components/elements'
-import LoginForm from 'components/forms/Login'
-import SignupForm from 'components/forms/Signup'
+import { Wrapper, Error } from 'components/blocks'
+import { Loading, Image, ProgressBar, Text, Icon } from 'components/elements'
 
 import Welcome from './Components/Welcome'
-import Onboarding from './Components/Onboarding'
 import BarcodeInput from './Components/BarcodeInput'
 import BarcodeSuccess from './Components/BarcodeSuccess'
-import Success from './Components/Success'
-import TicketCard from './Components/TicketCard'
+import ConfirmActivate from './Components/ConfirmActivate'
 
-const ImportTicket = ({ event, error, loading, step, goToStep, ticket }) =>
+const ImportTicket = ({ event, error, loading, step, goToStep, ticket, user, activateTicket, barcode }) =>
     (loading) ? <Loading />
-    : (error) ? <Error error={error} />
-    : <Wrapper fullScreen flexColumn centered>
-      <ProgressBar style={{ marginBottom: '1rem' }} progress={step / 4} />
-        <Wrapper centered flexColumn className='col-md-8 col-lg-8'>
+    : (error && step === 1) ? <Error error={error} />
+    : <Wrapper fullScreen flexColumn alignCenter>
+      <ProgressBar style={{ marginBottom: '1rem' }} progress={(step === 2) ? '5' : (step === 3) ? '50' : (step === 4) ? '90' : '0'} />
+        <Wrapper alignCenter flexColumn className='col-md-8 col-lg-8'>
           <Image src={require('assets/tt-logo-grn.svg')} style={{ flex: 0 }} />
-          {(ticket) && <TicketCard event={event} ticket={ticket} />}
-          <Wrapper centered flexColumn style={{ flex: 4 }} className='col-md-10'>
-            {(step === 'welcome') && <Welcome event={event} nextStep={() => goToStep('onboarding')} />}
-            {(step === 'onboarding') && <Onboarding event={event} nextStep={() => goToStep('barcode_input')} />}
-            {(step === 'barcode_input') && <BarcodeInput event={event} nextStep={() => goToStep('barcode_success')} />}
-            {(step === 'barcode_success') && <BarcodeSuccess event={event} nextStep={goToStep} ticket={ticket} />}
-            {(step === 'login') && <LoginForm event={event} afterLogin={() => goToStep('success')} />}
-            {(step === 'signup') && <SignupForm event={event} afterSignup={() => goToStep('success')} />}
-            {(step === 'success') && <Success event={event} />}
+          <Wrapper alignCenter paddingHeightLarge flexColumn style={{ flex: 4 }} className='col-md-10 col-lg-7'>
+            {(step === 1) && <Welcome event={event} nextStep={() => goToStep(step + 1)} />}
+            {(step === 2) && <BarcodeInput event={event} nextStep={() => goToStep(step + 1)} />}
+            {(step === 3) && <BarcodeSuccess event={event} nextStep={goToStep} ticket={ticket} user={user} step={step} />}
+            {(step === 4) && <ConfirmActivate event={event} user={user} ticket={ticket} error={error} activateTicket={() => activateTicket({ urlSafe: event.urlSafe, barcode, email: user.email })} />}
           </Wrapper>
             {/* eslint-disable max-len */}
-            {/* {(step === 'welcome') && <Link to={`/event/${event.urlSafe}`}><Icon name='fa-arrow-left' /> Go back to {event.name}</Link>} */}
-            {(step === 'onboarding') && <Wrapper paddingFull fontMed style={{ flex: 0 }}><Text green cursorPointer onClick={() => goToStep('welcome')}><Icon name='fa-arrow-left' /> Go back to {event.name}</Text></Wrapper>}
-            {(step === 'barcode_input') && <Wrapper paddingFull fontMed style={{ flex: 0 }}><Text onClick={() => goToStep('onboarding')}><Icon name='fa-arrow-left' /> Go back to {event.name}</Text></Wrapper>}
-            {(step === 'login') &&<Wrapper paddingFull fontMed style={{ flex: 0 }}> <Text onClick={() => goToStep('onboarding')}><Icon name='fa-arrow-left' /> Go back to {event.name}</Text></Wrapper>}
-            {(step === 'signup') && <Wrapper paddingFull fontMed style={{ flex: 0 }}><Text onClick={() => goToStep('onboarding')}><Icon name='fa-arrow-left' /> Go back to {event.name}</Text></Wrapper>}
+            {(step === 1) && <Link to={`/event/${event.urlSafe}`}><Icon name='fa-arrow-left' /> Go back to {event.name}</Link>}
+            {(step === 2) && <Wrapper paddingFull fontMed style={{ flex: 0 }}><Text onClick={() => goToStep(step-1)}><Icon name='fa-arrow-left' /> Go back to {event.name}</Text></Wrapper>}
+            {(step === 3) &&<Wrapper paddingFull fontMed style={{ flex: 0 }}> <Text onClick={() => goToStep(step-1)}><Icon name='fa-arrow-left' /> Go back to {event.name}</Text></Wrapper>}
             {/* eslint-enable max-len */}
           </Wrapper>
       </Wrapper>
 
 ImportTicket.propTypes = {
   event: PropTypes.object.isRequired,
+  activateTicket: PropTypes.func.isRequired,
+  step: PropTypes.number.isRequired,
+  goToStep: PropTypes.func.isRequired,
   error: PropTypes.bool,
   loading: PropTypes.bool,
-  goToStep: PropTypes.func,
-  step: PropTypes.string,
-  ticket: PropTypes.object
+  ticket: PropTypes.object,
+  user: PropTypes.object,
+  barcode: PropTypes.string
 }
 
 export default ImportTicket

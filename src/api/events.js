@@ -30,6 +30,20 @@ class EventsApi {
       withCredentials: true
     })
   }
+
+  async activateTicket(urlSafe, barcode, email) {
+    console.log('activatTicket: ', urlSafe, barcode, email);
+    return axios({
+      url: `${SHAKEDOWN_URL}/${urlSafe}/activate`, //eslint-disable-line no-undef
+      method: 'post',
+      data: {
+        barcode,
+        email
+      },
+      json: true,
+      withCredentials: true
+    })
+  }
 }
 
 export default new EventsApi()

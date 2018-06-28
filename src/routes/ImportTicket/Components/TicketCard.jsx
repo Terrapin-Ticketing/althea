@@ -11,7 +11,6 @@ const TicketCard = ({ event, ticket }) =>
 			<Card.Text>
 				<H2 center>{event.name}</H2>
 				<Date date={event.date} format={'dddd MMMM Do, YYYY'} />
-				<VenueInfo venue={event.venue} />
 				<Text>{ticket.type}</Text>
 			</Card.Text>
 			<Card.Actions>

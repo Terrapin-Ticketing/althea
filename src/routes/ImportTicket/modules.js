@@ -4,11 +4,27 @@ import * as actions from 'actions'
 const SET_CURRENT_EVENT = 'SET_CURRENT_EVENT'
 const GO_TO_STEP = 'GO_TO_STEP'
 const VALIDATE_TICKET_SUCCESS = 'VALIDATE_TICKET_SUCCESS'
+const VALIDATE_TICKET_REQUEST = 'VALIDATE_TICKET_REQUEST'
+const ACTIVATE_TICKET_REQUEST = 'ACTIVATE_TICKET_REQUEST'
+const ACTIVATE_TICKET_SUCCESS = 'ACTIVATE_TICKET_SUCCESS'
+const ACTIVATE_TICKET_FAILURE = 'ACTIVATE_TICKET_FAILURE'
 
 export function getEventInfo(urlSafe) {
   return async (dispatch) => {
     let { data: { events } } = await EventsApi.getEventByUrlSafe(urlSafe)
     dispatch(actions.setCurrentEvent(events[0]))
+  }
+}
+
+export function activateTicket({ urlSafe, barcode, email }) {
+  return async (dispatch) => {
+    try {
+      dispatch(actions.activateTicketRequest())
+      let { data: { ticket } } = await EventsApi.activateTicket(urlSafe, barcode, email)
+      dispatch(actions.activateTicketSuccess(ticket))
+    } catch(e) {
+      dispatch(actions.activateTicketFailure(e.response.data))
+    }
   }
 }
 
@@ -26,7 +42,7 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       currentEvent: action.payload,
-      loading: false
+      isLoading: false
     }
   },
   [GO_TO_STEP]: (state, action) => {
@@ -41,14 +57,44 @@ const ACTION_HANDLERS = {
       ticket: action.payload.ticket
     }
   },
+  [VALIDATE_TICKET_REQUEST]: (state, action) => {
+    return {
+      ...state,
+      barcode: action.payload.barcode
+    }
+  },
+  [ACTIVATE_TICKET_REQUEST]: (state, action) => {
+    return {
+      ...state,
+      barcode: action.payload.barcode,
+      isLoading: true,
+      error: null
+    }
+  },
+  [ACTIVATE_TICKET_SUCCESS]: (state, action) => {
+    return {
+      ...state,
+      ticket: action.payload.ticket,
+      error: null,
+      isLoading: false
+    }
+  },
+  [ACTIVATE_TICKET_FAILURE]: (state, action) => {
+    return {
+      ...state,
+      error: action.payload.error,
+      isLoading: false
+    }
+  }
 }
 
 const initialState = {
-  loading: true,
+  isLoading: true,
   error: false,
-  step: 'welcome',
+  step: 1,
   currentEvent: {},
-  ticket: null
+  ticket: null,
+  barcode: null
 }
 
 export default function eventReducer(state = initialState, action) {

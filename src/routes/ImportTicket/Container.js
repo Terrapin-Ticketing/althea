@@ -11,7 +11,7 @@ class ImportTicketContainer extends Component {
   }
 
   componentWillUnmount() {
-    this.props.goToStep('welcome')
+    // this.props.goToStep('welcome')
   }
 
   render() {
@@ -23,6 +23,9 @@ class ImportTicketContainer extends Component {
       afterLogin={this.afterLogin}
       goToStep={this.props.goToStep}
       ticket={this.props.ticket}
+      barcode={this.props.barcode}
+      user={this.props.user}
+      activateTicket={this.props.activateTicket}
     />
   }
 }
@@ -33,9 +36,12 @@ ImportTicketContainer.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.bool,
   params: PropTypes.object,
-  step: PropTypes.string.isRequired,
+  step: PropTypes.number.isRequired,
   goToStep: PropTypes.func.isRequired,
-  ticket: PropTypes.object
+  ticket: PropTypes.object,
+  barcode: PropTypes.string,
+  user: PropTypes.object,
+  activateTicket: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = {
@@ -46,7 +52,10 @@ const mapStateToProps = (state) => {
   return {
     event: state.importTicket.currentEvent,
     step: state.importTicket.step,
-    ticket: state.importTicket.ticket
+    ticket: state.importTicket.ticket,
+    barcode: state.importTicket.barcode,
+    error: state.importTicket.error,
+    user: state.auth.user
   }
 }
 

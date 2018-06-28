@@ -38,6 +38,10 @@ Wrapper = styled(Wrapper)`
     padding-top: 25px;
     padding-bottom: 25px;
    `}
+  ${p => p.paddingHeightLarge && css`
+    padding-top: 50px;
+    padding-bottom: 50px;
+  `}
   ${p => p.paddingWidth && css`
     padding-left: 25px;
     padding-right: 25px;
@@ -55,6 +59,9 @@ Wrapper = styled(Wrapper)`
     align-items: center;
     justify-content: center;
    `}
+  ${p => p.alignCenter && css`
+    align-items: center;
+  `}
   ${p => p.borderRadius && css`
     border-radius: 4px;
   `}

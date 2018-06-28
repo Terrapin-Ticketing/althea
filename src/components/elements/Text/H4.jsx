@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 let H4 = ({ className, style, children }) => <h4 className={className} style={style}>{children}</h4>
 
@@ -12,9 +12,7 @@ H4.propTypes = {
 
 H4 = styled(H4)`
   text-align: ${p => p.center ? 'center' : p.right ? 'right' : 'left'}
-  ${p => p.textGray && css`
-    color: rgb(115, 115, 115);
-   `}
+  color: ${p => p.green ? '#149739' : p.grey ? '#737373' : p.subtle ? '#bbb' : '#484848'}
 `
 
 export default H4
