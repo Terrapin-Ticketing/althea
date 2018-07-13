@@ -1,3 +1,4 @@
+/* eslint-disable */
 import axios from 'axios'
 import cookie from 'cookie'
 import jwt from 'jsonwebtoken'
@@ -19,6 +20,7 @@ function setCookie(name, value, days) {
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
     expires = '; expires=' + date.toUTCString()
   }
+  let test = name + '=' + (value || '') + expires + '; path=/';
   document.cookie = name + '=' + (value || '') + expires + '; path=/'
 }
 
@@ -101,7 +103,7 @@ const ACTION_HANDLERS = {
       ...state,
       user: null
     }
-  },
+  }
 }
 
 // ------------------------------------

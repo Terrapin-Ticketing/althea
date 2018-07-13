@@ -3,11 +3,13 @@ let ifaces = os.networkInterfaces()
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
 
-let ipAddress = getIpAddress()[0].address
+// let ipAddress = getIpAddress()[0].address
 
 // Local DEFAULTS
-let SHAKEDOWN_URL = JSON.stringify(`http://${ipAddress}:8080`)
-let ALTHEA_URL = JSON.stringify(`http://${ipAddress}:3000`)
+// let SHAKEDOWN_URL = JSON.stringify(`http://${ipAddress}:8080`)
+// let ALTHEA_URL = JSON.stringify(`http://${ipAddress}:3000`)
+let SHAKEDOWN_URL = JSON.stringify(`http://localhost:8080`)
+let ALTHEA_URL = JSON.stringify(`http://localhost:3000`)
 
 let STRIPE_PUBLIC_KEY = JSON.stringify('pk_test_GvYM7xVYxIO8vE41geXObIYD')
 

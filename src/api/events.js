@@ -32,7 +32,6 @@ class EventsApi {
   }
 
   async activateTicket(urlSafe, barcode, email) {
-    console.log('activatTicket: ', urlSafe, barcode, email);
     return axios({
       url: `${SHAKEDOWN_URL}/${urlSafe}/activate`, //eslint-disable-line no-undef
       method: 'post',

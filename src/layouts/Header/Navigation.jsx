@@ -39,22 +39,23 @@ const NavToggleCheckbox = styled.input.attrs({
   }
 `
 
-const NavigationMenu = ({ user }) =>
+const NavigationMenu = ({ user, logout }) =>
   <NavContainer>
     <NavToggleCheckbox />
     <NavToggle />
     <Navigation>
       <NavItem href='/events' label='Events' />
-      {(user) && <NavItem href='/my-tickets' label='My Tickets' />}
+      {(user) && <NavItem href='/wallet' label='Wallet' />}
       <NavItem href='help' label='Help' />
       {(!user) && <NavItem href='/login' label='Log In' />}
       {(!user) && <NavItem href='/signup' label='Sign Up' />}
-      {(user) && <NavItem onClick={() => logout()} label='Logout' />}
+      {(user) && <NavItem onClick={logout} label='Logout' />}
     </Navigation>
   </NavContainer>
 
 NavigationMenu.propTypes = {
-  user: PropTypes.object
+  user: PropTypes.object,
+  logout: PropTypes.func
 }
 
 export default NavigationMenu

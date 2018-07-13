@@ -9,7 +9,7 @@ let ProgressBar = ({ progress, style }) =>
   </div>
 
 ProgressBar.propTypes = {
-  progress: PropTypes.number,
+  progress: PropTypes.string,
   style: PropTypes.object
 }
 

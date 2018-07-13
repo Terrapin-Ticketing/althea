@@ -6,6 +6,7 @@ import SignupRoute from './Signup'
 import EventsRoute from './Events'
 import EventRoute from './Event'
 import ImportTicketRoute from './ImportTicket'
+import Wallet from './Wallet'
 
 export const createRoutes = (store) => ({
   path        : '/',
@@ -17,6 +18,7 @@ export const createRoutes = (store) => ({
     EventsRoute(store),
     EventRoute(store),
     ImportTicketRoute(store),
+    Wallet(store),
   ]
 })
 

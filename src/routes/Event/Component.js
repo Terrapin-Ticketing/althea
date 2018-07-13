@@ -10,10 +10,10 @@ const Event = ({ event, error, loading }) =>
     : (error) ? <Error error={error} />
     : <Container column marginTop marginBottom borderFull>
       <Wrapper className='row'>
-        <Wrapper paddingNone className='col-md-8 col-sm-12'>
+        <Wrapper paddingNone className='col-md-6 col-sm-12'>
           <img className='img-fluid' src={event.imageUrl} />
         </Wrapper>
-        <Wrapper paddingFull className='col-md-4 col-sm-12'>
+        <Wrapper paddingFull className='col-md-6 col-sm-12'>
           <H2>{event.name}</H2>
           <H4><Date date={event.date} format='dddd MMMM Do, YYYY' /></H4>
         </Wrapper>

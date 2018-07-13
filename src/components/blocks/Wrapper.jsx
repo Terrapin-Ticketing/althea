@@ -11,6 +11,10 @@ Wrapper.propTypes = {
 }
 
 Wrapper = styled(Wrapper)`
+${p => p.flexBox && css`
+    flex: 1;
+    display: flex;
+   `}
   ${p => p.flexColumn && css`
     flex: 1;
     display: flex;
@@ -30,6 +34,9 @@ Wrapper = styled(Wrapper)`
   `}
   ${p => p.paddingFull && css`
     padding: 25px;
+  `}
+  ${p => p.paddingFullSmall && css`
+    padding: 5px;
   `}
   ${p => p.paddingNone && css`
     padding: 0;

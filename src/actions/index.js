@@ -38,10 +38,11 @@ export const activateTicketRequest= () => {
   }
 }
 
-export const activateTicketSuccess = () => {
+export const activateTicketSuccess = (ticket) => {
   return {
     type: 'ACTIVATE_TICKET_SUCCESS',
     payload: {
+      ticket: ticket,
       loading: true,
       error: null
     }
@@ -51,6 +52,37 @@ export const activateTicketSuccess = () => {
 export const activateTicketFailure = (err) => {
   return {
     type: 'ACTIVATE_TICKET_FAILURE',
+    payload: {
+      loading: true,
+      error: err
+    }
+  }
+}
+
+export const getUserTicketsRequest= () => {
+  return {
+    type: 'GET_USER_TICKETS_REQUEST',
+    payload: {
+      loading: true,
+      error: null
+    }
+  }
+}
+
+export const getUserTicketsSuccess = (tickets) => {
+  return {
+    type: 'GET_USER_TICKETS_SUCCESS',
+    payload: {
+      tickets: tickets,
+      loading: true,
+      error: null
+    }
+  }
+}
+
+export const getUserTicketsFailure = (err) => {
+  return {
+    type: 'GET_USER_TICKETS_FAILURE',
     payload: {
       loading: true,
       error: err

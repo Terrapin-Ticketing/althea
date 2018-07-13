@@ -11,13 +11,14 @@ const NavItemContainer = styled.li`
 
 const NavItem = (props) => (
   <NavItemContainer>
-    <Link to={props.href}>{props.label}</Link>
+    <Link onClick={props.onClick ? () => props.onClick() : null} to={props.href}>{props.label}</Link>
   </NavItemContainer>
 )
 
 NavItem.propTypes = {
   href: PropTypes.string,
-  label: PropTypes.string
+  label: PropTypes.string,
+  onClick: PropTypes.func
 }
 
 export default NavItem

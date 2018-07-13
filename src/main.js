@@ -11,9 +11,6 @@ const store = createStore(window.__INITIAL_STATE__)
 
 // decrypt jwt if cookie is set
 const { cookieToken } = cookie.parse(document.cookie)
-
-console.log('cookieToken: ', cookieToken);
-
 if (cookieToken) {
   store.dispatch(setUserFromToken(cookieToken))
 }

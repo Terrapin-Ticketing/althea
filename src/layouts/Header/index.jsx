@@ -51,11 +51,13 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return function logout(dispatch) {
-    return dispatch({
-      type: 'LOGOUT'
-    })
-  }
+  return {
+    logout: () => {
+      return dispatch({
+        type: 'LOGOUT'
+      })
+    }
+  } 
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)
