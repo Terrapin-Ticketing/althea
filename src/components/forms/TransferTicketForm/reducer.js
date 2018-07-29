@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const transferTicket = (ticket, transferToUser) => {
   return async (dispatch, getState) => {
-    await axios({
+    const transferRes = await axios({
       url: `${SHAKEDOWN_URL}/tickets/${ticket._id}/transfer`,
       method: 'post',
       data: {
@@ -10,6 +10,9 @@ export const transferTicket = (ticket, transferToUser) => {
       },
       withCredentials: true
     });
+
+    const errorMessage = transferRes.data && transferRes.data.error
+    if (errorMessage) alert(errorMessage)
 
     let { tickets } = (await axios({
       url: `${SHAKEDOWN_URL}/tickets?ownerId=${getState().auth.user._id}`,
