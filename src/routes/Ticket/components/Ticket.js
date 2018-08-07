@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
-import QRCode from 'qrcode.react'
+import QRCode from 'qrcode.react';
 
 import Loading from '../../../components/shared/Loading';
 import Price from '../../../components/shared/Price';
@@ -8,7 +8,7 @@ import Price from '../../../components/shared/Price';
 import ShareModal from '../../../components/shared/ShareModal';
 import TransferTicketModal from '../../../components/shared/TransferTicketModal';
 import SellTicketModal from '../../../components/shared/SellTicketModal';
-
+import LoginForm from '../../../components/forms/LoginForm';
 import Order from '../../../components/shared/Checkout/Order';
 import Payment from '../../../components/shared/Checkout/Payment';
 
@@ -105,8 +105,9 @@ class Ticket extends Component {
     if (!ticket.isForSale && !isOwner) {
       return (
         <div className="card">
-          <div className="card-content" style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', alignSelf: 'center'}}>
-            The ticket you are attempting to view is not for sale.
+          <div className="card-content" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignContent: 'center', alignSelf: 'center'}}>
+            You are attempting to view a ticket that is not for sale. If you are the owner of this ticket, login below to view it.
+            <LoginForm />
           </div>
         </div>
       );

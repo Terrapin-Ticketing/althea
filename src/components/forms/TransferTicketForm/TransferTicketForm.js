@@ -12,13 +12,17 @@ const validate = values => {
   if (!values.email) {
     errors.email = 'Required';
   }
+  if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email addresss';
+  }
   return errors;
 };
 
-const RenderInput = ({ input, meta, label, id }) =>
+const RenderInput = ({ input, meta: {error, touched}, label, id }) =>
   <div className="input-field">
     <label style={{ pointerEvents: 'none' }} htmlFor={id}>{label}</label>
     <input {...input} type='text' className="validate" />
+    {touched && error && <span style={{color: '#c33'}}>{error}</span>}
   </div>;
 
 const onSubmit = async (transferTicket, afterTransfer, ticket, transferToUser) => {
