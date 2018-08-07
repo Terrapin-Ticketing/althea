@@ -19,7 +19,7 @@ class BarcodeSuccess extends Component {
     return (
       <Wrapper textCenter style={{ width: '100%' }}>
         <Wrapper marginTop>
-          <H4 subtle>Step 2</H4>
+          <H4 subtle>Activate Ticket</H4>
           {(this.state.step === 'signup') && <H1>Create an account</H1>}
           {(this.state.step === 'login') && <H1>Log in</H1>}
         </Wrapper>

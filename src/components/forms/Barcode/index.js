@@ -5,14 +5,15 @@ import { reduxForm, Field, SubmissionError } from 'redux-form'
 import { connect } from 'react-redux'
 
 import { FormWrapper, TextInput } from 'components/elements/form'
-import { Button, Loading } from 'components/elements'
-import { Alert } from 'components/blocks'
+import { Button, Loading, Text } from 'components/elements'
+import { Alert, Wrapper } from 'components/blocks'
 
 let BarcodeForm = ({ handleSubmit, submitting, event, afterValidation, validateTicket, error }) => {
-  return (<FormWrapper onSubmit={handleSubmit((values) => validateTicket(event.urlSafe, values, afterValidation))}>
+  return (<FormWrapper onSubmit={handleSubmit((values) => validateTicket(event.urlSafe, values.barcode, afterValidation))}>
     {error && <Alert danger>{error}</Alert>}
     <Field name='barcode' label='Barcode' component={TextInput} />
     {(!submitting) && <Button type='submit' className='btn-primary' disabled={submitting}>Continue</Button>}
+    {(submitting) && <Wrapper paddingFull><Text subtle small center>Hang tight, looking up ticket...</Text></Wrapper>}
     {(submitting) && <Loading />}
   </FormWrapper>)
 }

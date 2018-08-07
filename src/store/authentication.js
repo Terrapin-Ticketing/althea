@@ -72,6 +72,12 @@ export const setPassword = (passwordToken, password) => {
   }
 }
 
+export const logout = () => {
+  return (dispatch) => { 
+    dispatch({type: LOGOUT, payload: {}})
+  }
+}
+
 const ACTION_HANDLERS = {
   [AUTH__SET_IS_LOADING]: (state, action) => {
     return {

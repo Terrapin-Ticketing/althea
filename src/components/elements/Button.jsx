@@ -13,11 +13,22 @@ Button.propTypes = {
 
 Button = styled(Button)`
    cursor: pointer;
+   margin-bottom: 12px;
+   
    ${p => p.primary && css`
      color: #fff;
      background-color: #149739;
      border-color: #149739;
    `}
+   ${p => p.primaryOutline && css`
+    color: #28a745;
+    background-color: transparent;
+    background-image: none;
+    border-color: #28a745;
+   `}
+   ${p => p.subtleOutline && css`
+   border-color: #c4c4c4;;
+  `}
    ${p => p.block && css`
      width: 100%;
      display: block;
@@ -25,6 +36,10 @@ Button = styled(Button)`
    ${p => p.marginTop && css`
      margin-top: 15px;
    `}
+
+   @media (min-width: 768px) {
+     margin-bottom: 0px;
+   }
 `
 
 export default Button

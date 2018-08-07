@@ -5,14 +5,14 @@ import { Wrapper } from 'components/blocks'
 import { H2, H5, Button, Image } from 'components/elements'
 
 const Welcome = ({ event, nextStep }) =>
-  <Wrapper textCenter flexColumn>
-      <Wrapper flexBox>
+  <Wrapper flexBox textCenter flexColumn centered>
+      <Wrapper centered className='col-xs-12 col-sm-9 col-md-6'>
         <Image src={event.imageUrl} style={{ width: '100%', maxHeight: '100%' }} />
       </Wrapper>
-      <Wrapper flexColumn paddingFullSmall>
+      <Wrapper flexColumn spaceAround paddingFull>
         <H2 center>{event.name}</H2>
         <H5 textGray center>Official Ticket Transfer and Resale Marketplace</H5>
-        <Button  className='btn-primary btn-lg' action={nextStep}>Get Started</Button>
+        <Button block className='btn-primary btn-lg' action={nextStep}>Get Started</Button>
       </Wrapper>
   </Wrapper>
 

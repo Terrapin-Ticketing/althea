@@ -7,7 +7,7 @@ import { H2 } from 'components/elements'
 import SignupForm from 'components/forms/Signup'
 
 const SignupComponent = ({ afterSignup }) =>
-  <Wrapper centered fullScreen flexColumn>
+  <Wrapper centered fullScreen flexColumn flexBox textCenter>
     <Wrapper className='col-md-5'>
       <H2 center>Sign up for Terrapin</H2>
       <Wrapper borderFull borderRadius boxShadow paddingFull marginFull>

@@ -1,4 +1,5 @@
-export { default as Card } from './Card'
 export { default as Container } from './Container.jsx'
 export { default as Wrapper } from './Wrapper.jsx'
 export { default as Alert } from './Alert.jsx'
+export { default as TicketCard } from './TicketCard.jsx'
+export { default as EventCard } from './EventCard.jsx'

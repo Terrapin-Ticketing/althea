@@ -16,14 +16,16 @@ ${p => p.flexBox && css`
     display: flex;
    `}
   ${p => p.flexColumn && css`
-    flex: 1;
-    display: flex;
     flex-direction: column;
    `}
   ${p => p.flexRow && css`
-    flex: 1;
-    display: flex;
     flex-direction: row;
+  `}
+  ${p => p.spaceAround && css`
+    justify-content: space-around;
+  `}
+  ${p => p.spaceBetween && css`
+    justify-content: space-between;
   `}
   ${p => p.fullScreen && css`
     min-height: 0;
@@ -33,25 +35,25 @@ ${p => p.flexBox && css`
     text-align: center;
   `}
   ${p => p.paddingFull && css`
-    padding: 25px;
+    padding: 1rem;
   `}
   ${p => p.paddingFullSmall && css`
-    padding: 5px;
+    padding: .25rem;
   `}
   ${p => p.paddingNone && css`
     padding: 0;
   `}
   ${p => p.paddingHeight && css`
-    padding-top: 25px;
-    padding-bottom: 25px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
    `}
   ${p => p.paddingHeightLarge && css`
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
   `}
   ${p => p.paddingWidth && css`
-    padding-left: 25px;
-    padding-right: 25px;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   `}
   ${p => p.marginTop && css`
     margin-top: 25px;

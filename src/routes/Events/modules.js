@@ -34,7 +34,7 @@ export function getEvents() {
       let { data: { events } } = await EventsApi.getEvents()
       dispatch(setEvents(events))
     } catch (e) {
-      dispatch(setFailure(e.response.data))
+      dispatch(setFailure(e))
     }
   }
 }

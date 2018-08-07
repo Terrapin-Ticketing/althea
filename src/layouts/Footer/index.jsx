@@ -41,7 +41,7 @@ const FooterText = styled.div`
 
 const Footer = (props) => {
   let activePage = props.location.pathname.split('/').pop()
-  return (['import', 'login', 'signup'].indexOf(activePage) === -1) && (
+  return (['import', 'login', 'signup', 'transfer'].indexOf(activePage) === -1) && (
     <FooterContainer>
       <FooterText>
         Copyright 2018 © Terrapin Ticketing, LLC

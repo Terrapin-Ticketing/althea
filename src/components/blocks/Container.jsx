@@ -14,6 +14,9 @@ const Container = Wrapper.extend.attrs({
    ${p => p.wrap && css`
     flex-wrap: wrap;
    `}
+   ${p => p.paddingTop && css`
+    padding-top: 25px;
+   `}
 `
 
 export default Container

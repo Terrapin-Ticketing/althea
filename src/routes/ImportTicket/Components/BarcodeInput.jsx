@@ -9,7 +9,7 @@ import { H1, H4 } from 'components/elements'
 const BarcodeInput = ({ event, nextStep }) =>
   <Wrapper textCenter>
     <Wrapper>
-      <H4 subtle>Step 1</H4>
+      <H4 subtle>Activate Ticket</H4>
       <H1>Input your barcode</H1>
       <BarcodeForm event={event} afterValidation={nextStep} />
     </Wrapper>

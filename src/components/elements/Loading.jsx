@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const LoadingContainer = styled.div`
@@ -15,9 +16,15 @@ const LoadingImage = styled.img`
   width: 250;
 `
 
-const Loader = () =>
+const Loader = ({ color }) =>
   <LoadingContainer>
-    <LoadingImage src={require('assets/spinner-green.svg')} />
+    {color === 'white' ? <LoadingImage src={require('assets/spinner-white.svg')} />
+    : <LoadingImage src={require('assets/spinner-green.svg')} />}
   </LoadingContainer>
+
+Loader.propTypes = {
+  color: PropTypes.string
+}
+
 
 export default Loader

@@ -19,7 +19,7 @@ export function getEventInfo(urlSafe) {
 export function activateTicket({ urlSafe, barcode, email }) {
   return async (dispatch) => {
     try {
-      dispatch(actions.activateTicketRequest())
+      dispatch(actions.activateTicketRequest(barcode))
       let { data: { ticket } } = await EventsApi.activateTicket(urlSafe, barcode, email)
       dispatch(actions.activateTicketSuccess(ticket))
     } catch(e) {
@@ -48,7 +48,8 @@ const ACTION_HANDLERS = {
   [GO_TO_STEP]: (state, action) => {
     return {
       ...state,
-      step: action.payload
+      step: action.payload,
+      error: null
     }
   },
   [VALIDATE_TICKET_SUCCESS]: (state, action) => {
@@ -67,7 +68,7 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       barcode: action.payload.barcode,
-      isLoading: true,
+      activateTicketLoading: true,
       error: null
     }
   },
@@ -76,14 +77,15 @@ const ACTION_HANDLERS = {
       ...state,
       ticket: action.payload.ticket,
       error: null,
-      isLoading: false
+      activateTicketLoading: false,
+      step: 5
     }
   },
   [ACTIVATE_TICKET_FAILURE]: (state, action) => {
     return {
       ...state,
       error: action.payload.error,
-      isLoading: false
+      activateTicketLoading: false
     }
   }
 }
@@ -94,7 +96,8 @@ const initialState = {
   step: 1,
   currentEvent: {},
   ticket: null,
-  barcode: null
+  barcode: null,
+  activateTicketLoading: false
 }
 
 export default function eventReducer(state = initialState, action) {

@@ -1,13 +1,17 @@
 // Events
-export const setEvents = (events) => ({
-  type: 'SET_EVENTS',
-  payload: events
-})
+export const setEvents = (events) => {
+  return {
+    type: 'SET_EVENTS',
+    payload: events
+  }
+}
 
-export const setCurrentEvent = (event) => ({
-  type: 'SET_CURRENT_EVENT',
-  payload: event
-})
+export const setCurrentEvent = (event) => {
+  return {
+    type: 'SET_CURRENT_EVENT',
+    payload: event
+  }
+}
 
 // Tickets
 export const validateTicketRequest = (barcode) => {
@@ -28,10 +32,11 @@ export const validateTicketSuccess = (ticket) => {
   }
 }
 
-export const activateTicketRequest= () => {
+export const activateTicketRequest= (barcode) => {
   return {
     type: 'ACTIVATE_TICKET_REQUEST',
     payload: {
+      barcode: barcode,
       loading: true,
       error: null
     }

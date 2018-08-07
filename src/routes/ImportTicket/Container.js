@@ -18,6 +18,7 @@ class ImportTicketContainer extends Component {
     return <ImportTicket
       event={this.props.event}
       loading={this.props.loading}
+      activateTicketLoading={this.props.activateTicketLoading}
       error={this.props.error}
       step={this.props.step}
       afterLogin={this.afterLogin}
@@ -26,6 +27,7 @@ class ImportTicketContainer extends Component {
       barcode={this.props.barcode}
       user={this.props.user}
       activateTicket={this.props.activateTicket}
+      logout={this.props.logout}
     />
   }
 }
@@ -41,11 +43,14 @@ ImportTicketContainer.propTypes = {
   ticket: PropTypes.object,
   barcode: PropTypes.string,
   user: PropTypes.object,
-  activateTicket: PropTypes.func.isRequired
+  activateTicket: PropTypes.func.isRequired,
+  activateTicketLoading: PropTypes.bool,
+  logout: PropTypes.func
 }
 
 const mapDispatchToProps = {
-  ...require('./modules')
+  ...require('./modules'),
+  ...require('store/authentication')
 }
 
 const mapStateToProps = (state) => {
@@ -55,6 +60,8 @@ const mapStateToProps = (state) => {
     ticket: state.importTicket.ticket,
     barcode: state.importTicket.barcode,
     error: state.importTicket.error,
+    loading: state.importTicket.isLoading,
+    activateTicketLoading: state.importTicket.activateTicketLoading,
     user: state.auth.user
   }
 }

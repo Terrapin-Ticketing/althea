@@ -9,12 +9,9 @@ export function getUserTickets(_id) {
   return async (dispatch) => {
     try {
       dispatch(actions.getUserTicketsRequest())
-      console.log('id: ', _id)
       let { data: { tickets } } = await TicketsApi.getTicketsByUserId(_id)
       dispatch(actions.getUserTicketsSuccess(tickets))
     } catch(e) {
-      console.log('e: ', e.response.message)
-      console.log('eeeee: ', e.response.data)
       dispatch(actions.getUserTicketsFailure(e.response.data))
     }
   }
@@ -24,7 +21,7 @@ const ACTION_HANDLERS = {
   [GET_USER_TICKETS_REQUEST]: (state) => {
     return {
       ...state,
-      loading: false,
+      loading: true,
       error: null
     }
   },

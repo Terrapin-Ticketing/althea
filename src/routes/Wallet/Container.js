@@ -6,7 +6,6 @@ import Wallet from './Component'
 
 class WalletContainer extends Component {
   async componentDidMount() {
-    console.log('this.props: ', this.props)
     await this.props.getUserTickets(this.props.user._id)
     document.title = 'Wallet - Terrapin Ticketing'
   }

@@ -12,6 +12,8 @@ Image.propTypes = {
 
 Image = styled(Image).attrs({
   className: 'img-fluid'
-})``
+})`
+width: ${p => p.fullWidth ? '100%' : 'auto'}
+`
 
 export default Image

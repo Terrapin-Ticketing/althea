@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
+import { logout } from 'store/authentication'
 
 import Logo from './Logo'
 import Navigation from './Navigation'
@@ -50,14 +51,14 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logout: () => {
-      return dispatch({
-        type: 'LOGOUT'
-      })
-    }
-  } 
-}
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     logout: () => {
+//       return dispatch({
+//         type: 'LOGOUT'
+//       })
+//     }
+//   } 
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default connect(mapStateToProps, { logout })(Header)
