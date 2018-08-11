@@ -43,7 +43,7 @@ class SetPassword extends Component {
           <div className="card login-card">
             <div className="card-content">
               <div className="card-title">Almost there...</div>
-              <div className="card-subtitle">Please enter a password to view your ticket.</div>
+              <div className="card-subtitle">We created an account to manage your tickets. Please create a password to access your account.</div>
               <form className='col s12 login-form' onSubmit={this.handleSubmit}>
                 <div className="input-field col s6">
                   <label htmlFor="password">Password</label>

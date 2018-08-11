@@ -29,6 +29,10 @@ class USDPayment extends React.Component {
       let lastName = (user && user.lastName) || this.state.lastName;
 
       try {
+        // validate email
+        if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+          throw 'Invalid email address';
+        }
         // Within the context of `Elements`, this call to createToken knows which Element to
         // tokenize, since there's only one in this group.
         let { token, error } = await this.props.stripe.createToken({ type: 'card', email, firstName, lastName});
@@ -42,14 +46,17 @@ class USDPayment extends React.Component {
         await buyTicketsStripe(token, order[0]._id, transferToUser);
         if (this.props.error) return this.setState({ error: this.props.error });
       } catch (err) {
+        console.log('catches error: ', err);
         this.setState({error: err});
       }
     };
   }
 
   renderError() {
-    if (this.props.error) return (<span style={{
-      backgroundColor: '#f2dede', borderColor: '#ebcccc', color: '#a94442', padding: '.75rem 1.25rem', marginBottom: '1rem', border: '1px solid transparent', borderRadius: '.25rem'}}>{this.props.error}</span>);
+    if (this.state.error || this.props.error) {
+      return (<span style={{
+        backgroundColor: '#f2dede', borderColor: '#ebcccc', color: '#a94442', padding: '.75rem 1.25rem', marginBottom: '1rem', border: '1px solid transparent', borderRadius: '.25rem'}}>{this.state.error || this.props.error}</span>);
+    }
   }
 
   render() {
