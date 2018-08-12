@@ -13,7 +13,7 @@ const Wallet = ({ ticket, error, loading }) =>
         <H4>View and manage your concert tickets</H4>
         <Wrapper>
           <Wrapper flexBox flexColumn>
-            <TicketCard ticket={ticket} event={ticket.eventId} />
+            <TicketCard ticket={ticket} event={ticket.eventId} showActions={true} />
           </Wrapper>
         </Wrapper>
       </Wrapper>

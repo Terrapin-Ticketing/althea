@@ -6,6 +6,7 @@ const FormWrapper = styled.form`
   justify-content: center;
   align-content: center;
   width: 100%;
+  text-align: left;
 `
 
 export default FormWrapper

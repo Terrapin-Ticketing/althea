@@ -4,7 +4,7 @@ import { reduxForm, Field } from 'redux-form'
 import { connect } from 'react-redux'
 
 import { FormWrapper, TextInput, PasswordInput } from 'components/elements/form'
-import { Button } from 'components/elements'
+import { Button, Loading } from 'components/elements'
 import { Alert } from 'components/blocks'
 
 let LoginForm = ({ handleSubmit, login, submitting, afterLogin, error }) => {
@@ -13,7 +13,8 @@ let LoginForm = ({ handleSubmit, login, submitting, afterLogin, error }) => {
       {error && <Alert danger>{error}</Alert>}
       <Field name='email' label='Email' component={TextInput} />
       <Field name='password' label='Password' component={PasswordInput}/>
-      <Button type='submit' className='btn-primary' disabled={submitting}>Login</Button>
+      {!submitting && <Button type='submit' className='btn-primary' disabled={submitting}>Login</Button>}
+      {(submitting) && <Loading />}
     </FormWrapper>
   )
 }
@@ -23,7 +24,7 @@ LoginForm.propTypes = {
   login: PropTypes.func.isRequired,
   afterLogin: PropTypes.func.isRequired,
   submitting: PropTypes.bool,
-  error: PropTypes.object
+  error: PropTypes.string
 }
 
 const mapStateToProps = (state) => {

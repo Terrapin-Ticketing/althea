@@ -21,6 +21,11 @@ ${p => p.flexBox && css`
   ${p => p.flexRow && css`
     flex-direction: row;
   `}
+  ${p => p.flexRowLarge && css`
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
+  `}
   ${p => p.spaceAround && css`
     justify-content: space-around;
   `}
@@ -94,6 +99,9 @@ ${p => p.flexBox && css`
   `}
   ${p => p.fontMed && css`
     font-size: 80%;
+  `}
+  ${p => p.fullWidth && css`
+    width: 100%;
   `}
 `
 

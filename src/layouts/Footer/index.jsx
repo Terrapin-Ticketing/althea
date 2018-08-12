@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import SocialIcon from './social-icon'
 
 const FooterContainer = styled.footer`
+  background: #ffffff;
   border-top: 1px solid #e4e4e4;
   padding: 15px;
   display: flex;

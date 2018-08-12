@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { browserHistory } from 'react-router'
 
 import NavItem from './NavItem'
 import NavToggle, { NavIcon, MenuIcon } from './NavToggle'
@@ -49,7 +50,7 @@ const NavigationMenu = ({ user, logout }) =>
       <NavItem href='help' label='Help' />
       {(!user) && <NavItem href='/login' label='Log In' />}
       {(!user) && <NavItem href='/signup' label='Sign Up' />}
-      {(user) && <NavItem onClick={logout} label='Logout' />}
+      {(user) && <NavItem onClick={() => { logout(); browserHistory.push('/login');}} label='Logout' />}
     </Navigation>
   </NavContainer>
 

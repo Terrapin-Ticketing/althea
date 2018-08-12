@@ -9,6 +9,7 @@ const CardWrapper = styled.div.attrs({
   className: 'col-lg-4 col-md-4 col-xs-12'
   })`
   display: flex;
+  background: #ffffff;
   flex-wrap: wrap;
   border: 1px solid #e4e4e4;
   font-family: Montserrat,sans-serif;
@@ -16,7 +17,6 @@ const CardWrapper = styled.div.attrs({
   margin: 15px 15px;
   padding: 0;
   max-height: 60vh;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
   flex-direction: ${p => p.flexRow ? 'row' : 'column'};
   @media screen and (min-width: 40em) {
     flex-direction: column;

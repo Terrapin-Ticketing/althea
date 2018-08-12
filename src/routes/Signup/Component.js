@@ -14,7 +14,7 @@ const SignupComponent = ({ afterSignup }) =>
         <SignupForm afterSignup={afterSignup} />
       </Wrapper>
       <Wrapper centered>
-        <Link to='/login'><small>Already have an account? Click here to login.</small></Link>
+        <small>Already have an account? <Link to='/login'>Login</Link></small>
       </Wrapper>
     </Wrapper>
   </Wrapper>

@@ -4,6 +4,7 @@ const GET_TICKET_REQUEST = 'GET_TICKET_REQUEST'
 const GET_TICKET_SUCCESS = 'GET_TICKET_SUCCESS'
 const GET_TICKET_FAILURE = 'GET_TICKET_FAILURE'
 const TRANSFER_TICKET_SUCCESS = 'TRANSFER_TICKET_SUCCESS'
+const RESET_TRANSFER_TICKET_STATE = 'RESET_TRANSFER_TICKET_STATE'
 
 export function getTicket(_id) {
   return async (dispatch) => {
@@ -14,6 +15,12 @@ export function getTicket(_id) {
     } catch(e) {
       dispatch(getTicketFailure(e))
     }
+  }
+}
+
+export function resetState() {
+  return (dispatch) => {
+    dispatch(resetTransferTicketState(initialState))
   }
 }
 
@@ -32,12 +39,19 @@ const getTicketSuccess = (ticket) => {
   }
 }
 
-const getTicketFailure= (error) => {
+const getTicketFailure = (error) => {
   return {
     type: GET_TICKET_FAILURE,
     payload: {
       error: error
     }
+  }
+}
+
+const resetTransferTicketState = (initialState) => {
+  return {
+    type: RESET_TRANSFER_TICKET_STATE,
+    payload: initialState
   }
 }
 
@@ -68,14 +82,22 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       ticket: action.payload.ticket,
+      transferSuccess: true,
       loading: false,
-      error: action.payload.error
+      error: null
+    }
+  },
+  [RESET_TRANSFER_TICKET_STATE]: (state, action) => {
+    return {
+      ...state,
+      ...action.payload
     }
   }
 }
 
 const initialState = {
   ticket: null,
+  transferSuccess: false,
   error: null,
   loading: true
 }

@@ -14,7 +14,8 @@ const LoginComponent = ({ afterLogin }) =>
         <LoginForm afterLogin={afterLogin} />
       </Wrapper>
       <Wrapper centered>
-        <Link to='/signup'><small>Don't have an account yet? Click here to sign up.</small></Link> {/* eslint react/no-unescaped-entities: 0 max-len: 0 */}
+        <Link to='/forgot-password'>Forgot Password?</Link><br /> {/* eslint react/no-unescaped-entities: 0 max-len: 0 */}
+        <small>Don't have an account? <Link to='/signup'>Sign Up.</Link></small> {/* eslint react/no-unescaped-entities: 0 max-len: 0 */}
       </Wrapper>
     </Wrapper>
   </Wrapper>

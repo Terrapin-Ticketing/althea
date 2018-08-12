@@ -8,9 +8,9 @@ import { H1, H2, Button, VenueInfo, Date, Loading, Error } from 'components/elem
 const Events = ({ events, error, loading }) =>
   (loading) ? <Loading />
   : (error) ? <Error error={error} />
-  : <Container column paddingTop>
+  : <Container column paddingTop bgOffWhite>
       <H1>Events Live Now</H1>
-      <Container row wrap>
+      <Container row wrap bgOffWhite>
         {events.map((event, index) =>
           <EventCard key={event._id} event={event} />)}
       </Container>

@@ -22,7 +22,7 @@ EventContainer.propTypes = {
   event: PropTypes.object.isRequired,
   getEventInfo: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-  error: PropTypes.bool,
+  error: PropTypes.string,
   params: PropTypes.object
 }
 

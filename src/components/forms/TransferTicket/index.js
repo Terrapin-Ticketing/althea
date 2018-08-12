@@ -10,9 +10,9 @@ import { Alert, Wrapper } from 'components/blocks'
 let TransferTicketForm = ({ handleSubmit, transferTicket, submitting, error, ticket }) =>
     <FormWrapper onSubmit={handleSubmit((values) => transferTicket(values, ticket))}>
       {error && <Alert danger>{error}</Alert>}
-      <Field name='firstName' label='First Name' component={TextInput} />
-      <Field name='lastName' label='Last Name' component={TextInput} />
-      <Field name='email' label='Email' component={TextInput} />
+      <Field name='firstName' label='First Name' component={TextInput} disabled={submitting} />
+      <Field name='lastName' label='Last Name' component={TextInput} disabled={submitting} />
+      <Field name='email' label='Email' component={TextInput} disabled={submitting} />
       {(!submitting) && <Button type='submit' className='btn-primary' disabled={submitting}>Transfer Ticket</Button>}
       {(submitting) && <Wrapper paddingFull><Text subtle small center>Hang tight, transfering ticket...</Text></Wrapper>}
       {(submitting) && <Loading />}

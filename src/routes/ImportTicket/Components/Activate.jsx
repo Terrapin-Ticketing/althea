@@ -9,7 +9,7 @@ const ConfirmActivation = ({ activateTicket, user, ticket, event, error, loading
     <H4 subtle>Activate Ticket</H4>
     <H1>Add ticket to wallet</H1>
     <Wrapper paddingFull>
-      <TicketCard event={event} ticket={ticket} />
+      <TicketCard event={event} ticket={ticket} showActions={false} />
     </Wrapper>
     <Wrapper paddingFull>
       {(error) && <Alert danger>{error}</Alert>}

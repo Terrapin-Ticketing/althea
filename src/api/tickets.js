@@ -43,6 +43,20 @@ class TicketsApi {
       withCredentials: true
     })
   }
+
+  async sellTicket(price, ticketForSale) {
+    console.log('sellticket axios', price, ticketForSale);
+    return axios({
+      url: `${SHAKEDOWN_URL}/tickets/${ticketForSale._id}`, //eslint-disable-line no-undef
+      method: 'put',
+      data: {
+        price,
+        isForSale: true
+      },
+      json: true,
+      withCredentials: true
+    })
+  }
 }
 
 export default new TicketsApi()

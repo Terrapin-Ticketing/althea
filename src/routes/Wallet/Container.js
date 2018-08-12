@@ -24,7 +24,7 @@ WalletContainer.propTypes = {
   user: PropTypes.object,
   getUserTickets: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-  error: PropTypes.bool
+  error: PropTypes.string
 }
 
 const mapDispatchToProps = {

@@ -13,7 +13,7 @@ let BarcodeForm = ({ handleSubmit, submitting, event, afterValidation, validateT
     {error && <Alert danger>{error}</Alert>}
     <Field name='barcode' label='Barcode' component={TextInput} />
     {(!submitting) && <Button type='submit' className='btn-primary' disabled={submitting}>Continue</Button>}
-    {(submitting) && <Wrapper paddingFull><Text subtle small center>Hang tight, looking up ticket...</Text></Wrapper>}
+    {(submitting) && <Wrapper paddingFull textCenter><Text subtle small center>Hang tight, looking up ticket...</Text></Wrapper>}
     {(submitting) && <Loading />}
   </FormWrapper>)
 }

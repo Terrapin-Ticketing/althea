@@ -42,7 +42,7 @@ ImportTicket.propTypes = {
   activateTicket: PropTypes.func.isRequired,
   step: PropTypes.number.isRequired,
   goToStep: PropTypes.func.isRequired,
-  error: PropTypes.bool,
+  error: PropTypes.string,
   loading: PropTypes.bool,
   ticket: PropTypes.object,
   user: PropTypes.object,

@@ -5,6 +5,9 @@ const Container = Wrapper.extend.attrs({
   className: 'container'
 })`
   display: flex;
+  ${p => p.bgOffWhite && css`
+    background: #f9f9f9;
+   `}
   ${p => p.column && css`
     flex-direction: column;
    `}

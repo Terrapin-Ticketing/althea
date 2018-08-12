@@ -8,7 +8,7 @@ import { H2, H4, Button, VenueInfo, Date, Loading, Error } from 'components/elem
 const Event = ({ event, error, loading }) =>
     (loading) ? <Loading />
     : (error) ? <Error error={error} />
-    : <Container column marginTop marginBottom borderFull>
+    : <Container column marginTop marginBottom borderFull bgWhite>
       <Wrapper className='row'>
         <Wrapper paddingNone className='col-md-6 col-sm-12'>
           <img className='img-fluid' src={event.imageUrl} />
@@ -52,7 +52,7 @@ const Event = ({ event, error, loading }) =>
 
 Event.propTypes = {
   event: PropTypes.object.isRequired,
-  error: PropTypes.bool,
+  error: PropTypes.string,
   loading: PropTypes.bool
 }
 

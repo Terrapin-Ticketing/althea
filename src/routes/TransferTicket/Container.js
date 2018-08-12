@@ -10,10 +10,15 @@ class TransferTicketContainer extends Component {
     document.title = `Transfer ${this.props.ticket.eventId.name} Ticket - Terrapin Ticketing`
   }
 
+  componentWillUnmount() {
+    this.props.resetState();
+  }
+
   render() {
     return <TransferTicket
       user={this.props.user}
       ticket={this.props.ticket}
+      transferSuccess={this.props.transferSuccess}
       loading={this.props.loading}
       error={this.props.error} />
   }
@@ -21,9 +26,11 @@ class TransferTicketContainer extends Component {
 
 TransferTicketContainer.propTypes = {
   ticket: PropTypes.object,
-  user: PropTypes.object,
+  transferSuccess: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired,
   params: PropTypes.object,
   getTicket: PropTypes.func.isRequired,
+  resetState: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   error: PropTypes.string
 }
@@ -36,8 +43,9 @@ const mapStateToProps = (state) => {
   return {
     ticket: state.transferTicket.ticket,
     user: state.auth.user,
+    transferSuccess: state.transferTicket.transferSuccess,
     error: state.transferTicket.error,
-    loading: state.transferTicket.loading,
+    loading: state.transferTicket.loading
   }
 }
 
