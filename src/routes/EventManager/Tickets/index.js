@@ -1,12 +1,7 @@
-import { injectReducer } from '../../store/reducers';
-import Transactions from './Transactions';
-import Transfers from './Transfers';
-import Payments from './Payments';
-import Stats from './Stats';
-import Tickets from './Tickets';
+import { injectReducer } from '../../../store/reducers';
 
 export default (store, wrappers = []) => ({
-  path: 'event/:urlSafe/manage',
+  path: 'tickets',
   /*  Async getComponent is only invoked when route matches   */
   getComponent(nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -14,26 +9,19 @@ export default (store, wrappers = []) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const EventManager = require('./containers/EventManagerContainer').default;
-      const reducer = require('./modules/eventManager').default;
+      const Tickets = require('./Tickets').default;
+      const reducer = require('./reducer').default;
 
       /*  Add the reducer to the store on key 'login'  */
-      injectReducer(store, { key: 'eventManager', reducer });
+      injectReducer(store, { key: 'tickets', reducer });
 
       // wrap component in any higher order components pass to it
-      let wrapped = EventManager;
+      let wrapped = Tickets;
       wrappers.forEach((wrapper) => wrapped = wrapper(wrapped));
       /*  Return getComponent   */
       cb(null, wrapped);
 
     /* Webpack named bundle   */
-    }, 'event');
-  },
-  childRoutes: [
-    Transactions(store, [ ]),
-    Transfers(store, [ ]),
-    Payments(store, [ ]),
-    Stats(store, [ ]),
-    Tickets(store, [ ])
-  ]
+    }, 'tickets');
+  }
 });

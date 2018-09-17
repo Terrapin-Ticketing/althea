@@ -18,6 +18,7 @@ export const Sidebar = (props) => {
           <span className='nav-item'><Link to={`/event/${event.urlSafe}/manage/transactions`} className='nav-item' activeClassName='page-layout__nav-item--active'>Transactions</Link></span>
           <span className='nav-item'><Link to={`/event/${event.urlSafe}/manage/transfers`} className='nav-item' activeClassName='page-layout__nav-item--active'>Transfers</Link></span>
           <span className='nav-item'><Link to={`/event/${event.urlSafe}/manage/payments`} className='nav-item' activeClassName='page-layout__nav-item--active'>Payments</Link></span>
+          <span className='nav-item'><Link to={`/event/${event.urlSafe}/manage/tickets`} className='nav-item' activeClassName='page-layout__nav-item--active'>Tickets</Link></span>
           <span className='nav-item'><Link className='nav-item'>Settings</Link></span>
         </div>
       </div>
