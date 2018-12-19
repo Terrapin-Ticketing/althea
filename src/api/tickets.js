@@ -44,14 +44,59 @@ class TicketsApi {
     })
   }
 
+  async buyTicket(ticket, token, transferToUser, reserveToken) {
+    console.log('ticket, token, transferToUser, reserveToken: ', ticket, token, transferToUser, reserveToken)
+    return axios({
+      url: `${SHAKEDOWN_URL}/payment/${ticket._id}`, //eslint-disable-line no-undef
+      method: 'post',
+      data: {
+        token,
+        transferToUser,
+        reserveToken
+      },
+      json: true,
+      withCredentials: true
+    })
+  }
+
+  async reserveTicket(ticketId) {
+    return axios({
+      url: `${SHAKEDOWN_URL}/tickets/${ticketId}/reserve`, //eslint-disable-line no-undef
+      method: 'get',
+      json: true,
+      withCredentials: true
+    })
+  }
+
+  async unreserveTicket(ticketId, reserveToken) {
+    return axios({
+      url: `${SHAKEDOWN_URL}/tickets/${ticketId}/reserve?reserveToken=${reserveToken}`, //eslint-disable-line no-undef
+      method: 'delete',
+      json: true,
+      withCredentials: true
+    })
+  }
+
   async sellTicket(price, ticketForSale) {
-    console.log('sellticket axios', price, ticketForSale);
     return axios({
       url: `${SHAKEDOWN_URL}/tickets/${ticketForSale._id}`, //eslint-disable-line no-undef
       method: 'put',
       data: {
         price,
         isForSale: true
+      },
+      json: true,
+      withCredentials: true
+    })
+  }
+
+  async unsellTicket(ticketForSale) {
+    return axios({
+      url: `${SHAKEDOWN_URL}/tickets/${ticketForSale._id}`, //eslint-disable-line no-undef
+      method: 'put',
+      data: {
+        isForSale: false,
+        price: ticketForSale.price
       },
       json: true,
       withCredentials: true

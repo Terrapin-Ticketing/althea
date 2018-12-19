@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { browserHistory } from 'react-router'
 import { Wrapper } from 'components/blocks'
-import { Text, Image, H2, Button, VenueInfo } from 'components/elements'
+import { Text, Image, Button } from 'components/elements'
 
 const CardWrapper = styled.div.attrs({
   className: 'col-lg-4 col-md-4 col-xs-12'
@@ -40,8 +40,7 @@ const EventCard = ({ event }) =>
     <Wrapper flexBox flexColumn spaceBetween>
       <Wrapper paddingFull>
 				<Text center>
-            <H2>{event.name}</H2>
-            <VenueInfo venue={event.venue} />
+            <Text>{event.name}</Text>
         </Text>
       </Wrapper>
       <Actions>

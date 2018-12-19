@@ -32,8 +32,10 @@ export function getEvents() {
     dispatch(requestEvents())
     try {
       let { data: { events } } = await EventsApi.getEvents()
+      console.log('events: ', events);
       dispatch(setEvents(events))
     } catch (e) {
+      console.log('error: ', e.message);
       dispatch(setFailure(e))
     }
   }

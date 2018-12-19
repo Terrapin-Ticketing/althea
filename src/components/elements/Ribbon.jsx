@@ -52,7 +52,7 @@ const RibbonInnter = styled.span`
 let Ribbon = ({ children }) => <RibbonOuter><RibbonInnter>{children}</RibbonInnter></RibbonOuter>
 
 Ribbon.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.string,
 }
 
 

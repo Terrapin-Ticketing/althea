@@ -1,6 +1,7 @@
 import React from 'React'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
+import { getPadding, getMargin } from 'styles/spacing'
 
 let Wrapper = ({ className, children, style }) => <div className={className} style={style}>{children}</div>
 
@@ -11,7 +12,9 @@ Wrapper.propTypes = {
 }
 
 Wrapper = styled(Wrapper)`
-${p => p.flexBox && css`
+  padding: ${ p => getPadding(p)}
+  margin: ${ p => getMargin(p)}
+  ${p => p.flexBox && css`
     flex: 1;
     display: flex;
    `}
@@ -39,40 +42,14 @@ ${p => p.flexBox && css`
   ${p => p.textCenter && css`
     text-align: center;
   `}
-  ${p => p.paddingFull && css`
-    padding: 1rem;
-  `}
-  ${p => p.paddingFullSmall && css`
-    padding: .25rem;
-  `}
-  ${p => p.paddingNone && css`
-    padding: 0;
-  `}
-  ${p => p.paddingHeight && css`
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-   `}
-  ${p => p.paddingHeightLarge && css`
-    padding-top: 1.25rem;
-    padding-bottom: 1.25rem;
-  `}
-  ${p => p.paddingWidth && css`
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-  `}
-  ${p => p.marginTop && css`
-    margin-top: 25px;
-   `}
-  ${p => p.marginBottom && css`
-    margin-bottom: 25px;
-  `}
-  ${p => p.marginFull && css`
-    margin: 25px;
-  `}
   ${p => p.centered && css`
     align-items: center;
     justify-content: center;
    `}
+  ${p => p.selfCentered && css`
+   align-self: center;
+   justify-self: center;
+  `}
   ${p => p.alignCenter && css`
     align-items: center;
   `}
@@ -80,7 +57,7 @@ ${p => p.flexBox && css`
     border-radius: 4px;
   `}
   ${p => p.boxShadow && css`
-    box-shadow: 0 1px 46px -4px rgba(0,0,0,.28);
+    box-shadow: 0 1px 3px hsla(0, 0%, 0%, .2);
   `}
   ${p => p.borderFull && css`
     border: 1px solid #f0f1f2;
@@ -96,9 +73,6 @@ ${p => p.flexBox && css`
   `}
   ${p => p.borderLeft && css`
     border-left: 1px solid #f0f1f2;
-  `}
-  ${p => p.fontMed && css`
-    font-size: 80%;
   `}
   ${p => p.fullWidth && css`
     width: 100%;

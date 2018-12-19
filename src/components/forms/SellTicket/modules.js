@@ -7,13 +7,24 @@ export const sellTicket = (ticketForSale, { payoutMethod, payoutValue, price }) 
   return async (dispatch, getState) => {
     try {
       let { data: { ticket } } = await TicketApi.sellTicket(price, ticketForSale)
-      console.log('sellTicket ticket: ', ticket);
-      let { data: { token } } = await UserApi.updateUser(getState().auth.user._id, { payoutMethod, payoutValue })
-      console.log('sellTicket token: ', token);
+      let { data: { token } } = await UserApi.updateUser(getState().auth.user._id, { payout: { default: payoutMethod, [payoutMethod]: payoutValue } })
+      console.log('sellTicket: ', ticket)
+      dispatch(sellTicketSuccess(ticket))
       dispatch(authActions.setUserFromToken(token))
+    } catch(e) {
+      throw new SubmissionError({ _error: e.response.data })
+    }
+  }
+}
+
+export const unsellTicket = (ticketForSale) => {
+  return async (dispatch) => {
+    try {
+      console.log('ticketForSale: ', ticketForSale);
+      let { data: { ticket } } = await TicketApi.unsellTicket(ticketForSale)
+      console.log('unsellTicket: ', ticket)
       dispatch(sellTicketSuccess(ticket))
     } catch(e) {
-      console.log('e: ', e);
       throw new SubmissionError({ _error: e.response.data })
     }
   }

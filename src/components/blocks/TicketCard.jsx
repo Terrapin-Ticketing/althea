@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import moment from 'moment';
 import { browserHistory } from 'react-router'
 import { Wrapper } from 'components/blocks'
-import { Text, H2, H4, Button, Image, Ribbon } from 'components/elements'
+import { Text, H2, H4, Button, Image, Ribbon, Price } from 'components/elements'
 
 const CardWrapper = styled.div`
 	position: relative;
@@ -57,12 +57,20 @@ const TicketCard = ({ event, ticket, showActions, showBarcode, style }) =>
 			{ticket && ticket.eventId && <H4>{ticket.eventId.venue.name}</H4>}
 		</Text>
 	</Wrapper>
-	{(showActions) && (
+	{(showActions && !ticket.isForSale) && (
 		<Wrapper flexBox flexColumn spaceAround borderTop className='col-xs-12 col-md-4'>
 		<Button primary action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}`)}>View Barcode</Button>
         <Button subtleOutline action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}/transfer`)}>Transfer</Button>
         <Button subtleOutline action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}/sell`)}>Mark for Sale</Button>
       </Wrapper>
+	)}
+	{(ticket.isForSale && showActions) && (
+		<Wrapper flexBox flexColumn spaceAround borderTop textCenter className='col-xs-12 col-md-4'>
+			<Wrapper paddingHeight><H4 center>Price: <Price price={ticket.price} /></H4></Wrapper>
+			<Button primary action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}`)}>View Listing</Button>
+			<Button subtleOutline action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}/sell`)}>Edit Listing</Button>
+			{/* <Button subtleOutline action={() => null}>Remove Ticket as For Sale</Button> */}
+		</Wrapper>
 	)}
 	{showBarcode && (
 		<Wrapper flexBox centered borderTop className='col-xs-12 col-md-4'>

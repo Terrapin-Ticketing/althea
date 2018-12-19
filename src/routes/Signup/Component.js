@@ -3,18 +3,18 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
 import { Wrapper } from 'components/blocks'
-import { H2 } from 'components/elements'
+import { Text } from 'components/elements'
 import SignupForm from 'components/forms/Signup'
 
 const SignupComponent = ({ afterSignup }) =>
   <Wrapper centered fullScreen flexColumn flexBox textCenter>
-    <Wrapper className='col-md-5'>
-      <H2 center>Sign up for Terrapin</H2>
-      <Wrapper borderFull borderRadius boxShadow paddingFull marginFull>
+    <Wrapper style={{ width: 384 }}>
+      <Text gray600 fontSize6 fontWeight600 center>Sign up for Terrapin</Text>
+      <Wrapper borderFull borderRadius boxShadow padding5x5 margin5x0>
         <SignupForm afterSignup={afterSignup} />
       </Wrapper>
       <Wrapper centered>
-        <small>Already have an account? <Link to='/login'>Login</Link></small>
+      <Text gray500>Already have an account? <Link to='/login'>Login</Link></Text>
       </Wrapper>
     </Wrapper>
   </Wrapper>

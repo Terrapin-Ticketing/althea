@@ -12,7 +12,7 @@ let ForgotPasswordForm = ({ handleSubmit, forgotPassword, submitting, afterForgo
     <FormWrapper onSubmit={handleSubmit((values) => forgotPassword(values, afterForgotPassword))}>
       {error && <Alert danger>{error}</Alert>}
       <Field name='email' label='Email' component={TextInput} />
-      {!submitting && <Button type='submit' className='btn-primary' disabled={submitting}>Request new password</Button>}
+      {!submitting && <Button type='submit' primary padding3x3 disabled={submitting}>Request new password</Button>}
       {submitting && <Loading />}
     </FormWrapper>
   )

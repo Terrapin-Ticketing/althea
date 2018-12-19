@@ -1,28 +1,47 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Elements } from 'react-stripe-elements'
 
 import { Container, TicketCard, Wrapper } from 'components/blocks'
-import { H1, H4, Loading, Error } from 'components/elements'
+import { Text, Loading, Error } from 'components/elements'
 
-const Wallet = ({ ticket, error, loading }) =>
+import OrderDetails from './OrderDetails'
+import PaymentForm from 'components/forms/Payment'
+
+const Ticket = ({ ticket, reserveToken, error, loading }) =>
   (loading) ? <Loading />
   : (error) ? <Error error={error} />
   : <Container paddingTop>
       <Wrapper flexBox flexColumn>
-        <H1>My Ticket</H1>
-        <H4>View and manage your concert tickets</H4>
+        <Text fontSize7>{ticket.type}</Text>
+        <Text fontSize5>{ticket.eventId.name}</Text>
         <Wrapper>
           <Wrapper flexBox flexColumn>
-            <TicketCard ticket={ticket} event={ticket.eventId} showActions={true} />
+            <TicketCard ticket={ticket} event={ticket.eventId} showActions={false} showBarcode={!ticket.isForSale} />
+            {(ticket.isForSale) && (
+            <Wrapper paddingHeight flexBox className='row'>
+              <Wrapper className='col-xs-12 col-md-6'>
+                <Text fontSize5>Order Details</Text>
+                <OrderDetails ticket={ticket} />
+              </Wrapper>
+              <Wrapper className='col-xs-12 col-md-6'>
+                <Text fontSize5>Payment Information</Text>
+                <Elements>
+                  <PaymentForm ticket={ticket} reserveToken={reserveToken} />
+                </Elements>
+              </Wrapper>
+            </Wrapper>
+            )}
           </Wrapper>
         </Wrapper>
       </Wrapper>
     </Container>
 
-Wallet.propTypes = {
+Ticket.propTypes = {
   ticket: PropTypes.object,
+  reserveToken: PropTypes.string,
   error: PropTypes.string,
   loading: PropTypes.bool
 }
 
-export default Wallet
+export default Ticket

@@ -12,6 +12,7 @@ import TransferTicketRoute from './TransferTicket'
 import SellTicketRoute from './SellTicket'
 import ForgotPasswordRoute from './ForgotPassword'
 import ResetPasswordRoute from './ResetPassword'
+import DesignPalette from './DesignPalette'
 
 export const createRoutes = (store) => ({
   path        : '/',
@@ -28,7 +29,8 @@ export const createRoutes = (store) => ({
     TransferTicketRoute(store),
     SellTicketRoute(store),
     ForgotPasswordRoute(store),
-    ResetPasswordRoute(store)
+    ResetPasswordRoute(store),
+    DesignPalette(store)
   ]
 })
 

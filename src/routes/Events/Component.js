@@ -3,13 +3,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { EventCard, Container } from 'components/blocks'
-import { H1, H2, Button, VenueInfo, Date, Loading, Error } from 'components/elements'
+import { Text, Loading, Error } from 'components/elements'
 
 const Events = ({ events, error, loading }) =>
   (loading) ? <Loading />
   : (error) ? <Error error={error} />
   : <Container column paddingTop bgOffWhite>
-      <H1>Events Live Now</H1>
+      <Text>Events Live Now</Text>
       <Container row wrap bgOffWhite>
         {events.map((event, index) =>
           <EventCard key={event._id} event={event} />)}

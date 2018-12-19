@@ -1,7 +1,7 @@
 @import 'base';
 
 $terrapin-orange: #ffab40;
-$terrapin-green: #149739;
+$terrapin-green: hsl(139, 50%, 45%);
 
 $link-color: $terrapin-green;
 $blue: $terrapin-green;
@@ -31,8 +31,4 @@ body {
 
 h1, h2, h3, h4 {
   font-family: 'Montserrat', sans-serif;
-}
-
-a {
-  font-weight: 600;
 }
