@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Wrapper, Alert, TicketCard } from 'components/blocks'
-import { Text, Button, H4, H1, Loading } from 'components/elements'
+import { Text, Button, Loading } from 'components/elements'
 
 const ConfirmActivation = ({ activateTicket, user, ticket, event, error, loading }) =>
   <Wrapper textCenter flexBox flexColumn>
-    <H4 subtle>Activate Ticket</H4>
-    <H1>Add ticket to wallet</H1>
+    <Text subtle>Activate Ticket</Text>
+    <Text>Add ticket to wallet</Text>
     <Wrapper paddingFull>
       <TicketCard event={event} ticket={ticket} showActions={false} />
     </Wrapper>

@@ -6,7 +6,9 @@ $terrapin-green: hsl(139, 50%, 45%);
 $link-color: $terrapin-green;
 $blue: $terrapin-green;
 
-@import '~bootstrap/scss/bootstrap.scss';
+// @import '~bootstrap/scss/bootstrap.scss';
+
+@import 'bootstrap.css';
 
 // Some best-practice CSS that's useful for most apps
 // Just remove them if they're not what you want
@@ -23,12 +25,54 @@ body {
   color: #484848;
 }
 
+html,
+body * {
+  font-family: 'Open Sans', sans-serif;
+}
+
 *,
 *:before,
 *:after {
   box-sizing: inherit;
 }
 
-h1, h2, h3, h4 {
-  font-family: 'Montserrat', sans-serif;
+a, a:visited, a:hover, a:active {
+  color: inherit;
+}
+
+.grid-row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+.grid-item {
+  height: 550px;
+  flex-basis: 25%;
+  -ms-flex: auto;
+  // width: 259px;
+  position: relative;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+@media(max-width: 1333px) {
+  .grid-item {
+    flex-basis: 33.33%;
+  }
+}
+@media(max-width: 1073px) {
+   .grid-item {
+    flex-basis: 33.33%;
+  }
+}
+@media(max-width: 815px) {
+  .grid-item {
+    flex-basis: 50%;
+  }
+}
+@media(max-width: 555px) {
+  .grid-item {
+    flex-basis: 100%;
+  }
 }

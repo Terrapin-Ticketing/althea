@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { Wrapper } from 'components/blocks'
-import { Text, H4, H1 } from 'components/elements'
+import { Text } from 'components/elements'
 import SignupForm from 'components/forms/Signup'
 import LoginForm from 'components/forms/Login'
 
@@ -19,9 +19,9 @@ class BarcodeSuccess extends Component {
     return (
       <Wrapper textCenter style={{ width: '100%' }}>
         <Wrapper marginTop>
-          <H4 subtle>Activate Ticket</H4>
-          {(this.state.step === 'signup') && <H1>Create an account</H1>}
-          {(this.state.step === 'login') && <H1>Log in</H1>}
+          <Text subtle>Activate Ticket</Text>
+          {(this.state.step === 'signup') && <Text>Create an account</Text>}
+          {(this.state.step === 'login') && <Text>Log in</Text>}
         </Wrapper>
         <Wrapper paddingFull flexColumn>
           {(this.state.step === 'signup') && <SignupForm event={event} afterSignup={() => nextStep(step+1)} />}

@@ -16,6 +16,8 @@ export const spacing14 = '512px';
 export const spacing15 = '640px';
 export const spacing16 = '768px';
 
+export const spacing100 = '100%';
+
 export const getPadding = (p) => {
   return (
     p.padding0x0 ? `${spacing0} ${spacing0}` : 
@@ -636,6 +638,8 @@ export const getMargin = (p) => {
     p.margin16x15 ? `${spacing16} ${spacing15}` : 
     p.margin16x16 ? `${spacing16} ${spacing16}` :
 
+    p.marginAuto ? `0 auto` :
+
     `${spacing0} ${spacing0}` // default case, no spacing
   )
 }
@@ -659,6 +663,7 @@ export const getWidth= (p) => {
     p.width14 ? `${spacing14}` :
     p.width15 ? `${spacing15}` :
     p.width16 ? `${spacing16}` :
+    p.width100 ? `${spacing100}` :
     `undefined` // base case 
   );
 }

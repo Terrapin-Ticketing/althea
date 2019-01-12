@@ -1,7 +1,7 @@
 import React from 'React'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
-import { getPadding, getMargin } from 'styles/spacing'
+import { getPadding, getMargin, getWidth } from 'styles/spacing'
 
 let Wrapper = ({ className, children, style }) => <div className={className} style={style}>{children}</div>
 
@@ -14,8 +14,8 @@ Wrapper.propTypes = {
 Wrapper = styled(Wrapper)`
   padding: ${ p => getPadding(p)}
   margin: ${ p => getMargin(p)}
+  width: ${p => getWidth(p)}
   ${p => p.flexBox && css`
-    flex: 1;
     display: flex;
    `}
   ${p => p.flexColumn && css`

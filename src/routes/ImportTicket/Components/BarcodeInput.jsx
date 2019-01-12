@@ -4,13 +4,13 @@ import PropTypes from 'prop-types'
 import BarcodeForm from 'components/forms/Barcode'
 
 import { Wrapper } from 'components/blocks'
-import { H1, H4 } from 'components/elements'
+import { Text } from 'components/elements'
 
 const BarcodeInput = ({ event, nextStep }) =>
   <Wrapper textCenter>
     <Wrapper>
-      <H4 subtle>Activate Ticket</H4>
-      <H1>Input your barcode</H1>
+      <Text subtle>Activate Ticket</Text>
+      <Text>Input your barcode</Text>
       <BarcodeForm event={event} afterValidation={nextStep} />
     </Wrapper>
   </Wrapper>

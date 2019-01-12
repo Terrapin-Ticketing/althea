@@ -14,8 +14,8 @@ const LoginComponent = ({ afterLogin }) =>
         <LoginForm afterLogin={afterLogin} />
       </Wrapper>
       <Wrapper centered>
-        <Text fontSize2 fontWeight200><Link to='/forgot-password'>Forgot Password?</Link></Text><br /> {/* eslint react/no-unescaped-entities: 0 max-len: 0 */}
-        <Text gray500>Don't have an account? <Link to='/signup'>Sign Up.</Link></Text> {/* eslint react/no-unescaped-entities: 0 max-len: 0 */}
+        <Text base500 fontSize2 fontWeight200><Link to='/forgot-password'>Forgot Password?</Link></Text><br /> {/* eslint react/no-unescaped-entities: 0 max-len: 0 */}
+        <Text gray500>Don't have an account? <Text base500><Link to='/signup'>Sign Up.</Link></Text></Text> {/* eslint react/no-unescaped-entities: 0 max-len: 0 */}
       </Wrapper>
     </Wrapper>
   </Wrapper>

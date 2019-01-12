@@ -12,7 +12,7 @@ const ForgotPasswordComponent = () =>
       <Wrapper fullWidth borderFull borderRadius boxShadow padding5x5 margin5x0>
         <ForgotPasswordForm />
       </Wrapper>
-      <Text fontSize2><Link to='login'>Back to Login</Link></Text>
+      <Text base500 fontSize2 fontWeight200><Link to='login'>Back to Login</Link></Text>
     </Wrapper>
   </Wrapper>
 

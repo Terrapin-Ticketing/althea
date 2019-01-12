@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 
 import { getPadding, getMargin } from 'styles/spacing'
-import { base500 } from 'styles/colors'
+import { base500, red500, yellow500, gray500 } from 'styles/colors'
 
 let Button = ({ action, children, className, type, style }) =>
   <button 
@@ -22,48 +22,75 @@ Button.propTypes = {
 
 Button = styled(Button)`
    cursor: pointer;
-   margin-bottom: 12px;
    padding: ${ p => getPadding(p)}
    margin: ${ p => getMargin(p)}
    border-radius: 4px;
-   box-shadow: 0 1px 3px hsla(0, 0%, 0%, .2);
+   border: none;
    
-   ${p => p.primary && css`
+   ${p => p.primaryGreen && css`
      color: #fff;
      background-color: ${base500};
      border-color: ${base500};
+     box-shadow: 0 1px 3px hsla(0, 0%, 0%, .2);
    `}
-   ${p => p.primaryOutline && css`
-    color: #28a745;
+   ${p => p.secondaryGreen && css`
+    color: ${base500};
     background-color: transparent;
     background-image: none;
-    border-color: #28a745;
+    border-color: ${base500};
    `}
-   ${p => p.danger && css`
-    color: #fff;
-    background-color: #dc3545;
-    border-color: #dc3545;
+   ${p => p.tertiaryGreen && css`
+   color: ${base500};
+   background: transparent;
+ `}
+ ${p => p.primaryRed && css`
+     color: #fff;
+     background-color: ${red500};
+     border-color: ${red500};
+     box-shadow: 0 1px 3px hsla(0, 0%, 0%, .2);
    `}
-   ${p => p.dangerOutline && css`
-    color: #dc3545;
+   ${p => p.secondaryRed && css`
+    color: ${red500};
     background-color: transparent;
     background-image: none;
-    border-color: #dc3545;
+    border-color: ${red500};
    `}
-   ${p => p.subtleOutline && css`
-   border-color: #c4c4c4;;
-  `}
-   ${p => p.block && css`
-     width: 100%;
-     display: block;
+   ${p => p.tertiaryRed && css`
+   color: ${red500};
+   background: transparent;
+ `}
+ ${p => p.primaryGray && css`
+     color: #fff;
+     background-color: ${gray500};
+     border-color: ${gray500};
+     box-shadow: 0 1px 3px hsla(0, 0%, 0%, .2);
    `}
-   ${p => p.marginTop && css`
-     margin-top: 15px;
+   ${p => p.secondaryGray && css`
+    color: ${gray500};
+    background-color: transparent;
+    background-image: none;
+    border-color: ${gray500};
    `}
-
-   @media (min-width: 768px) {
-     margin-bottom: 0px;
-   }
+   ${p => p.tertiaryGray && css`
+   color: ${gray500};
+   background: transparent;
+ `}
+ ${p => p.primaryYellow && css`
+     color: #fff;
+     background-color: ${yellow500};
+     border-color: ${yellow500};
+     box-shadow: 0 1px 3px hsla(0, 0%, 0%, .2);
+   `}
+   ${p => p.secondaryYellow && css`
+    color: ${yellow500};
+    background-color: transparent;
+    background-image: none;
+    border-color: ${yellow500};
+   `}
+   ${p => p.tertiaryYellow && css`
+   color: ${yellow500};
+   background: transparent;
+ `}
 `
 
 export default Button

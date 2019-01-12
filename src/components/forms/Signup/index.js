@@ -13,7 +13,7 @@ let SignupForm = ({ handleSubmit, signup, submitting, afterSignup, error }) =>
       <Field name='email' label='Email' component={TextInput} />
       <Field name='password' label='Password' component={PasswordInput}/>
       <Field name='confirmPassword' label='Confirm Password' component={PasswordInput} />
-      {!submitting && <Button type='submit' primary padding3x3 disabled={submitting}>Signup</Button>}
+      {!submitting && <Button type='submit' primaryGreen padding3x3 disabled={submitting}>Signup</Button>}
       {submitting && <Loading />}
     </FormWrapper>
 

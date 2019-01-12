@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Wrapper, TicketCard } from 'components/blocks'
-import { H1, Button } from 'components/elements'
+import { Text, Button } from 'components/elements'
 
 const ActivateSuccess = ({ ticket, activateAnotherTicket }) =>
   <Wrapper textCenter flexBox flexColumn spaceAround>
     <Wrapper>
-      <H1 center>Congratulations!</H1>
+      <Text center>Congratulations!</Text>
     </Wrapper>
     <TicketCard event={ticket.event} ticket={ticket} showActions={true} />
     <Wrapper paddingFull>

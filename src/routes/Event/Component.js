@@ -3,48 +3,45 @@ import PropTypes from 'prop-types'
 import { browserHistory } from 'react-router'
 
 import { Wrapper, Container } from 'components/blocks'
-import { H2, H4, Button, VenueInfo, Date, Loading, Error } from 'components/elements'
+import { Text, Image, Button, Date, Loading, Error } from 'components/elements'
 
 const Event = ({ event, error, loading }) =>
     (loading) ? <Loading />
     : (error) ? <Error error={error} />
-    : <Container column marginTop marginBottom borderFull bgWhite>
-      <Wrapper className='row'>
-        <Wrapper paddingNone className='col-md-6 col-sm-12'>
-          <img className='img-fluid' src={event.imageUrl} />
+    : <Container column center>
+      <Wrapper flexBox margin7x0>
+        <Wrapper width100 style={{ flex: '1 50%' }}>
+          <Image fullWidth src={event.imageUrl} />
         </Wrapper>
-        <Wrapper paddingFull className='col-md-6 col-sm-12'>
-          <H2>{event.name}</H2>
-          <H4><Date date={event.date} format='dddd MMMM Do, YYYY' /></H4>
+        <Wrapper padding4x4 flexBox flexColumn style={{ flex: '1 45%' }}>
+          <Text fontSize6 gray700>{event.name}</Text>
+          <Text fontSize4 gray500><Date date={event.date} format='dddd MMMM Do, YYYY' /></Text>
         </Wrapper>
       </Wrapper>
-      <Wrapper borderFull className='row'>
-        <Wrapper className='col-md-8 hidden-sm-down' />
-        <Wrapper paddingFull className='col-md-4 col-sm-12'>
-          <Button block primary
+      <Wrapper>
+        <Wrapper width14 padding6x0 flexBox flexColumn>
+          <Button primaryGreen padding3x5
             action={() => browserHistory.push(`/event/${event.urlSafe}/import`)}>
               Import Ticket
           </Button>
-          <Button block marginTop
-            className='btn-outline-primary'
+          <Button tertiaryGray padding3x5
             action={() => browserHistory.push(`/event/${event.urlSafe}/availableTickets`)}>
               Available Tickets
           </Button>
         </Wrapper>
       </Wrapper>
-      <Wrapper row wrap className='row'>
-        <Wrapper paddingFull className='col-md-8'>
-          <H2>Description</H2>
+      <Wrapper>
+        <Wrapper>
+          <Text>Description</Text>
           <Wrapper dangerouslySetInnerHTML={{ __html: event.description }} />
         </Wrapper>
-        <Wrapper borderLeft column paddingFull className='col-md-4'>
-          <Wrapper paddingHeight>
-            <H4>Date</H4>
+        <Wrapper>
+          <Wrapper>
+            <Text>Date</Text>
             <Date date={event.date} format='dddd MMMM Do, YYYY' />
           </Wrapper>
-          <Wrapper paddingHeight>
-            <H4>Venue</H4>
-            <VenueInfo venue={event.venue} />
+          <Wrapper>
+            <Text>Venue</Text>
           </Wrapper>
         </Wrapper>
       </Wrapper>

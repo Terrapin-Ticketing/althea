@@ -65,7 +65,7 @@ const Text = styled.span`
     p => p.fontWeight700 ? '700' :
     p => p.fontWeight800 ? '800' :
     p => p.fontWeight900 ? '900' :
-    '12px' // should be obvious no size assigned
+    '500' // should be obvious no size assigned
   }
   margin-bottom: ${p => p.marginBottom ? '1rem' : '0rem'}
   @media (min-width: 48em) {

@@ -14,11 +14,13 @@ import ActivateSuccess from './Components/ActivateSuccess'
 const ImportTicket = ({ event, error, loading, step, goToStep, ticket, user, activateTicket, barcode, activateTicketLoading, logout }) =>
     (loading) ? <Loading />
     : (error && step === 1) ? <Error error={error} />
-    : <Wrapper flexBox fullScreen flexColumn alignCenter>
-      <ProgressBar style={{ marginBottom: '1rem' }} progress={(step === 2) ? '5' : (step === 3) ? '50' : (step === 4) ? '90' : (step === 5) ? '100' : '0'} />
-        <Wrapper flexBox alignCenter flexColumn paddingHeight className='col-md-8 col-lg-8'>
-          <Image src={require('assets/tt-logo-grn.svg')} paddingFull style={{ flex: 0, paddingBottom: 25 }} />
-          <Wrapper flexBox flexColumn spaceBetween textCenter className='col-md-12 col-lg-12'>
+    : <Wrapper>
+        <ProgressBar style={{ height: 24 }} progress={(step === 2) ? '5' : (step === 3) ? '50' : (step === 4) ? '90' : (step === 5) ? '100' : '0'} />
+        <Wrapper style={{ height: 640 }} centered fullScreen flexColumn flexBox textCenter>
+          <Wrapper flexBox style={{ height: 48 }}>
+            <Image src={require('assets/tt-logo-grn.svg')} />
+          </Wrapper>
+          <Wrapper flexBox flexColumn spaceBetween textCenter width15>
             <Wrapper alignCenter flexColumn flexBox>
               {(step === 1) && <Welcome key={step} event={event} nextStep={() => goToStep(step + 1)} />}
               {(step === 2) && <BarcodeInput key={step} event={event} nextStep={() => (user) ? goToStep(step + 2) : goToStep(step + 1)} />}

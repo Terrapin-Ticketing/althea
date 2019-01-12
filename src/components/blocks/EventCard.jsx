@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { browserHistory } from 'react-router'
+import moment from 'moment';
+
 import { Wrapper } from 'components/blocks'
 import { Text, Image, Button } from 'components/elements'
 
-const CardWrapper = styled.div.attrs({
-  className: 'col-lg-4 col-md-4 col-xs-12'
-  })`
+const CardWrapper = styled.div`
   display: flex;
   background: #ffffff;
   flex-wrap: wrap;
@@ -25,30 +25,32 @@ const CardWrapper = styled.div.attrs({
         flex-direction: column;
     }`
 
-const Actions = styled.div`
-  display: flex;
-  justify-content: space-around;
-	border-top: 1px solid #ced4da;
-	padding: 1rem;
-`
-
 const EventCard = ({ event }) =>
-  <CardWrapper>
-    <Wrapper flexBox>
-      <Image src={event.imageUrl} />
+  <Wrapper padding0x3 flexBox flexColumn className='grid-item'>
+    <Wrapper flexBox style={{ height: 256 }}>
+      <Image fullWidth src={event.imageUrl} />
     </Wrapper>
-    <Wrapper flexBox flexColumn spaceBetween>
-      <Wrapper paddingFull>
-				<Text center>
-            <Text>{event.name}</Text>
-        </Text>
+    <Wrapper flexBox flexColumn boxShadow>
+      <Wrapper padding6x2 flexBox flexRow>
+        <Wrapper width8 textCenter>
+          <Text red400 fontWeight700 fontSize5>{moment(event.startDate).format('MMM')}</Text><br />
+          <Text gray700 fontWeight700 fontSize5 style={{ lineHeight: 0.5 }}>{moment(event.startDate).format('D')}</Text>
+        </Wrapper>
+        <Wrapper flexBox flexColumn>
+        <Text gray700 fontWeight700 fontSize5>{event.name}</Text><br />
+        <Wrapper style={{ lineHeight: '20px' }}>
+          <Text gray400 fontSize3 fontWeight500 fontSize5>{moment(event.startDate).format('dddd, MMMM Do, h:mm A')} {event.timezone}</Text><br />
+          <Text gray400 fontSize1 fontWeight500 fontSize>{event.venue.name}</Text><br />
+          <Text gray400 fontSize1 fontWeight500 fontSize>{event.venue.address} {event.venue.city} {event.venue.state} {event.venue.zip}</Text><br />
+        </Wrapper>
+        </Wrapper>
       </Wrapper>
-      <Actions>
-        <Button action={() => browserHistory.push(`event/${event.urlSafe}`)}>More Info</Button>
-        <Button action={() => browserHistory.push(`event/${event.urlSafe}/import`)}>Activate Ticket</Button>
-      </Actions>
+      <Wrapper flexBox padding4x2 spaceAround style={{ alignItems: 'baseline', paddingTop: 0 }}>
+        <Button tertiaryGreen padding2x2 action={() => browserHistory.push(`event/${event.urlSafe}`)}>More Info</Button>
+        <Button primaryGreen padding3x4 action={() => browserHistory.push(`event/${event.urlSafe}/import`)}>Activate Ticket</Button>
+      </Wrapper>
     </Wrapper>
-  </CardWrapper>
+  </Wrapper>
 
   EventCard.propTypes = {
     event: PropTypes.object
