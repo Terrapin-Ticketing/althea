@@ -2,23 +2,90 @@ import React from 'React'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-let ProgressBar = ({ progress, style }) =>
-  <div className='progress' style={Object.assign({ width: '100%' }, style)}>
-    <div className='progress-bar' role='progressbar' style={{ width: `${progress}%` }} 
-    aria-valuenow={`${progress}`} aria-valuemin='0' aria-valuemax='100' />
-  </div>
+import { base500, gray200, gray300, gray400 } from 'styles/colors'
+import { spacing1, spacing8 } from 'styles/spacing'
 
-ProgressBar.propTypes = {
-  progress: PropTypes.string,
+let Progress = ({ progress }) =>
+  <ProgressWrapper>
+    <StepContainer>
+      <ProgressCircle done={progress > 1}>
+        <Label>1</Label>
+      </ProgressCircle>
+      <Title>Sign In</Title>
+    </StepContainer>
+
+    <ProgressBar />
+    
+    <StepContainer>
+      <ProgressCircle done={progress > 2}>
+        <Label>2</Label>
+      </ProgressCircle>
+      <Title>Import Ticket</Title>
+    </StepContainer>
+
+    <ProgressBar />
+
+    <StepContainer>
+      <ProgressCircle done={progress > 3}>
+        <Label>3</Label>
+      </ProgressCircle>
+      <Title>Listing Settings</Title>
+    </StepContainer>
+  </ProgressWrapper>
+
+const ProgressWrapper = styled.div`
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: ${spacing8}
+  align-items: center;
+  position: relative;
+`
+const StepContainer = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ProgressCircle = styled.div`
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 32px;
+  color: #b5b5ba;
+  font-size: 17px;
+  margin-bottom: ${spacing1}
+
+  color: ${({ done }) => { return done ? '#FFF' : gray400 }};
+  background: ${({ done }) => { return done ? base500 : '' }};
+  box-shadow: ${({ done }) => { return done ? 'inset 0 0 2px rgba(0,0,0,.2)' : 'inset 0 0 2px rgba(0,0,0,.2)'}};
+`;
+
+const Label = styled.span`
+
+`;
+
+const Title = styled.span`
+  color: ${gray400};
+`;
+
+
+const ProgressBar = styled.span`
+  flex: 1;
+  height: 2px;
+  background: ${gray200}
+  top: -11px;
+  position: relative;
+  margin: 0 -80px;
+`;
+
+
+Progress.propTypes = {
+  progress: PropTypes.number,
   style: PropTypes.object
 }
 
-ProgressBar = styled(ProgressBar)`
-   cursor: pointer;
-   height: 5px;
-   position: absolute;
-   top: 0px;
-   width: 100%;
-`
-
-export default ProgressBar
+export default Progress

@@ -3,7 +3,8 @@ import {
   base900, base800, base700, base600, base500, base400, base300, base200, base100,
   gray700, gray600, gray500, gray400, gray300, gray200, gray100,
   red700, red600, red500, red400, red300, red200, red100,
-  yellow700, yellow600, yellow500, yellow400, yellow300, yellow200, yellow100
+  yellow700, yellow600, yellow500, yellow400, yellow300, yellow200, yellow100,
+  white
 } from 'styles/colors'
 
 const Text = styled.span`
@@ -39,6 +40,7 @@ const Text = styled.span`
     p => p.yellow300 ? yellow300 :
     p => p.yellow200 ? yellow200 :
     p => p.yellow100 ? yellow100 :
+      p => p.white ? white :
     '#ff56f5' // pink to make it obvious
   }
   font-size: ${

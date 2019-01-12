@@ -12,8 +12,8 @@ let BarcodeForm = ({ handleSubmit, submitting, event, afterValidation, validateT
   return (<FormWrapper onSubmit={handleSubmit((values) => validateTicket(event.urlSafe, values.barcode, afterValidation))}>
     {error && <Alert danger>{error}</Alert>}
     <Field name='barcode' label='Barcode' component={TextInput} />
-    {(!submitting) && <Button type='submit' className='btn-primary' disabled={submitting}>Continue</Button>}
-    {(submitting) && <Wrapper paddingFull textCenter><Text subtle small center>Hang tight, looking up ticket...</Text></Wrapper>}
+    {(!submitting) && <Button type='submit' primaryGreen padding3x3 disabled={submitting}>Continue</Button>}
+    {(submitting) && <Wrapper paddingFull textCenter><Text gray300 fontSize4 center>Hang tight, looking up ticket...</Text></Wrapper>}
     {(submitting) && <Loading />}
   </FormWrapper>)
 }

@@ -13,7 +13,7 @@ let Button = ({ action, children, className, type, style }) =>
   onClick={action}>{children}</button>
 
 Button.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.any.isRequired,
   action: PropTypes.func,
   type: PropTypes.string,
   className: PropTypes.string,

@@ -31,3 +31,5 @@ export const yellow400 = 'hsl(41, 85%, 69%);';
 export const yellow300 = 'hsl(43, 88%, 81%);';
 export const yellow200 = 'hsl(44, 90%, 92%);';
 export const yellow100 = 'hsl(44, 100%, 98%);';
+
+export const white = '#fff';

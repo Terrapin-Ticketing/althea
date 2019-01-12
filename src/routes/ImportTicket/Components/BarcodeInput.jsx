@@ -6,14 +6,16 @@ import BarcodeForm from 'components/forms/Barcode'
 import { Wrapper } from 'components/blocks'
 import { Text } from 'components/elements'
 
+import { white } from 'styles/colors'
+import { spacing13 } from 'styles/spacing'
+
 const BarcodeInput = ({ event, nextStep }) =>
-  <Wrapper textCenter>
-    <Wrapper>
-      <Text subtle>Activate Ticket</Text>
-      <Text>Input your barcode</Text>
+  <Wrapper style={{ width: spacing13 }}>
+    <Text gray600 fontSize6 fontWeight600 center>Type in Ticket Barcode</Text>
+    <Wrapper fullWidth borderFull borderRadius boxShadow padding5x5 margin5x0 style={{ background: white }}>
       <BarcodeForm event={event} afterValidation={nextStep} />
     </Wrapper>
-  </Wrapper>
+    </Wrapper>
 
 BarcodeInput.propTypes = {
   event: PropTypes.object.isRequired,

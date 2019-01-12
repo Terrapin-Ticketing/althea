@@ -6,11 +6,13 @@ import { Wrapper } from 'components/blocks'
 import { Text } from 'components/elements'
 import LoginForm from 'components/forms/Login'
 
+import { white } from 'styles/colors'; 
+
 const LoginComponent = ({ afterLogin }) =>
   <Wrapper centered fullScreen flexColumn flexBox textCenter>
     <Wrapper style={{ width: 384 }}>
       <Text gray600 fontSize6 fontWeight600 center>Log in to Terrapin</Text>
-      <Wrapper fullWidth borderFull borderRadius boxShadow padding5x5 margin5x0>
+      <Wrapper fullWidth borderFull borderRadius boxShadow padding5x5 margin5x0 style={{ background: white }}>
         <LoginForm afterLogin={afterLogin} />
       </Wrapper>
       <Wrapper centered>

@@ -6,11 +6,13 @@ import { Wrapper } from 'components/blocks'
 import { Text } from 'components/elements'
 import SignupForm from 'components/forms/Signup'
 
+import { white } from 'styles/colors'
+
 const SignupComponent = ({ afterSignup }) =>
   <Wrapper centered fullScreen flexColumn flexBox textCenter>
     <Wrapper style={{ width: 384 }}>
       <Text gray600 fontSize6 fontWeight600 center>Sign up for Terrapin</Text>
-      <Wrapper borderFull borderRadius boxShadow padding5x5 margin5x0>
+      <Wrapper borderFull borderRadius boxShadow padding5x5 margin5x0 style={{ background: white }}>
         <SignupForm afterSignup={afterSignup} />
       </Wrapper>
       <Wrapper centered>
