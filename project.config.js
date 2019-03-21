@@ -5,15 +5,15 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 let ipAddress = getIpAddress()[0].address;
 
-// Local DEFAULTS
+// Local DEFAULT
 let SHAKEDOWN_URL = JSON.stringify(`http://${ipAddress}:8080`);
 let ALTHEA_URL = JSON.stringify(`http://${ipAddress}:3000`);
+console.log(`Listening on: ${ALTHEA_URL}`);
 
 let STRIPE_PUBLIC_KEY = JSON.stringify('pk_test_GvYM7xVYxIO8vE41geXObIYD');
 
 switch (NODE_ENV) {
   case 'demo': {
-    console.log(process.env.STRIPE_PK);
     SHAKEDOWN_URL = JSON.stringify('https://shakedown.terrapintickets.io');
     ALTHEA_URL = JSON.stringify('https://terrapintickets.io');
     STRIPE_PUBLIC_KEY = JSON.stringify(process.env.STRIPE_PK);
