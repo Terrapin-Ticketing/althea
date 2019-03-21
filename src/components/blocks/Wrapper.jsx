@@ -14,7 +14,7 @@ Wrapper.propTypes = {
 Wrapper = styled(Wrapper)`
   padding: ${ p => getPadding(p)}
   margin: ${ p => getMargin(p)}
-  width: ${p => getWidth(p)}
+  max-width: ${p => getWidth(p)}
   ${p => p.flexBox && css`
     display: flex;
    `}

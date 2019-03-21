@@ -11,7 +11,7 @@ class ImportTicketContainer extends Component {
   }
 
   componentWillUnmount() {
-    this.props.goToStep(1)
+    // this.props.goToStep(1)
   }
 
   render() {
