@@ -15,11 +15,11 @@ const ImportTicket = ({ event, error, loading, step, goToStep, ticket, user, act
     : (error && step === 1) ? <Error error={error} />
       :
         <Wrapper style={{ height: '100%' }} centered fullScreen flexColumn flexBox textCenter>
-          <Wrapper flexBox flexColumn spaceBetween textCenter width15 style={{ marginTop: '-250px' }}>
+          <Wrapper flexBox flexColumn spaceBetween textCenter width15 style={{ marginTop: '-250px', width: '100%' }}>
             {(step >= 2) && <ProgressBar progress={step} />}
             <Wrapper alignCenter flexColumn flexBox>
               {(step === 1) && <Welcome key={step} event={event} nextStep={() => goToStep(step + 1)} />}
-            {(step === 2) && <SignIn key={step} event={event} nextStep={goToStep} ticket={ticket} user={user} step={step} logout={logout} />}
+              {(step === 2) && <SignIn key={step} event={event} nextStep={goToStep} ticket={ticket} user={user} step={step} logout={logout} />}
               {(step === 3) && <BarcodeInput key={step} event={event} nextStep={() => (user) ? goToStep(step + 2) : goToStep(step + 1)} />}
               {(step === 4) && <Activate loading={activateTicketLoading} key={step} event={event} user={user} ticket={ticket} error={error} 
                                                 activateTicket={() => activateTicket({ urlSafe: event.urlSafe, barcode, email: user.email })} />}

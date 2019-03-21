@@ -4,9 +4,11 @@ import styled from 'styled-components'
 import moment from 'moment';
 import { browserHistory } from 'react-router'
 import { Wrapper } from 'components/blocks'
-import { Text, H2, H4, Button, Image, Ribbon, Price } from 'components/elements'
+import { Text, Button, Image, Ribbon, Price } from 'components/elements'
 
-const CardWrapper = styled.div`
+const CardWrapper = styled(Wrapper)`
+	display: flex;
+	width: 100%;
 	position: relative;
 	background: #ffffff;
 	border: 1px solid #e4e4e4;
@@ -15,6 +17,7 @@ const CardWrapper = styled.div`
 	margin: 15px 15px;
 	padding: 0;
 	flex-direction: column;
+	padding: 16px;
 	&:before, &:after {
 		content: ""; 
 		height: 2px;
@@ -35,45 +38,54 @@ const CardWrapper = styled.div`
 	@media (min-width: 768px) {
 		flex-direction: row;
 	}
+`
 
-	`
+const ActionButtons = styled(Wrapper)`
+border-top: 1px solid #f0f1f2;
+
+@media (min-width: 768px) {
+	border-top: none;
+}
+`;
 
 const TicketCard = ({ event, ticket, showActions, showBarcode, style }) =>
-  <CardWrapper borderFull boxShadow spaceBetween className='row' style={style}>
+  <CardWrapper borderFull boxShadow spaceBetween style={style} width16>
 	{ticket.isForSale && <Ribbon>For Sale</Ribbon>}
-	<Wrapper flexBox flexColumn flexRowLarge paddingHeight className='col-xs-12 col-md-1'>
+	<Wrapper flexBox flexColumn flexRowLarge padding6x1 width15>
 		<Wrapper flexBox centered textCenter>
-			<Text vertical>{ticket.type || ticket['Ticket Level']}</Text> <br />
+			<Text fontSize3 gray600 vertical>{ticket.type || ticket['Ticket Level']}</Text> <br />
 		</Wrapper>
 		<Wrapper flexBox centered textCenter>
-			<Text vertical>{ticket.barcode || ticket['Ticket Number']}</Text>
+			<Text fontSize3 gray600 vertical>{ticket.barcode || ticket['Ticket Number']}</Text>
 		</Wrapper>
 	</Wrapper>
-      <Wrapper flexBox paddingFull centered className='col-xs-12 col-md-7'>
-		<Text center>
-			<H2>{ticket && ticket.eventId && ticket.eventId.name || event.name}</H2>
+  <Wrapper flexBox flexColumn padding6x6 centered>
+			<Text fontSize6 gray700>{ticket && ticket.eventId && ticket.eventId.name || event.name}</Text>
 			{/* TODO: Update once we have a normalized VerifyTicket function on backend */}
-			{ticket && ticket.eventId && <H4>{moment(ticket.eventId.startDate).format('dddd MMM Do, YYYY h:mma')}</H4>}
-			{ticket && ticket.eventId && <H4>{ticket.eventId.venue.name}</H4>}
-		</Text>
+			{ticket && ticket.eventId && <Text fontSize2 gray600>{moment(ticket.eventId.startDate).format('dddd MMM Do, YYYY')}</Text>}
+			{ticket && ticket.eventId && <Text fontSize2 gray600>{ticket.eventId.venue.name}</Text>}
 	</Wrapper>
 	{(showActions && !ticket.isForSale) && (
-		<Wrapper flexBox flexColumn spaceAround borderTop className='col-xs-12 col-md-4'>
+		<Wrapper flexBox flexColumn spaceAround borderTop>
 		<Button primary action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}`)}>View Barcode</Button>
         <Button subtleOutline action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}/transfer`)}>Transfer</Button>
         <Button subtleOutline action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}/sell`)}>Mark for Sale</Button>
       </Wrapper>
 	)}
 	{(ticket.isForSale && showActions) && (
-		<Wrapper flexBox flexColumn spaceAround borderTop textCenter className='col-xs-12 col-md-4'>
-			<Wrapper paddingHeight><H4 center>Price: <Price price={ticket.price} /></H4></Wrapper>
-			<Button primary action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}`)}>View Listing</Button>
-			<Button subtleOutline action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}/sell`)}>Edit Listing</Button>
+		<ActionButtons flexBox flexColumn spaceAround textCenter>
+			<Text fontSize1 gray600 center>Price: <Price price={ticket.price} /></Text>
+			<Button tertiaryGray action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}`)}>
+				<Text fontSize1 gray600>Share Listing</Text>
+			</Button>
+			<Button tertiaryGray action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}/sell`)}>
+				<Text fontSize1 gray600>Edit Listing</Text>
+			</Button>
 			{/* <Button subtleOutline action={() => null}>Remove Ticket as For Sale</Button> */}
-		</Wrapper>
+		</ActionButtons>
 	)}
 	{showBarcode && (
-		<Wrapper flexBox centered borderTop className='col-xs-12 col-md-4'>
+		<Wrapper flexBox centered borderTop>
 			<Image style={{ width: '50%', height: '50%' }} src={`https://terrapin.cincyregister.com/images/barcode.php?c=7829659763531204&p=520a67c3&f=0&x=2&h=60&q=3&t=qrcode`} />
 		</Wrapper>
 	)}
