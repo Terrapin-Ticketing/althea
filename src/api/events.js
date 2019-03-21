@@ -19,12 +19,13 @@ class EventsApi {
     })
   }
 
-  async validateTicket(urlSafe, barcode) {
+  async validateTicket(urlSafe, orderId) {
     return axios({
-      url: `${SHAKEDOWN_URL}/${urlSafe}/validate`, //eslint-disable-line no-undef
+      // url: `${SHAKEDOWN_URL}/${urlSafe}/validate`, //eslint-disable-line no-undef
+      url: `${SHAKEDOWN_URL}/${urlSafe}/orderId/validate`, //eslint-disable-line no-undef
       method: 'post',
       data: {
-        barcode
+        orderId
       },
       json: true,
       withCredentials: true
