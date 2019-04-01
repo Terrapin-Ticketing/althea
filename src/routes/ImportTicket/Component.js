@@ -10,20 +10,20 @@ import SignIn from './Components/SignIn'
 import Activate from './Components/Activate'
 import ActivateSuccess from './Components/ActivateSuccess'
 
-const ImportTicket = ({ event, error, loading, step, goToStep, ticket, user, activateTicket, barcode, activateTicketLoading, logout }) =>
+const ImportTicket = ({ event, error, loading, step, goToStep, tickets, user, activateTicket, barcode, activateTicketLoading, logout }) =>
     (loading) ? <Loading />
     : (error && step === 1) ? <Error error={error} />
       :
         <Wrapper style={{ height: '100%' }} centered fullScreen flexColumn flexBox textCenter>
-          <Wrapper flexBox flexColumn spaceBetween textCenter width15 style={{ marginTop: '-250px', width: '100%' }}>
-            {(step >= 2) && <ProgressBar progress={step} />}
+          <Wrapper flexBox flexColumn spaceBetween textCenter width15 style={{ width: '100%' }}>
+            {(step >= 2) && <ProgressBar progress={step} style={{ marginTop: 25 }} />}
             <Wrapper alignCenter flexColumn flexBox>
               {(step === 1) && <Welcome key={step} event={event} nextStep={() => goToStep(step + 1)} />}
-              {(step === 2) && <SignIn key={step} event={event} nextStep={goToStep} ticket={ticket} user={user} step={step} logout={logout} />}
-              {(step === 3) && <BarcodeInput key={step} event={event} nextStep={() => (user) ? goToStep(step + 2) : goToStep(step + 1)} />}
-              {(step === 4) && <Activate loading={activateTicketLoading} key={step} event={event} user={user} ticket={ticket} error={error} 
+              {(step === 2) && <SignIn key={step} event={event} nextStep={goToStep} user={user} step={step} logout={logout} />}
+              {(step === 3) && <BarcodeInput key={step} event={event} nextStep={() => goToStep(step + 1)} />}
+              {(step === 4) && <Activate loading={activateTicketLoading} key={step} event={event} user={user} tickets={tickets} error={error} 
                                                 activateTicket={() => activateTicket({ urlSafe: event.urlSafe, barcode, email: user.email })} />}
-              {(step === 5) && <ActivateSuccess key={step} ticket={ticket} activateAnotherTicket={() => goToStep(1)} />}
+              {(step === 5) && <ActivateSuccess key={step} tickets={tickets} activateAnotherTicket={() => goToStep(1)} />}
             </Wrapper>
               {/* eslint-disable max-len */}
               {/* {(step === 1) && <Wrapper><Link style={{ cursor: 'pointer' }} to={`/event/${event.urlSafe}`}><Icon name='fa-arrow-left' /><Text redCancel</Link></Wrapper>} */}
@@ -41,7 +41,7 @@ ImportTicket.propTypes = {
   goToStep: PropTypes.func.isRequired,
   error: PropTypes.string,
   loading: PropTypes.bool,
-  ticket: PropTypes.object,
+  tickets: PropTypes.array,
   user: PropTypes.object,
   barcode: PropTypes.string,
   activateTicketLoading: PropTypes.bool,
