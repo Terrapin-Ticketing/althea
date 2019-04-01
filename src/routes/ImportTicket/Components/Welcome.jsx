@@ -14,7 +14,7 @@ const Welcome = ({ event, nextStep }) =>
         <Wrapper><Text gray400 fontSize2 fontWeight100>powered by Terrapin Ticketing</Text></Wrapper>
     </Wrapper>
     <Wrapper flexColumn spaceAround padding5x5 margin5x0 borderFull borderRadius boxShadow style={{ background: white, width: spacing13 }}>
-      <Wrapper style={{ height: 256 }}>
+      <Wrapper>
         <Image src={event.imageUrl} style={{ width: '100%', maxHeight: '100%' }} />
       </Wrapper>
         {/* <Wrapper><Text>{event.name}</Text></Wrapper> */}

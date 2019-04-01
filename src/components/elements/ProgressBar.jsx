@@ -2,8 +2,8 @@ import React from 'React'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { base500, gray200, gray300, gray400 } from 'styles/colors'
-import { spacing1, spacing5, spacing8 } from 'styles/spacing'
+import { base500, gray200, gray400 } from 'styles/colors'
+import { spacing1 } from 'styles/spacing'
 
 let Progress = ({ progress }) =>
   <ProgressWrapper>
@@ -38,8 +38,6 @@ const ProgressWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin-bottom: ${spacing8}
-  margin-top: ${spacing5}
   align-items: center;
   position: relative;
 `
