@@ -23,11 +23,11 @@ export const validateTicketRequest = (barcode) => {
   }
 }
 
-export const validateTicketSuccess = (ticket) => {
+export const validateTicketSuccess = (tickets) => {
   return {
     type: 'VALIDATE_TICKET_SUCCESS',
     payload: {
-      ticket
+      tickets
     }
   }
 }

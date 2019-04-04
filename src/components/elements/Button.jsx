@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 
 import { getPadding, getMargin } from 'styles/spacing'
-import { base500, red500, yellow500, gray500 } from 'styles/colors'
+import { base500, base600, red500, yellow500, gray500 } from 'styles/colors'
 
 let Button = ({ action, children, className, type, style }) =>
   <button 
@@ -26,12 +26,20 @@ Button = styled(Button)`
    margin: ${ p => getMargin(p)}
    border-radius: 4px;
    border: none;
+
+   &:active, &:focus {
+     outline: 0;
+   }
    
    ${p => p.primaryGreen && css`
      color: #fff;
      background-color: ${base500};
      border-color: ${base500};
      box-shadow: 0 1px 3px hsla(0, 0%, 0%, .2);
+
+     &:active, &:focus {
+      background-color: ${base600};
+    }
    `}
    ${p => p.secondaryGreen && css`
     color: ${base500};

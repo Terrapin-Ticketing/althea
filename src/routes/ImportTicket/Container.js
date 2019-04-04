@@ -11,7 +11,7 @@ class ImportTicketContainer extends Component {
   }
 
   componentWillUnmount() {
-    // this.props.goToStep(1)
+    this.props.goToStep(1)
   }
 
   render() {
@@ -23,7 +23,7 @@ class ImportTicketContainer extends Component {
       step={this.props.step}
       afterLogin={this.afterLogin}
       goToStep={this.props.goToStep}
-      ticket={this.props.ticket}
+      tickets={this.props.tickets}
       barcode={this.props.barcode}
       user={this.props.user}
       activateTicket={this.props.activateTicket}
@@ -40,7 +40,7 @@ ImportTicketContainer.propTypes = {
   params: PropTypes.object,
   step: PropTypes.number.isRequired,
   goToStep: PropTypes.func.isRequired,
-  ticket: PropTypes.object,
+  tickets: PropTypes.array,
   barcode: PropTypes.string,
   user: PropTypes.object,
   activateTicket: PropTypes.func.isRequired,
@@ -57,7 +57,7 @@ const mapStateToProps = (state) => {
   return {
     event: state.importTicket.currentEvent,
     step: state.importTicket.step,
-    ticket: state.importTicket.ticket,
+    tickets: state.importTicket.tickets,
     barcode: state.importTicket.barcode,
     error: state.importTicket.error,
     loading: state.importTicket.isLoading,

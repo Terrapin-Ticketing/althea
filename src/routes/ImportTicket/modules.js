@@ -55,7 +55,7 @@ const ACTION_HANDLERS = {
   [VALIDATE_TICKET_SUCCESS]: (state, action) => {
     return {
       ...state,
-      ticket: action.payload.ticket
+      tickets: action.payload.tickets
     }
   },
   [VALIDATE_TICKET_REQUEST]: (state, action) => {

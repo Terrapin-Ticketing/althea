@@ -2,8 +2,8 @@ import React from 'React'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { base500, gray200, gray300, gray400 } from 'styles/colors'
-import { spacing1, spacing8 } from 'styles/spacing'
+import { base500, gray200, gray400 } from 'styles/colors'
+import { spacing1 } from 'styles/spacing'
 
 let Progress = ({ progress }) =>
   <ProgressWrapper>
@@ -20,7 +20,7 @@ let Progress = ({ progress }) =>
       <ProgressCircle done={progress > 2}>
         <Label>2</Label>
       </ProgressCircle>
-      <Title>Import Ticket</Title>
+      <Title>Input Order Number</Title>
     </StepContainer>
 
     <ProgressBar />
@@ -29,7 +29,7 @@ let Progress = ({ progress }) =>
       <ProgressCircle done={progress > 3}>
         <Label>3</Label>
       </ProgressCircle>
-      <Title>Listing Settings</Title>
+      <Title>Select Tickets</Title>
     </StepContainer>
   </ProgressWrapper>
 
@@ -38,7 +38,6 @@ const ProgressWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin-bottom: ${spacing8}
   align-items: center;
   position: relative;
 `
@@ -47,6 +46,7 @@ const StepContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 9;
 `;
 
 const ProgressCircle = styled.div`

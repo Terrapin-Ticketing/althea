@@ -51,34 +51,34 @@ border-top: 1px solid #f0f1f2;
 const TicketCard = ({ event, ticket, showActions, showBarcode, style }) =>
   <CardWrapper borderFull boxShadow spaceBetween style={style} width16>
 	{ticket.isForSale && <Ribbon>For Sale</Ribbon>}
-	<Wrapper flexBox flexColumn flexRowLarge padding6x1 width15>
+	<Wrapper flexBox flexColumn flexRowLarge padding6x1 width15 style={{ fontSize: 10 }}>
 		<Wrapper flexBox centered textCenter>
-			<Text fontSize3 gray600 vertical>{ticket.type || ticket['Ticket Level']}</Text> <br />
+			<Text fontSize3 gray600 vertical>{ticket.ticket_class_name || ticket.type || ticket['Ticket Level']}</Text> <br />
 		</Wrapper>
 		<Wrapper flexBox centered textCenter>
-			<Text fontSize3 gray600 vertical>{ticket.barcode || ticket['Ticket Number']}</Text>
+			<Text fontSize3 gray600 vertical>{ticket.barcodes[0].barcode || ticket['Ticket Number']}</Text>
 		</Wrapper>
 	</Wrapper>
   <Wrapper flexBox flexColumn padding6x6 centered>
-			<Text fontSize6 gray700>{ticket && ticket.eventId && ticket.eventId.name || event.name}</Text>
+			<Text fontSize6 gray700>{event.name}</Text>
 			{/* TODO: Update once we have a normalized VerifyTicket function on backend */}
-			{ticket && ticket.eventId && <Text fontSize2 gray600>{moment(ticket.eventId.startDate).format('dddd MMM Do, YYYY')}</Text>}
-			{ticket && ticket.eventId && <Text fontSize2 gray600>{ticket.eventId.venue.name}</Text>}
+			<Text fontSize2 gray600>{moment(event.startDate).format('dddd MMM Do, YYYY')}</Text>
+			<Text fontSize2 gray600>{event.venue.name}</Text>
 	</Wrapper>
 	{(showActions && !ticket.isForSale) && (
 		<Wrapper flexBox flexColumn spaceAround borderTop>
 		<Button primary action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}`)}>View Barcode</Button>
-        <Button subtleOutline action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}/transfer`)}>Transfer</Button>
-        <Button subtleOutline action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}/sell`)}>Mark for Sale</Button>
+        <Button subtleOutline action={() => browserHistory.push(`${event.urlSafe}/ticket/${ticket._id}/transfer`)}>Transfer</Button>
+        <Button subtleOutline action={() => browserHistory.push(`${event.urlSafe}/ticket/${ticket._id}/sell`)}>Mark for Sale</Button>
       </Wrapper>
 	)}
 	{(ticket.isForSale && showActions) && (
 		<ActionButtons flexBox flexColumn spaceAround textCenter>
 			<Text fontSize1 gray600 center>Price: <Price price={ticket.price} /></Text>
-			<Button tertiaryGray action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}`)}>
+			<Button tertiaryGray action={() => browserHistory.push(`${event.urlSafe}/ticket/${ticket._id}`)}>
 				<Text fontSize1 gray600>Share Listing</Text>
 			</Button>
-			<Button tertiaryGray action={() => browserHistory.push(`${ticket.eventId.urlSafe}/ticket/${ticket._id}/sell`)}>
+			<Button tertiaryGray action={() => browserHistory.push(`${event.urlSafe}/ticket/${ticket._id}/sell`)}>
 				<Text fontSize1 gray600>Edit Listing</Text>
 			</Button>
 			{/* <Button subtleOutline action={() => null}>Remove Ticket as For Sale</Button> */}

@@ -5,15 +5,16 @@ import { Wrapper } from 'components/blocks'
 import { Text, Button, Image } from 'components/elements'
 
 import { white } from 'styles/colors'; 
+import { spacing13 } from 'styles/spacing'
 
 const Welcome = ({ event, nextStep }) =>
-  <Wrapper flexBox textCenter flexColumn centered>
+  <Wrapper>
     <Wrapper>
         <Wrapper><Text gray500 fontSize8 fontWeight500>Official Ticket Exchange</Text></Wrapper>
         <Wrapper><Text gray400 fontSize2 fontWeight100>powered by Terrapin Ticketing</Text></Wrapper>
     </Wrapper>
-    <Wrapper flexColumn spaceAround padding5x5 margin5x0 borderFull borderRadius boxShadow style={{ background: white }}>
-      <Wrapper style={{ height: 256 }}>
+    <Wrapper flexColumn spaceAround padding5x5 margin5x0 borderFull borderRadius boxShadow style={{ background: white, width: spacing13 }}>
+      <Wrapper>
         <Image src={event.imageUrl} style={{ width: '100%', maxHeight: '100%' }} />
       </Wrapper>
         {/* <Wrapper><Text>{event.name}</Text></Wrapper> */}
