@@ -16,12 +16,14 @@ export function getEventInfo(urlSafe) {
   }
 }
 
-export function activateTicket({ urlSafe, barcode, email }) {
+export function activateTicket({ urlSafe, barcode, email, selectedTicketIds }) {
   return async (dispatch) => {
     try {
       dispatch(actions.activateTicketRequest(barcode))
-      let { data: { ticket } } = await EventsApi.activateTicket(urlSafe, barcode, email)
-      dispatch(actions.activateTicketSuccess(ticket))
+      let tickets = await EventsApi.activateTicket(urlSafe, barcode, email, selectedTicketIds)
+      console.log('tickets', tickets)
+      console.log('here ya go kev')
+      // dispatch(actions.activateTicketSuccess(ticket))
     } catch(e) {
       dispatch(actions.activateTicketFailure(e.response.data))
     }

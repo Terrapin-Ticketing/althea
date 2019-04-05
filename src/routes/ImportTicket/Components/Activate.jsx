@@ -24,9 +24,9 @@ const ConfirmActivation = ({ activateTicket, user, tickets, event, error, loadin
       <Wrapper fullWidth borderFull borderRadius boxShadow padding5x5 margin5x0 style={{ background: white }}>
       {tickets.map((ticket, index) => {
         return (
-          <TicketItem 
+          <TicketItem
           key={`${ticket.id}-${selectedTicketIds.includes(ticket.id)}`}
-          isSelected={selectedTicketIds.includes(ticket.id)} 
+          isSelected={selectedTicketIds.includes(ticket.id)}
           onClick={() => {
             if(selectedTicketIds.includes(ticket.id)) {
               const newSelectedTickets = selectedTicketIds.filter((selectedTicketId) => selectedTicketId !== ticket.id );
@@ -43,9 +43,9 @@ const ConfirmActivation = ({ activateTicket, user, tickets, event, error, loadin
             <TicketItemRight>
               <Checkbox>
                 <HTMLCheckbox id={`ticket-${index}`} type='checkbox' />
-                <CSSCheckbox 
+                <CSSCheckbox
                 htmlFor={`ticket-${index}`}
-                isSelected={selectedTicketIds.includes(ticket.id)} 
+                isSelected={selectedTicketIds.includes(ticket.id)}
                 ></CSSCheckbox>
               </Checkbox>
             </TicketItemRight>
@@ -56,10 +56,14 @@ const ConfirmActivation = ({ activateTicket, user, tickets, event, error, loadin
           {(error) && <Alert danger>{error}</Alert>}
           {loading && <Text gray400 fontSize2 fontWeight200 center>Adding ticket to <strong>{user.email}'s wallet</strong></Text>}
         <Wrapper paddingFull>
-          {loading ?  <Loading /> 
-          : <Button primaryGreen padding3x3 
-          disabled={selectedTicketIds.length < 1} 
-          action={activateTicket}>
+          {loading ?  <Loading />
+          : <Button primaryGreen padding3x3
+          disabled={selectedTicketIds.length < 1}
+          action={() => {
+            const selectedTickets = selectedTicketIds.map((id) => tickets.find(t => t.id == id))
+            const barcodes = selectedTickets.map(s => s.barcodes[0].barcode)
+            activateTicket(barcodes)
+          }}>
           {selectedTicketIds.length < 1 ? 'Select Tickets' : 'Add Ticket to Wallet' }
           </Button>}
         </Wrapper>
@@ -108,10 +112,10 @@ const CSSCheckbox = styled.label`
 
     content: "";
     display: inline-block;
-    
+
     height: 16px;
     width: 16px;
-    
+
     border: 1px solid;
     border-radius: 50%;
 
@@ -129,7 +133,7 @@ const CSSCheckbox = styled.label`
       width: 9px;
       border-left: 2px solid;
       border-bottom: 2px solid;
-      
+
       transform: rotate(-45deg);
       color: ${base600};
     }

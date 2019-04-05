@@ -32,17 +32,21 @@ class EventsApi {
     })
   }
 
-  async activateTicket(urlSafe, barcode, email) {
-    return axios({
-      url: `${SHAKEDOWN_URL}/${urlSafe}/activate`, //eslint-disable-line no-undef
-      method: 'post',
-      data: {
-        barcode,
-        email
-      },
-      json: true,
-      withCredentials: true
-    })
+  async activateTicket(urlSafe, barcode, email, selectedTicketIds) {
+    const returns = await Promise.all(selectedTicketIds.map((barcode) => {
+      return axios({
+        url: `${SHAKEDOWN_URL}/${urlSafe}/activate`, //eslint-disable-line no-undef
+        method: 'post',
+        data: {
+          barcode,
+          email
+        },
+        json: true,
+        withCredentials: true
+      })
+    }))
+    const tickets = returns.map(r => r.data.ticket)
+    return tickets
   }
 }
 
