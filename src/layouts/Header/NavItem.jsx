@@ -7,11 +7,19 @@ const NavItemContainer = styled.li`
   cursor: pointer;
   float: left;
   padding: 20px 30px;
+  font-size: 16px;
+  font-weight: 700;
 `
+
+const StyledLink = styled(Link)`
+  &:focus, &:active {
+    outline: 0;
+  }
+`;
 
 const NavItem = (props) => (
   <NavItemContainer>
-    <Link onClick={props.onClick ? () => props.onClick() : null} to={props.href}>{props.label}</Link>
+    <StyledLink onClick={props.onClick ? () => props.onClick() : null} to={props.href}>{props.label}</StyledLink>
   </NavItemContainer>
 )
 

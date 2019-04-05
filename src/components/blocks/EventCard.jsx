@@ -31,7 +31,7 @@ const EventCard = ({ event }) =>
         </Wrapper>
         </div>
         <Wrapper flexBox padding4x2 spaceAround style={{ alignItems: 'baseline', paddingTop: 0 }}>
-          <Button tertiaryGreen padding2x2 action={() => browserHistory.push(`event/${event.urlSafe}`)}>More Info</Button>
+          <Button tertiaryGreen padding3x4 action={() => browserHistory.push(`event/${event.urlSafe}`)}>More Info</Button>
           <Button primaryGreen padding3x4 action={() => browserHistory.push(`event/${event.urlSafe}/import`)}>Activate Ticket</Button>
         </Wrapper>
     </EventCardWrapper>

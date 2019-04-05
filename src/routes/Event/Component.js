@@ -18,7 +18,9 @@ const Event = ({ event, error, loading }) =>
         <EventWrapper>
         <Wrapper padding2x4><Text fontSize7 gray600>{event.name}</Text></Wrapper>
         <EventInfoContainer>
-          <FullWidthImage src={event.imageUrl} />
+          <EventImage>
+            <FullWidthImage src={event.imageUrl} />
+          </EventImage>
           <ButtonContainer>
             <ImportTicketButton
               onClick={() => browserHistory.push(`/event/${event.urlSafe}/import`)}>
@@ -79,14 +81,22 @@ const Section = styled.div`
   padding: ${spacing5};
 `;
 
-const EventInfoContainer = styled(Section)`
+const EventInfoContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-flow: column;
+  grid-gap: ${spacing5};
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+`;
+
+const EventImage = styled(Section)`
+  display: grid;
+  grid-auto-flow: column;
 `;
 
 const ButtonContainer = styled.div`
   display: grid;
   grid-gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 `;
 
 const ImportTicketButton = styled.button`
@@ -97,9 +107,14 @@ const ImportTicketButton = styled.button`
   box-shadow:  inset 0 2px 2px hsla(0 0% 0% 0.1);
   background: ${base100};
   text-align: left;
+  box-shadow: 0 1px 3px hsla(0, 0%, 0%, .2);
 
-  &:active, &:focus {
+  &:active {
     background: ${base200};
+    outline: 0;
+  }
+
+  &:focus {
     outline: 0;
   }
 `;
@@ -109,10 +124,15 @@ const AvailableTicketsButton = styled.button`
   border-radius: 4px;
   padding: ${spacing5};
   text-align: left;
+  box-shadow: 0 1px 3px hsla(0, 0%, 0%, .2);
 
-  &:active, &:focus {
+  &:active {
     outline: 0;
     background: ${gray100};
+  }
+
+  &:focus {
+    outline: 0;
   }
 `;
 
