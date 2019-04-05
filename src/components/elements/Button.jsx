@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 
 import { getPadding, getMargin } from 'styles/spacing'
-import { base500, base600, red500, yellow500, gray500 } from 'styles/colors'
+import { base500, base600, red500, yellow500, gray100, gray200, gray500 } from 'styles/colors'
 
 let Button = ({ action, children, className, type, style }) =>
   <button 
@@ -37,7 +37,7 @@ Button = styled(Button)`
      border-color: ${base500};
      box-shadow: 0 1px 3px hsla(0, 0%, 0%, .2);
 
-     &:active, &:focus {
+     &:active {
       background-color: ${base600};
     }
    `}
@@ -50,6 +50,11 @@ Button = styled(Button)`
    ${p => p.tertiaryGreen && css`
    color: ${base500};
    background: transparent;
+
+   &:active {
+     outline: solid .5px ${gray200};
+     background: ${gray100}
+   }
  `}
  ${p => p.primaryRed && css`
      color: #fff;
