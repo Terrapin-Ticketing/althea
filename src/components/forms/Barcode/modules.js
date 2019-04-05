@@ -7,7 +7,6 @@ export const validateTicket = (urlSafe, barcode, afterValidation ) => {
     try {
       dispatch(actions.validateTicketRequest(barcode)) // store barcode in redux for activation later
       const res = await EventsApi.validateTicket(urlSafe, barcode)
-      console.log('res: ', res);
       const { data: { tickets } } = res
       if (tickets) {
         dispatch(actions.validateTicketSuccess(tickets))
