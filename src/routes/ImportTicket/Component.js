@@ -3,13 +3,15 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Error } from 'components/blocks'
-import { Loading, ProgressBar } from 'components/elements'
+import { Loading, ProgressBar, Image } from 'components/elements'
 
 import Welcome from './Components/Welcome'
 import BarcodeInput from './Components/BarcodeInput'
 import SignIn from './Components/SignIn'
 import Activate from './Components/Activate'
 import ActivateSuccess from './Components/ActivateSuccess'
+
+import { spacing5, spacing13, spacing16 } from 'styles/spacing'
 
 const ImportTicket = ({ event, error, loading, step, goToStep, tickets, user, activateTicket, barcode, activateTicketLoading, logout }) =>
     (loading) ? <Loading />
@@ -18,27 +20,40 @@ const ImportTicket = ({ event, error, loading, step, goToStep, tickets, user, ac
         <WelcomeWrapper>
           <Welcome key={step} event={event} nextStep={() => goToStep(step + 1)} />
         </WelcomeWrapper>
-      ) : (
-      <PageWrapper>
-          <ProgressBar progress={step} style={{ marginTop: 25 }} />
+      ) : (step > 1 && step < 6) ? (
+        <PageWrapper>
+          <EventImageWrapper>
+            <Image src={event.imageUrl} style={{ width: '100%', maxHeight: '100%' }} />
+          </EventImageWrapper>
+          {(step > 1 && step < 5) && <ProgressBar progress={step} style={{ marginTop: 25 }} /> }
           <ImportWrapper>
-              {(step === 2) && <SignIn key={step} event={event} nextStep={goToStep} user={user} step={step} logout={logout} />}
-              {(step === 3) && <BarcodeInput key={step} event={event} nextStep={() => goToStep(step + 1)} />}
-              {(step === 4) && <Activate loading={activateTicketLoading} key={step} event={event} 
-              user={user} 
-              tickets={tickets} 
-              error={error}
-                                                activateTicket={(selectedTicketIds) => activateTicket({ urlSafe: event.urlSafe, selectedTicketIds, barcode, email: user.email })} />}
-              {(step === 5) && <ActivateSuccess key={step} tickets={tickets} activateAnotherTicket={() => goToStep(1)} />}
-              {/* eslint-disable max-len */}
-              {/* {(step === 1) && <Wrapper><Link style={{ cursor: 'pointer' }} to={`/event/${event.urlSafe}`}><Icon name='fa-arrow-left' /><Text redCancel</Link></Wrapper>} */}
-              {/* {(step === 2) && <Wrapper><Link style={{ cursor: 'pointer' }} to={`/event/${event.urlSafe}`}><Icon name='fa-arrow-left' />Cancel Ticket Import</Link></Wrapper>} */}
-              {/* {(step === 3) && <Wrapper><Link style={{ cursor: 'pointer' }} onClick={() => goToStep(step-1)}><Icon name='fa-arrow-left' />Import a different barcode</Link></Wrapper>} */}
-              {/* {(step === 4) && <Wrapper><Link style={{ cursor: 'pointer' }} onClick={() => { logout(); goToStep(step-1)}}><Icon name='fa-arrow-left' />Sign in to a different account</Link></Wrapper>} */}
-              {/* eslint-enable max-len */}
+              {(step === 2) && <SignIn 
+                                key={step} 
+                                event={event} 
+                                nextStep={goToStep} 
+                                user={user} 
+                                step={step} 
+                                logout={logout} />}
+              {(step === 3) && <BarcodeInput 
+                                key={step} 
+                                event={event} 
+                                nextStep={() => goToStep(step + 1)} />}
+              {(step === 4) && <Activate 
+                                loading={activateTicketLoading} 
+                                key={step} 
+                                event={event} 
+                                user={user} 
+                                tickets={tickets} 
+                                error={error}
+                                nextStep={() => goToStep(step + 1)}
+                                activateTicket={(selectedTicketIds) => activateTicket({ urlSafe: event.urlSafe, selectedTicketIds, barcode, email: user.email })} />}
+              {(step === 5) && <ActivateSuccess 
+                                key={step} 
+                                tickets={tickets} 
+                                event={event}/>}
           </ImportWrapper>
       </PageWrapper>
-      )
+      ) : (<Error error={'error!'} />)
 
 const WelcomeWrapper = styled.div`
   display: grid;
@@ -49,10 +64,27 @@ const WelcomeWrapper = styled.div`
   height: 100%;
 `;
 
+// const SuccessWrapper = styled.div`
+//   display: grid;
+//   align-items: center;
+//   justify-items: center;
+//   text-align: center;
+//   justify-self: stretch;
+//   height: 100%;
+// `;
+const EventImageWrapper = styled.div`
+    max-width: ${spacing13};
+    margin: 0 auto;
+`;
+
 const PageWrapper = styled.div`
   display: grid;
   height: 100%;
-  grid-template-rows: 150px auto;
+  max-width: ${spacing16}
+  width: 100%;
+  margin: 0 auto;
+  padding: ${spacing5}
+  grid-template-rows: 182px 150px auto;
 `;
 
 const ImportWrapper = styled.div`

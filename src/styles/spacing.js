@@ -15,6 +15,7 @@ export const spacing13 = '384px';
 export const spacing14 = '512px';
 export const spacing15 = '640px';
 export const spacing16 = '768px';
+export const spacing17 = '1200px';
 
 export const spacing100 = '100%';
 

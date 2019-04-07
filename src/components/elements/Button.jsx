@@ -45,7 +45,7 @@ Button = styled(Button)`
     color: ${base500};
     background-color: transparent;
     background-image: none;
-    border-color: ${base500};
+    border: 3px solid ${base500};
    `}
    ${p => p.tertiaryGreen && css`
    color: ${base500};

@@ -28,7 +28,7 @@ class SignIn extends Component {
           {(this.state.step === 'login' && !user) && <LoginForm event={event} afterLogin={() => nextStep(step+1)} />}
           {(user) && (
             <Wrapper flexBox flexColumn textCenter>
-              <Wrapper margin5x0>
+              <Wrapper>
                 <Text gray400 fontSize3 center style={{ marginBottom: '-20px' }}>Signed in as</Text><br />
                 <Text gray600 fontSize6 fontWeight600 center>{user.email}</Text>
               </Wrapper>

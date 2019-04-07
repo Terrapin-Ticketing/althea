@@ -1,23 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { browserHistory } from 'react-router'
 
-import { Wrapper, TicketCard } from 'components/blocks'
-import { Text, Button } from 'components/elements'
+import { Wrapper } from 'components/blocks'
+import { Text, Button, Success } from 'components/elements'
+import { spacing5 } from 'styles/spacing'
+import { white } from 'styles/colors'
 
-import { spacing13 } from 'styles/spacing'
+const ViewWalletContainer = styled.div``;
+const ActivateSuccessContainer = styled.div`
+  margin-top: 75px;
+`;
 
-const ActivateSuccess = ({ tickets, activateAnotherTicket }) =>
-  <Wrapper style={{ width: spacing13 }}>
-    <Wrapper>
-      <Text center>Congratulations!</Text>
-    </Wrapper>
-    {tickets.map((ticket) => {
-      return <p key={ticket.id}>{ticket}</p>
-      // return <TicketCard key= event={ticket.event} ticket={ticket} showActions={true} />
-    })}
-    <Wrapper paddingFull>
-      <Button primaryGreen padding4x4 action={() => activateAnotherTicket()}>Activate Another Ticket</Button>
-    </Wrapper>
+const ActivateSuccess = ({ event }) =>
+  <Wrapper fullWidth borderFull borderRadius boxShadow padding5x5 margin5x0 style={{ background: white }}>
+    <ViewWalletContainer>
+      <Text fontSize9 base500>Success!</Text>
+    </ViewWalletContainer>
+    <Success />
+    <Text gray500 fontSize6>Your tickets were imported into your wallet.</Text> <br />
+    <Text gray500>If you decide you'd no longer want to get rid of them, you can adjust their status there.</Text>
+    <ViewWalletContainer>
+      <Button style={{ marginTop: spacing5 }} padding4x5 secondaryGreen action={() => browserHistory.push('/wallet')}>
+          <Text fontSize5 base500>Go to Wallet</Text>
+        </Button>
+    </ViewWalletContainer>
   </Wrapper>
 
 ActivateSuccess.propTypes = {

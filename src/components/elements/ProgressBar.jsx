@@ -60,7 +60,7 @@ const ProgressCircle = styled.div`
   margin-bottom: ${spacing1}
 
   color: ${({ done }) => { return done ? '#FFF' : gray400 }};
-  background: ${({ done }) => { return done ? base500 : '' }};
+  background: ${({ done }) => { return done ? base500 : 'rgb(249, 249, 249)' }};
   box-shadow: ${({ done }) => { return done ? 'inset 0 0 2px rgba(0,0,0,.2)' : 'inset 0 0 2px rgba(0,0,0,.2)'}};
 `;
 

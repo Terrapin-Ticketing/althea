@@ -23,7 +23,7 @@ export function activateTicket({ urlSafe, barcode, email, selectedTicketIds }) {
       let tickets = await EventsApi.activateTicket(urlSafe, barcode, email, selectedTicketIds)
       console.log('tickets', tickets)
       console.log('here ya go kev')
-      // dispatch(actions.activateTicketSuccess(ticket))
+      dispatch(actions.activateTicketSuccess(tickets))
     } catch(e) {
       dispatch(actions.activateTicketFailure(e.response.data))
     }

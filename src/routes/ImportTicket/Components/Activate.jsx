@@ -8,7 +8,7 @@ import { Text, Button, Loading } from 'components/elements'
 import { spacing13 } from 'styles/spacing'
 import { base200, base600, gray100, gray600, white } from 'styles/colors';
 
-const ConfirmActivation = ({ activateTicket, user, tickets, event, error, loading }) => {
+const ConfirmActivation = ({ activateTicket, user, tickets, event, nextStep, error, loading }) => {
   const [selectedTicketIds, setSelectedTicketIds] = useState([]);
   console.log('selectedTicketIds: ', selectedTicketIds);
 
@@ -16,6 +16,7 @@ const ConfirmActivation = ({ activateTicket, user, tickets, event, error, loadin
     console.log('change: ', selectedTicketIds)
   }, [selectedTicketIds])
 
+  // TODO EXAMPLE: 916100082
 
   return (
     <Wrapper style={{ width: spacing13 }}>
@@ -62,7 +63,13 @@ const ConfirmActivation = ({ activateTicket, user, tickets, event, error, loadin
           action={() => {
             const selectedTickets = selectedTicketIds.map((id) => tickets.find(t => t.id == id))
             const barcodes = selectedTickets.map(s => s.barcodes[0].barcode)
-            activateTicket(barcodes)
+            try {
+              activateTicket(barcodes)
+              nextStep()
+            } catch(e) {
+              console.log('e: ', e)
+            }
+            
           }}>
           {selectedTicketIds.length < 1 ? 'Select Tickets' : 'Add Ticket to Wallet' }
           </Button>}
@@ -154,6 +161,7 @@ ConfirmActivation.propTypes = {
   event: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   activateTicket: PropTypes.func.isRequired,
+  nextStep: PropTypes.func.isRequired,
   tickets: PropTypes.array.isRequired,
   error: PropTypes.string,
   loading: PropTypes.bool

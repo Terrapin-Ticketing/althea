@@ -43,12 +43,12 @@ export const activateTicketRequest= (barcode) => {
   }
 }
 
-export const activateTicketSuccess = (ticket) => {
+export const activateTicketSuccess = (tickets) => {
   return {
     type: 'ACTIVATE_TICKET_SUCCESS',
     payload: {
-      ticket: ticket,
-      loading: true,
+      tickets: tickets,
+      loading: false,
       error: null
     }
   }
@@ -58,7 +58,7 @@ export const activateTicketFailure = (err) => {
   return {
     type: 'ACTIVATE_TICKET_FAILURE',
     payload: {
-      loading: true,
+      loading: false,
       error: err
     }
   }
