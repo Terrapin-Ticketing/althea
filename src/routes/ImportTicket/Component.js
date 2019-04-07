@@ -12,7 +12,7 @@ import SignIn from './Components/SignIn'
 import Activate from './Components/Activate'
 import ActivateSuccess from './Components/ActivateSuccess'
 
-import { spacing5, spacing13, spacing16 } from 'styles/spacing'
+import { spacing4, spacing5, spacing13, spacing16 } from 'styles/spacing'
 
 const ImportTicket = ({ event, error, loading, step, goToStep, tickets, user, activateTicket, barcode, activateTicketLoading, logout }) => {
 
@@ -29,7 +29,7 @@ const ImportTicket = ({ event, error, loading, step, goToStep, tickets, user, ac
           <EventImageWrapper>
             <Image src={event.imageUrl} style={{ width: '100%', maxHeight: '100%' }} />
           </EventImageWrapper>
-          {(step > 1 && step < 5) && <ProgressBar progress={step} style={{ marginTop: 25 }} /> }
+          {(step > 1 && step < 5) && <ProgressBar progress={step} style={{ marginTop: 25, width: '100%' }} /> }
           <ImportWrapper style={props}>
               {(step === 2) && <SignIn 
                                 key={step} 
@@ -68,6 +68,7 @@ const WelcomeWrapper = styled.div`
   text-align: center;
   justify-self: stretch;
   height: 100%;
+  padding: ${spacing5} ${spacing4};
 `;
 
 // const SuccessWrapper = styled.div`
@@ -89,7 +90,7 @@ const PageWrapper = styled.div`
   max-width: ${spacing16}
   width: 100%;
   margin: 0 auto;
-  padding: ${spacing5}
+  padding: ${spacing5} ${spacing4};
   grid-template-rows: 182px 150px auto;
 `;
 
@@ -98,6 +99,7 @@ const ImportWrapper = styled(animated.div)`
   justify-items: center;
   text-align: center;
   justify-self: stretch;
+  width: 100%;
 `;
 
 ImportTicket.propTypes = {

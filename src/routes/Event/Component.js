@@ -25,12 +25,12 @@ const Event = ({ event, error, loading }) =>
             <ImportTicketButton
               onClick={() => browserHistory.push(`/event/${event.urlSafe}/import`)}>
                 <Text gray600 fontSize3 fontWeight800>Upload Ticket</Text> <br />
-                <Text gray500 fontSize2 fontWeight400>blah blah blah</Text>
+                <Text gray500 fontSize2 fontWeight400>Add your ticket to your Terrapin wallet where you can mark it for sale and let other fans repurchase it.</Text>
             </ImportTicketButton>
             <AvailableTicketsButton
               onClick={() => browserHistory.push(`/event/${event.urlSafe}/availableTickets`)}>
                 <Text gray600 fontSize3 fontWeight800>Available Tickets</Text> <br />
-                <Text gray500 fontSize2 fontWeight400>blah blah blah</Text>
+                <Text gray500 fontSize2 fontWeight400>See what tickets other fans have posted for repurchase.</Text>
             </AvailableTicketsButton>
           </ButtonContainer>
         </EventInfoContainer>
@@ -83,9 +83,9 @@ const Section = styled.div`
 
 const EventInfoContainer = styled.div`
   display: grid;
-  grid-auto-flow: column;
+  // grid-auto-flow: column;
   grid-gap: ${spacing5};
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 `;
 
 const EventImage = styled(Section)`

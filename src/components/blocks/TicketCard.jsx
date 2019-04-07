@@ -2,12 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import moment from 'moment';
+import { browserHistory } from 'react-router';
 
 import { Wrapper } from 'components/blocks'
 import { Text, Button, Image, Ribbon, Price } from 'components/elements'
 
 import { base500 } from 'styles/colors'
-import{ spacing4, spacing6, spacing16 } from 'styles/spacing'
+import{ spacing4, spacing6, spacing15, spacing16 } from 'styles/spacing'
+import { sellTicket } from '../forms/SellTicket/modules';
 
 const CardWrapper = styled(Wrapper)`
   display: flex;
@@ -58,6 +60,10 @@ const ActionButtons = styled.div`
   display: grid;
 `;
 
+const TicketCardButton = styled(Button)`
+	min-width: ${spacing6}
+`;
+
 const TicketTitle = styled(Text)``;
 const Date = styled(Text)``;
 const Type = styled(Text)``;
@@ -84,10 +90,12 @@ const TicketCard = ({ event, ticket, showActions, showBarcode, style }) => {
           <Date fontSize6 gray400>{moment(ticket.eventId.startDate).format("dddd, MMMM Do YYYY, h:mm a")}</Date>
           <IsForSale>{ticket.isForSale}</IsForSale>
         </EventInfoWrapper>
-        <ActionButtons>
-          <Button primaryGreen padding4x9><Text white>Action</Text></Button>
-          <Button tertiaryGreen padding4x8><Text gray500>Sell Ticket</Text></Button>
-        </ActionButtons>
+				{showActions && (
+					<ActionButtons>
+						<TicketCardButton primaryGreen padding4x6><Text white>View Barcode</Text></TicketCardButton>
+						<TicketCardButton tertiaryGreen padding4x6 action={() => browserHistory.push(`/${ticket.eventId._id}/ticket/${ticket._id}/sell`)}><Text gray500>Sell Ticket</Text></TicketCardButton>
+					</ActionButtons>
+				)}
     </CardWrapper>
 	
 	)

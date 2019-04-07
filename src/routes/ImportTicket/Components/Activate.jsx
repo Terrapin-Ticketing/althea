@@ -19,7 +19,7 @@ const ConfirmActivation = ({ activateTicket, user, tickets, event, nextStep, err
   // TODO EXAMPLE: 916100082
 
   return (
-    <Wrapper style={{ width: spacing13 }}>
+    <Wrapper style={{ width: '100%' }}>
       <div><Text gray600 fontSize6 fontWeight600 center>Select Tickets</Text></div>
       <Text gray400 fontSize2 fontWeight200 center>Signed in as <strong>{user.email}</strong></Text>
       <Wrapper fullWidth borderFull borderRadius boxShadow padding5x5 margin5x0 style={{ background: white }}>
@@ -58,7 +58,9 @@ const ConfirmActivation = ({ activateTicket, user, tickets, event, nextStep, err
           {loading && <Text gray400 fontSize2 fontWeight200 center>Adding ticket to <strong>{user.email}'s wallet</strong></Text>}
         <Wrapper paddingFull>
           {loading ?  <Loading />
-          : <Button padding4x5 primaryGreen
+          : <Button padding4x5
+          secondaryGreen={selectedTicketIds.length === 0}
+          primaryGreen={selectedTicketIds.length > 0}
           disabled={selectedTicketIds.length < 1}
           action={() => {
             const selectedTickets = selectedTicketIds.map((id) => tickets.find(t => t.id == id))
@@ -71,7 +73,7 @@ const ConfirmActivation = ({ activateTicket, user, tickets, event, nextStep, err
             }
             
           }}>
-          {selectedTicketIds.length < 1 ? 'Select Tickets' : 'Add Ticket to Wallet' }
+          {selectedTicketIds.length < 1 ? 'Select Tickets Above' : 'Add Ticket to Wallet' }
           </Button>}
         </Wrapper>
       </Wrapper>
@@ -81,7 +83,7 @@ const ConfirmActivation = ({ activateTicket, user, tickets, event, nextStep, err
 }
 
 const TicketItem = styled.div`
-  // background: ${({ isSelected }) => isSelected ? base300 : ''};
+  background: ${({ isSelected }) => isSelected ? gray100 : ''};
   border-left: ${({ isSelected }) => isSelected ? `20px solid ${base500}` : `20px solid transparent`};
   display: flex;
   justify-content: space-around;

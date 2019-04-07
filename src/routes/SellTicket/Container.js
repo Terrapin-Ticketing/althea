@@ -6,6 +6,7 @@ import SellTicket from './Component'
 
 class SellTicketContainer extends Component {
   async componentDidMount() {
+    console.log('this.props: ', this.props)
     await this.props.getTicket(this.props.params.ticketId)
     document.title = `Sell ${this.props.ticket.eventId.name} Ticket - Terrapin Ticketing`
   }

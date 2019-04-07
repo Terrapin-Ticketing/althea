@@ -21,7 +21,7 @@ class SignIn extends Component {
   render() {
     const { nextStep, step, user, logout } = this.props;
     return (
-      <Wrapper style={{ width: spacing13 }}>
+      <Wrapper style={{ width: '90%' }}>
         {(!user) && <Text gray600 fontSize6 fontWeight400 center>{(this.state.step === 'login') ? 'Log in to Terrapin' : 'Sign up for Terrapin'}</Text>}
         <Wrapper fullWidth borderFull borderRadius boxShadow padding5x5 margin5x0 style={{ background: white }}>
           {(this.state.step === 'signup' && !user) && <SignupForm event={event} afterSignup={() => nextStep()} />}

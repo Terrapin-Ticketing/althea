@@ -5,8 +5,9 @@ import styled, { css } from 'styled-components'
 import { getPadding, getMargin } from 'styles/spacing'
 import { base500, base600, red500, yellow500, gray100, gray200, gray500 } from 'styles/colors'
 
-let Button = ({ action, children, className, type, style }) =>
+let Button = ({ action, children, className, type, style, ...rest }) =>
   <button 
+  {...rest}
   type={type} 
   style={style} 
   className={`${className || ''}`} 
