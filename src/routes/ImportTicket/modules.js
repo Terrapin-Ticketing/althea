@@ -94,7 +94,7 @@ const ACTION_HANDLERS = {
 
 const initialState = {
   isLoading: true,
-  error: false,
+  error: null,
   step: 1,
   currentEvent: {},
   ticket: null,

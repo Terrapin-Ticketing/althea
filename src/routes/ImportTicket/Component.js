@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { useSpring, animated } from 'react-spring'
 
 import { Error } from 'components/blocks'
 import { Loading, ProgressBar, Image } from 'components/elements'
@@ -13,7 +14,10 @@ import ActivateSuccess from './Components/ActivateSuccess'
 
 import { spacing5, spacing13, spacing16 } from 'styles/spacing'
 
-const ImportTicket = ({ event, error, loading, step, goToStep, tickets, user, activateTicket, barcode, activateTicketLoading, logout }) =>
+const ImportTicket = ({ event, error, loading, step, goToStep, tickets, user, activateTicket, barcode, activateTicketLoading, logout }) => {
+
+  const props = useSpring({ opacity: 1, from: { opacity: 0 } })
+  return (
     (loading) ? <Loading />
     : (error && step === 1) ? <Error error={error} />
       : (step === 1) ? (
@@ -26,7 +30,7 @@ const ImportTicket = ({ event, error, loading, step, goToStep, tickets, user, ac
             <Image src={event.imageUrl} style={{ width: '100%', maxHeight: '100%' }} />
           </EventImageWrapper>
           {(step > 1 && step < 5) && <ProgressBar progress={step} style={{ marginTop: 25 }} /> }
-          <ImportWrapper>
+          <ImportWrapper style={props}>
               {(step === 2) && <SignIn 
                                 key={step} 
                                 event={event} 
@@ -54,6 +58,8 @@ const ImportTicket = ({ event, error, loading, step, goToStep, tickets, user, ac
           </ImportWrapper>
       </PageWrapper>
       ) : (<Error error={'error!'} />)
+  )
+}
 
 const WelcomeWrapper = styled.div`
   display: grid;
@@ -87,7 +93,7 @@ const PageWrapper = styled.div`
   grid-template-rows: 182px 150px auto;
 `;
 
-const ImportWrapper = styled.div`
+const ImportWrapper = styled(animated.div)`
   display: grid;
   justify-items: center;
   text-align: center;

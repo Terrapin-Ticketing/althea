@@ -6,7 +6,7 @@ import { Wrapper, Alert } from 'components/blocks'
 import { Text, Button, Loading } from 'components/elements'
 
 import { spacing13 } from 'styles/spacing'
-import { base200, base600, gray100, gray600, white } from 'styles/colors';
+import { base300, base500, base600, gray100, gray600, white } from 'styles/colors';
 
 const ConfirmActivation = ({ activateTicket, user, tickets, event, nextStep, error, loading }) => {
   const [selectedTicketIds, setSelectedTicketIds] = useState([]);
@@ -58,7 +58,7 @@ const ConfirmActivation = ({ activateTicket, user, tickets, event, nextStep, err
           {loading && <Text gray400 fontSize2 fontWeight200 center>Adding ticket to <strong>{user.email}'s wallet</strong></Text>}
         <Wrapper paddingFull>
           {loading ?  <Loading />
-          : <Button primaryGreen padding3x3
+          : <Button padding4x5 primaryGreen
           disabled={selectedTicketIds.length < 1}
           action={() => {
             const selectedTickets = selectedTicketIds.map((id) => tickets.find(t => t.id == id))
@@ -81,10 +81,11 @@ const ConfirmActivation = ({ activateTicket, user, tickets, event, nextStep, err
 }
 
 const TicketItem = styled.div`
-  background: ${({ isSelected }) => isSelected ? base200 : ''};
+  // background: ${({ isSelected }) => isSelected ? base300 : ''};
+  border-left: ${({ isSelected }) => isSelected ? `20px solid ${base500}` : `20px solid transparent`};
   display: flex;
   justify-content: space-around;
-  border: 1px solid #f0f1f2;
+  // border: 1px solid #f0f1f2;
   box-shadow: 0 1px 3px hsla(0,0%,0%,.2);
   border-radius: 4px;
   padding: 12px;

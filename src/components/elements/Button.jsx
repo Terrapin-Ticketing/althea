@@ -50,6 +50,8 @@ Button = styled(Button)`
    ${p => p.tertiaryGreen && css`
    color: ${base500};
    background: transparent;
+  //  border-bottom: 3px solid ${base500}
+  text-decoration: underline;
 
    &:active {
      outline: solid .5px ${gray200};

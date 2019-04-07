@@ -19,11 +19,11 @@ const ActivateSuccess = ({ event }) =>
       <Text fontSize9 base500>Success!</Text>
     </ViewWalletContainer>
     <Success />
-    <Text gray500 fontSize6>Your tickets were imported into your wallet.</Text> <br />
-    <Text gray500>If you decide you'd no longer want to get rid of them, you can adjust their status there.</Text>
+    <Text gray500 fontSize6>Those tickets were imported into your wallet.</Text> <br />
+    <Text gray500>If you decide you no longer want to get rid of them, you can adjust their status there.</Text>
     <ViewWalletContainer>
-      <Button style={{ marginTop: spacing5 }} padding4x5 secondaryGreen action={() => browserHistory.push('/wallet')}>
-          <Text fontSize5 base500>Go to Wallet</Text>
+      <Button style={{ marginTop: spacing5 }} padding4x5 primaryGreen action={() => browserHistory.push('/wallet')}>
+          <Text fontSize5 white>Go to Wallet</Text>
         </Button>
     </ViewWalletContainer>
   </Wrapper>

@@ -24,8 +24,8 @@ class SignIn extends Component {
       <Wrapper style={{ width: spacing13 }}>
         {(!user) && <Text gray600 fontSize6 fontWeight400 center>{(this.state.step === 'login') ? 'Log in to Terrapin' : 'Sign up for Terrapin'}</Text>}
         <Wrapper fullWidth borderFull borderRadius boxShadow padding5x5 margin5x0 style={{ background: white }}>
-          {(this.state.step === 'signup' && !user) && <SignupForm event={event} afterSignup={() => nextStep(step+1)} />}
-          {(this.state.step === 'login' && !user) && <LoginForm event={event} afterLogin={() => nextStep(step+1)} />}
+          {(this.state.step === 'signup' && !user) && <SignupForm event={event} afterSignup={() => nextStep()} />}
+          {(this.state.step === 'login' && !user) && <LoginForm event={event} afterLogin={() => nextStep()} />}
           {(user) && (
             <Wrapper flexBox flexColumn textCenter>
               <Wrapper>
