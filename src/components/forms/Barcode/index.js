@@ -11,7 +11,7 @@ import { Alert, Wrapper } from 'components/blocks'
 let BarcodeForm = ({ handleSubmit, submitting, event, afterValidation, validateTicket, error }) => {
   return (<FormWrapper onSubmit={handleSubmit((values) => validateTicket(event.urlSafe, values.barcode, afterValidation))}>
     {error && <Alert danger>{error}</Alert>}
-    <Field name='barcode' label='Barcode' component={TextInput} />
+    <Field name='barcode' label='Barcode' component={TextInput} autofocus={true} />
     {(!submitting) && <Button type='submit' primaryGreen padding3x3 disabled={submitting}>Continue</Button>}
     {(submitting) && <Wrapper paddingFull textCenter><Text gray300 fontSize4 center>Hang tight, looking up ticket...</Text></Wrapper>}
     {(submitting) && <Loading />}

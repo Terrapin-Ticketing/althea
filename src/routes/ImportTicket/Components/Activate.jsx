@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Wrapper, Alert, TicketCard } from 'components/blocks'
+import { Wrapper, Alert } from 'components/blocks'
 import { Text, Button, Loading } from 'components/elements'
 
 import { spacing13 } from 'styles/spacing'
-import { base200, base600, gray600, white } from 'styles/colors';
+import { base200, base600, gray100, gray600, white } from 'styles/colors';
 
 const ConfirmActivation = ({ activateTicket, user, tickets, event, error, loading }) => {
   const [selectedTicketIds, setSelectedTicketIds] = useState([]);
@@ -83,6 +83,15 @@ const TicketItem = styled.div`
   padding: 12px;
   margin-bottom: 12px;
   cursor: pointer;
+
+  &:active {
+    outline: 0;
+    background: ${gray100};
+  }
+
+  &:focus {
+    outline: 0;
+  }
 `;
 
 const TicketItemLeft = styled.div`

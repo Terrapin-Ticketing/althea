@@ -24,7 +24,10 @@ const ImportTicket = ({ event, error, loading, step, goToStep, tickets, user, ac
           <ImportWrapper>
               {(step === 2) && <SignIn key={step} event={event} nextStep={goToStep} user={user} step={step} logout={logout} />}
               {(step === 3) && <BarcodeInput key={step} event={event} nextStep={() => goToStep(step + 1)} />}
-              {(step === 4) && <Activate loading={activateTicketLoading} key={step} event={event} user={user} tickets={tickets} error={error}
+              {(step === 4) && <Activate loading={activateTicketLoading} key={step} event={event} 
+              user={user} 
+              tickets={tickets} 
+              error={error}
                                                 activateTicket={(selectedTicketIds) => activateTicket({ urlSafe: event.urlSafe, selectedTicketIds, barcode, email: user.email })} />}
               {(step === 5) && <ActivateSuccess key={step} tickets={tickets} activateAnotherTicket={() => goToStep(1)} />}
               {/* eslint-disable max-len */}

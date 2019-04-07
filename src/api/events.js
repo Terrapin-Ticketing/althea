@@ -44,11 +44,14 @@ class EventsApi {
         json: true,
         withCredentials: true
       })
-      .then(d => d.data)
-      .catch(() => ({
-        ticket: false,
-        barcode
-      }))
+      .then((resp) => {
+        console.log('resp.data: ', resp.data);
+        return resp.data.ticket;
+      })
+      .catch((err) => {
+        console.log('err: ', err);
+        throw new Error(err);
+      })
     }))
     return tickets
   } 
